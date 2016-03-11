@@ -91,6 +91,13 @@ namespace ENBOrganizer.Domain.Services
                 throw;
             }
         }
+
+        public void Delete(Preset preset)
+        {
+            _presetRepository.Delete(preset);
+
+            RaisePresetsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Deleted, preset));
+        }
         
         public List<PresetItem> GetPresetItems(string path)
         {

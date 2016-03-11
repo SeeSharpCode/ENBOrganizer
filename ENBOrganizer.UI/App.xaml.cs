@@ -18,6 +18,7 @@ namespace ENBOrganizer.UI
         // TODO: is Preset XML storage needed?
         // TODO: (UI) validation on preset name TextBox
         // TODO: (UI) context menu when no item selected
+        // TODO: better exception handling
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

@@ -5,12 +5,14 @@ using ENBOrganizer.Model;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
 using ENBOrganizer.Util.IO;
+using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
     public class GameService : ObservableObject
     {
         private readonly Repository<Game> _gameRepository;
+        private readonly PresetService _presetService;
 
         public event EventHandler<RepositoryChangedEventArgs> GamesChanged;
 
@@ -30,12 +32,9 @@ namespace ENBOrganizer.Domain.Services
         }
 
         public GameService()
-            : this(new Repository<Game>(RepositoryFileNames.Games))
-        { }
-
-        public GameService(Repository<Game> gameRepository)
         {
-            _gameRepository = gameRepository;
+            _gameRepository = new Repository<Game>(RepositoryFileNames.Games);
+            _presetService = ServiceSingletons.PresetService;
         }
 
         public List<Game> GetAll()
@@ -61,13 +60,17 @@ namespace ENBOrganizer.Domain.Services
                 throw;
             }
         }
-
-        // TODO: delete all presets tied to game (dependent on whether we need the preset store)
+        
         public void Delete(Game game)
         {
             try
             {
                 game.PresetsDirectory.DeleteRecursive();
+
+                List<Preset> presets = _presetService.GetAll().Where(preset => preset.Game.Equals(game)).ToList();
+
+                foreach (Preset preset in presets)
+                    _presetService.Delete(preset);
 
                 _gameRepository.Delete(game);
 

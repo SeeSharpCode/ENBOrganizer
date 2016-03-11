@@ -94,13 +94,9 @@ namespace ENBOrganizer.UI.ViewModels
         }
 
         public PresetsViewModel()
-            : this(ServiceSingletons.PresetService, ServiceSingletons.GameService)
-        { }
-
-        private PresetsViewModel(PresetService presetService, GameService gameService)
         {
-            _presetService = presetService;
-            _gameService = gameService;
+            _presetService = ServiceSingletons.PresetService;
+            _gameService = ServiceSingletons.GameService;
 
             _gameService.PropertyChanged += OnActiveGameChanged;
             _presetService.PresetsChanged += OnPresetsChanged;
@@ -110,6 +106,11 @@ namespace ENBOrganizer.UI.ViewModels
             ImportPresetCommand = new ActionCommand(ImportPreset, CanImport);
             DeleteItemCommand = new ActionCommand(DeleteItem, () => true);
             TestCommand = new ActionCommand(Test, () => true);
+        }
+
+        private PresetsViewModel(PresetService presetService, GameService gameService)
+        {
+            
         }
 
         private void OnActiveGameChanged(object sender, PropertyChangedEventArgs eventArgs)

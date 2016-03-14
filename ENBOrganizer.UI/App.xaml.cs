@@ -15,7 +15,6 @@ namespace ENBOrganizer.UI
         // TODO: (UI) shared DataTemplate between ActiveGameView and ManageGamesView
         // TODO: (UI) MainView -> PresetsView -> NameTextBox validation does not update when game is selected.
         // TODO: allow the user to select where presets are stored
-        // TODO: is Preset XML storage needed?
         // TODO: (UI) validation on preset name TextBox
         // TODO: (UI) context menu when no item selected
         // TODO: better exception handling
@@ -28,9 +27,9 @@ namespace ENBOrganizer.UI
                 string errorMessage = "You lack write permissions to the application folder: {0}" + Environment.NewLine + Environment.NewLine
                     + "ENB Organizer cannot function without these permissions. Please move the application to a folder you have access to.";
 
-                MessageBoxUtil.ShowError(String.Format(errorMessage, AppDomain.CurrentDomain.BaseDirectory));
+                MessageBoxUtil.ShowError(string.Format(errorMessage, AppDomain.CurrentDomain.BaseDirectory));
 
-                Application.Current.Shutdown();
+                Current.Shutdown();
             }
 
             MainView mainView = new MainView();

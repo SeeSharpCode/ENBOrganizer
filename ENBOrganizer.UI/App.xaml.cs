@@ -18,6 +18,7 @@ namespace ENBOrganizer.UI
         // TODO: (UI) validation on preset name TextBox
         // TODO: (UI) context menu when no item selected
         // TODO: better exception handling
+        // TODO: Nexus integration (let's do it!)
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

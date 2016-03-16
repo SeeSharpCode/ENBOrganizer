@@ -23,7 +23,6 @@ namespace ENBOrganizer.UI.ViewModels
         public ICommand AddPresetCommand { get; set; }
         public ICommand ImportPresetCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
-        public ICommand TestCommand { get; set; }
 
         public Preset SelectedPreset
         {
@@ -51,7 +50,7 @@ namespace ENBOrganizer.UI.ViewModels
             get
             {
                 if (_gameService.ActiveGame == null || _selectedPreset == null)
-                    return new List<PresetItem>();
+                    return null;
 
                 return _presetService.GetPresetItems(Path.Combine(_gameService.ActiveGame.PresetsDirectory.FullName, _selectedPreset.Name));
             }
@@ -100,12 +99,10 @@ namespace ENBOrganizer.UI.ViewModels
 
             _gameService.PropertyChanged += OnActiveGameChanged;
             _presetService.PresetsChanged += OnPresetsChanged;
-            _presetService.PresetItemsChanged += OnPresetItemsChanged;
 
             AddPresetCommand = new ActionCommand(AddPreset, CanAddPreset);
             ImportPresetCommand = new ActionCommand(ImportPreset, CanImport);
             DeleteItemCommand = new ActionCommand(DeleteItem, () => true);
-            TestCommand = new ActionCommand(Test, () => true);
         }
 
         private PresetsViewModel(PresetService presetService, GameService gameService)
@@ -174,15 +171,9 @@ namespace ENBOrganizer.UI.ViewModels
 
         private void DeleteItem()
         {
-            _presetService.DeleteItem(SelectedPresetItem);
-        }
+            SelectedPresetItem.Delete();
 
-        private void Test()
-        {
-            if (SelectedPresetItem == null)
-                MessageBox.Show("null");
-            else
-                MessageBox.Show(SelectedPresetItem.Name);
+            OnPresetItemsChanged(this, new RepositoryChangedEventArgs(RepositoryActionType.Deleted, SelectedPresetItem));
         }
 
         private void OnPresetsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

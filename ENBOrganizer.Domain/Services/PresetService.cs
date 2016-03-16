@@ -14,7 +14,6 @@ namespace ENBOrganizer.Domain.Services
         private readonly Repository<Preset> _presetRepository;
 
         public event EventHandler<RepositoryChangedEventArgs> PresetsChanged;
-        public event EventHandler<RepositoryChangedEventArgs> PresetItemsChanged;
 
         public PresetService()
         {
@@ -118,22 +117,6 @@ namespace ENBOrganizer.Domain.Services
         {
             if (PresetsChanged != null)
                 PresetsChanged(this, eventArgs);
-        }
-
-        public void RaisePresetItemsChanged(RepositoryChangedEventArgs eventArgs)
-        {
-            if (PresetItemsChanged != null)
-                PresetItemsChanged(this, eventArgs);
-        }
-
-        public void DeleteItem(PresetItem presetItem)
-        {
-            if (presetItem.GetType() == typeof(PresetDirectory))
-                Directory.Delete(presetItem.Path, true);
-            else
-                File.Delete(presetItem.Path);
-
-            RaisePresetItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Deleted, presetItem));
         }
     }
 }

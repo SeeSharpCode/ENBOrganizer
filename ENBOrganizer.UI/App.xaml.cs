@@ -14,9 +14,9 @@ namespace ENBOrganizer.UI
     {
         // TODO: (UI) shared DataTemplate between ActiveGameView and ManageGamesView
         // TODO: (UI) MainView -> PresetsView -> NameTextBox validation does not update when game is selected.
-        // TODO: allow the user to select where presets are stored
         // TODO: (UI) validation on preset name TextBox
         // TODO: (UI) context menu when no item selected
+        // TODO: allow the user to select where presets are stored
         // TODO: better exception handling
         // TODO: Nexus integration (let's do it!)
         protected override void OnStartup(StartupEventArgs e)

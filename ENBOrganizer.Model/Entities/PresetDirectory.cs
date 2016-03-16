@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace ENBOrganizer.Model.Entities
 {
     public class PresetDirectory : PresetItem
     {
+        public string Name { get; set; }
+        public string Path { get; set; }
+
         public List<PresetItem> Items { get; set; }
 
         public PresetDirectory(string name, string path, List<PresetItem> presetItems)
@@ -11,6 +15,11 @@ namespace ENBOrganizer.Model.Entities
             Name = name;
             Path = path;
             Items = presetItems;
+        }
+
+        public void Delete()
+        {
+            Directory.Delete(Path, true);
         }
     }
 }

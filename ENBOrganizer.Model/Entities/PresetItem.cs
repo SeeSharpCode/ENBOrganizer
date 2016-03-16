@@ -1,8 +1,9 @@
 ﻿namespace ENBOrganizer.Model.Entities
 {
-    public class PresetItem : IEntity
+    public interface PresetItem : IEntity
     {
-        public string Name { get; set; }
-        public string Path { get; set; }
+        string Path { get; set; }
+
+        void Delete();
     }
 }

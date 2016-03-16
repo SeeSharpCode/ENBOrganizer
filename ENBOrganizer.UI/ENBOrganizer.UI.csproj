@@ -65,6 +65,9 @@
     <Compile Include="ViewModels\PresetsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelSingletons.cs" />
     <Compile Include="Views\ExtendedTreeView.cs" />
+    <Compile Include="Views\InputDialog.xaml.cs">
+      <DependentUpon>InputDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ManageGamesView.xaml.cs">
       <DependentUpon>ManageGamesView.xaml</DependentUpon>
     </Compile>
@@ -72,6 +75,10 @@
       <DependentUpon>PresetsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\ActiveGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

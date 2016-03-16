@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using ENBOrganizer.Util.IO;
+using System;
+using System.IO;
 
 namespace ENBOrganizer.Model.Entities
 {
@@ -11,6 +13,12 @@ namespace ENBOrganizer.Model.Entities
         {
             Name = name;
             Path = path;
+        }
+
+        public void Rename(string newName)
+        {
+            FileInfo file = new FileInfo(Path);
+            file.Rename(newName);
         }
 
         public void Delete()

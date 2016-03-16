@@ -95,24 +95,11 @@ namespace ENBOrganizer.Domain.Services
         {
             _presetRepository.Delete(preset);
 
+            preset.Directory.Delete(true);
+
             RaisePresetsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Deleted, preset));
         }
         
-        public List<PresetItem> GetPresetItems(string path)
-        {
-            List<PresetItem> items = new List<PresetItem>();
-
-            DirectoryInfo rootDirectory = new DirectoryInfo(path);
-
-            foreach (DirectoryInfo directory in rootDirectory.GetDirectories())
-                items.Add(new PresetDirectory(directory.Name, directory.FullName, GetPresetItems(directory.FullName)));
-
-            foreach (FileInfo file in rootDirectory.GetFiles())
-                items.Add(new PresetFile(file.Name, file.FullName));
-
-            return items;
-        }
-
         public void RaisePresetsChanged(RepositoryChangedEventArgs eventArgs)
         {
             if (PresetsChanged != null)

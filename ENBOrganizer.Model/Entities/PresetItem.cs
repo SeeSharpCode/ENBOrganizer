@@ -4,6 +4,7 @@
     {
         string Path { get; set; }
 
+        void Rename(string newName);
         void Delete();
     }
 }

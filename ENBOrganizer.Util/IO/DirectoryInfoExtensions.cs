@@ -42,6 +42,21 @@ namespace ENBOrganizer.Util.IO
             directory.Delete();
         }
 
+        public static void Rename(this DirectoryInfo directory, string name)
+        {
+            string renamedPath = Path.Combine(directory.Parent.FullName, name);
+
+            if (!Directory.Exists(renamedPath))
+            {
+                directory.CopyTo(renamedPath);
+                directory.Delete();
+            }
+            else
+            {
+                MessageBoxUtil.ShowError("A folder named '" + name + "' already exists in the target folder."); // TODO: change exception handling
+            }
+        }
+
         public static bool CanWrite(this DirectoryInfo directory)
         {
             try

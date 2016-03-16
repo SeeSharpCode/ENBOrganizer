@@ -1,6 +1,7 @@
 ﻿using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
+using ENBOrganizer.UI.Views;
 using ENBOrganizer.Util;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,23 @@ using System.Windows.Input;
 namespace ENBOrganizer.UI.ViewModels
 {
     // TODO: (UI) presets TreeView formatting with icons
+    // TODO: install preset
+    // TODO: on add directory/file, return a preset item so the repository event args can be used (requires change in architecture)
     public class PresetsViewModel : ObservableObject, IDataErrorInfo
     {
         private string _name;
         private Preset _selectedPreset;
         private readonly PresetService _presetService;
         private readonly GameService _gameService;
-
+        private readonly PresetItemsService _presetItemsService;
+        
+        public PresetItem SelectedPresetItem { get; set; }
         public ICommand AddPresetCommand { get; set; }
         public ICommand ImportPresetCommand { get; set; }
+        public ICommand DeletePresetCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
+        public ICommand AddDirectoryCommand { get; set; }
+        public ICommand AddFileCommand { get; set; }
 
         public Preset SelectedPreset
         {
@@ -30,16 +38,13 @@ namespace ENBOrganizer.UI.ViewModels
             set
             {
                 _selectedPreset = value;
-                RaisePropertyChanged("SelectedPreset");
-
                 Name = value != null ? value.Name : string.Empty;
 
+                RaisePropertyChanged("SelectedPreset");
                 RaisePropertyChanged("Items");
             }
         }
-
-        public PresetItem SelectedPresetItem { get; set; }
-
+        
         public List<Preset> Presets
         {
             get { return _presetService.GetByGame(_gameService.ActiveGame); }
@@ -50,9 +55,9 @@ namespace ENBOrganizer.UI.ViewModels
             get
             {
                 if (_gameService.ActiveGame == null || _selectedPreset == null)
-                    return null;
+                    return new List<PresetItem>();
 
-                return _presetService.GetPresetItems(Path.Combine(_gameService.ActiveGame.PresetsDirectory.FullName, _selectedPreset.Name));
+                return _presetItemsService.GetPresetItems(Path.Combine(_gameService.ActiveGame.PresetsDirectory.FullName, _selectedPreset.Name));
             }
         }
 
@@ -96,20 +101,19 @@ namespace ENBOrganizer.UI.ViewModels
         {
             _presetService = ServiceSingletons.PresetService;
             _gameService = ServiceSingletons.GameService;
+            _presetItemsService = new PresetItemsService();
 
             _gameService.PropertyChanged += OnActiveGameChanged;
             _presetService.PresetsChanged += OnPresetsChanged;
 
             AddPresetCommand = new ActionCommand(AddPreset, CanAddPreset);
             ImportPresetCommand = new ActionCommand(ImportPreset, CanImport);
+            DeletePresetCommand = new ActionCommand(DeletePreset, () => true); // TODO: validation
             DeleteItemCommand = new ActionCommand(DeleteItem, () => true);
+            AddDirectoryCommand = new ActionCommand(AddDirectory, () => true);
+            AddFileCommand = new ActionCommand(AddFile, () => true);
         }
-
-        private PresetsViewModel(PresetService presetService, GameService gameService)
-        {
-            
-        }
-
+        
         private void OnActiveGameChanged(object sender, PropertyChangedEventArgs eventArgs)
         {            
             RaisePropertyChanged("Presets");
@@ -169,9 +173,41 @@ namespace ENBOrganizer.UI.ViewModels
             return _gameService.ActiveGame != null;
         }
 
+        private void AddDirectory()
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog { Description = "Please select a folder to add..." };
+
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                _presetItemsService.CopyDirectoryAsPresetItem(SelectedPresetItem, folderBrowserDialog.SelectedPath);
+
+            RaisePropertyChanged("Items");
+        }
+
+        private void AddFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Please select a file(s) to add...",
+                Filter = "All Files (*.*)|*.*",
+                Multiselect = true
+            };
+
+            foreach (string filePath in openFileDialog.FileNames)
+                _presetItemsService.CopyFileAsPresetItem(SelectedPresetItem, filePath);
+
+            RaisePropertyChanged("Items");
+        }
+
         private void DeleteItem()
         {
             SelectedPresetItem.Delete();
+
+            OnPresetItemsChanged(this, new RepositoryChangedEventArgs(RepositoryActionType.Deleted, SelectedPresetItem));
+        }
+
+        private void DeletePreset()
+        {
+            _presetService.Delete(SelectedPreset);
 
             OnPresetItemsChanged(this, new RepositoryChangedEventArgs(RepositoryActionType.Deleted, SelectedPresetItem));
         }

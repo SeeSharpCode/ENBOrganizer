@@ -73,13 +73,11 @@
 
             <StackPanel Orientation="Horizontal">
                 <Button Content="Install" />
-                <Button Content="Delete" />
+                <Button Content="Delete" Command="{Binding DeletePresetCommand}" />
             </StackPanel>
-            
+
             <ComboBox ItemsSource="{Binding Presets, Mode=OneWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPreset, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" />
             <Views:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" />
         </StackPanel>
-
-        <Button Grid.Row="2" Content="Hey" Command="{Binding TestCommand}" />
     </Grid>
 </UserControl>

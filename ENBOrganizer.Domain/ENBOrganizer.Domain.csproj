@@ -48,6 +48,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Services\GameService.cs" />
+    <Compile Include="Services\PresetItemsService.cs" />
     <Compile Include="Services\PresetService.cs" />
     <Compile Include="Services\ServiceSingletons.cs" />
   </ItemGroup>

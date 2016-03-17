@@ -3,9 +3,11 @@ using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.UI.Views;
 using ENBOrganizer.Util;
+using ENBOrganizer.Util.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -31,6 +33,8 @@ namespace ENBOrganizer.UI.ViewModels
         public ICommand DeleteItemCommand { get; set; }
         public ICommand AddDirectoryCommand { get; set; }
         public ICommand AddFileCommand { get; set; }
+        public ICommand RenameItemCommand { get; set; }
+        public ICommand OpenFileCommand { get; set; }
 
         public Preset SelectedPreset
         {
@@ -112,6 +116,8 @@ namespace ENBOrganizer.UI.ViewModels
             DeleteItemCommand = new ActionCommand(DeleteItem, () => true);
             AddDirectoryCommand = new ActionCommand(AddDirectory, () => true);
             AddFileCommand = new ActionCommand(AddFile, () => true);
+            RenameItemCommand = new ActionCommand(RenameItem, () => true);
+            OpenFileCommand = new ActionCommand(OpenFile, () => true);
         }
         
         private void OnActiveGameChanged(object sender, PropertyChangedEventArgs eventArgs)
@@ -210,6 +216,21 @@ namespace ENBOrganizer.UI.ViewModels
             _presetService.Delete(SelectedPreset);
 
             OnPresetItemsChanged(this, new RepositoryChangedEventArgs(RepositoryActionType.Deleted, SelectedPresetItem));
+        }
+
+        private void RenameItem()
+        {
+            InputDialog inputDialog = new InputDialog();
+
+            if (inputDialog.ShowDialog() == true)
+                SelectedPresetItem.Rename(inputDialog.InputTextBox.Text);
+
+            RaisePropertyChanged("Items");
+        }
+
+        private void OpenFile()
+        {
+            Process.Start(SelectedPresetItem.Path);
         }
 
         private void OnPresetsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

@@ -25,6 +25,9 @@
                         <MenuItem Header="Add File" Command="{Binding PlacementTarget.Tag.DataContext.AddFileCommand, 
                             RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType=ContextMenu}}" />
+                        <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
                     </ContextMenu>
                 </TextBlock.ContextMenu>
             </TextBlock>
@@ -34,7 +37,13 @@
             <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path=Path, Mode=OneWay}" Tag="{Binding ElementName=Root}">
                 <TextBlock.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="Open" Command="{Binding PlacementTarget.Tag.DataContext.OpenFileCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
                         <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DataContext.DeleteItemCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
+                        <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameItemCommand, 
                             RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType=ContextMenu}}" />
                     </ContextMenu>

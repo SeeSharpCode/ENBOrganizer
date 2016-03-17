@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ENBOrganizer.Util.UI;
+using System;
 using System.IO;
 
 namespace ENBOrganizer.Util.IO
@@ -49,7 +50,7 @@ namespace ENBOrganizer.Util.IO
             if (!Directory.Exists(renamedPath))
             {
                 directory.CopyTo(renamedPath);
-                directory.Delete();
+                directory.Delete(true);
             }
             else
             {

@@ -1,5 +1,4 @@
 ﻿using ENBOrganizer.Util.IO;
-using System;
 using System.IO;
 
 namespace ENBOrganizer.Model.Entities

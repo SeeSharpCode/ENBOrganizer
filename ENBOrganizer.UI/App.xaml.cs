@@ -4,6 +4,7 @@ using System.Windows;
 using ENBOrganizer.UI.Views;
 using ENBOrganizer.Util;
 using ENBOrganizer.Util.IO;
+using ENBOrganizer.Util.UI;
 
 namespace ENBOrganizer.UI
 {

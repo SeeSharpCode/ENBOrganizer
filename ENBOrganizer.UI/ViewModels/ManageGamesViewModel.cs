@@ -6,6 +6,7 @@ using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
 using Microsoft.Win32;
+using ENBOrganizer.Util.UI;
 
 namespace ENBOrganizer.UI.ViewModels
 {

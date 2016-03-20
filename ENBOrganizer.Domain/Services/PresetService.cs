@@ -1,6 +1,5 @@
-﻿using ENBOrganizer.Data;
-using ENBOrganizer.Model;
-using ENBOrganizer.Model.Entities;
+﻿using ENBOrganizer.Model.Entities;
+using ENBOrganizer.Util;
 using ENBOrganizer.Util.IO;
 using System;
 using System.Collections.Generic;
@@ -9,45 +8,39 @@ using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class PresetService
+    // TODO: add new MasterListItems when creating presets
+    public class PresetService : DataService<Preset>
     {
-        private readonly Repository<Preset> _presetRepository;
-
-        public event EventHandler<RepositoryChangedEventArgs> PresetsChanged;
+        private readonly GameService _gameService;
+        private readonly DataService<MasterListItem> _masterListItemService;
 
         public PresetService()
         {
-            _presetRepository = new Repository<Preset>(RepositoryFileNames.Presets);
-        }
-
-        public List<Preset> GetAll()
-        {
-            return _presetRepository.GetAll();
+            _gameService = ServiceSingletons.GameService;
+            _masterListItemService = ServiceSingletons.MasterListItemService;
         }
 
         public List<Preset> GetByGame(Game game)
         {
-            List<Preset> presets = _presetRepository.GetAll();
+            List<Preset> presets = _repository.GetAll();
 
             return presets.Where(preset => preset.Game.Equals(game)).ToList();
         }
 
-        public void Add(Preset preset)
+        public new void Add(Preset preset)
         {
             try
             {
                 preset.Directory.Create();
 
-                _presetRepository.Add(preset);
-
-                RaisePresetsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, preset));
+                base.Add(preset);
             }
             catch (InvalidOperationException)
             {
                 throw;
             }
         }
-        
+
         public void Import(string sourceDirectoryPath, Game game)
         {
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourceDirectoryPath);
@@ -55,11 +48,9 @@ namespace ENBOrganizer.Domain.Services
 
             try
             {
-                _presetRepository.Add(preset);
-
                 sourceDirectory.CopyTo(preset.Directory.FullName);
 
-                RaisePresetsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, preset));
+                base.Add(preset);
             }
             catch (InvalidOperationException)
             {
@@ -67,7 +58,7 @@ namespace ENBOrganizer.Domain.Services
             }
             catch (UnauthorizedAccessException)
             {
-                _presetRepository.Delete(preset);
+                _repository.Delete(preset);
 
                 throw;
             }
@@ -76,13 +67,13 @@ namespace ENBOrganizer.Domain.Services
                 if (preset.Directory.Exists)
                     preset.Directory.DeleteRecursive();
 
-                _presetRepository.Delete(preset);
+                _repository.Delete(preset);
 
                 throw;
             }
             catch (IOException)
             {
-                _presetRepository.Delete(preset);
+                _repository.Delete(preset);
 
                 if (preset.Directory.Exists)
                     preset.Directory.DeleteRecursive();
@@ -91,19 +82,81 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void Delete(Preset preset)
+        public void CreatePresetFromActiveFiles(Preset preset)
         {
-            _presetRepository.Delete(preset);
+            Add(preset);
 
+            List<MasterListItem> masterListItems = _masterListItemService.GetAll();
+            List<string> gameDirectories = Directory.GetDirectories(_gameService.ActiveGame.DirectoryPath).ToList();
+            List<string> gameFiles = Directory.GetFiles(_gameService.ActiveGame.DirectoryPath).ToList();
+            
+            foreach (MasterListItem masterListItem in masterListItems)
+            {
+                string installedPath = Path.Combine(_gameService.ActiveGame.DirectoryPath, masterListItem.Name);
+
+                if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
+                {
+                    DirectoryInfo directory = new DirectoryInfo(installedPath);
+                    directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
+                }
+                else if (gameFiles.Contains(installedPath))
+                {
+                    FileInfo file = new FileInfo(installedPath);
+                    file.CopyTo(Path.Combine(preset.Directory.FullName, file.Name));
+                }
+            }
+        }
+
+        public void Install(Preset preset)
+        {
+            foreach (FileInfo file in preset.Directory.GetFiles())
+            {
+                file.CopyTo(Path.Combine(_gameService.ActiveGame.DirectoryPath, file.Name), true);
+            }
+
+            foreach (DirectoryInfo subdirectory in preset.Directory.GetDirectories())
+            {
+                if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: exception
+                    subdirectory.CopyTo(Path.Combine(_gameService.ActiveGame.DirectoryPath, subdirectory.Name));
+            }
+        }
+
+        public new void Delete(Preset preset)
+        {
             preset.Directory.Delete(true);
 
-            RaisePresetsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Deleted, preset));
+            base.Delete(preset);
         }
-        
-        public void RaisePresetsChanged(RepositoryChangedEventArgs eventArgs)
+
+        public void DeleteByGame(Game game)
         {
-            if (PresetsChanged != null)
-                PresetsChanged(this, eventArgs);
+            List<Preset> presets = GetAll().Where(preset => preset.Game.Equals(game)).ToList();
+
+            foreach (Preset preset in presets)
+                Delete(preset);
+        }
+
+        public void UninstallAll()
+        {
+            foreach (MasterListItem masterListItem in _masterListItemService.GetAll())
+            {
+                string installedPath = Path.Combine(_gameService.ActiveGame.DirectoryPath, masterListItem.Name);
+
+                if (masterListItem.Type.Equals(MasterListItemType.File))
+                {
+                    FileInfo file = new FileInfo(installedPath);
+
+                    if (file.Exists)
+                        file.Delete();
+                }
+                else
+                {
+                    DirectoryInfo directory = new DirectoryInfo(installedPath);
+
+                    if (directory.Exists)
+                        directory.Delete(true);
+                }
+            }
         }
     }
 }

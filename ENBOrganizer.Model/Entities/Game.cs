@@ -21,6 +21,12 @@ namespace ENBOrganizer.Model.Entities
             }
         } 
 
+        [XmlIgnore]
+        public string DirectoryPath
+        {
+            get { return Path.GetDirectoryName(ExecutablePath); }
+        }
+
         public Game() { } // Required for serialization.
 
         public Game(string name, string executablePath)

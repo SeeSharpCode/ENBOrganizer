@@ -7,9 +7,9 @@ namespace ENBOrganizer.Domain.Services
 {
     public class PresetItemsService
     {
-        public List<PresetItem> GetPresetItems(string path)
+        public List<IPresetItem> GetPresetItems(string path)
         {
-            List<PresetItem> items = new List<PresetItem>();
+            List<IPresetItem> items = new List<IPresetItem>();
 
             DirectoryInfo rootDirectory = new DirectoryInfo(path);
 
@@ -22,13 +22,13 @@ namespace ENBOrganizer.Domain.Services
             return items;
         }
 
-        public void CopyDirectoryAsPresetItem(PresetItem destinationPresetItem, string path)
+        public void CopyDirectoryAsPresetItem(IPresetItem destinationPresetItem, string path)
         {
             DirectoryInfo sourceDirectory = new DirectoryInfo(path);
             sourceDirectory.CopyTo(Path.Combine(destinationPresetItem.Path, sourceDirectory.Name));
         }
 
-        public void CopyFileAsPresetItem(PresetItem destinationPresetItem, string path)
+        public void CopyFileAsPresetItem(IPresetItem destinationPresetItem, string path)
         {
             File.Copy(path, Path.Combine(destinationPresetItem.Path, Path.GetFileName(path)));
         }

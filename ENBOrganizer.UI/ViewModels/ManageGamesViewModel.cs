@@ -13,8 +13,8 @@ namespace ENBOrganizer.UI.ViewModels
     public class ManageGamesViewModel : ObservableObject, IDataErrorInfo 
     {
         private readonly GameService _gameService;
+        private readonly PresetService _presetService;
         private Game _selectedGame;
-        private Game _game;
 
         public GamesViewModel GamesViewModel { get; set; }
         public ICommand DeleteGameCommand { get; set; }
@@ -32,30 +32,34 @@ namespace ENBOrganizer.UI.ViewModels
                     return;
 
                 Name = value.Name;
-                ExePath = value.ExecutablePath;
+                ExecutablePath = value.ExecutablePath;
             }
         }
 
+        private string _name;
+
         public string Name
         {
-            get { return _game.Name; }
+            get { return _name; }
             set
             {
-                _game.Name = value.Trim();
+                _name = value.Trim();
                 RaisePropertyChanged("Name");
             }
         }
 
-        public string ExePath
+        private string _executablePath;
+
+        public string ExecutablePath
         {
-            get { return _game.ExecutablePath; }
+            get { return _executablePath; }
             set
             {
-                _game.ExecutablePath = value.Trim();
-                RaisePropertyChanged("ExePath");
+                _executablePath = value;
+                RaisePropertyChanged("ExecutablePath");
             }
         }
-        
+
         public string Error
         {
             get { return null; } 
@@ -71,11 +75,11 @@ namespace ENBOrganizer.UI.ViewModels
                 switch (columnName)
                 {
                     case "Name":
-                        if (string.IsNullOrEmpty(_game.Name))
+                        if (string.IsNullOrEmpty(Name))
                             errorMessage = "Name is required";
                         break;
                     case "ExePath":
-                        if (string.IsNullOrEmpty(_game.ExecutablePath))
+                        if (string.IsNullOrEmpty(ExecutablePath))
                             errorMessage = "Invalid file path";
                         break;
                 }
@@ -85,15 +89,11 @@ namespace ENBOrganizer.UI.ViewModels
         }
 
         public ManageGamesViewModel()
-            : this(ViewModelSingletons.GamesViewModel, ServiceSingletons.GameService)
-        { }
-
-        private ManageGamesViewModel(GamesViewModel gamesViewModel, GameService gameService)
         {
-            _gameService = gameService;
-            _game = new Game();
+            _gameService = ServiceSingletons.GameService;
+            _presetService = ServiceSingletons.PresetService;
 
-            GamesViewModel = gamesViewModel;
+            GamesViewModel = ViewModelSingletons.GamesViewModel;
 
             DeleteGameCommand = new ActionCommand(DeleteGame, CanDelete);
             AddGameCommand = new ActionCommand(AddGame, CanAdd);
@@ -104,10 +104,7 @@ namespace ENBOrganizer.UI.ViewModels
         {
             try
             {
-                _gameService.Add(_game);
-
-                // Reset the game object to avoid duplicate games.
-                _game = new Game(); 
+                _gameService.Add(new Game(Name, ExecutablePath));
             }
             catch (InvalidOperationException exception)
             {
@@ -117,7 +114,7 @@ namespace ENBOrganizer.UI.ViewModels
 
         private bool CanAdd()
         {
-            return !string.IsNullOrEmpty(_game.Name) && !string.IsNullOrEmpty(_game.ExecutablePath);
+            return !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(ExecutablePath);
         }
 
         private void BrowseForGameFile()
@@ -131,7 +128,7 @@ namespace ENBOrganizer.UI.ViewModels
             if (openFileDialog.ShowDialog() == true)
             {
                 Name = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
-                ExePath = openFileDialog.FileName;
+                ExecutablePath = openFileDialog.FileName;
             }
         }
 
@@ -140,6 +137,7 @@ namespace ENBOrganizer.UI.ViewModels
             try
             {
                 _gameService.Delete(_selectedGame);
+                _presetService.DeleteByGame(_selectedGame);
             }
             catch (Exception exception)
             {

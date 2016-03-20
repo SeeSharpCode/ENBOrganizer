@@ -1,4 +1,6 @@
-﻿namespace ENBOrganizer.Domain.Services
+﻿using ENBOrganizer.Model.Entities;
+
+namespace ENBOrganizer.Domain.Services
 {
     public static class ServiceSingletons
     {
@@ -14,6 +16,13 @@
         public static PresetService PresetService
         {
             get { return _presetService ?? (_presetService = new PresetService()); }
+        }
+
+        private static DataService<MasterListItem> _masterListItemService;
+
+        public static DataService<MasterListItem> MasterListItemService
+        {
+            get { return _masterListItemService ?? (_masterListItemService = new DataService<MasterListItem>()); }
         }
     }
 }

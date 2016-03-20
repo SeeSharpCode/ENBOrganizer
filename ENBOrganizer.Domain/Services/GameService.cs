@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using ENBOrganizer.Data;
-using ENBOrganizer.Model;
-using ENBOrganizer.Model.Entities;
-using ENBOrganizer.Util;
+﻿using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util.IO;
-using System.Linq;
+using System;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class GameService : ObservableObject
+    public class GameService : DataService<Game>
     {
-        private readonly Repository<Game> _gameRepository;
-        private readonly PresetService _presetService;
-
-        public event EventHandler<RepositoryChangedEventArgs> GamesChanged;
-
         public Game ActiveGame
         {
             get { return Properties.Settings.Default.ActiveGame; }
@@ -31,64 +21,38 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public GameService()
-        {
-            _gameRepository = new Repository<Game>(RepositoryFileNames.Games);
-            _presetService = ServiceSingletons.PresetService;
-        }
-
-        public List<Game> GetAll()
-        {
-            return _gameRepository.GetAll();
-        }
-
-        public void Add(Game game)
+        public new void Add(Game game)
         {
             try
             {
                 game.PresetsDirectory.Create();
 
-                _gameRepository.Add(game);
+                base.Add(game);
 
                 if (ActiveGame == null)
                     ActiveGame = game;
-
-                RaiseGamesChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, game));
             }
             catch (InvalidOperationException)
             {
                 throw;
             }
         }
-        
-        public void Delete(Game game)
+
+        public new void Delete(Game game)
         {
             try
             {
                 game.PresetsDirectory.DeleteRecursive();
 
-                List<Preset> presets = _presetService.GetAll().Where(preset => preset.Game.Equals(game)).ToList();
-
-                foreach (Preset preset in presets)
-                    _presetService.Delete(preset);
-
-                _gameRepository.Delete(game);
+                base.Delete(game);
 
                 if (ActiveGame != null && ActiveGame.Equals(game))
                     ActiveGame = null;
-
-                RaiseGamesChanged(new RepositoryChangedEventArgs(RepositoryActionType.Deleted, game));
             }
             catch (Exception)
             {
                 throw;
             }
-        }
-
-        public void RaiseGamesChanged(RepositoryChangedEventArgs eventArgs)
-        {
-            if (GamesChanged != null)
-                GamesChanged(this, eventArgs);
         }
     }
 }

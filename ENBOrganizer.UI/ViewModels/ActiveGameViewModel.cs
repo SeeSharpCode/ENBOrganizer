@@ -18,15 +18,12 @@ namespace ENBOrganizer.UI.ViewModels
         }
 
         public ActiveGameViewModel()
-            : this(ViewModelSingletons.GamesViewModel, ServiceSingletons.GameService)
-        { }
-
-        private ActiveGameViewModel(GamesViewModel gamesViewModel, GameService gameService)
         {
-            GamesViewModel = gamesViewModel;
+            _gameService = ServiceSingletons.GameService;
 
-            _gameService = gameService;
             _gameService.PropertyChanged += OnPropertyChanged;
+
+            GamesViewModel = ViewModelSingletons.GamesViewModel;
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

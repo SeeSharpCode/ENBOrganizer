@@ -46,6 +46,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionExtensions.cs" />
     <Compile Include="IconExtensions.cs" />
     <Compile Include="IO\DirectoryInfoExtensions.cs" />
     <Compile Include="IO\FileInfoExtensions.cs" />

@@ -4,14 +4,14 @@ using System.IO;
 
 namespace ENBOrganizer.Model.Entities
 {
-    public class PresetDirectory : PresetItem
+    public class PresetDirectory : IPresetItem
     {
         public string Name { get; set; }
         public string Path { get; set; }
 
-        public List<PresetItem> Items { get; set; }
+        public List<IPresetItem> Items { get; set; }
 
-        public PresetDirectory(string name, string path, List<PresetItem> presetItems)
+        public PresetDirectory(string name, string path, List<IPresetItem> presetItems)
         {
             Name = name;
             Path = path;

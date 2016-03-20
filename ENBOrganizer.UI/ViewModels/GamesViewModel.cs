@@ -13,25 +13,19 @@ namespace ENBOrganizer.UI.ViewModels
         public ObservableCollection<Game> Games { get; set; }
 
         public GamesViewModel()
-            : this(ServiceSingletons.GameService)
-        { }
-
-        private GamesViewModel(GameService gameService)
         {
-            _gameService = gameService;
-            _gameService.GamesChanged += OnGamesChanged;
+            _gameService = ServiceSingletons.GameService;
+            _gameService.ItemsChanged += OnGamesChanged;
 
-            Games = new ObservableCollection<Game>(_gameService.GetAll());
+            Games = _gameService.GetAll().ToObservableCollection();
         }
 
-        private void OnGamesChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
+        private void OnGamesChanged(object sender, RepositoryChangedEventArgs eventArgs)
         {
-            Game game = repositoryChangedEventArgs.Entity as Game;
-
-            if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
-                Games.Add(game);
+            if (eventArgs.RepositoryActionType == RepositoryActionType.Added)
+                Games.Add(eventArgs.Entity as Game);
             else
-                Games.Remove(game);
+                Games.Remove(eventArgs.Entity as Game);
         }
     }
 }

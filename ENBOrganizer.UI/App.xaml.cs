@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using ENBOrganizer.UI.Views;
-using ENBOrganizer.Util;
+﻿using ENBOrganizer.UI.Views;
 using ENBOrganizer.Util.IO;
 using ENBOrganizer.Util.UI;
+using System;
+using System.IO;
+using System.Windows;
 
 namespace ENBOrganizer.UI
 {
@@ -20,6 +19,7 @@ namespace ENBOrganizer.UI
         // TODO: allow the user to select where presets are stored
         // TODO: better exception handling
         // TODO: Nexus integration (let's do it!)
+        // TODO: (UI) resize AddMasterListItemView
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

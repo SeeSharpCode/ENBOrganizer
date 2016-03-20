@@ -6,6 +6,7 @@ using ENBOrganizer.Util;
 using ENBOrganizer.Util.UI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -26,10 +27,13 @@ namespace ENBOrganizer.UI.ViewModels
         private readonly GameService _gameService;
         private readonly PresetItemsService _presetItemsService;
         
-        public PresetItem SelectedPresetItem { get; set; }
+        public IPresetItem SelectedPresetItem { get; set; }
         public ICommand AddPresetCommand { get; set; }
         public ICommand ImportPresetCommand { get; set; }
         public ICommand DeletePresetCommand { get; set; }
+        public ICommand UninstallAllPresetsCommand { get; set; }
+        public ICommand CreatePresetFromActiveFilesCommand { get; set; }
+        public ICommand InstallPresetCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
         public ICommand AddDirectoryCommand { get; set; }
         public ICommand AddFileCommand { get; set; }
@@ -48,18 +52,25 @@ namespace ENBOrganizer.UI.ViewModels
                 RaisePropertyChanged("Items");
             }
         }
-        
-        public List<Preset> Presets
-        {
-            get { return _presetService.GetByGame(_gameService.ActiveGame); }
-        }
 
-        public List<PresetItem> Items
+        private ObservableCollection<Preset> _presets;
+
+        public ObservableCollection<Preset> Presets
+        {
+            get { return _presets; }
+            set
+            {
+                _presets = value;
+                RaisePropertyChanged("Presets");
+            }
+        }
+        
+        public List<IPresetItem> Items
         {
             get
             {
                 if (_gameService.ActiveGame == null || _selectedPreset == null)
-                    return new List<PresetItem>();
+                    return new List<IPresetItem>();
 
                 return _presetItemsService.GetPresetItems(Path.Combine(_gameService.ActiveGame.PresetsDirectory.FullName, _selectedPreset.Name));
             }
@@ -79,7 +90,7 @@ namespace ENBOrganizer.UI.ViewModels
         {
             get { return null; }
         }
-
+        
         // TODO: (UI) only validate control when trying to add new item
         public string this[string columnName]
         {
@@ -108,21 +119,34 @@ namespace ENBOrganizer.UI.ViewModels
             _presetItemsService = new PresetItemsService();
 
             _gameService.PropertyChanged += OnActiveGameChanged;
-            _presetService.PresetsChanged += OnPresetsChanged;
+            _presetService.ItemsChanged += OnPresetsChanged;
+
+            Presets = _presetService.GetByGame(_gameService.ActiveGame).ToObservableCollection();
 
             AddPresetCommand = new ActionCommand(AddPreset, CanAddPreset);
             ImportPresetCommand = new ActionCommand(ImportPreset, CanImport);
+            CreatePresetFromActiveFilesCommand = new ActionCommand(CreatePresetFromActiveFiles, () => true);
             DeletePresetCommand = new ActionCommand(DeletePreset, () => true); // TODO: validation
+            UninstallAllPresetsCommand = new ActionCommand(UninstallAllPresets, () => true); // TODO: validation
+            InstallPresetCommand = new ActionCommand(InstallPreset, () => true);
             DeleteItemCommand = new ActionCommand(DeleteItem, () => true);
             AddDirectoryCommand = new ActionCommand(AddDirectory, () => true);
             AddFileCommand = new ActionCommand(AddFile, () => true);
             RenameItemCommand = new ActionCommand(RenameItem, () => true);
             OpenFileCommand = new ActionCommand(OpenFile, () => true);
         }
-        
+
+        private void CreatePresetFromActiveFiles()
+        {
+            _presetService.CreatePresetFromActiveFiles(new Preset(Name, _gameService.ActiveGame));
+
+            RaisePropertyChanged("Items");
+        }
+
         private void OnActiveGameChanged(object sender, PropertyChangedEventArgs eventArgs)
-        {            
-            RaisePropertyChanged("Presets");
+        {
+            Presets.Clear();
+            Presets.AddAll(_presetService.GetByGame(_gameService.ActiveGame));
 
             SelectedPreset = Presets.FirstOrDefault();
         }
@@ -218,6 +242,16 @@ namespace ENBOrganizer.UI.ViewModels
             OnPresetItemsChanged(this, new RepositoryChangedEventArgs(RepositoryActionType.Deleted, SelectedPresetItem));
         }
 
+        private void InstallPreset()
+        {
+            _presetService.Install(SelectedPreset);
+        }
+
+        private void UninstallAllPresets()
+        {
+            _presetService.UninstallAll();
+        }
+
         private void RenameItem()
         {
             InputDialog inputDialog = new InputDialog();
@@ -233,18 +267,25 @@ namespace ENBOrganizer.UI.ViewModels
             Process.Start(SelectedPresetItem.Path);
         }
 
-        private void OnPresetsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
+        private void OnPresetsChanged(object sender, RepositoryChangedEventArgs eventArgs)
         {
-            Preset preset = repositoryChangedEventArgs.Entity as Preset;
+            Preset preset = eventArgs.Entity as Preset;
 
-            RaisePropertyChanged("Presets");
-
-            SelectedPreset = repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added ? preset : Presets.FirstOrDefault();
+            if (eventArgs.RepositoryActionType.Equals(RepositoryActionType.Added))
+            {
+                Presets.Add(preset);
+                SelectedPreset = preset;
+            }
+            else
+            {
+                Presets.Remove(preset);
+                SelectedPreset = Presets.FirstOrDefault();
+            }
         }
 
         private void OnPresetItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
-            PresetItem presetItem = repositoryChangedEventArgs.Entity as PresetItem;
+            IPresetItem presetItem = repositoryChangedEventArgs.Entity as IPresetItem;
 
             RaisePropertyChanged("Items");
 

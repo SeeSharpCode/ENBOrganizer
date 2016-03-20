@@ -47,6 +47,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\PresetItemsService.cs" />
     <Compile Include="Services\PresetService.cs" />

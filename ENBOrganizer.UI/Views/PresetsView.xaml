@@ -68,12 +68,13 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Header="Preset Management" Padding="5" Margin="5" BorderBrush="Blue" BorderThickness="1">
+        <GroupBox Grid.Row="0" Header="Add New Preset" Padding="5" Margin="5" BorderBrush="Blue" BorderThickness="1">
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding Path=Name, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource ValidatingControl}" MinWidth="100" MaxLength="60" />
                 <Button Content="New Blank" Command="{Binding AddPresetCommand}" />
                 <Button Content="Import" Command="{Binding ImportPresetCommand}" />
+                <Button Content="From Active Files" Command="{Binding CreatePresetFromActiveFilesCommand}" />
             </StackPanel>
         </GroupBox>
 
@@ -81,11 +82,12 @@
             <TextBlock Text="Preset List" FontSize="13" />
 
             <StackPanel Orientation="Horizontal">
-                <Button Content="Install" />
+                <ComboBox ItemsSource="{Binding Presets, Mode=OneWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPreset, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" />
+                <Button Content="Install" Command="{Binding InstallPresetCommand}" />
+                <Button Content="Uninstall" Command="{Binding UninstallAllPresetsCommand}" />
                 <Button Content="Delete" Command="{Binding DeletePresetCommand}" />
             </StackPanel>
-
-            <ComboBox ItemsSource="{Binding Presets, Mode=OneWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPreset, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" />
+            
             <Views:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" />
         </StackPanel>
     </Grid>

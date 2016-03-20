@@ -1,6 +1,6 @@
 ﻿namespace ENBOrganizer.Model.Entities
 {
-    public interface PresetItem : IEntity
+    public interface IPresetItem : IEntity
     {
         string Path { get; set; }
 

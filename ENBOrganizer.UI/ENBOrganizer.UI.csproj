@@ -60,10 +60,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\ActiveGameViewModel.cs" />
+    <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ManageGamesViewModel.cs" />
+    <Compile Include="ViewModels\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PresetsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelSingletons.cs" />
+    <Compile Include="Views\AddMasterListItemView.xaml.cs">
+      <DependentUpon>AddMasterListItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExtendedTreeView.cs" />
     <Compile Include="Views\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
@@ -71,10 +76,17 @@
     <Compile Include="Views\ManageGamesView.xaml.cs">
       <DependentUpon>ManageGamesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MasterListView.xaml.cs">
+      <DependentUpon>MasterListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PresetsView.xaml.cs">
       <DependentUpon>PresetsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\ActiveGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddMasterListItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -101,6 +113,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\ManageGamesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MasterListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

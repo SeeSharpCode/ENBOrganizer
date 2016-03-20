@@ -3,7 +3,7 @@ using System.IO;
 
 namespace ENBOrganizer.Model.Entities
 {
-    public class PresetFile : PresetItem
+    public class PresetFile : IPresetItem
     {
         public string Name { get; set; }
         public string Path { get; set; }

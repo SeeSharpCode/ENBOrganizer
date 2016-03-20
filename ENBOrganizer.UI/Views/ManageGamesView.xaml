@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:UI="clr-namespace:ENBOrganizer.UI"
         xmlns:ViewModels="clr-namespace:ENBOrganizer.UI.ViewModels"
-        Title="Manage Games" MinWidth="250" SizeToContent="WidthAndHeight" >
+        Title="Manage Games" MinWidth="250" SizeToContent="WidthAndHeight"
+        Background="{StaticResource BackgroundKey}">
     <Window.DataContext>
         <ViewModels:ManageGamesViewModel />
     </Window.DataContext>
@@ -52,17 +53,17 @@
         </Grid>
 
         <StackPanel Grid.Row="1"  Orientation="Vertical">
-            <TextBlock>Games</TextBlock>
-            <ListView Name="GamesListView" ItemsSource="{Binding GamesViewModel.Games, Mode=OneWay}" SelectedItem="{Binding SelectedGame, Mode=OneWayToSource}" >
-                <ListView.ItemTemplate>
+            <TextBlock Text="Games" Style="{StaticResource HeaderTextBlockStyle}" />
+            <ListBox Name="GamesListView" ItemsSource="{Binding GamesViewModel.Games, Mode=OneWay}" SelectedItem="{Binding SelectedGame, Mode=OneWayToSource}" >
+                <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" />
                             <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Padding="5,0,0,0" />
                         </StackPanel>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
     </Grid>
 </Window>

@@ -3,6 +3,7 @@ using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.UI.Views;
 using ENBOrganizer.Util;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -16,6 +17,17 @@ namespace ENBOrganizer.UI.ViewModels
         public ICommand AddMasterListItemCommand { get; set; }
         public ICommand DeleteMasterListItemCommand { get; set; }
         public ObservableCollection<MasterListItem> MasterListItems { get; set; }
+        public List<MasterListItem> MasterListDirectories
+        {
+            get
+            {
+                return new List<MasterListItem>
+                {
+                    new MasterListItem("ASDF", MasterListItemType.Directory),
+                    new MasterListItem("FDSA", MasterListItemType.Directory)
+                };
+            }
+        }
 
         public MasterListViewModel()
         {

@@ -20,6 +20,7 @@ namespace ENBOrganizer.UI
         // TODO: better exception handling
         // TODO: Nexus integration (let's do it!)
         // TODO: (UI) resize AddMasterListItemView
+        // TODO: in-game changes copied back to preset
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

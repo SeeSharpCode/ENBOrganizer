@@ -7,6 +7,13 @@ namespace ENBOrganizer.Domain.Services
 {
     public class PresetItemsService
     {
+        private readonly DataService<MasterListItem> _masterListItemService;
+
+        public PresetItemsService()
+        {
+            _masterListItemService = ServiceSingletons.MasterListItemService;
+        }
+
         public List<IPresetItem> GetPresetItems(string path)
         {
             List<IPresetItem> items = new List<IPresetItem>();
@@ -26,11 +33,21 @@ namespace ENBOrganizer.Domain.Services
         {
             DirectoryInfo sourceDirectory = new DirectoryInfo(path);
             sourceDirectory.CopyTo(Path.Combine(destinationPresetItem.Path, sourceDirectory.Name));
+
+            MasterListItem masterListItem = new MasterListItem(sourceDirectory.Name, MasterListItemType.Directory);
+
+            if (!_masterListItemService.GetAll().Contains(masterListItem))
+                _masterListItemService.Add(masterListItem);
         }
 
         public void CopyFileAsPresetItem(IPresetItem destinationPresetItem, string path)
         {
             File.Copy(path, Path.Combine(destinationPresetItem.Path, Path.GetFileName(path)));
+
+            MasterListItem masterListItem = new MasterListItem(Path.GetFileName(path), MasterListItemType.File);
+
+            if (!_masterListItemService.GetAll().Contains(masterListItem))
+                _masterListItemService.Add(masterListItem);
         }
     }
 }

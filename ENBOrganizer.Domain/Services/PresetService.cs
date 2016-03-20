@@ -8,7 +8,6 @@ using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
-    // TODO: add new MasterListItems when creating presets
     public class PresetService : DataService<Preset>
     {
         private readonly GameService _gameService;
@@ -51,6 +50,8 @@ namespace ENBOrganizer.Domain.Services
                 sourceDirectory.CopyTo(preset.Directory.FullName);
 
                 base.Add(preset);
+
+                CreateMasterListItemsFromPreset(preset);
             }
             catch (InvalidOperationException)
             {
@@ -79,6 +80,27 @@ namespace ENBOrganizer.Domain.Services
                     preset.Directory.DeleteRecursive();
                 
                 throw;
+            }
+        }
+
+        private void CreateMasterListItemsFromPreset(Preset preset)
+        {
+            List<MasterListItem> masterListItems = _masterListItemService.GetAll();
+
+            foreach (DirectoryInfo directory in preset.Directory.GetDirectories())
+            {
+                MasterListItem masterListItem = new MasterListItem(directory.Name, MasterListItemType.Directory);
+
+                if (!masterListItems.Contains(masterListItem))
+                    _masterListItemService.Add(masterListItem);
+            }
+
+            foreach (FileInfo file in preset.Directory.GetFiles())
+            {
+                MasterListItem masterListItem = new MasterListItem(file.Name, MasterListItemType.File);
+
+                if (!masterListItems.Contains(masterListItem))
+                    _masterListItemService.Add(masterListItem);
             }
         }
 

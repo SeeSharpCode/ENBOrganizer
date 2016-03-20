@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ENBOrganizer.UI.Views"
         xmlns:ViewModels="clr-namespace:ENBOrganizer.UI.ViewModels"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        Background="{StaticResource BackgroundKey}">
     <Window.DataContext>
         <ViewModels:AddMasterListItemViewModel  />
     </Window.DataContext>

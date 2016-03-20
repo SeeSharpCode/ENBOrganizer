@@ -6,7 +6,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Views="clr-namespace:ENBOrganizer.UI.Views"
              xmlns:ViewModels="clr-namespace:ENBOrganizer.UI.ViewModels"
-             xmlns:Entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model" mc:Ignorable="d">
+             xmlns:Entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
+             mc:Ignorable="d"
+             Background="{StaticResource BackgroundKey}">
     <UserControl.DataContext>
         <ViewModels:PresetsViewModel />
     </UserControl.DataContext>
@@ -50,7 +52,7 @@
                 </TextBlock.ContextMenu>
             </TextBlock>
         </DataTemplate>
-        
+
         <Style TargetType="{x:Type FrameworkElement}" x:Key="ValidatingControl">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
@@ -60,26 +62,25 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-        <GroupBox Grid.Row="0" Header="Add New Preset" Padding="5" Margin="5" BorderBrush="Blue" BorderThickness="1">
-            <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding Path=Name, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                         Style="{StaticResource ValidatingControl}" MinWidth="100" MaxLength="60" />
-                <Button Content="New Blank" Command="{Binding AddPresetCommand}" />
-                <Button Content="Import" Command="{Binding ImportPresetCommand}" />
-                <Button Content="From Active Files" Command="{Binding CreatePresetFromActiveFilesCommand}" />
-            </StackPanel>
-        </GroupBox>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock Text="Add New Preset" Style="{StaticResource HeaderTextBlockStyle}" />
+            <TextBox Text="{Binding Path=Name, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            <!--Style="{StaticResource ValidatingControl}" MinWidth="100" MaxLength="60" />-->
+            <Button Content="New Blank" Command="{Binding AddPresetCommand}" />
+            <Button Content="Import" Command="{Binding ImportPresetCommand}" />
+            <Button Content="From Active Files" Command="{Binding CreatePresetFromActiveFilesCommand}" />
+        </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Vertical">
-            <TextBlock Text="Preset List" FontSize="13" />
+            <TextBlock Text="Presets" Style="{StaticResource HeaderTextBlockStyle}" />
 
             <StackPanel Orientation="Horizontal">
                 <ComboBox ItemsSource="{Binding Presets, Mode=OneWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPreset, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" />
@@ -87,7 +88,7 @@
                 <Button Content="Uninstall" Command="{Binding UninstallAllPresetsCommand}" />
                 <Button Content="Delete" Command="{Binding DeletePresetCommand}" />
             </StackPanel>
-            
+
             <Views:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" />
         </StackPanel>
     </Grid>

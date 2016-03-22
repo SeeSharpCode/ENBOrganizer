@@ -10,7 +10,7 @@
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -19,11 +19,13 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-            <Views:ActiveGameView />
-            <Button Name="ManageGamesButton" Content="Manage Games" Command="{Binding ManageGamesCommand, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" />
-        </StackPanel>
-
+        <Border BorderBrush="Gray" BorderThickness="0 0 0 1">
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5">
+                <Views:ActiveGameView />
+                <Button Name="ManageGamesButton" Content="Manage Games" Command="{Binding ManageGamesCommand, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            </StackPanel>
+        </Border>
+        
         <Views:PresetsView Grid.Row="1" Grid.Column="0" />
 
         <Views:MasterListView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" />

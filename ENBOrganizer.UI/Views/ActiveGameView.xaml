@@ -7,22 +7,25 @@
              xmlns:UI="clr-namespace:ENBOrganizer.UI" 
              Background="{StaticResource BackgroundKey}">
     <UserControl.DataContext>
-        <ViewModels:ActiveGameViewModel />        
+        <ViewModels:ActiveGameViewModel />
     </UserControl.DataContext>
     <UserControl.Resources>
         <UI:PathToIconConverter x:Key="PathToIconConverter" />
     </UserControl.Resources>
     <Grid>
-        <ComboBox ItemsSource="{Binding GamesViewModel.Games, Mode=OneWay}" SelectedItem="{Binding Path=ActiveGame, Mode=TwoWay}" 
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Game" />
+            <ComboBox ItemsSource="{Binding GamesViewModel.Games, Mode=OneWay}" SelectedItem="{Binding Path=ActiveGame, Mode=TwoWay}" 
                   VerticalAlignment="Top" HorizontalAlignment="Left" MaxHeight="25">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" />
-                        <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Margin="5" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" />
+                            <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Margin="5" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
     </Grid>
 </UserControl>

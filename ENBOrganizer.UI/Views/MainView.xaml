@@ -8,26 +8,31 @@
     <Window.DataContext>
         <ViewModels:MainViewModel />
     </Window.DataContext>
+    
+    <Window.Resources>
+        <DataTemplate x:Key="myHeader">
+            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Hey" />
+        </DataTemplate>
+    </Window.Resources>
+    
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+        <TabControl TabStripPlacement="Left" Background="{StaticResource BackgroundKey}">
+            <TabItem HeaderTemplate="{StaticResource myHeader}" Background="{StaticResource BackgroundKey}">
+                <StackPanel>
+                    <Border BorderBrush="Gray" BorderThickness="0 0 0 1">
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5">
+                            <Views:ActiveGameView />
+                            <Button Name="ManageGamesButton" Content="Manage Games" Command="{Binding ManageGamesCommand, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </Border>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+                    <Views:PresetsView Grid.Row="1" Grid.Column="0" />
 
-        <Border BorderBrush="Gray" BorderThickness="0 0 0 1">
-            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5">
-                <Views:ActiveGameView />
-                <Button Name="ManageGamesButton" Content="Manage Games" Command="{Binding ManageGamesCommand, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            </StackPanel>
-        </Border>
-        
-        <Views:PresetsView Grid.Row="1" Grid.Column="0" />
+                    <Views:MasterListView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" />
+                </StackPanel>
+            </TabItem>
 
-        <Views:MasterListView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" />
+            <TabItem Header="Another"></TabItem>
+        </TabControl>
     </Grid>
 </Window>

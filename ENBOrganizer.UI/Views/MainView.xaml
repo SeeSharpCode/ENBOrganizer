@@ -10,29 +10,27 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <DataTemplate x:Key="TabHeader">
-            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Hey" />
-        </DataTemplate>
-
-        <Style TargetType="{x:Type TabItem}">
+        <!--<Style TargetType="{x:Type TabItem}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabItem}">
-                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                    ContentSource="Header" Margin="5" RecognizesAccessKey="True"/>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                            </Trigger>
+
                         </ControlTemplate.Triggers>
+                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    ContentSource="Header" Margin="5" RecognizesAccessKey="True" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
     </Window.Resources>
 
     <Grid>
         <TabControl TabStripPlacement="Left" Background="{StaticResource BackgroundKey}">
-            <TabItem HeaderTemplate="{StaticResource TabHeader}" Background="{StaticResource BackgroundKey}" BorderBrush="Transparent">
+            <TabItem Background="{StaticResource BackgroundKey}" BorderBrush="Transparent">
+                <TabItem.Header>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Games" />
+                </TabItem.Header>
                 <StackPanel>
                     <Border BorderBrush="Gray" BorderThickness="0 0 0 1">
                         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5">
@@ -47,7 +45,17 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Games" HeaderTemplate="{StaticResource TabHeader}" Background="{StaticResource BackgroundKey}" BorderBrush="Transparent" />
+            <TabItem Background="{StaticResource BackgroundKey}" BorderBrush="Transparent">
+                <TabItem.Header>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Presets" /> 
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem Background="{StaticResource BackgroundKey}" BorderBrush="Transparent">
+                <TabItem.Header>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Master List" />
+                </TabItem.Header>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

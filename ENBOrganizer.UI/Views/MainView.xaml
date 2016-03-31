@@ -4,57 +4,59 @@
         xmlns:ViewModels="clr-namespace:ENBOrganizer.UI.ViewModels"
         Title="ENB Organizer" 
         SizeToContent="WidthAndHeight" 
+        UseLayoutRounding="True"
         Background="{StaticResource BackgroundKey}" >
     <Window.DataContext>
         <ViewModels:MainViewModel />
     </Window.DataContext>
 
-    <Window.Resources>
-        <!--<Style TargetType="{x:Type TabItem}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TabItem}">
-                        <ControlTemplate.Triggers>
-
-                        </ControlTemplate.Triggers>
-                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                    ContentSource="Header" Margin="5" RecognizesAccessKey="True" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>-->
-    </Window.Resources>
-
     <Grid>
         <TabControl TabStripPlacement="Left" Background="{StaticResource BackgroundKey}">
-            <TabItem Background="{StaticResource BackgroundKey}" BorderBrush="Transparent">
-                <TabItem.Header>
-                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Games" />
-                </TabItem.Header>
-                <StackPanel>
-                    <Border BorderBrush="Gray" BorderThickness="0 0 0 1">
-                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5">
-                            <Views:ActiveGameView />
-                            <Button Name="ManageGamesButton" Content="Manage Games" Command="{Binding ManageGamesCommand, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Background" Value="{StaticResource BackgroundKey}" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TabItem}">
+                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                          ContentSource="Header" Margin="10 5 10 5" RecognizesAccessKey="True" TextBlock.FontSize="22" 
+                                          TextBlock.FontFamily="Segoe UI" TextBlock.Foreground="WhiteSmoke" />
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="#FF00AADE" />
+                                        <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="#FF00AADE" />
+                                        <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="SemiBold" />
+                                        <Setter TargetName="ContentSite" Property="Cursor" Value="Hand" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+
+            <TabItem Header="Games">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <Views:ActiveGameView />
+                    <Button Command="{Binding ManageGamesCommand, Mode=OneWay}" Margin="0 15 0 0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Images/GamePad.png" Margin="0 0 5 0" />
+                            <TextBlock Text="Manage Games..." />
                         </StackPanel>
-                    </Border>
-
-                    <Views:PresetsView Grid.Row="1" Grid.Column="0" />
-
-                    <Views:MasterListView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" />
+                    </Button>
                 </StackPanel>
             </TabItem>
 
-            <TabItem Background="{StaticResource BackgroundKey}" BorderBrush="Transparent">
-                <TabItem.Header>
-                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Presets" /> 
-                </TabItem.Header>
+            <TabItem Header="Presets">
+                <Views:PresetsView />
             </TabItem>
 
-            <TabItem Background="{StaticResource BackgroundKey}" BorderBrush="Transparent">
-                <TabItem.Header>
-                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Master List" />
-                </TabItem.Header>
+            <TabItem Header="Master List">
+                <Views:MasterListView />
             </TabItem>
         </TabControl>
     </Grid>

@@ -14,7 +14,7 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Game" />
+            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Current Game" />
             <ComboBox ItemsSource="{Binding GamesViewModel.Games, Mode=OneWay}" SelectedItem="{Binding Path=ActiveGame, Mode=TwoWay}" 
                   VerticalAlignment="Top" HorizontalAlignment="Left" MaxHeight="25">
                 <ComboBox.ItemTemplate>

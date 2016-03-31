@@ -51,6 +51,10 @@
                 </StackPanel>
             </TabItem>
 
+            <TabItem Header="Add Preset">
+                <Views:PresetsView />
+            </TabItem>
+
             <TabItem Header="Presets">
                 <Views:PresetsView />
             </TabItem>

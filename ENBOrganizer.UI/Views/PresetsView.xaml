@@ -68,18 +68,24 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock Text="Add New Preset" Style="{StaticResource HeaderTextBlockStyle}" />
-            <TextBox Text="{Binding Path=Name, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock Grid.Row="0" Text="Add New Preset" Style="{StaticResource HeaderTextBlockStyle}" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Label Content="Name" VerticalAlignment="Bottom" />
+            <TextBox Text="{Binding Path=Name, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" />
             <!--Style="{StaticResource ValidatingControl}" MinWidth="100" MaxLength="60" />-->
-            <Button Content="New Blank" Command="{Binding AddPresetCommand}" />
-            <Button Content="Import" Command="{Binding ImportPresetCommand}" />
+            <Button Content="New Blank" Command="{Binding AddPresetCommand}" Margin="10 0 0 0" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 5 0 0">
+            <Button Content="Import..." Command="{Binding ImportPresetCommand}" />
             <Button Content="From Active Files" Command="{Binding CreatePresetFromActiveFilesCommand}" />
         </StackPanel>
-
-        <StackPanel Grid.Row="1" Orientation="Vertical">
+        
+        <StackPanel Grid.Row="3" Orientation="Vertical">
             <TextBlock Text="Presets" Style="{StaticResource HeaderTextBlockStyle}" />
 
             <StackPanel Orientation="Horizontal">

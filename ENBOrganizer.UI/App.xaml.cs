@@ -21,6 +21,7 @@ namespace ENBOrganizer.UI
         // TODO: Nexus integration (let's do it!)
         // TODO: (UI) resize AddMasterListItemView
         // TODO: in-game changes copied back to preset
+        // TODO: split Add Preset view from Presets
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

@@ -21,7 +21,7 @@
                             <ControlTemplate TargetType="{x:Type TabItem}">
                                 <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                           ContentSource="Header" Margin="10 5 10 5" RecognizesAccessKey="True" TextBlock.FontSize="22" 
-                                          TextBlock.FontFamily="Segoe UI" TextBlock.Foreground="WhiteSmoke" />
+                                          TextBlock.FontFamily="Segoe UI" TextBlock.Foreground="{StaticResource ForegroundBrush}" />
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="#FF00AADE" />
@@ -49,10 +49,6 @@
                         </StackPanel>
                     </Button>
                 </StackPanel>
-            </TabItem>
-
-            <TabItem Header="Add Preset">
-                <Views:PresetsView />
             </TabItem>
 
             <TabItem Header="Presets">

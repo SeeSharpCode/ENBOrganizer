@@ -7,6 +7,7 @@
              xmlns:Views="clr-namespace:ENBOrganizer.UI.Views"
              xmlns:ViewModels="clr-namespace:ENBOrganizer.UI.ViewModels"
              xmlns:Entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
+             xmlns:Toolkit="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              mc:Ignorable="d"
              Background="{StaticResource BackgroundKey}">
     <UserControl.DataContext>
@@ -65,27 +66,47 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Add New Preset" Style="{StaticResource HeaderTextBlockStyle}" />
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Label Content="Name" VerticalAlignment="Bottom" />
             <TextBox Text="{Binding Path=Name, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" />
             <!--Style="{StaticResource ValidatingControl}" MinWidth="100" MaxLength="60" />-->
             <Button Content="New Blank" Command="{Binding AddPresetCommand}" Margin="10 0 0 0" />
         </StackPanel>
-        
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 5 0 0">
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 5 0 0">
+            
+            <Toolkit:DropDownButton Content="New Preset">
+                <Toolkit:DropDownButton.Style>
+                    <Style TargetType="Toolkit:DropDownButton">
+                        <Setter Property="Background" Value="{StaticResource BackgroundKey}" />
+                        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Red" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Toolkit:DropDownButton.Style>
+                
+                <Toolkit:DropDownButton.DropDownContent>
+                    <StackPanel Orientation="Vertical">
+                        <Button Content="Hey1" />
+                        <Button Content="Hey2" />
+                    </StackPanel>
+                </Toolkit:DropDownButton.DropDownContent>
+            </Toolkit:DropDownButton>
+            
             <Button Content="Import..." Command="{Binding ImportPresetCommand}" />
             <Button Content="From Active Files" Command="{Binding CreatePresetFromActiveFilesCommand}" />
         </StackPanel>
         
-        <StackPanel Grid.Row="3" Orientation="Vertical">
+        <StackPanel Grid.Row="2" Orientation="Vertical">
             <TextBlock Text="Presets" Style="{StaticResource HeaderTextBlockStyle}" />
 
             <StackPanel Orientation="Horizontal">

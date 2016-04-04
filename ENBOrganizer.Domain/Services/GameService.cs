@@ -38,6 +38,7 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
+        // TODO: set CurrentGame to another game?
         public new void Delete(Game game)
         {
             try

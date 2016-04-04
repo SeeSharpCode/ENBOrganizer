@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
@@ -16,8 +18,15 @@ namespace ENBOrganizer.UI.ViewModels
         {
             _gameService = ServiceSingletons.GameService;
             _gameService.ItemsChanged += OnGamesChanged;
+            _gameService.PropertyChanged += OnCurrentGameChanged;
 
             Games = _gameService.GetAll().ToObservableCollection();
+        }
+
+        private void OnCurrentGameChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName.Equals("CurrentGame"))
+                RaisePropertyChanged("CurrentGame");
         }
 
         private void OnGamesChanged(object sender, RepositoryChangedEventArgs eventArgs)

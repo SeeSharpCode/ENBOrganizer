@@ -7,13 +7,13 @@
 
   <!-- *********************************  BRUSHES  ********************************* -->
   <!--  Slider Brushes -->
-  <SolidColorBrush x:Key="SliderThumbBackgroundBrush" Color="{StaticResource Color_005}" />
+  <SolidColorBrush x:Key="SliderThumbBackgroundBrush" Color="{StaticResource Color_003}" />
   <SolidColorBrush x:Key="SliderThumbHoverBackgroundBrush" Color="{StaticResource Color_002}" />
   <SolidColorBrush x:Key="SliderThumbPressedBackgroundBrush" Color="{StaticResource Color_024}" />
   <SolidColorBrush x:Key="SliderThumbDisabledBackgroundBrush" Color="{StaticResource Color_005}" />
   <SolidColorBrush x:Key="SliderTrackDisabledOverlayBackgroundBrush" Color="{StaticResource Color_008}" />
   <SolidColorBrush x:Key="SliderThumbFocusedBorderBrush" Color="{StaticResource Color_024}" />
-  <SolidColorBrush x:Key="SliderTrackBackgroundBrush" Color="{StaticResource Color_003}" />
+  <SolidColorBrush x:Key="SliderTrackBackgroundBrush" Color="{StaticResource Color_005}" />
   <SolidColorBrush x:Key="SliderSelectionRangeBackgroundBrush" Color="{StaticResource Color_024}" />
 
   <!--  GridSplitter Brushes -->
@@ -55,7 +55,6 @@
   <SolidColorBrush x:Key="ExpanderArrowPressedBorderBrush" Color="{StaticResource Color_009}" />
   <SolidColorBrush x:Key="ExpanderDisabledForegroundBrush" Color="{StaticResource Color_007}" />
   <SolidColorBrush x:Key="ExpanderDisabledBackgroundBrush" Color="{StaticResource Color_007}" />
-  <SolidColorBrush x:Key="ExpanderBackgroundBrush" Color="{StaticResource Color_009}" />
 
   <!-- GroupBox Brushes -->
   <SolidColorBrush x:Key="GroupBoxBorderBrush" Color="{StaticResource Color_003}" />
@@ -305,9 +304,6 @@
                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Bd" Storyboard.TargetProperty="Stroke">
                       <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonHoverBorderBrush}" />
                     </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentControl">
-                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LightForegroundBrush}" />
-                    </ObjectAnimationUsingKeyFrames>
                   </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Pressed">
@@ -490,7 +486,6 @@
     <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
     <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
     <Setter Property="FlowDirection" Value="LeftToRight" />
-    <Setter Property="CaretBrush" Value="{StaticResource CaretForegroundBrush}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type PasswordBox}">
@@ -730,10 +725,8 @@
   <Style x:Key="ExpanderStyle" TargetType="{x:Type Expander}">
     <Setter Property="FontFamily" Value="Segoe UI" />
     <Setter Property="FontSize" Value="14.667" />
-    <Setter Property="Background" Value="{StaticResource ExpanderBackgroundBrush}" />
     <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="Padding" Value="2" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
     <Setter Property="Template">
@@ -796,9 +789,6 @@
                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Bd" Storyboard.TargetProperty="Stroke">
                       <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonHoverBorderBrush}" />
                     </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Foreground" Storyboard.TargetName="contentControl">
-                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LightForegroundBrush}" />
-                    </ObjectAnimationUsingKeyFrames>
                   </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Pressed">
@@ -809,7 +799,7 @@
                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Bd" Storyboard.TargetProperty="Stroke">
                       <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ButtonPressedBorderBrush}" />
                     </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Foreground" Storyboard.TargetName="contentControl">
+                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentControl">
                       <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LightForegroundBrush}" />
                     </ObjectAnimationUsingKeyFrames>
                   </Storyboard>
@@ -836,21 +826,7 @@
                         </DiscreteObjectKeyFrame.Value>
                       </DiscreteObjectKeyFrame>
                     </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="contentControl">
-                      <DiscreteObjectKeyFrame KeyTime="0">
-                        <DiscreteObjectKeyFrame.Value>
-                          <Visibility>Collapsed</Visibility>
-                        </DiscreteObjectKeyFrame.Value>
-                      </DiscreteObjectKeyFrame>
-                    </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="contentControl1">
-                      <DiscreteObjectKeyFrame KeyTime="0">
-                        <DiscreteObjectKeyFrame.Value>
-                          <Visibility>Visible</Visibility>
-                        </DiscreteObjectKeyFrame.Value>
-                      </DiscreteObjectKeyFrame>
-                    </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Foreground" Storyboard.TargetName="contentControl1">
+                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentControl">
                       <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LightForegroundBrush}" />
                     </ObjectAnimationUsingKeyFrames>
                   </Storyboard>
@@ -875,11 +851,8 @@
             </VisualStateManager.VisualStateGroups>
             <Rectangle x:Name="Bd" Fill="{StaticResource ButtonBackgroundBrush}" Stroke="{StaticResource ButtonBorderBrush}" StrokeThickness="1" />
             <Rectangle x:Name="checked" Fill="{StaticResource ButtonPressedBackgroundBrush}" Stroke="{StaticResource ButtonPressedBorderBrush}" StrokeThickness="1" Visibility="Collapsed" />
-            <ContentControl x:Name="contentControl" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Foreground="{TemplateBinding Foreground}">
+            <ContentControl x:Name="ContentControl" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
               <ContentPresenter x:Name="contentPresenter" />
-            </ContentControl>
-            <ContentControl x:Name="contentControl1" Visibility="Collapsed" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Foreground="{StaticResource ForegroundBrush}">
-              <ContentPresenter x:Name="contentPresenter1" />
             </ContentControl>
             <Rectangle x:Name="FocusedVisualElement" Stroke="{StaticResource ButtonPressedBorderBrush}" Visibility="Collapsed" StrokeThickness="2" />
             <Rectangle x:Name="DisabledVisualElement" Fill="{StaticResource DisabledVisualElement}" Visibility="Collapsed" />

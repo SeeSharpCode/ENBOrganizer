@@ -1,5 +1,6 @@
 ﻿namespace ENBOrganizer.UI.ViewModels
 {
+    // TODO: remove
     public static class ViewModelSingletons
     {
         private static GamesViewModel _gamesViewModel;

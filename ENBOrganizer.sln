@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENBOrganizer.Model", "ENBOr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENBOrganizer.Data", "ENBOrganizer.Data\ENBOrganizer.Data.csproj", "{4D54CBAB-9908-471E-A33B-A6478A06F6AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENBOrganizer.App", "ENBOrganizer.App\ENBOrganizer.App.csproj", "{2642BE9A-E4E0-4716-8B9E-837C63038988}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,18 @@ Global
 		{4D54CBAB-9908-471E-A33B-A6478A06F6AD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4D54CBAB-9908-471E-A33B-A6478A06F6AD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4D54CBAB-9908-471E-A33B-A6478A06F6AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Debug|x86.Build.0 = Debug|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Release|x86.ActiveCfg = Release|Any CPU
+		{2642BE9A-E4E0-4716-8B9E-837C63038988}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="ENBOrganizer.App.Views.GamesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:Converters="clr-namespace:ENBOrganizer.App.Converters"
+             xmlns:ViewModels="clr-namespace:ENBOrganizer.App.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ENBOrganizer.App.Views"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <ViewModels:GamesViewModel />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <Converters:PathToIconConverter x:Key="PathToIconConverter" />
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Vertical">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Content="Add Game" Style="{DynamicResource DescriptionHeaderStyle}" />
+
+            <Label Grid.Row="1" Grid.Column="0" Content="Name" />
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="100" />
+
+            <Label Grid.Row="2" Grid.Column="0" Margin="{StaticResource ControlMargin}" Content="Executable Path" />
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="{StaticResource ControlMargin}" 
+                     Text="{Binding ExecutablePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="100" />
+
+            <Button Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" Padding="{StaticResource ControlPadding}" 
+                    Command="{Binding BrowseCommand, Mode=OneTime}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Fill="White" Width="16" Height="16">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_folder_open}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Text="Browse..." Style="{StaticResource ButtonTextStyle}" />
+                </StackPanel>
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Padding="{StaticResource ControlPadding}" 
+                    Command="{Binding AddGameCommand, Mode=OneTime}" VerticalAlignment="Center" Margin="{StaticResource ControlMargin}">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Fill="White" Width="10" Height="10">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Text="Add" Style="{StaticResource ButtonTextStyle}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Current Game" Style="{DynamicResource DescriptionHeaderStyle}" />
+            <ComboBox Grid.Row="1" Grid.Column="0" Padding="5" ItemsSource="{Binding Games, Mode=OneWay}" 
+                      SelectedItem="{Binding Path=ActiveGame, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" />
+                            <Label Content="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Margin="5" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            
+            <Button Grid.Row="1" Grid.Column="1" Margin="5 0 0 0" Padding="{StaticResource ControlPadding}" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Fill="White" Width="16" Height="16">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_delete}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Text="Delete" Style="{StaticResource ButtonTextStyle}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+    </StackPanel>
+</UserControl>

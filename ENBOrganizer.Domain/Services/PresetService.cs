@@ -109,12 +109,12 @@ namespace ENBOrganizer.Domain.Services
             Add(preset);
 
             List<MasterListItem> masterListItems = _masterListItemService.GetAll();
-            List<string> gameDirectories = Directory.GetDirectories(_gameService.ActiveGame.DirectoryPath).ToList();
-            List<string> gameFiles = Directory.GetFiles(_gameService.ActiveGame.DirectoryPath).ToList();
+            List<string> gameDirectories = Directory.GetDirectories(_gameService.CurrentGame.DirectoryPath).ToList();
+            List<string> gameFiles = Directory.GetFiles(_gameService.CurrentGame.DirectoryPath).ToList();
             
             foreach (MasterListItem masterListItem in masterListItems)
             {
-                string installedPath = Path.Combine(_gameService.ActiveGame.DirectoryPath, masterListItem.Name);
+                string installedPath = Path.Combine(_gameService.CurrentGame.DirectoryPath, masterListItem.Name);
 
                 if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
                 {
@@ -133,13 +133,13 @@ namespace ENBOrganizer.Domain.Services
         {
             foreach (FileInfo file in preset.Directory.GetFiles())
             {
-                file.CopyTo(Path.Combine(_gameService.ActiveGame.DirectoryPath, file.Name), true);
+                file.CopyTo(Path.Combine(_gameService.CurrentGame.DirectoryPath, file.Name), true);
             }
 
             foreach (DirectoryInfo subdirectory in preset.Directory.GetDirectories())
             {
                 if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: exception
-                    subdirectory.CopyTo(Path.Combine(_gameService.ActiveGame.DirectoryPath, subdirectory.Name));
+                    subdirectory.CopyTo(Path.Combine(_gameService.CurrentGame.DirectoryPath, subdirectory.Name));
             }
         }
 
@@ -162,7 +162,7 @@ namespace ENBOrganizer.Domain.Services
         {
             foreach (MasterListItem masterListItem in _masterListItemService.GetAll())
             {
-                string installedPath = Path.Combine(_gameService.ActiveGame.DirectoryPath, masterListItem.Name);
+                string installedPath = Path.Combine(_gameService.CurrentGame.DirectoryPath, masterListItem.Name);
 
                 if (masterListItem.Type.Equals(MasterListItemType.File))
                 {

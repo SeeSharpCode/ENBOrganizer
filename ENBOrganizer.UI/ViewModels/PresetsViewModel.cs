@@ -69,10 +69,10 @@ namespace ENBOrganizer.UI.ViewModels
         {
             get
             {
-                if (_gameService.ActiveGame == null || _selectedPreset == null)
+                if (_gameService.CurrentGame == null || _selectedPreset == null)
                     return new List<IPresetItem>();
 
-                return _presetItemsService.GetPresetItems(Path.Combine(_gameService.ActiveGame.PresetsDirectory.FullName, _selectedPreset.Name));
+                return _presetItemsService.GetPresetItems(Path.Combine(_gameService.CurrentGame.PresetsDirectory.FullName, _selectedPreset.Name));
             }
         }
 
@@ -103,7 +103,7 @@ namespace ENBOrganizer.UI.ViewModels
                     case "Name":
                         if (string.IsNullOrEmpty(Name))
                             errorMessage = "Name is required.";
-                        else if (_gameService.ActiveGame == null)
+                        else if (_gameService.CurrentGame == null)
                             errorMessage = "No game selected.";
                         break;
                 }
@@ -121,7 +121,7 @@ namespace ENBOrganizer.UI.ViewModels
             _gameService.PropertyChanged += OnActiveGameChanged;
             _presetService.ItemsChanged += OnPresetsChanged;
 
-            Presets = _presetService.GetByGame(_gameService.ActiveGame).ToObservableCollection();
+            Presets = _presetService.GetByGame(_gameService.CurrentGame).ToObservableCollection();
 
             AddPresetCommand = new ActionCommand(AddPreset, CanAddPreset);
             ImportPresetCommand = new ActionCommand(ImportPreset, CanImport);
@@ -138,7 +138,7 @@ namespace ENBOrganizer.UI.ViewModels
 
         private void CreatePresetFromActiveFiles()
         {
-            _presetService.CreatePresetFromActiveFiles(new Preset(Name, _gameService.ActiveGame));
+            _presetService.CreatePresetFromActiveFiles(new Preset(Name, _gameService.CurrentGame));
 
             RaisePropertyChanged("Items");
         }
@@ -146,7 +146,7 @@ namespace ENBOrganizer.UI.ViewModels
         private void OnActiveGameChanged(object sender, PropertyChangedEventArgs eventArgs)
         {
             Presets.Clear();
-            Presets.AddAll(_presetService.GetByGame(_gameService.ActiveGame));
+            Presets.AddAll(_presetService.GetByGame(_gameService.CurrentGame));
 
             SelectedPreset = Presets.FirstOrDefault();
         }
@@ -155,7 +155,7 @@ namespace ENBOrganizer.UI.ViewModels
         {
             try
             {
-                _presetService.Add(new Preset(Name, _gameService.ActiveGame));
+                _presetService.Add(new Preset(Name, _gameService.CurrentGame));
             }
             catch (InvalidOperationException exception)
             {
@@ -165,7 +165,7 @@ namespace ENBOrganizer.UI.ViewModels
 
         private bool CanAddPreset()
         {
-            return _gameService.ActiveGame != null;
+            return _gameService.CurrentGame != null;
         }
 
         // TODO: (UI) status bar
@@ -177,7 +177,7 @@ namespace ENBOrganizer.UI.ViewModels
             {
                 try
                 {
-                    _presetService.Import(folderBrowserDialog.SelectedPath, _gameService.ActiveGame);
+                    _presetService.Import(folderBrowserDialog.SelectedPath, _gameService.CurrentGame);
                 }
                 catch (InvalidOperationException exception)
                 {
@@ -200,7 +200,7 @@ namespace ENBOrganizer.UI.ViewModels
 
         private bool CanImport()
         {
-            return _gameService.ActiveGame != null;
+            return _gameService.CurrentGame != null;
         }
 
         private void AddDirectory()

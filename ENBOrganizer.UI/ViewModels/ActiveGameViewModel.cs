@@ -13,8 +13,8 @@ namespace ENBOrganizer.UI.ViewModels
 
         public Game ActiveGame
         {
-            get { return _gameService.ActiveGame; } 
-            set { _gameService.ActiveGame = value; }
+            get { return _gameService.CurrentGame; } 
+            set { _gameService.CurrentGame = value; }
         }
 
         public ActiveGameViewModel()

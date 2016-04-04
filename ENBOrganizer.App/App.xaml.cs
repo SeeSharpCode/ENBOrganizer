@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ENBOrganizer.App
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    // TODO: main window title bar shows current game name
     public partial class App : Application
     {
     }

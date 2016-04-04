@@ -6,7 +6,7 @@ namespace ENBOrganizer.Domain.Services
 {
     public class GameService : DataService<Game>
     {
-        public Game ActiveGame
+        public Game CurrentGame
         {
             get { return Properties.Settings.Default.ActiveGame; }
             set
@@ -17,7 +17,7 @@ namespace ENBOrganizer.Domain.Services
                 Properties.Settings.Default.ActiveGame = value;
                 Properties.Settings.Default.Save();
 
-                RaisePropertyChanged("ActiveGame");
+                RaisePropertyChanged("CurrentGame");
             }
         }
 
@@ -29,8 +29,8 @@ namespace ENBOrganizer.Domain.Services
 
                 base.Add(game);
 
-                if (ActiveGame == null)
-                    ActiveGame = game;
+                if (CurrentGame == null)
+                    CurrentGame = game;
             }
             catch (InvalidOperationException)
             {
@@ -46,8 +46,8 @@ namespace ENBOrganizer.Domain.Services
 
                 base.Delete(game);
 
-                if (ActiveGame != null && ActiveGame.Equals(game))
-                    ActiveGame = null;
+                if (CurrentGame != null && CurrentGame.Equals(game))
+                    CurrentGame = null;
             }
             catch (Exception)
             {

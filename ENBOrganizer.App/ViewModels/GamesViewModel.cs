@@ -17,6 +17,7 @@ namespace ENBOrganizer.App.ViewModels
         public ObservableCollection<Game> Games { get; set; }
         public ICommand AddGameCommand { get; set; }
         public ICommand BrowseCommand { get; set; }
+        public ICommand DeleteGameCommand { get; set; }
 
         private string _name;
 
@@ -42,21 +43,10 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        private Game _selectedGame;
-
-        public Game SelectedGame
+        public Game CurrentGame
         {
-            get { return _selectedGame; }
-            set
-            {
-                _selectedGame = value;
-
-                if (value == null)
-                    return;
-
-                Name = value.Name;
-                ExecutablePath = value.ExecutablePath;
-            }
+            get { return _gameService.CurrentGame; }
+            set { _gameService.CurrentGame = value; }
         }
 
         public GamesViewModel()
@@ -68,6 +58,25 @@ namespace ENBOrganizer.App.ViewModels
 
             AddGameCommand = new ActionCommand(AddGame, CanAdd);
             BrowseCommand = new ActionCommand(BrowseForGameFile, () => true);
+            DeleteGameCommand = new ActionCommand(DeleteGame, CanDelete);
+        }
+
+        private void DeleteGame()
+        {
+            try
+            {
+                _gameService.Delete(CurrentGame);
+                // TODO: _presetService.DeleteByGame(_selectedGame);
+            }
+            catch (Exception exception)
+            {
+                //TODO: MessageBoxUtil.ShowError(exception.Message);
+            }
+        }
+
+        private bool CanDelete()
+        {
+            return CurrentGame != null;
         }
 
         private void OnGamesChanged(object sender, RepositoryChangedEventArgs eventArgs)

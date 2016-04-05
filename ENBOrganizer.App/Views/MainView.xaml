@@ -1,34 +1,31 @@
-﻿<Controls:MetroWindow x:Class="ENBOrganizer.App.MainView"
+﻿<controls:MetroWindow x:Class="ENBOrganizer.App.MainView"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      xmlns:Views="clr-namespace:ENBOrganizer.App.Views"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:views="clr-namespace:ENBOrganizer.App.Views"
                       Title="ENB Organizer"
                       TitleCaps="False"
                       Height="350"
                       Width="525">
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
             <Button Content="Game: Skyrim" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
     
     <Grid>
-        <Controls:MetroAnimatedSingleRowTabControl Margin="15 0 0 0">
+        <controls:MetroAnimatedSingleRowTabControl Margin="15 0 0 0">
             <TabItem Header="Games" BorderBrush="Gray" BorderThickness="0 0 0 1">
-                <Views:GamesView />
+                <views:GamesView />
             </TabItem>
             <TabItem Header="Presets" BorderBrush="Gray" BorderThickness="0 0 0 1">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Label Style="{DynamicResource DescriptionHeaderStyle}" Content="Test 1" />
-                    <Button Margin="5" Content="Button1" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                </StackPanel>
+                <views:PresetsView Margin="0 10 0 0" />
             </TabItem>
             <TabItem Header="Master List" BorderBrush="Gray" BorderThickness="0 0 0 1">
                 <GroupBox Header="Sup">
                     <Label Content="Hey"/>
                 </GroupBox>
             </TabItem>
-        </Controls:MetroAnimatedSingleRowTabControl>
+        </controls:MetroAnimatedSingleRowTabControl>
     </Grid>
-</Controls:MetroWindow>
+</controls:MetroWindow>

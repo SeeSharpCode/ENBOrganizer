@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="ENBOrganizer.App.Views.PresetsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ENBOrganizer.App.Views"
+             xmlns:entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
+             xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <viewModels:PresetsViewModel />
+    </UserControl.DataContext>
+    
+    <UserControl.Resources>
+        <HierarchicalDataTemplate DataType="{x:Type entities:PresetDirectory}" ItemsSource="{Binding Items, Mode=OneWay}">
+            <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path=Path, Mode=OneWay}" Tag="{Binding ElementName=Root}">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DataContext.DeleteItemCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
+                        <MenuItem Header="Add Directory" Command="{Binding PlacementTarget.Tag.DataContext.AddDirectoryCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
+                        <MenuItem Header="Add File" Command="{Binding PlacementTarget.Tag.DataContext.AddFileCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
+                        <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
+        </HierarchicalDataTemplate>
+
+        <DataTemplate DataType="{x:Type entities:PresetFile}">
+            <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path=Path, Mode=OneWay}" Tag="{Binding ElementName=Root}">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Open" Command="{Binding PlacementTarget.Tag.DataContext.OpenFileCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
+                        <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DataContext.DeleteItemCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
+                        <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameItemCommand, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType=ContextMenu}}" />
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <controls:DropDownButton HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding Path=TitledCommands}">
+                <controls:DropDownButton.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Fill="White" Width="16" Height="16">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <TextBlock Text="New Preset" Style="{StaticResource ButtonTextStyle}" />
+                    </StackPanel>
+                </controls:DropDownButton.Content>
+
+                <controls:DropDownButton.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Header" Value="{Binding Path=Title}" />
+                        <Setter Property="Command" Value="{Binding Path=Command}" />
+                    </Style>
+                </controls:DropDownButton.ItemContainerStyle>
+            </controls:DropDownButton>
+        </StackPanel>
+    </Grid>
+</UserControl>

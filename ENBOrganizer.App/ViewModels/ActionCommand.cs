@@ -8,6 +8,8 @@ namespace ENBOrganizer.App
         private readonly Action _execute;
         private readonly Action<object> _executeParam;
         private readonly Func<bool> _canExecute;
+        private ICommand addBlank;
+        private Func<bool> p;
 
         public ActionCommand(Action executeAction, Func<bool> canExecuteFunc)
         {

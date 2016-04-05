@@ -92,7 +92,7 @@
             <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Padding="{StaticResource ControlPadding}" 
                     Command="{Binding AddGameCommand, Mode=OneTime}" VerticalAlignment="Center" Margin="{StaticResource ControlMargin}">
                 <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="White" Width="10" Height="10">
+                    <Rectangle Fill="White" Width="16" Height="16">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}" />
                         </Rectangle.OpacityMask>

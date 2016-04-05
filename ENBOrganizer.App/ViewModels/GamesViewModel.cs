@@ -51,7 +51,7 @@ namespace ENBOrganizer.App.ViewModels
 
         public GamesViewModel()
         {
-            _gameService = new GameService();
+            _gameService = ServiceSingletons.GameService;
             _gameService.ItemsChanged += OnGamesChanged;
 
             Games = _gameService.GetAll().ToObservableCollection();

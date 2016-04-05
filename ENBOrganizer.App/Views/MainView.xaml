@@ -22,9 +22,7 @@
                 <views:PresetsView Margin="0 10 0 0" />
             </TabItem>
             <TabItem Header="Master List" BorderBrush="Gray" BorderThickness="0 0 0 1">
-                <GroupBox Header="Sup">
-                    <Label Content="Hey"/>
-                </GroupBox>
+                <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />
             </TabItem>
         </controls:MetroAnimatedSingleRowTabControl>
     </Grid>

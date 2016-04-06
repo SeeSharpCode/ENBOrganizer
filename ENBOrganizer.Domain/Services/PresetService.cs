@@ -10,12 +10,11 @@ namespace ENBOrganizer.Domain.Services
 {
     public class PresetService : DataService<Preset>
     {
-        private readonly GameService _gameService;
+        // TODO: remove this
         private readonly DataService<MasterListItem> _masterListItemService;
 
         public PresetService()
         {
-            _gameService = ServiceSingletons.GameService;
             _masterListItemService = ServiceSingletons.MasterListItemService;
         }
 
@@ -104,17 +103,18 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void CreatePresetFromActiveFiles(Preset preset)
+        public void CreatePresetFromActiveFiles(string presetName, Game currentGame)
         {
+            Preset preset = new Preset(presetName, currentGame);
             Add(preset);
 
             List<MasterListItem> masterListItems = _masterListItemService.GetAll();
-            List<string> gameDirectories = Directory.GetDirectories(_gameService.CurrentGame.DirectoryPath).ToList();
-            List<string> gameFiles = Directory.GetFiles(_gameService.CurrentGame.DirectoryPath).ToList();
+            List<string> gameDirectories = Directory.GetDirectories(currentGame.DirectoryPath).ToList();
+            List<string> gameFiles = Directory.GetFiles(currentGame.DirectoryPath).ToList();
             
             foreach (MasterListItem masterListItem in masterListItems)
             {
-                string installedPath = Path.Combine(_gameService.CurrentGame.DirectoryPath, masterListItem.Name);
+                string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
 
                 if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
                 {
@@ -129,17 +129,17 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void Install(Preset preset)
+        public void Install(Preset preset, Game currentGame)
         {
             foreach (FileInfo file in preset.Directory.GetFiles())
             {
-                file.CopyTo(Path.Combine(_gameService.CurrentGame.DirectoryPath, file.Name), true);
+                file.CopyTo(Path.Combine(currentGame.DirectoryPath, file.Name), true);
             }
 
             foreach (DirectoryInfo subdirectory in preset.Directory.GetDirectories())
             {
                 if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: exception
-                    subdirectory.CopyTo(Path.Combine(_gameService.CurrentGame.DirectoryPath, subdirectory.Name));
+                    subdirectory.CopyTo(Path.Combine(currentGame.DirectoryPath, subdirectory.Name));
             }
         }
 
@@ -158,11 +158,11 @@ namespace ENBOrganizer.Domain.Services
                 Delete(preset);
         }
 
-        public void UninstallAll()
+        public void UninstallAll(Game currentGame)
         {
             foreach (MasterListItem masterListItem in _masterListItemService.GetAll())
             {
-                string installedPath = Path.Combine(_gameService.CurrentGame.DirectoryPath, masterListItem.Name);
+                string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
 
                 if (masterListItem.Type.Equals(MasterListItemType.File))
                 {

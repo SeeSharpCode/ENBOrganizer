@@ -5,11 +5,13 @@ namespace ENBOrganizer.App.ViewModels
     public class TitledCommand
     {
         public string Title { get; set; }
+        public string Tooltip { get; set; }
         public ICommand Command { get; set; }
 
-        public TitledCommand(string title, ICommand command)
+        public TitledCommand(string title, string tooltip, ICommand command)
         {
             Title = title;
+            Tooltip = tooltip;
             Command = command;
         }
     }

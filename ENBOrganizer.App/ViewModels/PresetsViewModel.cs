@@ -11,16 +11,27 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly PresetService _presetService;
         private readonly GameService _gameService;
-
-        public List<TitledCommand> TitledCommands { get; set; }
+        
         private ICommand AddBlankPresetCommand { get; set; }
-        private ICommand ImportPresetCommand { get; set; }
+        private ICommand ImportFolderCommand { get; set; }
+        private ICommand ImportArchiveCommand { get; set; }
+        private ICommand ImportActiveFilesCommand { get; set; }
+        public List<TitledCommand> TitledCommands { get; set; }
 
         public PresetsViewModel()
         {
             AddBlankPresetCommand = new ActionCommand(AddBlank, () => true);
-            ImportPresetCommand = new ActionCommand(ImportPreset, () => true);
-            TitledCommands = new List<TitledCommand> { new TitledCommand("Blank", AddBlankPresetCommand), new TitledCommand("Import", ImportPresetCommand) };
+            ImportFolderCommand = new ActionCommand(ImportFolder, () => true);
+            ImportArchiveCommand = new ActionCommand(ImportArchive, () => true);
+            ImportActiveFilesCommand = new ActionCommand(ImportActiveFiles, () => true);
+
+            TitledCommands = new List<TitledCommand>
+            {
+                new TitledCommand("Blank", "Create a blank preset", AddBlankPresetCommand),
+                new TitledCommand("Import Folder", "Create a preset from a folder", ImportFolderCommand),
+                new TitledCommand("Import Archive", "Create a preset an archive (.zip, .7z)", ImportArchiveCommand),
+                new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", ImportActiveFilesCommand)
+            };
 
             _presetService = new PresetService();
             _gameService = ServiceSingletons.GameService;
@@ -31,10 +42,23 @@ namespace ENBOrganizer.App.ViewModels
             string name = await DialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
         }
 
-        private void ImportPreset()
+        private async void ImportActiveFiles()
+        {
+            string name = await DialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
+
+            _presetService.CreatePresetFromActiveFiles(name, _gameService.CurrentGame);
+        }
+
+        private void ImportArchive()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ImportFolder()
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog { Description = "Please select the preset folder..." };
 
+            // TODO: let DialogService handle showing this dialog
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 try

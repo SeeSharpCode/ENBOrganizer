@@ -6,6 +6,7 @@ namespace ENBOrganizer.App
     // TODO: lowercase XAML namespace aliases
     // TODO: indeterminate progress bar on footer
     // TODO: make services static?
+    // TODO: put error message in dialog service
     public partial class App : Application
     {
     }

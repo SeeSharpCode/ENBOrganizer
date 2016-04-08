@@ -8,6 +8,7 @@ namespace ENBOrganizer.App
     // TODO: make services static?
     // TODO: put error message in dialog service
     // TODO: tooltips for everything
+    // TODO: Win10 style on enabled/disabled
     public partial class App : Application
     {
     }

@@ -94,18 +94,12 @@
         <StackPanel Orientation="Horizontal">
             <ComboBox ItemsSource="{Binding Presets, Mode=OneWay}" DisplayMemberPath="Name" 
                           SelectedItem="{Binding SelectedPreset, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" />
-            <Button Padding="{StaticResource ControlPadding}" Command="{Binding AddGameCommand, Mode=OneTime}" Margin="5 0 0 0">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="White" Width="16" Height="16">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_check}" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <TextBlock Text="Install" Style="{StaticResource ButtonTextStyle}" />
-                </StackPanel>
-            </Button>
+            <controls:ToggleSwitch IsChecked="True"
+                                   OffLabel="Disabled"
+                                   OnLabel="Enabled" />
         </StackPanel>
 
+        <Label Content="Files and Folders" />
         <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
                                 MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" />
     </StackPanel>

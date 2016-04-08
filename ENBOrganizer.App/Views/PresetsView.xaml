@@ -53,50 +53,65 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
-            <controls:DropDownButton HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding Path=TitledCommands}">
-                <controls:DropDownButton.Content>
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <controls:DropDownButton HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Path=TitledCommands}">
+                    <controls:DropDownButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="White" Width="16" Height="16">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Text="New Preset" Style="{StaticResource ButtonTextStyle}" />
+                        </StackPanel>
+                    </controls:DropDownButton.Content>
+
+                    <controls:DropDownButton.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Title}" />
+                            <Setter Property="ToolTip" Value="{Binding Tooltip}" />
+                            <Setter Property="Command" Value="{Binding Command}" />
+                            <Setter Property="Padding" Value="3" />
+                        </Style>
+                    </controls:DropDownButton.ItemContainerStyle>
+                </controls:DropDownButton>
+                <Button Padding="{StaticResource ControlPadding}" Command="{Binding AddGameCommand, Mode=OneTime}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Fill="White" Width="16" Height="16">
                             <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}" />
+                                <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_undo}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <TextBlock Text="New Preset" Style="{StaticResource ButtonTextStyle}" />
+                        <TextBlock Text="Uninstall All" Style="{StaticResource ButtonTextStyle}" />
                     </StackPanel>
-                </controls:DropDownButton.Content>
+                </Button>
+            </StackPanel>
+            
+            
+            <Label Content="Presets" Style="{StaticResource DescriptionHeaderStyle}" />
 
-                <controls:DropDownButton.ItemContainerStyle>
-                    <Style TargetType="MenuItem">
-                        <Setter Property="Header" Value="{Binding Title}" />
-                        <Setter Property="ToolTip" Value="{Binding Tooltip}" />
-                        <Setter Property="Command" Value="{Binding Command}" />
-                        <Setter Property="Padding" Value="3" />
-                    </Style>
-                </controls:DropDownButton.ItemContainerStyle>
-            </controls:DropDownButton>
+            <StackPanel Orientation="Horizontal">
+                <Button Padding="{StaticResource ControlPadding}" HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" Command="{Binding DeleteGameCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Fill="White" Width="16" Height="16">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_delete}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <TextBlock Text="Delete" Style="{StaticResource ButtonTextStyle}" />
+                    </StackPanel>
+                </Button>
+                <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" Margin="5 0 0 0" />
+            </StackPanel>
 
-            <Button Padding="{StaticResource ControlPadding}" Command="{Binding AddGameCommand, Mode=OneTime}" Margin="5 0 0 0">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="White" Width="16" Height="16">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_undo}" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <TextBlock Text="Uninstall All" Style="{StaticResource ButtonTextStyle}" />
-                </StackPanel>
-            </Button>
-        </StackPanel>
-
-        <Label Content="Presets" Style="{StaticResource DescriptionHeaderStyle}" />
-
-        <StackPanel Orientation="Horizontal">
-            <ComboBox ItemsSource="{Binding Presets, Mode=OneWay}" DisplayMemberPath="Name" 
-                          SelectedItem="{Binding SelectedPreset, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" />
-            <controls:ToggleSwitch IsChecked="True"
-                                   OffLabel="Disabled"
-                                   OnLabel="Enabled" />
+            <ListBox BorderThickness="0 1 0 0">
+                <ListBoxItem>Hey</ListBoxItem>
+                <ListBoxItem>Hey2</ListBoxItem>
+            </ListBox>
         </StackPanel>
 
         <Label Content="Files and Folders" />

@@ -2,6 +2,7 @@
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace ENBOrganizer.App
 {
@@ -9,8 +10,19 @@ namespace ENBOrganizer.App
     {
         public static async Task<string> ShowInputDialog(string title, string message)
         {
-            MetroWindow window = Application.Current.MainWindow as MetroWindow;
+            MetroWindow window = System.Windows.Application.Current.MainWindow as MetroWindow;
             return await window.ShowInputAsync(title, message);
+        }
+
+        public static string ShowOpenFileDialog(string title, string filter)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = title, 
+                Filter = filter
+            };
+
+            return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : string.Empty;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ENBOrganizer.Domain.Services;
+using ENBOrganizer.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,18 +40,23 @@ namespace ENBOrganizer.App.ViewModels
 
         private async void AddBlank()
         {
+            // TODO: exception handling
             string name = await DialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
+
+            _presetService.Add(new Preset(name, _gameService.CurrentGame));
         }
 
         private async void ImportActiveFiles()
         {
+            // TODO: exception handling
             string name = await DialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
 
-            _presetService.CreatePresetFromActiveFiles(name, _gameService.CurrentGame);
+            _presetService.CreatePresetFromActiveFiles(new Preset(name, _gameService.CurrentGame));
         }
 
         private void ImportArchive()
         {
+            // DialogService.ShowOpenFileDialog
             throw new NotImplementedException();
         }
 

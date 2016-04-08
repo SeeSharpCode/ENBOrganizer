@@ -103,18 +103,18 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void CreatePresetFromActiveFiles(string presetName, Game currentGame)
+        public void CreatePresetFromActiveFiles(Preset preset)
         {
-            Preset preset = new Preset(presetName, currentGame);
+            // TODO: exception handling
             Add(preset);
 
             List<MasterListItem> masterListItems = _masterListItemService.GetAll();
-            List<string> gameDirectories = Directory.GetDirectories(currentGame.DirectoryPath).ToList();
-            List<string> gameFiles = Directory.GetFiles(currentGame.DirectoryPath).ToList();
+            List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
+            List<string> gameFiles = Directory.GetFiles(preset.Game.DirectoryPath).ToList();
             
             foreach (MasterListItem masterListItem in masterListItems)
             {
-                string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
+                string installedPath = Path.Combine(preset.Game.DirectoryPath, masterListItem.Name);
 
                 if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
                 {

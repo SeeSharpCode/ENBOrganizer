@@ -9,6 +9,7 @@ namespace ENBOrganizer.App
     // TODO: put error message in dialog service
     // TODO: tooltips for everything
     // TODO: Win10 style on enabled/disabled
+    // TODO: notification that preset items are added upon adding preset
     public partial class App : Application
     {
     }

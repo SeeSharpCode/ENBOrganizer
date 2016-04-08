@@ -15,13 +15,13 @@
     
     <Grid>
         <controls:MetroAnimatedSingleRowTabControl Margin="15 0 0 0">
-            <TabItem Header="Games" BorderBrush="Gray" BorderThickness="0 0 0 1">
+            <TabItem Header="Games" BorderBrush="Gray" BorderThickness="0 0 0 1.5">
                 <views:GamesView />
             </TabItem>
-            <TabItem Header="Presets" BorderBrush="Gray" BorderThickness="0 0 0 1">
+            <TabItem Header="Presets" BorderBrush="Gray" BorderThickness="0 0 0 1.5">
                 <views:PresetsView Margin="0 10 0 0" />
             </TabItem>
-            <TabItem Header="Master List" BorderBrush="Gray" BorderThickness="0 0 0 1">
+            <TabItem Header="Master List" BorderBrush="Gray" BorderThickness="0 0 0 1.5">
                 <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />
             </TabItem>
         </controls:MetroAnimatedSingleRowTabControl>

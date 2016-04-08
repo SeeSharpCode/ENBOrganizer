@@ -1,41 +1,75 @@
 ﻿using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
+using ENBOrganizer.Util;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class PresetsViewModel
+    public class PresetsViewModel : ObservableObject
     {
         private readonly PresetService _presetService;
         private readonly GameService _gameService;
-        
-        private ICommand AddBlankPresetCommand { get; set; }
-        private ICommand ImportFolderCommand { get; set; }
-        private ICommand ImportArchiveCommand { get; set; }
-        private ICommand ImportActiveFilesCommand { get; set; }
+        private readonly PresetItemsService _presetItemsService;
+
+        private readonly ICommand _addBlankPresetCommand;
+        private readonly ICommand _importFolderCommand;
+        private readonly ICommand _importArchiveCommand;
+        private readonly ICommand _importActiveFilesCommand;
+
         public List<TitledCommand> TitledCommands { get; set; }
+
+        public ObservableCollection<Preset> Presets { get; set; }
+
+        private Preset _selectedPreset;
+
+        public Preset SelectedPreset
+        {
+            get { return _selectedPreset; }
+            set
+            {
+                _selectedPreset = value;
+
+                RaisePropertyChanged("SelectedPreset");
+                RaisePropertyChanged("Items");
+            }
+        }
+
+        public List<IPresetItem> Items
+        {
+            get
+            {
+                if (_gameService.CurrentGame == null || _selectedPreset == null)
+                    return new List<IPresetItem>();
+
+                return _presetItemsService.GetPresetItems(Path.Combine(_gameService.CurrentGame.PresetsDirectory.FullName, _selectedPreset.Name));
+            }
+        }
 
         public PresetsViewModel()
         {
-            AddBlankPresetCommand = new ActionCommand(AddBlank, () => true);
-            ImportFolderCommand = new ActionCommand(ImportFolder, () => true);
-            ImportArchiveCommand = new ActionCommand(ImportArchive, () => true);
-            ImportActiveFilesCommand = new ActionCommand(ImportActiveFiles, () => true);
+            _presetService = new PresetService();
+            _gameService = ServiceSingletons.GameService;
+            _presetItemsService = new PresetItemsService();
+
+            _addBlankPresetCommand = new ActionCommand(AddBlank, () => true);
+            _importFolderCommand = new ActionCommand(ImportFolder, () => true);
+            _importArchiveCommand = new ActionCommand(ImportArchive, () => true);
+            _importActiveFilesCommand = new ActionCommand(ImportActiveFiles, () => true);
 
             TitledCommands = new List<TitledCommand>
             {
-                new TitledCommand("Blank", "Create a blank preset", AddBlankPresetCommand),
-                new TitledCommand("Import Folder", "Create a preset from a folder", ImportFolderCommand),
-                new TitledCommand("Import Archive", "Create a preset an archive (.zip, .7z)", ImportArchiveCommand),
-                new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", ImportActiveFilesCommand)
+                new TitledCommand("Blank", "Create a blank preset", _addBlankPresetCommand),
+                new TitledCommand("Import Folder", "Create a preset from a folder", _importFolderCommand),
+                new TitledCommand("Import Archive", "Create a preset an archive (.zip, .7z)", _importArchiveCommand),
+                new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
             };
 
-            _presetService = new PresetService();
-            _gameService = ServiceSingletons.GameService;
+            Presets = _presetService.GetByGame(_gameService.CurrentGame).ToObservableCollection();
         }
 
         private async void AddBlank()
@@ -51,13 +85,17 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: exception handling
             string name = await DialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
 
-            _presetService.CreatePresetFromActiveFiles(new Preset(name, _gameService.CurrentGame));
+            _presetService.ImportActiveFiles(new Preset(name, _gameService.CurrentGame));
         }
 
         private void ImportArchive()
         {
-            // DialogService.ShowOpenFileDialog
-            throw new NotImplementedException();
+            string archivePath = DialogService.ShowOpenFileDialog("Please select a .zip file", "ZIP Files(*.zip) | *.zip");
+
+            if (archivePath == string.Empty)
+                return;
+
+            _presetService.ImportArchive(archivePath, _gameService.CurrentGame);
         }
 
         private void ImportFolder()
@@ -69,7 +107,7 @@ namespace ENBOrganizer.App.ViewModels
             {
                 try
                 {
-                    _presetService.Import(folderBrowserDialog.SelectedPath, _gameService.CurrentGame);
+                    _presetService.ImportFolder(folderBrowserDialog.SelectedPath, _gameService.CurrentGame);
                 }
                 catch (InvalidOperationException exception)
                 {

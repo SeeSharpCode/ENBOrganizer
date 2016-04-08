@@ -138,7 +138,7 @@ namespace ENBOrganizer.UI.ViewModels
 
         private void CreatePresetFromActiveFiles()
         {
-            _presetService.CreatePresetFromActiveFiles(new Preset(Name, _gameService.CurrentGame));
+            _presetService.ImportActiveFiles(new Preset(Name, _gameService.CurrentGame));
 
             RaisePropertyChanged("Items");
         }
@@ -177,7 +177,7 @@ namespace ENBOrganizer.UI.ViewModels
             {
                 try
                 {
-                    _presetService.Import(folderBrowserDialog.SelectedPath, _gameService.CurrentGame);
+                    _presetService.ImportFolder(folderBrowserDialog.SelectedPath, _gameService.CurrentGame);
                 }
                 catch (InvalidOperationException exception)
                 {

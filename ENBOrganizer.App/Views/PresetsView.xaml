@@ -11,7 +11,7 @@
     <UserControl.DataContext>
         <viewModels:PresetsViewModel />
     </UserControl.DataContext>
-    
+
     <UserControl.Resources>
         <HierarchicalDataTemplate DataType="{x:Type entities:PresetDirectory}" ItemsSource="{Binding Items, Mode=OneWay}">
             <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path=Path, Mode=OneWay}" Tag="{Binding ElementName=Root}">
@@ -52,8 +52,8 @@
             </TextBlock>
         </DataTemplate>
     </UserControl.Resources>
-    
-    <Grid>
+
+    <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <controls:DropDownButton HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding Path=TitledCommands}">
                 <controls:DropDownButton.Content>
@@ -72,10 +72,41 @@
                         <Setter Property="Header" Value="{Binding Title}" />
                         <Setter Property="ToolTip" Value="{Binding Tooltip}" />
                         <Setter Property="Command" Value="{Binding Command}" />
-                        <Setter Property="Margin" Value="5 2 5 2" />
+                        <Setter Property="Padding" Value="3" />
                     </Style>
                 </controls:DropDownButton.ItemContainerStyle>
             </controls:DropDownButton>
+
+            <Button Padding="{StaticResource ControlPadding}" Command="{Binding AddGameCommand, Mode=OneTime}" Margin="5 0 0 0">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Fill="White" Width="16" Height="16">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_undo}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Text="Uninstall All" Style="{StaticResource ButtonTextStyle}" />
+                </StackPanel>
+            </Button>
         </StackPanel>
-    </Grid>
+
+        <Label Content="Presets" Style="{StaticResource DescriptionHeaderStyle}" />
+
+        <StackPanel Orientation="Horizontal">
+            <ComboBox ItemsSource="{Binding Presets, Mode=OneWay}" DisplayMemberPath="Name" 
+                          SelectedItem="{Binding SelectedPreset, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" />
+            <Button Padding="{StaticResource ControlPadding}" Command="{Binding AddGameCommand, Mode=OneTime}" Margin="5 0 0 0">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Fill="White" Width="16" Height="16">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_check}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Text="Install" Style="{StaticResource ButtonTextStyle}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
+                                MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" />
+    </StackPanel>
 </UserControl>

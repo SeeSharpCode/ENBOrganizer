@@ -4,6 +4,7 @@ using ENBOrganizer.Util.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
@@ -39,7 +40,20 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void Import(string sourceDirectoryPath, Game game)
+        public void ImportArchive(string sourceFolderPath, Game game)
+        {
+            // TODO: exception handling
+            Preset preset = new Preset(Path.GetFileNameWithoutExtension(sourceFolderPath), game);
+
+            ZipFile.ExtractToDirectory(sourceFolderPath, preset.Directory.FullName);
+
+            // TODO: following 2 lines are shared between ImportArchive and ImportFolder 
+            base.Add(preset);
+
+            CreateMasterListItemsFromPreset(preset);
+        }
+
+        public void ImportFolder(string sourceDirectoryPath, Game game)
         {
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourceDirectoryPath);
             Preset preset = new Preset(sourceDirectory.Name, game);
@@ -103,7 +117,7 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void CreatePresetFromActiveFiles(Preset preset)
+        public void ImportActiveFiles(Preset preset)
         {
             // TODO: exception handling
             Add(preset);
@@ -128,7 +142,7 @@ namespace ENBOrganizer.Domain.Services
                 }
             }
         }
-
+        
         public void Install(Preset preset, Game currentGame)
         {
             foreach (FileInfo file in preset.Directory.GetFiles())

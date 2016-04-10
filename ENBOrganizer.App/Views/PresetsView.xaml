@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ENBOrganizer.App.Views"
              xmlns:entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
+             xmlns:converters="clr-namespace:ENBOrganizer.App.Converters"
              xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
              xmlns:mahapps="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
@@ -14,90 +15,108 @@
     </UserControl.DataContext>
 
     <UserControl.Resources>
+        <converters:PathToIconConverter x:Key="PathToIconConverter" />
+        
         <HierarchicalDataTemplate DataType="{x:Type entities:PresetDirectory}" ItemsSource="{Binding Items, Mode=OneWay}">
-            <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path, Mode=OneWay}" Tag="{Binding ElementName=Root}">
-                <TextBlock.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DataContext.DeleteItemCommand, 
+            <StackPanel Orientation="Horizontal" Margin="0 0 5 0">
+                <Rectangle Fill="White" Width="16" Height="16">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_folder}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path, Mode=OneWay}" Tag="{Binding ElementName=Root}" Margin="5 0 0 0">
+                    <TextBlock.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DataContext.DeleteItemCommand, 
                             RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType=ContextMenu}}" />
-                        <MenuItem Header="Add Directory" Command="{Binding PlacementTarget.Tag.DataContext.AddDirectoryCommand, 
+                            <MenuItem Header="Add Directory" Command="{Binding PlacementTarget.Tag.DataContext.AddDirectoryCommand, 
                             RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType=ContextMenu}}" />
-                        <MenuItem Header="Add File" Command="{Binding PlacementTarget.Tag.DataContext.AddFileCommand, 
+                            <MenuItem Header="Add File" Command="{Binding PlacementTarget.Tag.DataContext.AddFileCommand, 
                             RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType=ContextMenu}}" />
-                        <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameCommand, 
+                            <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameCommand, 
                             RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType=ContextMenu}}" />
-                    </ContextMenu>
-                </TextBlock.ContextMenu>
-            </TextBlock>
+                        </ContextMenu>
+                    </TextBlock.ContextMenu>
+                </TextBlock>
+            </StackPanel>
         </HierarchicalDataTemplate>
 
         <DataTemplate DataType="{x:Type entities:PresetFile}">
-            <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path=Path, Mode=OneWay}" Tag="{Binding ElementName=Root}">
-                <TextBlock.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Open" Command="{Binding PlacementTarget.Tag.DataContext.OpenFileCommand, 
+            <StackPanel Orientation="Horizontal" Margin="0 0 5 0">
+                <Image Source="{Binding Path, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
+                                   Width="16" Height="16" />
+                <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path=Path, Mode=OneWay}" Tag="{Binding ElementName=Root}" Margin="5 0 0 0">
+                    <TextBlock.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Open" Command="{Binding PlacementTarget.Tag.DataContext.OpenFileCommand, 
                             RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType=ContextMenu}}" />
-                        <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DataContext.DeleteItemCommand, 
+                            <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DataContext.DeleteItemCommand, 
                             RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType=ContextMenu}}" />
-                        <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameItemCommand, 
+                            <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameItemCommand, 
                             RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType=ContextMenu}}" />
-                    </ContextMenu>
-                </TextBlock.ContextMenu>
-            </TextBlock>
+                        </ContextMenu>
+                    </TextBlock.ContextMenu>
+                </TextBlock>
+            </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel Orientation="Horizontal">
-        <GroupBox Header="Presets">
+    <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+        <Border BorderThickness="0 0 .5 0" BorderBrush="WhiteSmoke" Padding="0 0 15 0">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal">
-                    <controls:DropDownButton HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding TitledCommands, Mode=OneTime}">
-                        <controls:DropDownButton.Content>
+                <Label Content="Presets" Style="{StaticResource DescriptionHeaderStyle}" Margin="0 0 0 5" Padding="0" />
+
+                <Border BorderBrush="WhiteSmoke" BorderThickness=".5" Padding="2">
+                    <StackPanel Orientation="Horizontal">
+                        <controls:DropDownButton HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                             ItemsSource="{Binding TitledCommands, Mode=OneTime}" BorderThickness="0" >
+                            <controls:DropDownButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Fill="White" Width="16" Height="16">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <TextBlock Text="New Preset" Style="{StaticResource ButtonTextStyle}" />
+                                </StackPanel>
+                            </controls:DropDownButton.Content>
+
+                            <controls:DropDownButton.ItemContainerStyle>
+                                <Style TargetType="MenuItem">
+                                    <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
+                                    <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
+                                    <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
+                                    <Setter Property="Padding" Value="3" />
+                                </Style>
+                            </controls:DropDownButton.ItemContainerStyle>
+                        </controls:DropDownButton>
+
+                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                        <Button Padding="{StaticResource ControlPadding}" Command="{Binding AddGameCommand, Mode=OneTime}"
+                        HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0" Background="Transparent">
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Fill="White" Width="16" Height="16">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}" />
+                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_undo}" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Text="New Preset" Style="{StaticResource ButtonTextStyle}" />
+                                <TextBlock Text="Uninstall All" Style="{StaticResource ButtonTextStyle}" />
                             </StackPanel>
-                        </controls:DropDownButton.Content>
-
-                        <controls:DropDownButton.ItemContainerStyle>
-                            <Style TargetType="MenuItem">
-                                <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
-                                <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
-                                <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
-                                <Setter Property="Padding" Value="3" />
-                            </Style>
-                        </controls:DropDownButton.ItemContainerStyle>
-                    </controls:DropDownButton>
-
-                    <Button Padding="{StaticResource ControlPadding}" Command="{Binding AddGameCommand, Mode=OneTime}"
-                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5 0 0 0" BorderThickness="0" Background="Transparent">
-                        <StackPanel Orientation="Horizontal">
-                            <Rectangle Fill="White" Width="16" Height="16">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_undo}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <TextBlock Text="Uninstall All" Style="{StaticResource ButtonTextStyle}" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
-                <DataGrid ItemsSource="{Binding Presets, Mode=OneWay}" SelectedItem="{Binding SelectedPreset}" 
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <ListBox ItemsSource="{Binding Presets, Mode=OneWay}" SelectedItem="{Binding SelectedPreset}" 
                           DisplayMemberPath="Name" Margin="0 5 0 0" />
-
-                <Button Padding="{StaticResource ControlPadding}" HorizontalAlignment="Center" 
-                        VerticalAlignment="Center" Command="{Binding DeleteGameCommand, Mode=OneTime}" Margin="5 0 0 0">
+                <Button Padding="{StaticResource ControlPadding}" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                        Command="{Binding DeleteGameCommand, Mode=OneTime}" Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Fill="White" Width="16" Height="16">
                             <Rectangle.OpacityMask>
@@ -108,17 +127,17 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-        </GroupBox>
+        </Border>
 
-        <GroupBox Header="{Binding SelectedPreset.Name}">
-            <StackPanel Orientation="Vertical" Margin="10 0 0 0">
-                <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" />
-
-                <Label Content="Files and Folders" />
-                <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
-                                MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" HorizontalAlignment="Left" BorderThickness="0 1 0 0"
-                                BorderBrush="White" />
-            </StackPanel>
-        </GroupBox>
+        <StackPanel Orientation="Vertical" Margin="15 0 0 0">
+            <Label Content="{Binding SelectedPreset.Name, Mode=OneWay}" Style="{StaticResource DescriptionHeaderStyle}" Padding="0" />
+            <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" />
+            <Label Content="Files" Margin="{StaticResource ControlMargin}" Padding="0" />
+            <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
+                                    MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" HorizontalAlignment="Left"
+                                    BorderThickness="0 1 0 1" MinWidth="100" />
+            <Label Content="Notes" Margin="{StaticResource ControlMargin}" Padding="0" />
+            <TextBox MinWidth="300" MinHeight="100" HorizontalAlignment="Left" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

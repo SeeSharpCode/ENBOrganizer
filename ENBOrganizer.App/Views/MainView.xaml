@@ -5,8 +5,10 @@
                       xmlns:views="clr-namespace:ENBOrganizer.App.Views"
                       Title="ENB Organizer"
                       TitleCaps="False"
-                      Height="350"
-                      Width="525">
+                      Padding="10" 
+                      SizeToContent="WidthAndHeight">
+    <!--Height="350"
+                      Width="525">-->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <Button Content="Game: Skyrim" />
@@ -22,6 +24,9 @@
                 <views:PresetsView Margin="0 10 0 0" />
             </TabItem>
             <TabItem Header="Master List" BorderBrush="Gray" BorderThickness="0 0 0 1.5">
+                <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            </TabItem>
+            <TabItem Header="Settings" BorderBrush="Gray" BorderThickness="0 0 0 1.5">
                 <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />
             </TabItem>
         </controls:MetroAnimatedSingleRowTabControl>

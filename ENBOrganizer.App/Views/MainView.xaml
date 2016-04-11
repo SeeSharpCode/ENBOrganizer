@@ -6,7 +6,8 @@
                       Title="ENB Organizer"
                       TitleCaps="False"
                       Padding="10" 
-                      SizeToContent="WidthAndHeight">
+                      MinHeight="350"
+                      MinWidth="525">
     <!--Height="350"
                       Width="525">-->
     <controls:MetroWindow.RightWindowCommands>

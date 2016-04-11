@@ -69,11 +69,11 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-        <Border BorderThickness="0 0 .5 0" BorderBrush="WhiteSmoke" Padding="0 0 15 0">
+        <Border BorderThickness="0 0 0 0" BorderBrush="{DynamicResource AccentColorBrush}" Padding="0 0 15 0">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Label Content="Presets" Style="{StaticResource DescriptionHeaderStyle}" Margin="0 0 0 5" Padding="0" />
 
-                <Border BorderBrush="WhiteSmoke" BorderThickness=".5" Padding="2">
+                <Border BorderThickness="1" Padding="2" BorderBrush="WhiteSmoke">
                     <StackPanel Orientation="Horizontal">
                         <controls:DropDownButton HorizontalAlignment="Left" VerticalAlignment="Center" 
                                              ItemsSource="{Binding TitledCommands, Mode=OneTime}" BorderThickness="0" >
@@ -114,7 +114,7 @@
                     </StackPanel>
                 </Border>
                 <ListBox ItemsSource="{Binding Presets, Mode=OneWay}" SelectedItem="{Binding SelectedPreset}" 
-                          DisplayMemberPath="Name" Margin="0 5 0 0" />
+                          DisplayMemberPath="Name" Margin="0 0 0 0" BorderThickness="0 0 0 1" BorderBrush="WhiteSmoke" />
                 <Button Padding="{StaticResource ControlPadding}" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
                         Command="{Binding DeleteGameCommand, Mode=OneTime}" Margin="5">
                     <StackPanel Orientation="Horizontal">

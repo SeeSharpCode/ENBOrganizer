@@ -67,8 +67,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DialogService.cs" />
+    <Compile Include="ViewModels\AddGameViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PresetsViewModel.cs" />
     <Compile Include="ViewModels\TitledCommand.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\AddGameView.xaml.cs">
+      <DependentUpon>AddGameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExtendedTreeView.cs" />
     <Compile Include="Views\PresetsView.xaml.cs">
       <DependentUpon>PresetsView.xaml</DependentUpon>
@@ -76,6 +82,10 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GamesView.xaml">
       <SubType>Designer</SubType>

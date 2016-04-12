@@ -14,9 +14,9 @@ namespace ENBOrganizer.Domain.Services
         // TODO: remove this
         private readonly DataService<MasterListItem> _masterListItemService;
 
-        public PresetService()
+        public PresetService(DataService<MasterListItem> masterListItemService)
         {
-            _masterListItemService = ServiceSingletons.MasterListItemService;
+            _masterListItemService = masterListItemService;
         }
 
         public List<Preset> GetByGame(Game game)

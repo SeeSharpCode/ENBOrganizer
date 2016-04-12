@@ -9,10 +9,8 @@
              xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
              xmlns:mahapps="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsViewModel, Mode=OneTime}"
              mc:Ignorable="d">
-    <UserControl.DataContext>
-        <viewModels:PresetsViewModel />
-    </UserControl.DataContext>
 
     <UserControl.Resources>
         <converters:PathToIconConverter x:Key="PathToIconConverter" />

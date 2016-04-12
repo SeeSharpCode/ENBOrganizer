@@ -6,15 +6,21 @@
                       Title="ENB Organizer"
                       TitleCaps="False"
                       Padding="10" 
-                      MinHeight="350"
-                      MinWidth="525">
-    <!--Height="350"
-                      Width="525">-->
+                      Height="350"
+                      Width="525"
+                      DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
     <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands>
-            <Button Content="Game: Skyrim" />
+        <controls:WindowCommands x:Name="WindowCommands">
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add Game" IsOpen="{Binding GamesViewModel.IsAddGameFlyoutOpen, Mode=TwoWay}" Theme="Accent">
+                <views:AddGameView />
+            </controls:Flyout>
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
     
     <Grid>
         <controls:MetroAnimatedSingleRowTabControl Margin="15 0 0 0">

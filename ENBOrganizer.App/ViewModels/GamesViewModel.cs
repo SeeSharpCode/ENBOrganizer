@@ -19,6 +19,18 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand BrowseCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
 
+        private bool _isAddGameFlyoutOpen;
+
+        public bool IsAddGameFlyoutOpen
+        {
+            get { return _isAddGameFlyoutOpen; }
+            set
+            {
+                _isAddGameFlyoutOpen = value;
+                RaisePropertyChanged("IsAddGameFlyoutOpen");
+            }
+        }
+
         private string _name;
 
         public string Name
@@ -49,14 +61,14 @@ namespace ENBOrganizer.App.ViewModels
             set { _gameService.CurrentGame = value; }
         }
 
-        public GamesViewModel()
+        public GamesViewModel(GameService gameService)
         {
-            _gameService = ServiceSingletons.GameService;
+            _gameService = gameService;
             _gameService.ItemsChanged += OnGamesChanged;
 
             Games = _gameService.GetAll().ToObservableCollection();
 
-            AddGameCommand = new ActionCommand(AddGame, CanAdd);
+            AddGameCommand = new ActionCommand(AddGame, () => true);
             BrowseCommand = new ActionCommand(BrowseForGameFile, () => true);
             DeleteGameCommand = new ActionCommand(DeleteGame, CanDelete);
         }
@@ -94,14 +106,15 @@ namespace ENBOrganizer.App.ViewModels
 
         private void AddGame()
         {
-            try
-            {
-                _gameService.Add(new Game(Name, ExecutablePath));
-            }
-            catch (InvalidOperationException exception)
-            {
-                // TODO: MessageBoxUtil.ShowError(exception.Message);
-            }
+            IsAddGameFlyoutOpen = true;
+            //try
+            //{
+            //    _gameService.Add(new Game(Name, ExecutablePath));
+            //}
+            //catch (InvalidOperationException exception)
+            //{
+            //    // TODO: MessageBoxUtil.ShowError(exception.Message);
+            //}
         }
 
         private void BrowseForGameFile()

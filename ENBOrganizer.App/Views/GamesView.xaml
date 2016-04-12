@@ -7,10 +7,8 @@
              xmlns:ViewModels="clr-namespace:ENBOrganizer.App.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ENBOrganizer.App.Views"
-             mc:Ignorable="d">
-    <UserControl.DataContext>
-        <ViewModels:GamesViewModel />
-    </UserControl.DataContext>
+             mc:Ignorable="d"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel, Mode=OneTime}">
 
     <UserControl.Resources>
         <Converters:PathToIconConverter x:Key="PathToIconConverter" />
@@ -32,7 +30,7 @@
             </ComboBox>
 
         
-            <Button Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}">
+            <Button Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding AddGameCommand, Mode=OneTime}">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />

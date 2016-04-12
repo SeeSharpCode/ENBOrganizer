@@ -9,9 +9,9 @@ namespace ENBOrganizer.Domain.Services
     {
         private readonly DataService<MasterListItem> _masterListItemService;
 
-        public PresetItemsService()
+        public PresetItemsService(DataService<MasterListItem> masterListItemService)
         {
-            _masterListItemService = ServiceSingletons.MasterListItemService;
+            _masterListItemService = masterListItemService;
         }
 
         public List<IPresetItem> GetPresetItems(string path)

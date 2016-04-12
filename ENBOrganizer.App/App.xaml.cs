@@ -10,6 +10,9 @@ namespace ENBOrganizer.App
     // TODO: tooltips for everything
     // TODO: Win10 style on enabled/disabled
     // TODO: notification that preset items are added upon adding preset
+    // TODO: evaluate need for service singletons
+    // TODO: double-check binding modes
+    // TODO: remove margin/padding from labels
     public partial class App : Application
     {
     }

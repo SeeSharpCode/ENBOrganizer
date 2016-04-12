@@ -51,11 +51,11 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        public PresetsViewModel()
+        public PresetsViewModel(PresetService presetService, GameService gameService, PresetItemsService presetItemsService)
         {
-            _presetService = new PresetService();
-            _gameService = ServiceSingletons.GameService;
-            _presetItemsService = new PresetItemsService();
+            _presetService = presetService;
+            _gameService = gameService;
+            _presetItemsService = presetItemsService;
 
             _addBlankPresetCommand = new ActionCommand(AddBlank, () => true);
             _importFolderCommand = new ActionCommand(ImportFolder, () => true);

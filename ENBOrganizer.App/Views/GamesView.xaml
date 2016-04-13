@@ -17,20 +17,21 @@
     <StackPanel Orientation="Vertical">
         <Label Content="Current Game" Style="{DynamicResource DescriptionHeaderStyle}" />
         <StackPanel Orientation="Horizontal">
-        <ComboBox ItemsSource="{Binding Games, Mode=OneWay}" SelectedItem="{Binding Path=CurrentGame, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <ComboBox ItemsSource="{Binding Games, Mode=OneWay}" SelectedItem="{Binding Path=CurrentGame, Mode=TwoWay}" 
+                  HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
                                    Width="16" Height="16" />
-                            <Label Content="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Margin="2 0 0 0" />
+                            <Label Content="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Margin="5 0 0 0" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-        
-            <Button Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding AddGameCommand, Mode=OneTime}">
+
+            <Button Command="{Binding ShowAddGameDialogCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Margin="5 0 0 0">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
@@ -38,7 +39,7 @@
                 </Rectangle>
             </Button>
 
-            <Button Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}">
+            <Button Command="{Binding DeleteGameCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
@@ -46,64 +47,5 @@
                 </Rectangle>
             </Button>
         </StackPanel>
-            
-
-            <!--<Button Margin="5 0 0 0" Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding DeleteGameCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="White" Width="16" Height="16">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_delete}" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <TextBlock Text="Delete" Style="{StaticResource ButtonTextStyle}" />
-                </StackPanel>
-            </Button>-->
-
-        <!--<Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Label Grid.Row="0" Content="Add Game" Style="{DynamicResource DescriptionHeaderStyle}" />
-
-            <Label Grid.Row="1" Grid.Column="0" Content="Name" />
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="100" />
-
-            <Label Grid.Row="2" Grid.Column="0" Margin="{StaticResource ControlMargin}" Content="Executable Path" />
-            <TextBox Grid.Row="2" Grid.Column="1" Margin="{StaticResource ControlMargin}" 
-                     Text="{Binding ExecutablePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="100" />
-
-            <Button Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" Padding="{StaticResource ControlPadding}" 
-                    Command="{Binding BrowseCommand, Mode=OneTime}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="White" Width="16" Height="16">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_folder_open}" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <TextBlock Text="Browse..." Style="{StaticResource ButtonTextStyle}" />
-                </StackPanel>
-            </Button>
-
-            <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Padding="{StaticResource ControlPadding}" 
-                    Command="{Binding AddGameCommand, Mode=OneTime}" VerticalAlignment="Center" Margin="{StaticResource ControlMargin}">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Fill="White" Width="16" Height="16">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <TextBlock Text="Add" Style="{StaticResource ButtonTextStyle}" />
-                </StackPanel>
-            </Button>
-        </Grid>-->
     </StackPanel>
 </UserControl>

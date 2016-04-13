@@ -4,15 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ENBOrganizer.App.Views"
-             mc:Ignorable="d">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="10">
-        <Label Content="Name" />
-        <TextBox Width="100" HorizontalAlignment="Left" />
-        <Label Content="Executable" />
-        <StackPanel Orientation="Horizontal">
-            <TextBox Width="150" />
-            <Button Content="Browse" Margin="5 0 0 0" />
-        </StackPanel>
-        <Button Content="Add" HorizontalAlignment="Right" Margin="{StaticResource ControlMargin}" />
-    </StackPanel>
+             mc:Ignorable="d"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=AddGameViewModel, Mode=OneTime}">
+    <Grid Margin="10">
+        <Grid.Resources>
+            <Style TargetType="RowDefinition">
+                <Setter Property="Height" Value="Auto" />
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Name" Grid.Row="0" Grid.Column="0" />
+        <TextBox Text="{Binding Name}" Width="150" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
+
+        <Label Content="Exe Path" Grid.Row="2" Grid.Column="0" />
+        <TextBox Text="{Binding ExecutablePath}" MaxLength="260" Width="150" HorizontalAlignment="Left" TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" />
+        <Button Content="Browse" Command="{Binding BrowseCommand, Mode=OneTime}" Margin="5 0 0 0" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" />
+
+        <Button Content="Add" Command="{Binding AddGameCommand, Mode=OneTime}" HorizontalAlignment="Right" 
+                Margin="{StaticResource ControlMargin}" Grid.Row="4" Grid.Column="0" />
+    </Grid>
 </UserControl>

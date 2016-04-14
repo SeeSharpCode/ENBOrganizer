@@ -66,76 +66,58 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-        <Border BorderThickness="0 0 0 0" BorderBrush="{DynamicResource AccentColorBrush}" Padding="0 0 15 0">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Label Content="Presets" Style="{StaticResource DescriptionHeaderStyle}" Margin="0 0 0 5" Padding="0" />
+    <StackPanel Orientation="Vertical">
+        <Label Content="Selected Preset" Style="{StaticResource DescriptionHeaderStyle}" />
+        
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style x:Key="CircleDropDownButton"
+                       BasedOn="{StaticResource {x:Type controls:DropDownButton}}"
+                       TargetType="controls:DropDownButton">
+                    <Setter Property="ArrowVisibility" Value="Collapsed" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="ButtonStyle" Value="{DynamicResource MetroCircleButtonStyle}" />
+                    <Setter Property="FocusVisualStyle" Value="{DynamicResource MetroCircleButtonFocusVisual}" />
+                    <Setter Property="Height" Value="48" />
+                    <Setter Property="Width" Value="48" />
+                </Style>
+            </StackPanel.Resources>
 
-                <Border BorderThickness="1" Padding="2" BorderBrush="WhiteSmoke">
-                    <StackPanel Orientation="Horizontal">
-                        <controls:DropDownButton HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                             ItemsSource="{Binding TitledCommands, Mode=OneTime}" BorderThickness="0" >
-                            <controls:DropDownButton.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <Rectangle Fill="White" Width="16" Height="16">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <TextBlock Text="New Preset" Style="{StaticResource ButtonTextStyle}" />
-                                </StackPanel>
-                            </controls:DropDownButton.Content>
+            <ComboBox ItemsSource="{Binding Presets, Mode=OneWay}" SelectedItem="{Binding Path=SelectedPreset, Mode=TwoWay}" 
+                  HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100" DisplayMemberPath="Name" />
 
-                            <controls:DropDownButton.ItemContainerStyle>
-                                <Style TargetType="MenuItem">
-                                    <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
-                                    <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
-                                    <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
-                                    <Setter Property="Padding" Value="3" />
-                                </Style>
-                            </controls:DropDownButton.ItemContainerStyle>
-                        </controls:DropDownButton>
+            <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="5 0 0 0" 
+                                     ItemsSource="{Binding TitledCommands, Mode=OneTime}">
+                <controls:DropDownButton.Icon>
+                    <Viewbox Width="32" Height="32" Stretch="Uniform">
+                        <ContentControl Content="{DynamicResource appbar_add}" Focusable="False" />
+                    </Viewbox>
+                </controls:DropDownButton.Icon>
 
-                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                <controls:DropDownButton.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
+                        <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
+                        <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
+                        <Setter Property="Padding" Value="3" />
+                    </Style>
+                </controls:DropDownButton.ItemContainerStyle>
+            </controls:DropDownButton>
 
-                        <Button Padding="{StaticResource ControlPadding}" Command="{Binding AddGameCommand, Mode=OneTime}"
-                        HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0" Background="Transparent">
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle Fill="White" Width="16" Height="16">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_undo}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <TextBlock Text="Uninstall All" Style="{StaticResource ButtonTextStyle}" />
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </Border>
-                <ListBox ItemsSource="{Binding Presets, Mode=OneWay}" SelectedItem="{Binding SelectedPreset}" 
-                          DisplayMemberPath="Name" Margin="0 0 0 0" BorderThickness="0 0 0 1" BorderBrush="WhiteSmoke" />
-                <Button Padding="{StaticResource ControlPadding}" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
-                        Command="{Binding DeleteGameCommand, Mode=OneTime}" Margin="5">
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Fill="White" Width="16" Height="16">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_delete}" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                        <TextBlock Text="Delete" Style="{StaticResource ButtonTextStyle}" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-        </Border>
-
-        <StackPanel Orientation="Vertical" Margin="15 0 0 0">
-            <Label Content="{Binding SelectedPreset.Name, Mode=OneWay}" Style="{StaticResource DescriptionHeaderStyle}" Padding="0" />
-            <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" />
-            <Label Content="Files" Margin="{StaticResource ControlMargin}" Padding="0" />
-            <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
-                                    MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" HorizontalAlignment="Left"
-                                    BorderThickness="0 1 0 1" MinWidth="100" />
-            <Label Content="Notes" Margin="{StaticResource ControlMargin}" Padding="0" />
-            <TextBox MinWidth="300" MinHeight="100" HorizontalAlignment="Left" />
+            <Button Command="{Binding DeleteGameCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
         </StackPanel>
+
+        <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" />
+        <Label Content="Files" Margin="{StaticResource ControlMargin}" Padding="0" />
+        <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
+                                MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" HorizontalAlignment="Left" MinWidth="300" MinHeight="100" />
+        <Label Content="Notes" Margin="{StaticResource ControlMargin}" Padding="0" />
+        <TextBox MinWidth="300" MinHeight="100" HorizontalAlignment="Left" />
     </StackPanel>
 </UserControl>

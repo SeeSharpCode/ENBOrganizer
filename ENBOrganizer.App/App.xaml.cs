@@ -13,6 +13,7 @@ namespace ENBOrganizer.App
     // TODO: evaluate need for service singletons
     // TODO: double-check binding modes
     // TODO: remove margin/padding from labels
+    // TODO: figure out title bar button size
     public partial class App : Application
     {
     }

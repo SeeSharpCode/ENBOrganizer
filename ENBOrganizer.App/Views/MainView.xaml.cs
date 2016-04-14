@@ -2,10 +2,10 @@
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
+using ENBOrganizer.Util;
 using MahApps.Metro.Controls;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace ENBOrganizer.App
 {
@@ -35,9 +35,20 @@ namespace ENBOrganizer.App
 
         private void LoadGames()
         {
+            WindowCommands.Items.Clear();
+
             foreach (Game game in _gameService.GetAll())
             {
-                Button button = new Button { Content = game.Name, Tag = game };
+                Button button = new Button
+                {
+                    Content = new Image
+                    {
+                        Source = System.Drawing.Icon.ExtractAssociatedIcon(game.ExecutablePath).ToImageSource(),
+                        Width=24,
+                        Height=24,
+                    },
+                    Tag = game
+                };
                 button.Click += Button_Click;
 
                 WindowCommands.Items.Add(button);

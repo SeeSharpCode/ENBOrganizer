@@ -21,19 +21,19 @@
             </controls:Flyout>
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
-    
+
     <Grid>
-        <controls:MetroAnimatedSingleRowTabControl Margin="15 0 0 0">
-            <TabItem Header="Games" BorderBrush="Gray" BorderThickness="0 0 0 1.5">
+        <controls:MetroAnimatedSingleRowTabControl Margin="15 0 0 0" controls:TabControlHelper.IsUnderlined="True">
+            <TabItem Header="Games">
                 <views:GamesView />
             </TabItem>
-            <TabItem Header="Presets" BorderBrush="Gray" BorderThickness="0 0 0 1.5">
+            <TabItem Header="Presets">
                 <views:PresetsView />
             </TabItem>
-            <TabItem Header="Master List" BorderBrush="Gray" BorderThickness="0 0 0 1.5">
+            <TabItem Header="Master List">
                 <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />
             </TabItem>
-            <TabItem Header="Settings" BorderBrush="Gray" BorderThickness="0 0 0 1.5">
+            <TabItem Header="Settings">
                 <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />
             </TabItem>
         </controls:MetroAnimatedSingleRowTabControl>

@@ -14,7 +14,7 @@
 
     <UserControl.Resources>
         <converters:PathToIconConverter x:Key="PathToIconConverter" />
-        
+
         <HierarchicalDataTemplate DataType="{x:Type entities:PresetDirectory}" ItemsSource="{Binding Items, Mode=OneWay}">
             <StackPanel Orientation="Horizontal" Margin="0 0 5 0">
                 <Rectangle Fill="White" Width="16" Height="16">
@@ -68,7 +68,7 @@
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
         <Label Content="Selected Preset" Style="{StaticResource DescriptionHeaderStyle}" />
-        
+
         <StackPanel Orientation="Horizontal">
             <StackPanel.Resources>
                 <Style x:Key="CircleDropDownButton"
@@ -118,5 +118,20 @@
             <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
                                     MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" MinWidth="300" MinHeight="100" BorderThickness="0"  />
         </GroupBox>
+
+        <ListBox ItemsSource="{Binding Presets, Mode=OneWay}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Margin="5" Background="Red">
+                        <Label Content="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </StackPanel>
 </UserControl>

@@ -66,7 +66,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
         <Label Content="Selected Preset" Style="{StaticResource DescriptionHeaderStyle}" />
         
         <StackPanel Orientation="Horizontal">
@@ -84,7 +84,7 @@
             </StackPanel.Resources>
 
             <ComboBox ItemsSource="{Binding Presets, Mode=OneWay}" SelectedItem="{Binding Path=SelectedPreset, Mode=TwoWay}" 
-                  HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100" DisplayMemberPath="Name" />
+                      VerticalAlignment="Center" MinWidth="100" DisplayMemberPath="Name" />
 
             <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="5 0 0 0" 
                                      ItemsSource="{Binding TitledCommands, Mode=OneTime}">
@@ -114,10 +114,9 @@
         </StackPanel>
 
         <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" />
-        <Label Content="Files" Margin="{StaticResource ControlMargin}" Padding="0" />
-        <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
-                                MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" HorizontalAlignment="Left" MinWidth="300" MinHeight="100" />
-        <Label Content="Notes" Margin="{StaticResource ControlMargin}" Padding="0" />
-        <TextBox MinWidth="300" MinHeight="100" HorizontalAlignment="Left" />
+        <GroupBox Header="Files" Width="500" Margin="{StaticResource ControlMargin}">
+            <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
+                                    MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" MinWidth="300" MinHeight="100" BorderThickness="0"  />
+        </GroupBox>
     </StackPanel>
 </UserControl>

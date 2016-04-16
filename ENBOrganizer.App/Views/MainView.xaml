@@ -6,7 +6,7 @@
                       Title="ENB Organizer"
                       TitleCaps="False"
                       Padding="10" 
-                      Height="350"
+                      Height="450"
                       Width="525"
                       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
     <controls:MetroWindow.RightWindowCommands>

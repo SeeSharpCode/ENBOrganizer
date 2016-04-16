@@ -1,6 +1,7 @@
 ﻿using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -45,8 +46,8 @@ namespace ENBOrganizer.App.ViewModels
             _gameService = gameService;
             _gamesViewModel = gamesViewModel;
 
-            BrowseCommand = new ActionCommand(BrowseForGameFile, () => true);
-            AddGameCommand = new ActionCommand(AddGame, CanAdd);
+            BrowseCommand = new RelayCommand(BrowseForGameFile);
+            AddGameCommand = new RelayCommand(AddGame, CanAdd);
         }
 
         private void AddGame()

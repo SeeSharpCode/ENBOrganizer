@@ -3,14 +3,12 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:views="clr-namespace:ENBOrganizer.App.Views"
+                      xmlns:converters="clr-namespace:ENBOrganizer.App.Converters"
+                      xmlns:entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
                       Title="ENB Organizer"
                       TitleCaps="False"
                       SizeToContent="WidthAndHeight"
                       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
-    <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands x:Name="WindowCommands">
-        </controls:WindowCommands>
-    </controls:MetroWindow.RightWindowCommands>
 
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>

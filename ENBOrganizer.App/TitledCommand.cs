@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace ENBOrganizer.App.ViewModels
+namespace ENBOrganizer.App
 {
     public class TitledCommand
     {

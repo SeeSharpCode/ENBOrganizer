@@ -2,6 +2,7 @@
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -43,8 +44,8 @@ namespace ENBOrganizer.App.ViewModels
 
             Games = _gameService.GetAll().ToObservableCollection();
             
-            ShowAddGameDialogCommand = new ActionCommand(() => IsAddGameFlyoutOpen = true, () => true);
-            DeleteGameCommand = new ActionCommand(DeleteGame, CanDelete);
+            ShowAddGameDialogCommand = new RelayCommand(() => IsAddGameFlyoutOpen = true, () => true);
+            DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
         }
 
         private void _gameService_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

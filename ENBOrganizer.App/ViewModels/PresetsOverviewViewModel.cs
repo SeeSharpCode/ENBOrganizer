@@ -1,6 +1,7 @@
 ﻿using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,10 +29,10 @@ namespace ENBOrganizer.App.ViewModels
             _presetService = presetService;
             _gameService = gameService;
 
-            _addBlankPresetCommand = new ActionCommand(AddBlank, () => true);
-            _importFolderCommand = new ActionCommand(ImportFolder, () => true);
-            _importArchiveCommand = new ActionCommand(ImportArchive, () => true);
-            _importActiveFilesCommand = new ActionCommand(ImportActiveFiles, () => true);
+            _addBlankPresetCommand = new RelayCommand(AddBlank, () => true);
+            _importFolderCommand = new RelayCommand(ImportFolder, () => true);
+            _importArchiveCommand = new RelayCommand(ImportArchive, () => true);
+            _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => true);
 
             TitledCommands = new List<TitledCommand>
             {

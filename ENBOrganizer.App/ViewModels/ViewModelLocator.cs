@@ -1,27 +1,29 @@
 ﻿using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace ENBOrganizer.App.ViewModels
 {
     public class ViewModelLocator
     {
-        private readonly static DataService<MasterListItem> _masterListItemService = new DataService<MasterListItem>();
-        private readonly static PresetService _presetService = new PresetService(_masterListItemService);
-        private readonly static GameService _gameService = new GameService();
-        private readonly static PresetItemsService _presetItemsService = new PresetItemsService(_masterListItemService);
+        public ViewModelLocator()
+        {
+            SimpleIoc.Default.Register<GameService>();
+            SimpleIoc.Default.Register<PresetService>();
+            SimpleIoc.Default.Register<DataService<MasterListItem>>();
+            SimpleIoc.Default.Register<PresetItemsService>();
 
-        public static GameService GameService { get { return _gameService; } }
-        
-        private readonly static GamesViewModel _gamesViewModel = new GamesViewModel(GameService);
-        private readonly static MainViewModel _mainViewModel = new MainViewModel(_gamesViewModel);
-        private readonly static AddGameViewModel _addGameViewModel = new AddGameViewModel(GameService, _gamesViewModel);
-        private readonly static PresetsOverviewViewModel _presetsOverviewViewModel = new PresetsOverviewViewModel(_presetService, GameService);
-        private readonly static PresetDetailViewModel _presetDetailViewModel = new PresetDetailViewModel(_presetItemsService);
-        
-        public static GamesViewModel GamesViewModel { get { return _gamesViewModel; } }
-        public static MainViewModel MainViewModel { get { return _mainViewModel; } }
-        public static AddGameViewModel AddGameViewModel { get { return _addGameViewModel; } }
-        public static PresetsOverviewViewModel PresetsOverviewViewModel { get { return _presetsOverviewViewModel; } }
-        public static PresetDetailViewModel PresetDetailViewModel { get { return _presetDetailViewModel; } }
+            SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<AddGameViewModel>();
+            SimpleIoc.Default.Register<PresetsOverviewViewModel>();
+            SimpleIoc.Default.Register<PresetDetailViewModel>();
+            SimpleIoc.Default.Register<GamesViewModel>();
+        }
+
+        public GamesViewModel GamesViewModel { get { return SimpleIoc.Default.GetInstance<GamesViewModel>(); } }
+        public MainViewModel MainViewModel { get { return SimpleIoc.Default.GetInstance<MainViewModel>(); } }
+        public AddGameViewModel AddGameViewModel { get { return SimpleIoc.Default.GetInstance<AddGameViewModel>(); } }
+        public PresetsOverviewViewModel PresetsOverviewViewModel { get { return SimpleIoc.Default.GetInstance<PresetsOverviewViewModel>(); } }
+        public PresetDetailViewModel PresetDetailViewModel { get { return SimpleIoc.Default.GetInstance<PresetDetailViewModel>(); } }
     }
 }

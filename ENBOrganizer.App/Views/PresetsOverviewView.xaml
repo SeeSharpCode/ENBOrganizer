@@ -4,10 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ENBOrganizer.App.Views"
+      xmlns:entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
       mc:Ignorable="d" 
-      Title="PresetsOverviewView" Loaded="Page_Loaded"
+      Title="PresetsOverviewView" 
       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsOverviewViewModel, Mode=OneTime}">
     <Page.Resources>
         <Style x:Key="CircleDropDownButton"
@@ -26,6 +27,12 @@
             <Setter Property="TitleFontSize" Value="14" />
             <Setter Property="Width" Value="300" />
         </Style>
+
+        <DataTemplate DataType="{x:Type entities:Preset}">
+            <controls:Tile Title="{Binding Name}" Style="{StaticResource LargeTileStyle}" Tag="{Binding}" Click="Tile_Click">
+                <controls:ToggleSwitch OffLabel="Disabled" OnLabel="Enabled" />
+            </controls:Tile>
+        </DataTemplate>
     </Page.Resources>
 
     <StackPanel Orientation="Vertical">
@@ -46,7 +53,13 @@
                 </Style>
             </controls:DropDownButton.ItemContainerStyle>
         </controls:DropDownButton>
-
-        <WrapPanel x:Name="PresetsWrapPanel" MaxWidth="800" />
+        
+        <ItemsControl ItemsSource="{Binding Presets}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" MaxWidth="800" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
     </StackPanel>
 </Page>

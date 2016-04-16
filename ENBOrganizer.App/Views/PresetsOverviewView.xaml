@@ -10,11 +10,43 @@
       Title="PresetsOverviewView" Loaded="Page_Loaded"
       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsOverviewViewModel, Mode=OneTime}">
     <Page.Resources>
+        <Style x:Key="CircleDropDownButton"
+                       BasedOn="{StaticResource {x:Type controls:DropDownButton}}"
+                       TargetType="controls:DropDownButton">
+            <Setter Property="ArrowVisibility" Value="Collapsed" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="ButtonStyle" Value="{DynamicResource MetroCircleButtonStyle}" />
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource MetroCircleButtonFocusVisual}" />
+            <Setter Property="Height" Value="48" />
+            <Setter Property="Width" Value="48" />
+        </Style>
+
         <Style x:Key="LargeTileStyle" x:Name="LargeTileStyle" TargetType="controls:Tile">
             <Setter Property="Height" Value="125" />
             <Setter Property="TitleFontSize" Value="14" />
             <Setter Property="Width" Value="300" />
         </Style>
     </Page.Resources>
-    <WrapPanel x:Name="PresetsWrapPanel" MaxWidth="800" />
+
+    <StackPanel Orientation="Vertical">
+        <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
+                                 ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" >
+            <controls:DropDownButton.Icon>
+                <Viewbox Width="32" Height="32" Stretch="Uniform">
+                    <ContentControl Content="{DynamicResource appbar_add}" Focusable="False" />
+                </Viewbox>
+            </controls:DropDownButton.Icon>
+
+            <controls:DropDownButton.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
+                    <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
+                    <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
+                    <Setter Property="Padding" Value="3" />
+                </Style>
+            </controls:DropDownButton.ItemContainerStyle>
+        </controls:DropDownButton>
+
+        <WrapPanel x:Name="PresetsWrapPanel" MaxWidth="800" />
+    </StackPanel>
 </Page>

@@ -5,9 +5,7 @@
                       xmlns:views="clr-namespace:ENBOrganizer.App.Views"
                       Title="ENB Organizer"
                       TitleCaps="False"
-                      Padding="10" 
-                      Height="450"
-                      Width="525"
+                      SizeToContent="WidthAndHeight"
                       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands x:Name="WindowCommands">
@@ -22,13 +20,13 @@
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
 
-    <Grid>
-        <controls:MetroAnimatedSingleRowTabControl Margin="15 0 0 0" controls:TabControlHelper.IsUnderlined="True">
+    <Grid Margin="10 0 10 10">
+        <controls:MetroAnimatedSingleRowTabControl controls:TabControlHelper.IsUnderlined="True">
             <TabItem Header="Games">
                 <views:GamesView />
             </TabItem>
             <TabItem Header="Presets">
-                <views:PresetsView />
+                <Frame Source="PresetsOverviewView.xaml" NavigationUIVisibility="Hidden" Margin="{StaticResource ControlMargin}" />
             </TabItem>
             <TabItem Header="Master List">
                 <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />

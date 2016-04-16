@@ -1,10 +1,10 @@
 ﻿using ENBOrganizer.Util;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
 namespace ENBOrganizer.Model.Entities
 {
+    // TODO: remove entities folder from Model project
     public class Preset : IEntity
     {
         public string Name { get; set; }

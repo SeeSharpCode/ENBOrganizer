@@ -69,6 +69,8 @@
     <Compile Include="DialogService.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PresetDetailViewModel.cs" />
+    <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
     <Compile Include="ViewModels\PresetsViewModel.cs" />
     <Compile Include="ViewModels\TitledCommand.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
@@ -76,6 +78,12 @@
       <DependentUpon>AddGameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedTreeView.cs" />
+    <Compile Include="Views\PresetDetailView.xaml.cs">
+      <DependentUpon>PresetDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PresetsOverviewView.xaml.cs">
+      <DependentUpon>PresetsOverviewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PresetsView.xaml.cs">
       <DependentUpon>PresetsView.xaml</DependentUpon>
     </Compile>
@@ -109,6 +117,14 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PresetDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PresetsOverviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PresetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -67,7 +67,52 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-        <Label Content="Selected Preset" Style="{StaticResource DescriptionHeaderStyle}" />
+        <StackPanel.Resources>
+            <Style x:Key="CircleDropDownButton"
+                       BasedOn="{StaticResource {x:Type controls:DropDownButton}}"
+                       TargetType="controls:DropDownButton">
+                <Setter Property="ArrowVisibility" Value="Collapsed" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="ButtonStyle" Value="{DynamicResource MetroCircleButtonStyle}" />
+                <Setter Property="FocusVisualStyle" Value="{DynamicResource MetroCircleButtonFocusVisual}" />
+                <Setter Property="Height" Value="48" />
+                <Setter Property="Width" Value="48" />
+            </Style>
+
+            <Style x:Key="LargeTileStyle" x:Name="LargeTileStyle" TargetType="controls:Tile">
+                <Setter Property="Height" Value="125" />
+                <Setter Property="TitleFontSize" Value="14" />
+                <Setter Property="Width" Value="300" />
+            </Style>
+
+            <Style x:Key="SmallTileStyle" TargetType="controls:Tile">
+                <Setter Property="Height" Value="125" />
+                <Setter Property="TitleFontSize" Value="10" />
+                <Setter Property="Width" Value="147" />
+            </Style>
+        </StackPanel.Resources>
+
+        <Frame Source="PresetsOverviewView.xaml" NavigationUIVisibility="Hidden" />
+
+        <!--<controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
+                                 ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" >
+            <controls:DropDownButton.Icon>
+                <Viewbox Width="32" Height="32" Stretch="Uniform">
+                    <ContentControl Content="{DynamicResource appbar_add}" Focusable="False" />
+                </Viewbox>
+            </controls:DropDownButton.Icon>
+
+            <controls:DropDownButton.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
+                    <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
+                    <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
+                    <Setter Property="Padding" Value="3" />
+                </Style>
+            </controls:DropDownButton.ItemContainerStyle>
+        </controls:DropDownButton>-->
+
+        <!--<Label Content="Selected Preset" Style="{StaticResource DescriptionHeaderStyle}" />
 
         <StackPanel Orientation="Horizontal">
             <StackPanel.Resources>
@@ -117,21 +162,70 @@
         <GroupBox Header="Files" Width="500" Margin="{StaticResource ControlMargin}">
             <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
                                     MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" MinWidth="300" MinHeight="100" BorderThickness="0"  />
-        </GroupBox>
+        </GroupBox>-->
 
-        <ListBox ItemsSource="{Binding Presets, Mode=OneWay}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical" Margin="5" Background="Red">
-                        <Label Content="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <!--<WrapPanel MaxWidth="800">
+            <controls:Tile HorizontalAlignment="Left" Margin="0 10 10 0" Title="RealVision" Style="{StaticResource LargeTileStyle}">
+                <controls:Tile.Background>
+                    <ImageBrush ImageSource="D:\Pictures\30936-1-1427218733.jpg" Stretch="UniformToFill" />
+                </controls:Tile.Background>
+                <StackPanel>
+                    <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" Margin="{StaticResource ControlMargin}" 
+                                           HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <controls:ToggleSwitch.Effect>
+                            <DropShadowEffect />
+                        </controls:ToggleSwitch.Effect>
+                    </controls:ToggleSwitch>
+                </StackPanel>
+            </controls:Tile>
+
+            <controls:Tile HorizontalAlignment="Left" Margin="0 10 10 0" Style="{StaticResource LargeTileStyle}" Title="Hey">
+                <controls:Tile.Background>
+                    <ImageBrush ImageSource="D:\Pictures\36067-1-1430410218.jpg" Stretch="UniformToFill" />
+                </controls:Tile.Background>
+                <StackPanel>
+                    <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled">
+                        <controls:ToggleSwitch.Effect>
+                            <DropShadowEffect />
+                        </controls:ToggleSwitch.Effect>
+                    </controls:ToggleSwitch>
+                </StackPanel>
+            </controls:Tile>
+
+            <controls:Tile HorizontalAlignment="Left" Margin="0 10 10 0" Title="Sharpshooter's" Style="{StaticResource LargeTileStyle}">
+                <StackPanel>
+                    <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" 
+                                   Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <controls:ToggleSwitch.Effect>
+                            <DropShadowEffect />
+                        </controls:ToggleSwitch.Effect>
+                    </controls:ToggleSwitch>
+                </StackPanel>
+            </controls:Tile>
+
+            <controls:Tile HorizontalAlignment="Left" Margin="0 10 10 0" Title="KLite" Style="{StaticResource LargeTileStyle}">
+                <controls:Tile.Background>
+                    <ImageBrush ImageSource="D:\Pictures\15105-3-1334352572.jpg" Stretch="UniformToFill" />
+                </controls:Tile.Background>
+                <StackPanel>
+                    <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" 
+                                   Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                </StackPanel>
+            </controls:Tile>
+
+            <controls:Tile HorizontalAlignment="Left" Margin="0 10 10 0" Title="Vividian" Style="{StaticResource LargeTileStyle}">
+                <StackPanel>
+                    <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" 
+                                   Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                </StackPanel>
+            </controls:Tile>
+
+            <controls:Tile HorizontalAlignment="Left" Margin="0 10 10 0" Title="Sharpshooter's" Style="{StaticResource LargeTileStyle}">
+                <StackPanel>
+                    <controls:ToggleSwitch IsChecked="True" OffLabel="Disabled" OnLabel="Enabled" 
+                                   Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                </StackPanel>
+            </controls:Tile>
+        </WrapPanel>-->
     </StackPanel>
 </UserControl>

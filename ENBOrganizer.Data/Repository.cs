@@ -1,17 +1,18 @@
-﻿using System;
+﻿using ENBOrganizer.Model.Entities;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
-using ENBOrganizer.Model.Entities;
-using ENBOrganizer.Util;
 
 namespace ENBOrganizer.Data
 {
     public class Repository<TEntity> where TEntity : IEntity
     {
-        private readonly Lazy<List<TEntity>> _items;
         private readonly string _fileName;
+
+        private readonly Lazy<List<TEntity>> _items;
+
+        public List<TEntity> Items { get { return _items.Value; } }
 
         public Repository(string fileName)
         {
@@ -30,16 +31,6 @@ namespace ENBOrganizer.Data
                 XmlSerializer serializer = new XmlSerializer(typeof(List<TEntity>));
                 return (List<TEntity>)serializer.Deserialize(reader);
             }
-        }
-
-        public List<TEntity> GetAll()
-        {
-            return _items.Value.ToList();
-        }
-
-        public TEntity GetByName(string name)
-        {
-            return _items.Value.FirstOrDefault(item => item.Name.EqualsIgnoreCase(name));
         }
 
         /// <exception cref="InvalidOperationException"></exception>

@@ -87,11 +87,11 @@
                 </Rectangle>
             </Button>
         </StackPanel>
-        
-        <GroupBox Header="Files" Width="500" Margin="{StaticResource ControlMargin}">
+
+        <Expander Header="Files" Margin="{StaticResource ControlMargin}">
             <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
                                 MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" MinWidth="300" MinHeight="100" BorderThickness="0" />
-        </GroupBox>
+        </Expander>
 
         <Expander Header="Screenshot">
             <controls:Tile Title="Click to change screenshot" Style="{StaticResource LargeTileStyle}" Command="{Binding ChangePresetImageCommand}">
@@ -99,7 +99,6 @@
                     <ImageBrush ImageSource="{Binding Preset.ImagePath, Mode=OneWay}" />
                 </controls:Tile.Background>
             </controls:Tile>
-
         </Expander>
     </StackPanel>
 </UserControl>

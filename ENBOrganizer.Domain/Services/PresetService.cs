@@ -21,9 +21,23 @@ namespace ENBOrganizer.Domain.Services
 
         public List<Preset> GetByGame(Game game)
         {
-            List<Preset> presets = _repository.GetAll();
+            return _repository.Items.Where(preset => preset.Game.Equals(game)).ToList();
+        }
 
-            return presets.Where(preset => preset.Game.Equals(game)).ToList();
+        public void ChangeImage(ref Preset preset, string imageSource)
+        {
+            DirectoryInfo imagesDirectory = new DirectoryInfo("Images");
+
+            if (!imagesDirectory.Exists)
+                imagesDirectory.Create();
+
+            string targetPath = Path.Combine("Images", preset.Game.Name + preset.Name + Path.GetExtension(imageSource));
+
+            File.Copy(imageSource, targetPath);
+
+            FileInfo file = new FileInfo(targetPath);
+
+            preset.ImagePath = file.FullName;
         }
 
         public new void Add(Preset preset)

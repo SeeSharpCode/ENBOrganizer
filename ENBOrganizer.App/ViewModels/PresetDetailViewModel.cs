@@ -38,6 +38,16 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
+        public string ImagePath
+        {
+            get { return Preset.ImagePath; }
+            set
+            {
+                Preset.ImagePath = value;
+                RaisePropertyChanged("ImagePath");
+            }
+        }
+
         public List<IPresetItem> Items
         {
             get { return _presetItemsService.GetPresetItems(Path.Combine(Preset.Game.PresetsDirectory.FullName, Preset.Name)); }
@@ -60,11 +70,10 @@ namespace ENBOrganizer.App.ViewModels
 
         private void ChangePresetImage()
         {
-            string filePath = DialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
-            string targetPath = Path.Combine(@"C:\Images", Path.GetFileName(filePath));
+            // TODO: filter
+            string imageSource = DialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
 
-            File.Copy(filePath, targetPath);
-            Preset.ImagePath = targetPath;
+            _presetService.ChangeImage(ref _preset, imageSource);
 
             RaisePropertyChanged("Preset");
         }

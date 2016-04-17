@@ -18,7 +18,7 @@ namespace ENBOrganizer.Domain.Services
 
         public List<TEntity> GetAll()
         {
-            return _repository.GetAll();
+            return _repository.Items;
         }
 
         public void Add(TEntity entity)

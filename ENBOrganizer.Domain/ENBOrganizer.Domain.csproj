@@ -55,7 +55,6 @@
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\PresetItemsService.cs" />
     <Compile Include="Services\PresetService.cs" />
-    <Compile Include="Services\ServiceSingletons.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENBOrganizer.Data\ENBOrganizer.Data.csproj">

@@ -1,15 +1,14 @@
 ﻿using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
-using ENBOrganizer.Util;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class AddGameViewModel : ObservableObject
+    public class AddGameViewModel : ViewModelBase
     {
         private readonly GameService _gameService;
         private readonly GamesViewModel _gamesViewModel;
@@ -73,17 +72,13 @@ namespace ENBOrganizer.App.ViewModels
 
         private void BrowseForGameFile()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "EXE Files (*.exe)|*.exe",
-                Title = "Select the game's .exe file"
-            };
+            string gameFilePath = DialogService.PromptForFile("Select the game's .exe file", "EXE Files (*.exe)|*.exe");
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                Name = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
-                ExecutablePath = openFileDialog.FileName;
-            }
+            if (gameFilePath.Equals(string.Empty))
+                return;
+
+            Name = Path.GetFileNameWithoutExtension(gameFilePath);
+            ExecutablePath = gameFilePath;
         }
     }
 }

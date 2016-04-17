@@ -22,5 +22,16 @@ namespace ENBOrganizer.App.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::ENBOrganizer.Model.Entities.Game CurrentGame {
+            get {
+                return ((global::ENBOrganizer.Model.Entities.Game)(this["CurrentGame"]));
+            }
+            set {
+                this["CurrentGame"] = value;
+            }
+        }
     }
 }

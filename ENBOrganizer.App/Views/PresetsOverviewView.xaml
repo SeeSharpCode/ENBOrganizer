@@ -53,7 +53,7 @@
                 </Style>
             </controls:DropDownButton.ItemContainerStyle>
         </controls:DropDownButton>
-        
+
         <ItemsControl ItemsSource="{Binding Presets}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

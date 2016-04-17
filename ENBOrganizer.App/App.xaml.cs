@@ -9,12 +9,13 @@ namespace ENBOrganizer.App
     // TODO: put error message in dialog service
     // TODO: tooltips for everything
     // TODO: Win10 style on enabled/disabled
-    // TODO: notification that preset items are added upon adding preset
+    // TODO: notification that masterlist items are added upon adding preset
     // TODO: evaluate need for service singletons
     // TODO: double-check binding modes
     // TODO: remove margin/padding from labels
     // TODO: figure out title bar button transparency
     // TODO: implement MVVM light
+    // TODO: fix context menu on files treeview
     public partial class App : Application
     {
     }

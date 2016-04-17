@@ -22,16 +22,5 @@ namespace ENBOrganizer.Domain.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::ENBOrganizer.Model.Entities.Game ActiveGame {
-            get {
-                return ((global::ENBOrganizer.Model.Entities.Game)(this["ActiveGame"]));
-            }
-            set {
-                this["ActiveGame"] = value;
-            }
-        }
     }
 }

@@ -12,9 +12,11 @@ namespace ENBOrganizer.App.ViewModels
             SimpleIoc.Default.Register<PresetService>();
             SimpleIoc.Default.Register<DataService<MasterListItem>>();
             SimpleIoc.Default.Register<PresetItemsService>();
+            SimpleIoc.Default.Register<ApplicationSettingsService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AddGameViewModel>();
+            SimpleIoc.Default.Register<GamesViewModel>();
             SimpleIoc.Default.Register<PresetsOverviewViewModel>();
             SimpleIoc.Default.Register<PresetDetailViewModel>();
             SimpleIoc.Default.Register<GamesViewModel>();

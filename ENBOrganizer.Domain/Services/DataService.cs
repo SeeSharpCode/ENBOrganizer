@@ -1,12 +1,11 @@
 ﻿using ENBOrganizer.Data;
 using ENBOrganizer.Model.Entities;
-using ENBOrganizer.Util;
 using System;
 using System.Collections.Generic;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class DataService<TEntity> : ObservableObject where TEntity : IEntity
+    public class DataService<TEntity> where TEntity : IEntity
     {
         protected readonly Repository<TEntity> _repository;
 
@@ -38,8 +37,7 @@ namespace ENBOrganizer.Domain.Services
 
         public void RaiseItemsChanged(RepositoryChangedEventArgs eventArgs)
         {
-            if (ItemsChanged != null)
-                ItemsChanged(this, eventArgs);
+            ItemsChanged?.Invoke(this, eventArgs);
         }
     }
 }

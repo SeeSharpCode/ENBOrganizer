@@ -1,7 +1,8 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
 
 namespace ENBOrganizer.App
@@ -14,7 +15,7 @@ namespace ENBOrganizer.App
             return await window.ShowInputAsync(title, message);
         }
 
-        public static string ShowOpenFileDialog(string title, string filter)
+        public static string PromptForFile(string title, string filter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -23,6 +24,25 @@ namespace ENBOrganizer.App
             };
 
             return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : string.Empty;
+        }
+
+        public static List<string> PromptForFiles(string title, string filter)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = title,
+                Filter = filter,
+                Multiselect = true
+            };
+
+            return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileNames.ToList() : new List<string>();
+        }
+
+        public static string PromptForFolder(string title)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog { Description = title };
+
+            return folderBrowserDialog.ShowDialog() == DialogResult.OK ? folderBrowserDialog.SelectedPath : string.Empty;
         }
     }
 }

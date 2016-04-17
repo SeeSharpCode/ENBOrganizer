@@ -24,7 +24,7 @@ namespace ENBOrganizer.Domain.Services
             return _repository.Items.Where(preset => preset.Game.Equals(game)).ToList();
         }
 
-        public void ChangeImage(ref Preset preset, string imageSource)
+        public void ChangeImage(Preset preset, string imageSource)
         {
             DirectoryInfo imagesDirectory = new DirectoryInfo("Images");
 
@@ -37,7 +37,8 @@ namespace ENBOrganizer.Domain.Services
 
             FileInfo file = new FileInfo(targetPath);
 
-            preset.ImagePath = file.FullName;
+            _repository.Items.First(p => p.Equals(preset)).ImagePath = file.FullName;
+            _repository.SaveChanges();
         }
 
         public new void Add(Preset preset)

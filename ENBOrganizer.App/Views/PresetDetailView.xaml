@@ -94,7 +94,16 @@
         </Expander>
 
         <Expander Header="Screenshot">
-            <controls:Tile Title="Click to change screenshot" Style="{StaticResource LargeTileStyle}" Command="{Binding ChangePresetImageCommand}">
+            <controls:Tile Title="Click to change screenshot" Command="{Binding ChangePresetImageCommand}">
+                <controls:Tile.Style>
+                    <Style BasedOn="{StaticResource LargeTileStyle}" TargetType="controls:Tile">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Preset.ImagePath}" Value="{x:Null}">
+                                <Setter Property="Background" Value="Red" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>                
+                </controls:Tile.Style>
                 <controls:Tile.Background>
                     <ImageBrush ImageSource="{Binding Preset.ImagePath, Mode=OneWay}" />
                 </controls:Tile.Background>

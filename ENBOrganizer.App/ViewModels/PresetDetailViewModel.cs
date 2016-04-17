@@ -73,7 +73,7 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: filter
             string imageSource = DialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
 
-            _presetService.ChangeImage(ref _preset, imageSource);
+            _presetService.ChangeImage(Preset, imageSource);
 
             RaisePropertyChanged("Preset");
         }

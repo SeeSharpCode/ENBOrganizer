@@ -12,7 +12,6 @@ namespace ENBOrganizer.App.ViewModels
             SimpleIoc.Default.Register<PresetService>();
             SimpleIoc.Default.Register<DataService<MasterListItem>>();
             SimpleIoc.Default.Register<PresetItemsService>();
-            SimpleIoc.Default.Register<ApplicationSettingsService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AddGameViewModel>();
@@ -22,10 +21,10 @@ namespace ENBOrganizer.App.ViewModels
             SimpleIoc.Default.Register<GamesViewModel>();
         }
 
+        public PresetsOverviewViewModel PresetsOverviewViewModel { get { return SimpleIoc.Default.GetInstance<PresetsOverviewViewModel>(); } }
         public GamesViewModel GamesViewModel { get { return SimpleIoc.Default.GetInstance<GamesViewModel>(); } }
         public MainViewModel MainViewModel { get { return SimpleIoc.Default.GetInstance<MainViewModel>(); } }
         public AddGameViewModel AddGameViewModel { get { return SimpleIoc.Default.GetInstance<AddGameViewModel>(); } }
-        public PresetsOverviewViewModel PresetsOverviewViewModel { get { return SimpleIoc.Default.GetInstance<PresetsOverviewViewModel>(); } }
         public PresetDetailViewModel PresetDetailViewModel { get { return SimpleIoc.Default.GetInstance<PresetDetailViewModel>(); } }
     }
 }

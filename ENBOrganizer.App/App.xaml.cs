@@ -15,7 +15,8 @@ namespace ENBOrganizer.App
     // TODO: remove margin/padding from labels
     // TODO: figure out title bar button transparency
     // TODO: fix context menu on files treeview
-    // TODO: 
+    // TODO: proper MVVM navigation
+    // TODO: create commands in getters
     public partial class App : Application
     {
     }

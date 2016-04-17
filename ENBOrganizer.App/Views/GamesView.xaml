@@ -9,7 +9,6 @@
              xmlns:local="clr-namespace:ENBOrganizer.App.Views"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel, Mode=OneTime}">
-
     <UserControl.Resources>
         <Converters:PathToIconConverter x:Key="PathToIconConverter" />
     </UserControl.Resources>

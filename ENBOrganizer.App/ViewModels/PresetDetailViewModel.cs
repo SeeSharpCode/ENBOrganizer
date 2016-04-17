@@ -12,10 +12,14 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class PresetDetailViewModel : ViewModelBase
     {
+        private readonly PresetService _presetService;
         private readonly PresetItemsService _presetItemsService;
 
         private Preset _preset;
 
+        public ICommand ChangePresetImageCommand { get; set; }
+        public ICommand GoToPresetsOverviewCommand { get; set; }
+        public ICommand DeletePresetCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
         public ICommand AddFileCommand { get; set; }
         public ICommand AddFolderCommand { get; set; }
@@ -39,15 +43,42 @@ namespace ENBOrganizer.App.ViewModels
             get { return _presetItemsService.GetPresetItems(Path.Combine(Preset.Game.PresetsDirectory.FullName, Preset.Name)); }
         }
 
-        public PresetDetailViewModel(PresetItemsService presetItemsService)
+        public PresetDetailViewModel(PresetService presetServce, PresetItemsService presetItemsService)
         {
+            _presetService = presetServce;
             _presetItemsService = presetItemsService;
 
+            ChangePresetImageCommand = new RelayCommand(ChangePresetImage);
+            GoToPresetsOverviewCommand = new RelayCommand(GoToPresetOverview);
+            DeletePresetCommand = new RelayCommand(DeletePreset);
             DeleteItemCommand = new RelayCommand(DeleteItem);
             AddFileCommand = new RelayCommand(AddFile);
             AddFolderCommand = new RelayCommand(AddFolder);
             OpenFileCommand = new RelayCommand(OpenFile);
             RenameItemCommand = new RelayCommand(RenameItem);
+        }
+
+        private void ChangePresetImage()
+        {
+            string filePath = DialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
+            string targetPath = Path.Combine(@"C:\Images", Path.GetFileName(filePath));
+
+            File.Copy(filePath, targetPath);
+            Preset.ImagePath = targetPath;
+
+            RaisePropertyChanged("Preset");
+        }
+
+        private void GoToPresetOverview()
+        {
+            MessengerInstance.Send(GoToPresetOverviewMessage.Default);
+        }
+
+        private void DeletePreset()
+        {
+            _presetService.Delete(Preset);
+
+            GoToPresetOverview();
         }
 
         private void DeleteItem()

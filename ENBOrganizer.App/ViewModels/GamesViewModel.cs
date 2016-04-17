@@ -4,8 +4,10 @@ using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
@@ -13,7 +15,6 @@ namespace ENBOrganizer.App.ViewModels
     public class GamesViewModel : ViewModelBase
     {
         private readonly GameService _gameService;
-        private readonly ApplicationSettingsService _applicationSettingsService;
 
         public ObservableCollection<Game> Games { get; set; }
         public ICommand ShowAddGameDialogCommand { get; set; }
@@ -30,35 +31,29 @@ namespace ENBOrganizer.App.ViewModels
                 RaisePropertyChanged("IsAddGameFlyoutOpen");
             }
         }
-
-        private Game _currentGame;
-        
+                
         public Game CurrentGame
         {
-            get { return _currentGame; }
+            get { return Properties.Settings.Default.CurrentGame; }
             set
             {
-                _currentGame = value;
+                Properties.Settings.Default.CurrentGame = value;
+                Properties.Settings.Default.Save();
 
-                if (_applicationSettingsService.CurrentGame != value)
-                    _applicationSettingsService.CurrentGame = value;
-                
-                RaisePropertyChanged("CurrentGame", null, _currentGame, true);
+                RaisePropertyChanged("CurrentGame", null, value, true);
             }
         }
 
-        public GamesViewModel(GameService gameService, ApplicationSettingsService applicationSettingsService)
+        public GamesViewModel(GameService gameService)
         {
             _gameService = gameService;
             _gameService.ItemsChanged += _gameService_ItemsChanged; ;
 
-            _applicationSettingsService = applicationSettingsService;
-
-            Games = _gameService.GetAll().ToObservableCollection();
-            CurrentGame = _applicationSettingsService.CurrentGame;
-            
             ShowAddGameDialogCommand = new RelayCommand(() => IsAddGameFlyoutOpen = true, () => true);
             DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
+
+            Games = _gameService.GetAll().ToObservableCollection();
+            MessengerInstance.Send(new PropertyChangedMessage<Game>(null, CurrentGame, "CurrentGame"));
         }
 
         private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

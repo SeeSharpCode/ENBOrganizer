@@ -8,11 +8,16 @@ namespace ENBOrganizer.App.Views
     /// <summary>
     /// Interaction logic for PresetDetailView.xaml
     /// </summary>
-    public partial class PresetDetailView : UserControl
+    public partial class PresetDetailView : Page
     {
         public PresetDetailView()
         {
             InitializeComponent();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
 
         // HACK: Set the selected TreeViewItem on a right-click.

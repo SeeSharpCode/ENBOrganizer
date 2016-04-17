@@ -9,6 +9,7 @@ namespace ENBOrganizer.Model.Entities
     {
         public string Name { get; set; }
         public Game Game { get; set; }
+        public string ImagePath { get; set; }
 
         [XmlIgnore]
         public DirectoryInfo Directory

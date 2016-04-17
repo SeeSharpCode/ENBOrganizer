@@ -82,8 +82,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ApplicationSettingsService.cs" />
     <Compile Include="DialogService.cs" />
+    <Compile Include="GoToPresetDetailMessage.cs" />
+    <Compile Include="GoToPresetOverviewMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PresetDetailViewModel.cs" />

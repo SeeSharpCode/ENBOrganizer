@@ -4,6 +4,7 @@ using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,13 +17,12 @@ namespace ENBOrganizer.App.ViewModels
     public class PresetsOverviewViewModel : ViewModelBase
     {
         private readonly PresetService _presetService;
-        private readonly ApplicationSettingsService _applicationSettingsService;
 
         private readonly ICommand _addBlankPresetCommand;
         private readonly ICommand _importFolderCommand;
         private readonly ICommand _importArchiveCommand;
         private readonly ICommand _importActiveFilesCommand;
-
+        
         private ObservableCollection<Preset> _presets;
 
         public ObservableCollection<Preset> Presets
@@ -35,16 +35,26 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
+        private Game _currentGame;
+
+        public Game CurrentGame
+        {
+            get { return _currentGame; }
+            set
+            {
+                _currentGame = value;
+                LoadPresets();
+            }
+        }
+
+        public ICommand GoToPresetDetailCommand { get; private set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
-        public PresetsOverviewViewModel(PresetService presetService, ApplicationSettingsService applicationSettingsService)
+        public PresetsOverviewViewModel(PresetService presetService)
         {
             _presetService = presetService;
             _presetService.ItemsChanged += _presetService_ItemsChanged;
-
-            _applicationSettingsService = applicationSettingsService;
-            _applicationSettingsService.PropertyChanged += _applicationSettingsService_PropertyChanged;
-
+            
             _addBlankPresetCommand = new RelayCommand(AddBlank, () => true);
             _importFolderCommand = new RelayCommand(ImportFolder, () => true);
             _importArchiveCommand = new RelayCommand(ImportArchive, () => true);
@@ -58,12 +68,25 @@ namespace ENBOrganizer.App.ViewModels
                 new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
             };
 
-            Presets = _presetService.GetByGame(_applicationSettingsService.CurrentGame).ToObservableCollection();
+            GoToPresetDetailCommand = new RelayCommand<Preset>((preset) => MessengerInstance.Send(new GoToPresetDetailMessage(preset)));
+
+            MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentGame = message.NewValue);
+
+            Presets = _presetService.GetByGame(_currentGame).ToObservableCollection();
         }
 
-        private void _applicationSettingsService_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void _gamesViewModel_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            Presets = _presetService.GetByGame(_applicationSettingsService.CurrentGame).ToObservableCollection();
+            if (propertyChangedEventArgs.PropertyName == "CurrentGame")
+                LoadPresets();
+        }
+
+        private void LoadPresets()
+        {
+            Presets.Clear();
+
+            foreach (Preset preset in _presetService.GetByGame(_currentGame))
+                Presets.Add(preset);
         }
 
         private void _presetService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
@@ -79,7 +102,7 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: exception handling
             string name = await DialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
 
-            _presetService.Add(new Preset(name, _applicationSettingsService.CurrentGame));
+            _presetService.Add(new Preset(name, _currentGame));
         }
 
         private async void ImportActiveFiles()
@@ -87,7 +110,7 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: exception handling
             string name = await DialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
 
-            _presetService.ImportActiveFiles(new Preset(name, _applicationSettingsService.CurrentGame));
+            _presetService.ImportActiveFiles(new Preset(name, _currentGame));
         }
 
         private void ImportArchive()
@@ -97,7 +120,7 @@ namespace ENBOrganizer.App.ViewModels
             if (archivePath == string.Empty)
                 return;
 
-            _presetService.ImportArchive(archivePath, _applicationSettingsService.CurrentGame);
+            _presetService.ImportArchive(archivePath, _currentGame);
         }
 
         private void ImportFolder()
@@ -109,7 +132,7 @@ namespace ENBOrganizer.App.ViewModels
 
             try
             {
-                _presetService.ImportFolder(folderPath, _applicationSettingsService.CurrentGame);
+                _presetService.ImportFolder(folderPath, _currentGame);
             }
             catch (InvalidOperationException exception)
             {

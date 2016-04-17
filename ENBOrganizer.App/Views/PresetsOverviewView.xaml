@@ -1,19 +1,15 @@
-﻿<Page x:Class="ENBOrganizer.App.Views.PresetsOverviewView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:ENBOrganizer.App.Views"
-      xmlns:entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
-      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-      xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
-      mc:Ignorable="d" 
-      Title="PresetsOverviewView" 
-      DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsOverviewViewModel, Mode=OneTime}">
-    <Page.Resources>
-        <Style x:Key="CircleDropDownButton"
-                       BasedOn="{StaticResource {x:Type controls:DropDownButton}}"
-                       TargetType="controls:DropDownButton">
+﻿<UserControl x:Class="ENBOrganizer.App.Views.PresetsOverviewViewBackup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ENBOrganizer.App.Views"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
+             mc:Ignorable="d" 
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsOverviewViewModel, Mode=OneTime}">
+    <UserControl.Resources>
+        <Style x:Key="CircleDropDownButton" BasedOn="{StaticResource {x:Type controls:DropDownButton}}" TargetType="controls:DropDownButton">
             <Setter Property="ArrowVisibility" Value="Collapsed" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="ButtonStyle" Value="{DynamicResource MetroCircleButtonStyle}" />
@@ -29,11 +25,12 @@
         </Style>
 
         <DataTemplate DataType="{x:Type entities:Preset}">
-            <controls:Tile Title="{Binding Name}" Style="{StaticResource LargeTileStyle}" Tag="{Binding}" Click="Tile_Click">
+            <controls:Tile Title="{Binding Name}" Style="{StaticResource LargeTileStyle}" CommandParameter="{Binding}" 
+                           Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.GoToPresetDetailCommand, Mode=OneTime}">
                 <controls:ToggleSwitch OffLabel="Disabled" OnLabel="Enabled" />
             </controls:Tile>
         </DataTemplate>
-    </Page.Resources>
+    </UserControl.Resources>
 
     <StackPanel Orientation="Vertical">
         <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
@@ -62,4 +59,4 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
     </StackPanel>
-</Page>
+</UserControl>

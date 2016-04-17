@@ -32,10 +32,18 @@ namespace ENBOrganizer.Domain.Services
                 imagesDirectory.Create();
 
             string targetPath = Path.Combine("Images", preset.Game.Name + preset.Name + Path.GetExtension(imageSource));
+            
+            File.Delete(targetPath);
+
+            FileInfo file = new FileInfo(targetPath);
+
+
+            //if (file.Exists)
+            //    file.Delete();
 
             File.Copy(imageSource, targetPath);
 
-            FileInfo file = new FileInfo(targetPath);
+            
 
             _repository.Items.First(p => p.Equals(preset)).ImagePath = file.FullName;
             _repository.SaveChanges();
@@ -175,6 +183,8 @@ namespace ENBOrganizer.Domain.Services
         public new void Delete(Preset preset)
         {
             preset.Directory.Delete(true);
+
+            File.Delete(preset.ImagePath);
 
             base.Delete(preset);
         }

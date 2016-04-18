@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Domain;
+﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
@@ -18,18 +19,6 @@ namespace ENBOrganizer.App.ViewModels
         public ObservableCollection<Game> Games { get; set; }
         public ICommand ShowAddGameDialogCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
-        
-        private bool _isAddGameFlyoutOpen;
-
-        public bool IsAddGameFlyoutOpen
-        {
-            get { return _isAddGameFlyoutOpen; }
-            set
-            {
-                _isAddGameFlyoutOpen = value;
-                RaisePropertyChanged("IsAddGameFlyoutOpen");
-            }
-        }
                 
         public Game CurrentGame
         {
@@ -48,7 +37,7 @@ namespace ENBOrganizer.App.ViewModels
             _gameService = gameService;
             _gameService.ItemsChanged += _gameService_ItemsChanged; ;
 
-            ShowAddGameDialogCommand = new RelayCommand(() => IsAddGameFlyoutOpen = true, () => true);
+            ShowAddGameDialogCommand = new RelayCommand(() => MessengerInstance.Send(new NavigationMessage(ViewNames.AddGame)), () => true);
             DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
 
             Games = _gameService.GetAll().ToObservableCollection();

@@ -44,7 +44,7 @@
 
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
-            <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add Game" IsOpen="{Binding GamesViewModel.IsAddGameFlyoutOpen, Mode=TwoWay}" Theme="Accent">
+            <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add Game" IsOpen="{Binding IsAddGameFlyoutOpen, Mode=TwoWay}" Theme="Accent">
                 <views:AddGameView />
             </controls:Flyout>
         </controls:FlyoutsControl>

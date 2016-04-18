@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using ENBOrganizer.App.Messages;
+using GalaSoft.MvvmLight;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -8,6 +9,18 @@ namespace ENBOrganizer.App.ViewModels
         private PresetsOverviewViewModel _presetsOverviewViewModel;
         private PresetDetailViewModel _presetDetailViewModel;
 
+        private bool _isAddGameFlyoutOpen;
+
+        public bool IsAddGameFlyoutOpen
+        {
+            get { return _isAddGameFlyoutOpen; }
+            set
+            {
+                _isAddGameFlyoutOpen = value;
+                RaisePropertyChanged("IsAddGameFlyoutOpen");
+            }
+        }
+        
         private ViewModelBase _currentViewModel;
 
         public ViewModelBase CurrentViewModel
@@ -27,7 +40,8 @@ namespace ENBOrganizer.App.ViewModels
 
             CurrentViewModel = _presetsOverviewViewModel;
 
-            MessengerInstance.Register<GoToPresetOverviewMessage>(this, (message) => CurrentViewModel = _presetsOverviewViewModel);
+            // TODO: fix 
+            MessengerInstance.Register<NavigationMessage>(this, (message) => CurrentViewModel = _presetsOverviewViewModel);
             MessengerInstance.Register<GoToPresetDetailMessage>(this, GoToPresetDetailView);
         }
 

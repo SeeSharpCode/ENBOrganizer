@@ -35,9 +35,9 @@ namespace ENBOrganizer.App.ViewModels
         public GamesViewModel(GameService gameService)
         {
             _gameService = gameService;
-            _gameService.ItemsChanged += _gameService_ItemsChanged; ;
+            _gameService.ItemsChanged += _gameService_ItemsChanged;
 
-            ShowAddGameDialogCommand = new RelayCommand(() => MessengerInstance.Send(new NavigationMessage(ViewNames.AddGame)), () => true);
+            ShowAddGameDialogCommand = new RelayCommand(() => DialogService.ShowAddGameDialog());
             DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
 
             Games = _gameService.GetAll().ToObservableCollection();
@@ -46,10 +46,15 @@ namespace ENBOrganizer.App.ViewModels
 
         private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
+            Game game = repositoryChangedEventArgs.Entity as Game;
+
             if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
-                Games.Add(repositoryChangedEventArgs.Entity as Game);
+            {
+                Games.Add(game);
+                CurrentGame = game;
+            }                
             else
-                Games.Remove(repositoryChangedEventArgs.Entity as Game);
+                Games.Remove(game);
         }
 
         private void DeleteGame()

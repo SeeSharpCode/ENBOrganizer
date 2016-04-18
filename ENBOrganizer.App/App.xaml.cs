@@ -11,7 +11,7 @@ namespace ENBOrganizer.App
     // TODO: remove margin/padding from labels
     // TODO: title bar toggle buttons
     // TODO: fix context menu on files treeview
-    // TODO: 
+    // TODO: remove unused icons
     public partial class App : Application
     {
     }

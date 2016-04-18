@@ -61,7 +61,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             finally
             {
-                _gamesViewModel.IsAddGameFlyoutOpen = false;
+                DialogService.CloseAddGameDialog();
             }
         }
 

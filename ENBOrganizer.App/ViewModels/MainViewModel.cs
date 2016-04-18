@@ -39,16 +39,30 @@ namespace ENBOrganizer.App.ViewModels
             _presetDetailViewModel = presetDetailViewModel;
 
             CurrentViewModel = _presetsOverviewViewModel;
-
-            // TODO: fix 
-            MessengerInstance.Register<NavigationMessage>(this, (message) => CurrentViewModel = _presetsOverviewViewModel);
-            MessengerInstance.Register<GoToPresetDetailMessage>(this, GoToPresetDetailView);
+            
+            MessengerInstance.Register<NavigationMessage>(this, true, (message) => OnNavigationMessage(message));
+            MessengerInstance.Register<DialogMessage>(this, (message) => OnDialogMessage(message));
         }
 
-        private void GoToPresetDetailView(GoToPresetDetailMessage message)
+        private void OnNavigationMessage(NavigationMessage navigationMessage)
         {
-            _presetDetailViewModel.Preset = message.Preset;
-            CurrentViewModel = _presetDetailViewModel;
+            switch (navigationMessage.ViewName)
+            {
+                case ViewNames.PresetDetail:
+                    _presetDetailViewModel.Preset = ((PresetDetailNavigationMessage)navigationMessage).Preset;
+                    CurrentViewModel = _presetDetailViewModel;
+                    break;
+                case ViewNames.PresetsOverview:
+                    CurrentViewModel = _presetsOverviewViewModel;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void OnDialogMessage(DialogMessage dialogMessage)
+        {
+            IsAddGameFlyoutOpen = dialogMessage.DialogAction == DialogActions.Open;
         }
     }
 }

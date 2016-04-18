@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Domain.Services;
+﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -59,13 +60,18 @@ namespace ENBOrganizer.App.ViewModels
             _presetItemsService = presetItemsService;
 
             ChangePresetImageCommand = new RelayCommand(ChangePresetImage);
-            GoToPresetsOverviewCommand = new RelayCommand(GoToPresetOverview);
+            GoToPresetsOverviewCommand = new RelayCommand(NavigateToPresetsOverview);
             DeletePresetCommand = new RelayCommand(DeletePreset);
             DeleteItemCommand = new RelayCommand(DeleteItem);
             AddFileCommand = new RelayCommand(AddFile);
             AddFolderCommand = new RelayCommand(AddFolder);
             OpenFileCommand = new RelayCommand(OpenFile);
             RenameItemCommand = new RelayCommand(RenameItem);
+        }
+
+        private void NavigateToPresetsOverview()
+        {
+            MessengerInstance.Send(new NavigationMessage(ViewNames.PresetsOverview));
         }
 
         private void ChangePresetImage()
@@ -78,16 +84,11 @@ namespace ENBOrganizer.App.ViewModels
             RaisePropertyChanged("Preset");
         }
 
-        private void GoToPresetOverview()
-        {
-            MessengerInstance.Send(GoToPresetOverviewMessage.Default);
-        }
-
         private void DeletePreset()
         {
             _presetService.Delete(Preset);
 
-            GoToPresetOverview();
+            NavigateToPresetsOverview();
         }
 
         private void DeleteItem()

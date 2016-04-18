@@ -26,7 +26,7 @@
 
         <DataTemplate DataType="{x:Type entities:Preset}">
             <controls:Tile Title="{Binding Name}" Style="{StaticResource LargeTileStyle}" CommandParameter="{Binding}" 
-                           Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.GoToPresetDetailCommand, Mode=OneTime}">
+                           Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.NavigateToPresetDetailCommand, Mode=OneTime}">
                 <controls:ToggleSwitch OffLabel="Disabled" OnLabel="Enabled" />
             </controls:Tile>
         </DataTemplate>

@@ -83,7 +83,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DialogService.cs" />
-    <Compile Include="Messages\PresetNavigationMessage.cs" />
+    <Compile Include="Messages\DialogMessage.cs" />
+    <Compile Include="Messages\PresetDetailNavigationMessage.cs" />
     <Compile Include="Messages\NavigationMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

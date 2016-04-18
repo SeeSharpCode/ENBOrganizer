@@ -1,4 +1,6 @@
-﻿using MahApps.Metro.Controls;
+﻿using ENBOrganizer.App.Messages;
+using GalaSoft.MvvmLight.Messaging;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +45,16 @@ namespace ENBOrganizer.App
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog { Description = title };
 
             return folderBrowserDialog.ShowDialog() == DialogResult.OK ? folderBrowserDialog.SelectedPath : string.Empty;
+        }
+
+        public static void ShowAddGameDialog()
+        {
+            Messenger.Default.Send(new DialogMessage(DialogActions.Open));
+        }
+
+        public static void CloseAddGameDialog()
+        {
+            Messenger.Default.Send(new DialogMessage(DialogActions.Close));
         }
     }
 }

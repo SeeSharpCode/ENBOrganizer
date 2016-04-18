@@ -1,13 +1,14 @@
-﻿namespace ENBOrganizer.App.Messages
+﻿using GalaSoft.MvvmLight.Messaging;
+
+namespace ENBOrganizer.App.Messages
 {
     public enum ViewNames
     {
         PresetsOverview,
-        PresetDetail,
-        AddGame
+        PresetDetail
     }
 
-    public class NavigationMessage
+    public class NavigationMessage : MessageBase
     {
         public ViewNames ViewName { get; set; }
 

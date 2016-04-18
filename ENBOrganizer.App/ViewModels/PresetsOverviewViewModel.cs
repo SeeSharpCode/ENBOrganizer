@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Domain;
+﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
@@ -47,7 +48,7 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        public ICommand GoToPresetDetailCommand { get; private set; }
+        public ICommand NavigateToPresetDetailCommand { get; private set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
         public PresetsOverviewViewModel(PresetService presetService)
@@ -68,7 +69,7 @@ namespace ENBOrganizer.App.ViewModels
                 new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
             };
 
-            GoToPresetDetailCommand = new RelayCommand<Preset>((preset) => MessengerInstance.Send(new GoToPresetDetailMessage(preset)));
+            NavigateToPresetDetailCommand = new RelayCommand<Preset>((preset) => MessengerInstance.Send(new PresetDetailNavigationMessage(preset)));
 
             MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentGame = message.NewValue);
 

@@ -2,11 +2,11 @@
 
 namespace ENBOrganizer.App.Messages
 {
-    public class PresetNavigationMessage : NavigationMessage
+    public class PresetDetailNavigationMessage : NavigationMessage
     {
         public Preset Preset { get; set; }
 
-        public PresetNavigationMessage(Preset preset)
+        public PresetDetailNavigationMessage(Preset preset)
             : base(ViewNames.PresetDetail)
         {
             Preset = preset;

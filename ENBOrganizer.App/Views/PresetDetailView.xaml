@@ -97,16 +97,16 @@
             <controls:Tile Title="Click to change screenshot" Command="{Binding ChangePresetImageCommand}">
                 <controls:Tile.Style>
                     <Style BasedOn="{StaticResource LargeTileStyle}" TargetType="controls:Tile">
-                        <Setter Property="Content">
+                        <Setter Property="Background">
                             <Setter.Value>
-                                <Image Source="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Preset.ImagePath}" />
+                                <ImageBrush ImageSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Preset.ImagePath}" />
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
                                 Path=DataContext.Preset.ImagePath}"
                                          Value="{x:Null}">
-                                <Setter Property="Content" Value="{x:Null}" />
+                                <Setter Property="Background" Value="{DynamicResource AccentColorBrush}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

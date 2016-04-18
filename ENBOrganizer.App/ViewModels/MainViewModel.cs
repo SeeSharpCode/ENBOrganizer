@@ -2,6 +2,7 @@
 
 namespace ENBOrganizer.App.ViewModels
 {
+    // TODO: fix add game with messaging
     public class MainViewModel : ViewModelBase
     {
         private PresetsOverviewViewModel _presetsOverviewViewModel;

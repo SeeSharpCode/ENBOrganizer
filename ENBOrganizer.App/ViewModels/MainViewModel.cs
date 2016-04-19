@@ -1,9 +1,10 @@
 ﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Model.Entities;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    // TODO: fix add game with messaging
     public class MainViewModel : ViewModelBase
     {
         private PresetsOverviewViewModel _presetsOverviewViewModel;
@@ -39,8 +40,9 @@ namespace ENBOrganizer.App.ViewModels
             _presetDetailViewModel = presetDetailViewModel;
 
             CurrentViewModel = _presetsOverviewViewModel;
-            
-            MessengerInstance.Register<NavigationMessage>(this, true, (message) => OnNavigationMessage(message));
+
+            MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentViewModel = _presetsOverviewViewModel);
+            MessengerInstance.Register<NavigationMessage>(this, true, OnNavigationMessage);
             MessengerInstance.Register<DialogMessage>(this, (message) => OnDialogMessage(message));
         }
 

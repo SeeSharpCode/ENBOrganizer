@@ -1,5 +1,4 @@
-﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.Domain;
+﻿using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
@@ -15,11 +14,22 @@ namespace ENBOrganizer.App.ViewModels
     public class GamesViewModel : ViewModelBase
     {
         private readonly GameService _gameService;
-
-        public ObservableCollection<Game> Games { get; set; }
+        
         public ICommand ShowAddGameDialogCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
-                
+
+        private ObservableCollection<Game> _games;
+
+        public ObservableCollection<Game> Games
+        {
+            get { return _games; }
+            set
+            {
+                _games = value;
+                RaisePropertyChanged("Games");
+            }
+        }
+
         public Game CurrentGame
         {
             get { return Properties.Settings.Default.CurrentGame; }
@@ -28,7 +38,7 @@ namespace ENBOrganizer.App.ViewModels
                 Properties.Settings.Default.CurrentGame = value;
                 Properties.Settings.Default.Save();
 
-                RaisePropertyChanged("CurrentGame", null, value, true);
+                RaisePropertyChanged("CurrentGame");
             }
         }
 

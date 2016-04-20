@@ -89,16 +89,10 @@
 
         <Expander Header="Tile Screenshot">
             <StackPanel Orientation="Vertical">
-                <Canvas>
-                    
-                </Canvas>
-                <Image MaxWidth="600" MaxHeight="337" HorizontalAlignment="Left" Stretch="UniformToFill">
-                    <Image.Source>
-                        <BitmapImage UriSource="C:\Users\Tyler\Pictures\30936-1-1427213147.jpg" CacheOption="OnLoad" />
-                    </Image.Source>
-                </Image>
+                <Image Source="{Binding Preset.ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}"
+                       MaxWidth="600" MaxHeight="337" HorizontalAlignment="Left" Stretch="UniformToFill" />
                 <Button HorizontalAlignment="Right">
-                    <TextBlock Text="Save" Style="{StaticResource ButtonTextStyle}" />
+                    <TextBlock Text="Change" Style="{StaticResource ButtonTextStyle}" />
                 </Button>
             </StackPanel>
         </Expander>

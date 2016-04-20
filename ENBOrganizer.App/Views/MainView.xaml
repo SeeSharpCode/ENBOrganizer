@@ -12,39 +12,29 @@
                       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
     <controls:MetroWindow.Resources>
         <converters:PathToIconConverter x:Key="PathToIconConverter" />
+        <converters:GameToWindowCommandConverter x:Key="GameToWindowCommandConverter" />
 
         <DataTemplate DataType="{x:Type viewModels:PresetDetailViewModel}">
             <views:PresetDetailView />
         </DataTemplate>
+        
         <DataTemplate DataType="{x:Type viewModels:PresetsOverviewViewModel}">
             <views:PresetsOverviewViewBackup />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type entities:Game}">
-            <!--<ToggleButton Margin="0 0 5 0" Command="{Binding SetCurrentGameCommand, Mode=OneTime}" CommandParameter="{Binding}">
-                <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" Height="24" Width="24" />
-            </ToggleButton>-->
-            <Button Content="{Binding Name, Mode=OneWay}" 
-                    Command="{Binding RelativeSource={RelativeSource AncestorType=controls:MetroWindow}, Path=DataContext.SetCurrentGameCommand}" 
-                    CommandParameter="{Binding}"/>
+            <Button Content="{Binding Name}" />
         </DataTemplate>
     </controls:MetroWindow.Resources>
 
     <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands>
-            <ItemsControl ItemsSource="{Binding GamesViewModel.Games}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </controls:WindowCommands>
+        <controls:WindowCommands ItemsSource="{Binding GamesViewModel.Games, Converter={StaticResource GameToWindowCommandConverter}}" />
     </controls:MetroWindow.RightWindowCommands>
 
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
-            <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add Game" IsOpen="{Binding IsAddGameFlyoutOpen, Mode=TwoWay}" Theme="Accent">
+            <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add Game" 
+                             IsOpen="{Binding IsAddGameFlyoutOpen, Mode=TwoWay}" Theme="Accent">
                 <views:AddGameView />
             </controls:Flyout>
         </controls:FlyoutsControl>
@@ -57,7 +47,6 @@
             </TabItem>
             <TabItem Header="Presets">
                 <ContentControl Content="{Binding CurrentViewModel}" />
-                <!--<Frame Source="PresetsOverviewView.xaml" NavigationUIVisibility="Hidden" Margin="{StaticResource ControlMargin}" />-->
             </TabItem>
             <TabItem Header="Master List">
                 <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />

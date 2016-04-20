@@ -2,6 +2,7 @@
 using ENBOrganizer.Model.Entities;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using System.ComponentModel;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -9,6 +10,8 @@ namespace ENBOrganizer.App.ViewModels
     {
         private PresetsOverviewViewModel _presetsOverviewViewModel;
         private PresetDetailViewModel _presetDetailViewModel;
+
+        public GamesViewModel GamesViewModel { get; set; }
 
         private bool _isAddGameFlyoutOpen;
 
@@ -34,16 +37,23 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        public MainViewModel(PresetsOverviewViewModel presetsOverviewViewModel, PresetDetailViewModel presetDetailViewModel)
+        public MainViewModel(PresetsOverviewViewModel presetsOverviewViewModel, PresetDetailViewModel presetDetailViewModel, GamesViewModel gamesViewModel)
         {
             _presetsOverviewViewModel = presetsOverviewViewModel;
             _presetDetailViewModel = presetDetailViewModel;
+            GamesViewModel = gamesViewModel;
+            GamesViewModel.PropertyChanged += GamesViewModel_PropertyChanged;
 
             CurrentViewModel = _presetsOverviewViewModel;
-
-            MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentViewModel = _presetsOverviewViewModel);
+            
             MessengerInstance.Register<NavigationMessage>(this, true, OnNavigationMessage);
             MessengerInstance.Register<DialogMessage>(this, (message) => OnDialogMessage(message));
+        }
+
+        private void GamesViewModel_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == "CurrentGame")
+                CurrentViewModel = _presetsOverviewViewModel;
         }
 
         private void OnNavigationMessage(NavigationMessage navigationMessage)

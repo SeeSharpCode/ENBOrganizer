@@ -25,19 +25,18 @@
         </Style>
 
         <DataTemplate DataType="{x:Type entities:Preset}">
-            <controls:Tile Title="{Binding Name}" Style="{StaticResource LargeTileStyle}" CommandParameter="{Binding}" 
+            <controls:Tile x:Name="PresetTile" Title="{Binding Name}" Style="{StaticResource LargeTileStyle}" CommandParameter="{Binding}" 
                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.NavigateToPresetDetailCommand, Mode=OneTime}">
                 <controls:Tile.Background>
-                    <ImageBrush>
-                        <ImageBrush.ImageSource>
-                            <BitmapImage>
-                                
-                            </BitmapImage>
-                        </ImageBrush.ImageSource>
-                    </ImageBrush>
+                    <ImageBrush ImageSource="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" />
                 </controls:Tile.Background>
                 <controls:ToggleSwitch OffLabel="Disabled" OnLabel="Enabled" />
             </controls:Tile>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" Value="{x:Null}">
+                    <Setter TargetName="PresetTile" Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
         </DataTemplate>
     </UserControl.Resources>
 

@@ -30,9 +30,10 @@
         <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
 
         <Label Content="Exe Path" Grid.Row="2" Grid.Column="0" />
-        <TextBox Text="{Binding ExecutablePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="260" Width="150" HorizontalAlignment="Left" TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" />
+        <TextBox Text="{Binding ExecutablePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="260" Width="150" HorizontalAlignment="Left" 
+                 TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" />
         <Button Command="{Binding BrowseCommand, Mode=OneTime}" Margin="5 0 0 0" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1">
-            <TextBlock Text="Browse" Style="{StaticResource ButtonTextStyle}" />
+            <TextBlock Text="Browse..." Style="{StaticResource ButtonTextStyle}" />
         </Button>
 
         <Button Command="{Binding AddGameCommand, Mode=OneTime}" HorizontalAlignment="Right" Margin="{StaticResource ControlMargin}" 

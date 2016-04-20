@@ -89,34 +89,18 @@
 
         <Expander Header="Tile Screenshot">
             <StackPanel Orientation="Vertical">
+                <Canvas>
+                    
+                </Canvas>
                 <Image MaxWidth="600" MaxHeight="337" HorizontalAlignment="Left" Stretch="UniformToFill">
                     <Image.Source>
-                        <BitmapImage UriSource="D:\Pictures\15105-3-1334352572.jpg" CacheOption="OnLoad" />
+                        <BitmapImage UriSource="C:\Users\Tyler\Pictures\30936-1-1427213147.jpg" CacheOption="OnLoad" />
                     </Image.Source>
                 </Image>
                 <Button HorizontalAlignment="Right">
                     <TextBlock Text="Save" Style="{StaticResource ButtonTextStyle}" />
                 </Button>
             </StackPanel>
-            
-            <!--<controls:Tile Title="Click to change screenshot" Command="{Binding ChangePresetImageCommand}">
-                <controls:Tile.Style>
-                    <Style BasedOn="{StaticResource LargeTileStyle}" TargetType="controls:Tile">
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <ImageBrush ImageSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Preset.ImagePath}" />
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                Path=DataContext.Preset.ImagePath}"
-                                         Value="{x:Null}">
-                                <Setter Property="Background" Value="{DynamicResource AccentColorBrush}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </controls:Tile.Style>
-            </controls:Tile>-->
         </Expander>
     </StackPanel>
 </UserControl>

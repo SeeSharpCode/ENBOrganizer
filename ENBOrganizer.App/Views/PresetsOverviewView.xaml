@@ -27,6 +27,15 @@
         <DataTemplate DataType="{x:Type entities:Preset}">
             <controls:Tile Title="{Binding Name}" Style="{StaticResource LargeTileStyle}" CommandParameter="{Binding}" 
                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.NavigateToPresetDetailCommand, Mode=OneTime}">
+                <controls:Tile.Background>
+                    <ImageBrush>
+                        <ImageBrush.ImageSource>
+                            <BitmapImage>
+                                
+                            </BitmapImage>
+                        </ImageBrush.ImageSource>
+                    </ImageBrush>
+                </controls:Tile.Background>
                 <controls:ToggleSwitch OffLabel="Disabled" OnLabel="Enabled" />
             </controls:Tile>
         </DataTemplate>

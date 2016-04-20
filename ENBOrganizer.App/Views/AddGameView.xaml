@@ -14,11 +14,11 @@
         </Grid.Resources>
 
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -27,13 +27,17 @@
         </Grid.ColumnDefinitions>
 
         <Label Content="Name" Grid.Row="0" Grid.Column="0" />
-        <TextBox Text="{Binding Name}" Width="150" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
+        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
 
         <Label Content="Exe Path" Grid.Row="2" Grid.Column="0" />
-        <TextBox Text="{Binding ExecutablePath}" MaxLength="260" Width="150" HorizontalAlignment="Left" TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" />
-        <Button Content="Browse" Command="{Binding BrowseCommand, Mode=OneTime}" Margin="5 0 0 0" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" />
+        <TextBox Text="{Binding ExecutablePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="260" Width="150" HorizontalAlignment="Left" TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" />
+        <Button Command="{Binding BrowseCommand, Mode=OneTime}" Margin="5 0 0 0" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1">
+            <TextBlock Text="Browse" Style="{StaticResource ButtonTextStyle}" />
+        </Button>
 
-        <Button Content="Add" Command="{Binding AddGameCommand, Mode=OneTime}" HorizontalAlignment="Right" 
-                Margin="{StaticResource ControlMargin}" Grid.Row="4" Grid.Column="0" />
+        <Button Command="{Binding AddGameCommand, Mode=OneTime}" HorizontalAlignment="Right" Margin="{StaticResource ControlMargin}" 
+                Grid.Row="4" Grid.Column="0" VerticalAlignment="Top">
+            <TextBlock Text="Save" Style="{StaticResource ButtonTextStyle}" />
+        </Button>
     </Grid>
 </UserControl>

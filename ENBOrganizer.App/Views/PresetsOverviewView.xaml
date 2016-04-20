@@ -32,7 +32,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
         <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
                                  ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" >
             <controls:DropDownButton.Icon>

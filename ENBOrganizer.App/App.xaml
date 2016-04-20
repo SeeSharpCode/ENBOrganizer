@@ -11,23 +11,26 @@
     <Application.Resources>
         <ResourceDictionary>
             <viewModels:ViewModelLocator x:Key="ViewModelLocator" />
+
             <Style TargetType="Label">
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="Padding" Value="0" />
             </Style>
+
             <Style x:Key="DescriptionHeaderStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="22" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="Padding" Value="0" />
             </Style>
+
             <Style x:Key="ButtonTextStyle" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="12" />
                 <Setter Property="FontWeight" Value="Normal" />
-                <Setter Property="Margin" Value="3 0 0 0" />
             </Style>
-            
+
+
             <Thickness x:Key="ControlMargin">0 5 0 0</Thickness>
             <Thickness x:Key="ControlPadding">10 5 10 5</Thickness>
 

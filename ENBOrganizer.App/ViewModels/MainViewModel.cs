@@ -45,8 +45,9 @@ namespace ENBOrganizer.App.ViewModels
             GamesViewModel.PropertyChanged += GamesViewModel_PropertyChanged;
 
             CurrentViewModel = _presetsOverviewViewModel;
-            
-            MessengerInstance.Register<NavigationMessage>(this, true, OnNavigationMessage);
+
+            MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (jkljl) => CurrentViewModel = GamesViewModel);
+            MessengerInstance.Register<NavigationMessage>(this, OnNavigationMessage);
             MessengerInstance.Register<DialogMessage>(this, (message) => OnDialogMessage(message));
         }
 
@@ -56,12 +57,18 @@ namespace ENBOrganizer.App.ViewModels
                 CurrentViewModel = _presetsOverviewViewModel;
         }
 
+        private void OnPresetMessage(Preset preset)
+        {
+            _presetDetailViewModel.Preset = preset;
+            CurrentViewModel = _presetDetailViewModel;
+        }
+
         private void OnNavigationMessage(NavigationMessage navigationMessage)
         {
             switch (navigationMessage.ViewName)
             {
                 case ViewNames.PresetDetail:
-                    _presetDetailViewModel.Preset = ((PresetDetailNavigationMessage)navigationMessage).Preset;
+                    _presetDetailViewModel.Preset = navigationMessage.Model as Preset;
                     CurrentViewModel = _presetDetailViewModel;
                     break;
                 case ViewNames.PresetsOverview:

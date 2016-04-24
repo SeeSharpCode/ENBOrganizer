@@ -86,7 +86,6 @@
     <Compile Include="Converters\PathToBitmapConverter.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
-    <Compile Include="Messages\PresetDetailNavigationMessage.cs" />
     <Compile Include="Messages\NavigationMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

@@ -9,7 +9,6 @@ using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
 
@@ -18,6 +17,7 @@ namespace ENBOrganizer.App.ViewModels
     public class PresetsOverviewViewModel : ViewModelBase
     {
         private readonly PresetService _presetService;
+        private readonly PresetDetailViewModel _presetDetailViewModel;
 
         private readonly ICommand _addBlankPresetCommand;
         private readonly ICommand _importFolderCommand;
@@ -48,13 +48,15 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        public ICommand NavigateToPresetDetailCommand { get; private set; }
+        public ICommand SelectPresetCommand { get; private set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
-        public PresetsOverviewViewModel(PresetService presetService)
+        public PresetsOverviewViewModel(PresetService presetService, PresetDetailViewModel presetDetailViewModel)
         {
             _presetService = presetService;
             _presetService.ItemsChanged += _presetService_ItemsChanged;
+
+            _presetDetailViewModel = presetDetailViewModel;
             
             _addBlankPresetCommand = new RelayCommand(AddBlank, () => true);
             _importFolderCommand = new RelayCommand(ImportFolder, () => true);
@@ -69,17 +71,18 @@ namespace ENBOrganizer.App.ViewModels
                 new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
             };
 
-            NavigateToPresetDetailCommand = new RelayCommand<Preset>((preset) => MessengerInstance.Send(new PresetDetailNavigationMessage(preset)));
+
+            SelectPresetCommand = new RelayCommand<Preset>(SelectPreset);
 
             MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentGame = message.NewValue);
 
             Presets = _presetService.GetByGame(_currentGame).ToObservableCollection();
         }
 
-        private void _gamesViewModel_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void SelectPreset(Preset preset)
         {
-            if (propertyChangedEventArgs.PropertyName == "CurrentGame")
-                LoadPresets();
+            _presetDetailViewModel.Preset = preset;
+            MessengerInstance.Send(new NavigationMessage(_presetDetailViewModel));
         }
 
         private void LoadPresets()

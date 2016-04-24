@@ -12,6 +12,7 @@ using System.Windows.Media;
 
 namespace ENBOrganizer.App.Converters
 {
+    // TODO: get rid of this
     public class GameToWindowCommandConverter : IValueConverter
     {
         public PathToIconConverter PathToIconConverter { get; set; }

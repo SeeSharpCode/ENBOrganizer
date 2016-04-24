@@ -38,7 +38,7 @@ namespace ENBOrganizer.App.ViewModels
                 Properties.Settings.Default.CurrentGame = value;
                 Properties.Settings.Default.Save();
 
-                RaisePropertyChanged("CurrentGame");
+                RaisePropertyChanged("CurrentGame", null, value, true);
             }
         }
 

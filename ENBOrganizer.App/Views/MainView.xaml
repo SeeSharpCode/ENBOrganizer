@@ -17,12 +17,12 @@
         <DataTemplate DataType="{x:Type viewModels:PresetDetailViewModel}">
             <views:PresetDetailView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type viewModels:PresetsOverviewViewModel}">
             <views:PresetsOverviewViewBackup />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type entities:Game}">
+        <DataTemplate x:Key="Test" DataType="{x:Type entities:Game}">
             <Button Content="{Binding Name}" />
         </DataTemplate>
     </controls:MetroWindow.Resources>

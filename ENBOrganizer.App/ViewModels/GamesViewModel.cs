@@ -4,9 +4,9 @@ using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
@@ -14,7 +14,8 @@ namespace ENBOrganizer.App.ViewModels
     public class GamesViewModel : ViewModelBase
     {
         private readonly GameService _gameService;
-        
+        private readonly PresetService _presetService;
+
         public ICommand ShowAddGameDialogCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
 
@@ -42,16 +43,20 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        public GamesViewModel(GameService gameService)
+        public GamesViewModel(GameService gameService, PresetService presetService)
         {
             _gameService = gameService;
             _gameService.ItemsChanged += _gameService_ItemsChanged;
+
+            _presetService = presetService;
 
             ShowAddGameDialogCommand = new RelayCommand(() => DialogService.ShowAddGameDialog());
             DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
 
             Games = _gameService.GetAll().ToObservableCollection();
-            MessengerInstance.Send(new PropertyChangedMessage<Game>(null, CurrentGame, "CurrentGame"));
+
+            // HACK: populates PresetsOverview on load
+            RaisePropertyChanged("CurrentGame", null, CurrentGame, true);
         }
 
         private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
@@ -62,22 +67,20 @@ namespace ENBOrganizer.App.ViewModels
             {
                 Games.Add(game);
                 CurrentGame = game;
-            }                
+            }
             else
+            {
                 Games.Remove(game);
+
+                if (game.Equals(CurrentGame))
+                    CurrentGame = Games.FirstOrDefault();
+            }
         }
 
         private void DeleteGame()
         {
-            try
-            {
-                _gameService.Delete(CurrentGame);
-                // TODO: _presetService.DeleteByGame(_selectedGame);
-            }
-            catch (Exception exception)
-            {
-                //TODO: MessageBoxUtil.ShowError(exception.Message);
-            }
+            _presetService.DeleteByGame(CurrentGame);
+            _gameService.Delete(CurrentGame);
         }
 
         private bool CanDelete()

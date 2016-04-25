@@ -1,15 +1,20 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight.Messaging;
 
 namespace ENBOrganizer.App.Messages
 {
+    public enum ViewNames
+    {
+        PresetsOverview,
+        PresetDetail
+    }
+
     public class NavigationMessage : MessageBase
     {
-        public ViewModelBase ViewModel { get; set; }
+        public ViewNames ViewName { get; set; }
 
-        public NavigationMessage(ViewModelBase viewModel)
+        public NavigationMessage(ViewNames viewName)
         {
-            ViewModel = viewModel;
+            ViewName = viewName;
         }
     }
 }

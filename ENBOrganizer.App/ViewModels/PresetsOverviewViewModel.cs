@@ -82,7 +82,7 @@ namespace ENBOrganizer.App.ViewModels
         private void SelectPreset(Preset preset)
         {
             _presetDetailViewModel.Preset = preset;
-            MessengerInstance.Send(new NavigationMessage(_presetDetailViewModel));
+            MessengerInstance.Send(new NavigationMessage(ViewNames.PresetDetail));
         }
 
         private void LoadPresets()

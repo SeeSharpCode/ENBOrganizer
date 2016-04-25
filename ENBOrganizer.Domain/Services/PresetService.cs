@@ -184,7 +184,11 @@ namespace ENBOrganizer.Domain.Services
         {
             preset.Directory.Delete(true);
 
-            File.Delete(preset.ImagePath);
+            if (preset.ImagePath != null)
+            {
+                FileInfo image = new FileInfo(preset.ImagePath);
+                image.Delete();
+            }
 
             base.Delete(preset);
         }

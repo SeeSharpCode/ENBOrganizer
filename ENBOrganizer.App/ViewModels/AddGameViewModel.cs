@@ -61,6 +61,9 @@ namespace ENBOrganizer.App.ViewModels
             }
             finally
             {
+                Name = string.Empty;
+                ExecutablePath = string.Empty;
+
                 DialogService.CloseAddGameDialog();
             }
         }

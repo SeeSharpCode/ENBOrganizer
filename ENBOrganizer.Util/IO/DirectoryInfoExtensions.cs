@@ -47,15 +47,11 @@ namespace ENBOrganizer.Util.IO
         {
             string renamedPath = Path.Combine(directory.Parent.FullName, name);
 
-            if (!Directory.Exists(renamedPath))
-            {
-                directory.CopyTo(renamedPath);
-                directory.Delete(true);
-            }
-            else
-            {
-                MessageBoxUtil.ShowError("A folder named '" + name + "' already exists in the target folder."); // TODO: change exception handling
-            }
+            if (Directory.Exists(renamedPath))
+                throw new IOException("A folder named " + directory.Name + " already exists in the target folder.");
+
+            directory.CopyTo(renamedPath);
+            directory.Delete(true);
         }
 
         public static bool CanWrite(this DirectoryInfo directory)

@@ -137,9 +137,17 @@ namespace ENBOrganizer.App.ViewModels
             if (newName.Trim() == string.Empty)
                 return;
 
-            SelectedPresetItem.Rename(newName);
+            try
+            {
+                SelectedPresetItem.Rename(newName);
 
-            RaisePropertyChanged("Items");
+                RaisePropertyChanged("Items");
+            }
+            catch (IOException exception)
+            {
+                await DialogService.ShowErrorDialog(exception.Message);
+            }
+            
         }
     }
 }

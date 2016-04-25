@@ -12,24 +12,15 @@
                       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
     <controls:MetroWindow.Resources>
         <converters:PathToIconConverter x:Key="PathToIconConverter" />
-        <converters:GameToWindowCommandConverter x:Key="GameToWindowCommandConverter" />
 
         <DataTemplate DataType="{x:Type viewModels:PresetDetailViewModel}">
             <views:PresetDetailView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type viewModels:PresetsOverviewViewModel}">
-            <views:PresetsOverviewViewBackup />
-        </DataTemplate>
-
-        <DataTemplate x:Key="Test" DataType="{x:Type entities:Game}">
-            <Button Content="{Binding Name}" />
+            <views:PresetsOverviewView />
         </DataTemplate>
     </controls:MetroWindow.Resources>
-
-    <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands ItemsSource="{Binding GamesViewModel.Games, Converter={StaticResource GameToWindowCommandConverter}}" />
-    </controls:MetroWindow.RightWindowCommands>
 
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>

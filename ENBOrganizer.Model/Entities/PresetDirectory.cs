@@ -20,8 +20,16 @@ namespace ENBOrganizer.Model.Entities
 
         public void Rename(string newName)
         {
-            DirectoryInfo directory = new DirectoryInfo(Path);
-            directory.Rename(newName);
+            try
+            {
+                DirectoryInfo directory = new DirectoryInfo(Path);
+                directory.Rename(newName);
+            }
+            catch (IOException)
+            {
+                throw;
+            }
+            
         }
 
         public void Delete()

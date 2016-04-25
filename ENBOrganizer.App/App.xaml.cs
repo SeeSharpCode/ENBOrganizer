@@ -13,6 +13,7 @@ namespace ENBOrganizer.App
     // TODO: split PresetItems into its own view model?
     // TODO: standardize font sizes
     // TODO: double-check reponsibilties of services
+    // TODO: optimize UI speed
     public partial class App : Application
     {
     }

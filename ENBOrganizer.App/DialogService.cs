@@ -17,6 +17,12 @@ namespace ENBOrganizer.App
             return await window.ShowInputAsync(title, message);
         }
 
+        public static async Task<MessageDialogResult> ShowErrorDialog(string message)
+        {
+            MetroWindow window = System.Windows.Application.Current.MainWindow as MetroWindow;
+            return await window.ShowMessageAsync("Error", message);
+        }
+
         public static string PromptForFile(string title, string filter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog

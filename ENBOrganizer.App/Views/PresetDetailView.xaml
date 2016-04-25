@@ -28,7 +28,7 @@
                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
                             <MenuItem Header="Add File" Command="{Binding PlacementTarget.Tag.DataContext.AddFileCommand, 
                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
-                            <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameCommand, 
+                            <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameItemCommand, 
                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
                         </ContextMenu>
                     </TextBlock.ContextMenu>

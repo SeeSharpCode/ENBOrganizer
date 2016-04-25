@@ -4,7 +4,6 @@ using ENBOrganizer.Model.Entities;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -69,18 +68,15 @@ namespace ENBOrganizer.App.ViewModels
                 CurrentGame = game;
             }
             else
-            {
                 Games.Remove(game);
-
-                if (game.Equals(CurrentGame))
-                    CurrentGame = Games.FirstOrDefault();
-            }
         }
 
         private void DeleteGame()
         {
             _presetService.DeleteByGame(CurrentGame);
             _gameService.Delete(CurrentGame);
+
+            CurrentGame = Games.FirstOrDefault();
         }
 
         private bool CanDelete()

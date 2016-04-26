@@ -1,6 +1,6 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain.Services;
-using ENBOrganizer.Model.Entities;
+using ENBOrganizer.Domain.Entities;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.Generic;
@@ -28,30 +28,21 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand RenameItemCommand { get; set; }
         public IPresetItem SelectedPresetItem { get; set; }
 
-        public Preset Preset
-        {
-            get { return _preset; }
-            set
-            {
-                _preset = value;
-                RaisePropertyChanged("Preset");
-                RaisePropertyChanged("Items");
-            }
-        }
-
         public string ImagePath
         {
-            get { return Preset.ImagePath; }
+            get { return _preset.ImagePath; }
             set
             {
-                Preset.ImagePath = value;
+                _preset.ImagePath = value;
                 RaisePropertyChanged("ImagePath");
             }
         }
 
+        public string Name { get { return _preset.Name; } }
+
         public List<IPresetItem> Items
         {
-            get { return _presetItemsService.GetPresetItems(Path.Combine(Preset.Game.PresetsDirectory.FullName, Preset.Name)); }
+            get { return _presetItemsService.GetPresetItems(Path.Combine(_preset.Game.PresetsDirectory.FullName, _preset.Name)); }
         }
 
         public PresetDetailViewModel(PresetService presetServce, PresetItemsService presetItemsService)
@@ -67,6 +58,8 @@ namespace ENBOrganizer.App.ViewModels
             AddFolderCommand = new RelayCommand(AddFolder);
             OpenFileCommand = new RelayCommand(OpenFile);
             RenameItemCommand = new RelayCommand(RenameItem);
+
+            MessengerInstance.Register<PresetNavigationMessage>(this, (message) => _preset = message.Preset);
         }
 
         private void NavigateToPresetsOverview()
@@ -79,14 +72,14 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: filter
             string imageSource = DialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
 
-            _presetService.ChangeImage(Preset, imageSource);
+            ImagePath = imageSource;
 
-            RaisePropertyChanged("Preset");
+            _presetService.ChangeImage(_preset, imageSource);
         }
 
         private void DeletePreset()
         {
-            _presetService.Delete(Preset);
+            _presetService.Delete(_preset);
 
             NavigateToPresetsOverview();
         }

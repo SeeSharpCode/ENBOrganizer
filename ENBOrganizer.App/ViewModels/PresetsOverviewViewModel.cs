@@ -1,7 +1,8 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Services;
-using ENBOrganizer.Model.Entities;
+using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -59,7 +60,7 @@ namespace ENBOrganizer.App.ViewModels
             _presetDetailViewModel = presetDetailViewModel;
             
             _addBlankPresetCommand = new RelayCommand(AddBlank, () => true);
-            _importFolderCommand = new RelayCommand(ImportFolder, () => true);
+            _importFolderCommand = new RelayCommand(ImportDirectory, () => true);
             _importArchiveCommand = new RelayCommand(ImportArchive, () => true);
             _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => true);
 
@@ -72,17 +73,11 @@ namespace ENBOrganizer.App.ViewModels
             };
 
 
-            SelectPresetCommand = new RelayCommand<Preset>(SelectPreset);
+            SelectPresetCommand = new RelayCommand<Preset>((preset) => MessengerInstance.Send(new PresetNavigationMessage(preset)));
 
             MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentGame = message.NewValue);
 
             Presets = _presetService.GetByGame(_currentGame).ToObservableCollection();
-        }
-
-        private void SelectPreset(Preset preset)
-        {
-            _presetDetailViewModel.Preset = preset;
-            MessengerInstance.Send(new NavigationMessage(ViewNames.PresetDetail));
         }
 
         private void LoadPresets()
@@ -106,7 +101,17 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: exception handling
             string name = await DialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
 
-            _presetService.Add(new Preset(name, _currentGame));
+            if (name == null || name.Trim() == string.Empty)
+                return;
+
+            try
+            {
+                _presetService.Add(new Preset(name, _currentGame));
+            }
+            catch (DuplicateEntityException exception)
+            {
+                await DialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
         private async void ImportActiveFiles()
@@ -114,29 +119,51 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: exception handling
             string name = await DialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
 
-            _presetService.ImportActiveFiles(new Preset(name, _currentGame));
+            try
+            {
+                _presetService.ImportActiveFiles(new Preset(name, _currentGame));
+            }
+            catch (DuplicateEntityException exception)
+            {
+                await DialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
-        private void ImportArchive()
+        private async void ImportArchive()
         {
             string archivePath = DialogService.PromptForFile("Please select a .zip file", "ZIP Files(*.zip) | *.zip");
 
-            if (archivePath == string.Empty)
-                return;
-
-            _presetService.ImportArchive(archivePath, _currentGame);
-        }
-
-        private void ImportFolder()
-        {
-            string folderPath = DialogService.PromptForFolder("Please select the preset folder...");
-
-            if (folderPath == string.Empty)
+            if (archivePath == null || archivePath.Trim() == string.Empty)
                 return;
 
             try
             {
-                _presetService.ImportFolder(folderPath, _currentGame);
+                _presetService.ImportArchive(archivePath, _currentGame);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                await DialogService.ShowErrorDialog(exception.Message);
+            }
+            catch (NotSupportedException exception)
+            {
+                await DialogService.ShowErrorDialog(exception.Message);
+            }
+            catch (InvalidOperationException exception)
+            {
+                await DialogService.ShowErrorDialog(exception.Message);
+            }
+        }
+
+        private void ImportDirectory()
+        {
+            string directoryPath = DialogService.PromptForFolder("Please select the preset folder...");
+
+            if (directoryPath == string.Empty)
+                return;
+
+            try
+            {
+                _presetService.ImportDirectory(directoryPath, _currentGame);
             }
             catch (InvalidOperationException exception)
             {

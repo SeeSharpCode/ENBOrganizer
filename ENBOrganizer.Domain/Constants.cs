@@ -1,8 +1,7 @@
-﻿namespace ENBOrganizer.Model
+﻿namespace ENBOrganizer.Domain
 {
     public class Paths
     {
-        public const string Presets = "Presets";
         public const string Games = "Games";
     }
 }

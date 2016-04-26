@@ -1,10 +1,11 @@
-﻿using ENBOrganizer.Model.Entities;
+﻿using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ENBOrganizer.Data
+namespace ENBOrganizer.Domain.Data
 {
     public class Repository<TEntity> where TEntity : IEntity
     {
@@ -33,11 +34,11 @@ namespace ENBOrganizer.Data
             }
         }
 
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="DuplicateEntityException" />
         public void Add(TEntity entity)
         {
             if (_items.Value.Contains(entity))
-                throw new InvalidOperationException(String.Format("Unable to add duplicate {0}: {1}", entity.GetType().Name.ToLower(), entity.Name));
+                throw new DuplicateEntityException(string.Format("Unable to add duplicate {0}: {1}", entity.GetType().Name.ToLower(), entity.Name));
 
             _items.Value.Add(entity);
 

@@ -44,6 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="Data\Repository.cs" />
+    <Compile Include="Entities\Game.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\IPresetItem.cs" />
+    <Compile Include="Entities\MasterListItem.cs" />
+    <Compile Include="Entities\Preset.cs" />
+    <Compile Include="Entities\PresetDirectory.cs" />
+    <Compile Include="Entities\PresetFile.cs" />
+    <Compile Include="Exceptions\DuplicateEntityException.cs" />
     <Compile Include="RepositoryChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -57,14 +67,6 @@
     <Compile Include="Services\PresetService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ENBOrganizer.Data\ENBOrganizer.Data.csproj">
-      <Project>{4D54CBAB-9908-471E-A33B-A6478A06F6AD}</Project>
-      <Name>ENBOrganizer.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENBOrganizer.Model\ENBOrganizer.Model.csproj">
-      <Project>{E383FEE1-2359-4C26-ADE8-A9F3DA58122D}</Project>
-      <Name>ENBOrganizer.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ENBOrganizer.Util\ENBOrganizer.Util.csproj">
       <Project>{6B47A309-26EC-404F-83CF-F37942D5B258}</Project>
       <Name>ENBOrganizer.Util</Name>

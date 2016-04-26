@@ -1,4 +1,4 @@
-﻿using ENBOrganizer.Model.Entities;
+﻿using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Util.IO;
 using System.Collections.Generic;
 using System.IO;
@@ -21,10 +21,10 @@ namespace ENBOrganizer.Domain.Services
             DirectoryInfo rootDirectory = new DirectoryInfo(path);
 
             foreach (DirectoryInfo directory in rootDirectory.GetDirectories())
-                items.Add(new PresetDirectory(directory.Name, directory.FullName, GetPresetItems(directory.FullName)));
+                items.Add(new PresetDirectory(directory.FullName, GetPresetItems(directory.FullName)));
 
             foreach (FileInfo file in rootDirectory.GetFiles())
-                items.Add(new PresetFile(file.Name, file.FullName));
+                items.Add(new PresetFile(file.FullName));
 
             return items;
         }

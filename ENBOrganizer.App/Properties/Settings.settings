@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ENBOrganizer.App.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="CurrentGame" Type="ENBOrganizer.Model.Entities.Game" Scope="User">
+    <Setting Name="CurrentGame" Type="ENBOrganizer.Domain.Entities.Game" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

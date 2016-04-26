@@ -2,10 +2,11 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ENBOrganizer.Model.Entities
+namespace ENBOrganizer.Domain.Entities
 {
-    // TODO: remove entities folder from Model project
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public class Preset : IEntity
+#pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public string Name { get; set; }
         public Game Game { get; set; }

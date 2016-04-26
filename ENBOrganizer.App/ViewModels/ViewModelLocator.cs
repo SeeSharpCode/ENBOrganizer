@@ -1,5 +1,5 @@
 ﻿using ENBOrganizer.Domain.Services;
-using ENBOrganizer.Model.Entities;
+using ENBOrganizer.Domain.Entities;
 using GalaSoft.MvvmLight.Ioc;
 
 namespace ENBOrganizer.App.ViewModels

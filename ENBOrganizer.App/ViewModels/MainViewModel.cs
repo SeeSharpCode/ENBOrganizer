@@ -1,5 +1,5 @@
 ﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.Model.Entities;
+using ENBOrganizer.Domain.Entities;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using System.ComponentModel;
@@ -47,7 +47,7 @@ namespace ENBOrganizer.App.ViewModels
             CurrentViewModel = _presetsOverviewViewModel;
 
             MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentViewModel = _presetsOverviewViewModel);
-            MessengerInstance.Register<NavigationMessage>(this, OnNavigationMessage);
+            MessengerInstance.Register<NavigationMessage>(this, true, OnNavigationMessage);
             MessengerInstance.Register<DialogMessage>(this, (message) => OnDialogMessage(message));
         }
 
@@ -55,12 +55,6 @@ namespace ENBOrganizer.App.ViewModels
         {
             if (propertyChangedEventArgs.PropertyName == "CurrentGame")
                 CurrentViewModel = _presetsOverviewViewModel;
-        }
-
-        private void OnPresetMessage(Preset preset)
-        {
-            _presetDetailViewModel.Preset = preset;
-            CurrentViewModel = _presetDetailViewModel;
         }
 
         private void OnNavigationMessage(NavigationMessage navigationMessage)

@@ -25,9 +25,9 @@ namespace ENBOrganizer.App.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::ENBOrganizer.Model.Entities.Game CurrentGame {
+        public global::ENBOrganizer.Domain.Entities.Game CurrentGame {
             get {
-                return ((global::ENBOrganizer.Model.Entities.Game)(this["CurrentGame"]));
+                return ((global::ENBOrganizer.Domain.Entities.Game)(this["CurrentGame"]));
             }
             set {
                 this["CurrentGame"] = value;

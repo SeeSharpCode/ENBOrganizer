@@ -1,8 +1,8 @@
-﻿using ENBOrganizer.Domain.Services;
-using ENBOrganizer.Model.Entities;
+﻿using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
+using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System;
 using System.IO;
 using System.Windows.Input;
 
@@ -49,15 +49,15 @@ namespace ENBOrganizer.App.ViewModels
             AddGameCommand = new RelayCommand(AddGame, CanAdd);
         }
 
-        private void AddGame()
+        private async void AddGame()
         {
             try
             {
                 _gameService.Add(new Game(Name, ExecutablePath));
             }
-            catch (InvalidOperationException exception)
+            catch (DuplicateEntityException exception)
             {
-                // TODO: MessageBoxUtil.ShowError(exception.Message);
+                await DialogService.ShowErrorDialog(exception.Message);
             }
             finally
             {

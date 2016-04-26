@@ -4,7 +4,6 @@
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:views="clr-namespace:ENBOrganizer.App.Views"
                       xmlns:converters="clr-namespace:ENBOrganizer.App.Converters"
-                      xmlns:entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
                       xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
                       Title="ENB Organizer"
                       TitleCaps="False"

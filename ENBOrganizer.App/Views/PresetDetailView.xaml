@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:local="clr-namespace:ENBOrganizer.App.Views"
-             xmlns:entities="clr-namespace:ENBOrganizer.Model.Entities;assembly=ENBOrganizer.Model"
+             xmlns:views="clr-namespace:ENBOrganizer.App.Views"
+             xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
              xmlns:converters="clr-namespace:ENBOrganizer.App.Converters"
              mc:Ignorable="d"
              x:Name="Root">
@@ -72,7 +71,7 @@
         </Button>
 
         <StackPanel Orientation="Horizontal">
-            <Label Content="{Binding Preset.Name, Mode=OneWay}" Style="{StaticResource DescriptionHeaderStyle}" VerticalAlignment="Center" />
+            <Label Content="{Binding Name, Mode=OneWay}" Style="{StaticResource DescriptionHeaderStyle}" VerticalAlignment="Center" />
             <Button Command="{Binding DeletePresetCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center"
                     Style="{DynamicResource MetroCircleButtonStyle}" Margin="5 0 0 0">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
@@ -84,13 +83,13 @@
         </StackPanel>
 
         <Expander Header="Files" Margin="{StaticResource ControlMargin}">
-            <local:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
+            <views:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
                                 MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" MinWidth="300" MinHeight="100" BorderThickness="0" />
         </Expander>
 
         <Expander Header="Tile Screenshot">
             <StackPanel Orientation="Vertical">
-                <Image Source="{Binding Preset.ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}"
+                <Image Source="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}"
                        MaxWidth="600" MaxHeight="337" HorizontalAlignment="Left" Stretch="UniformToFill" />
                 <Button Command="{Binding ChangePresetImageCommand, Mode=OneTime}" HorizontalAlignment="Left">
                     <TextBlock Text="Change" Style="{StaticResource ButtonTextStyle}" />

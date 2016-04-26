@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Model.Entities;
+﻿using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util.IO;
 using System;
 
@@ -6,6 +7,7 @@ namespace ENBOrganizer.Domain.Services
 {
     public class GameService : DataService<Game>
     {
+        /// <exception cref="DuplicateEntityException" />
         public new void Add(Game game)
         {
             try
@@ -14,7 +16,7 @@ namespace ENBOrganizer.Domain.Services
 
                 base.Add(game);
             }
-            catch (InvalidOperationException)
+            catch (DuplicateEntityException)
             {
                 throw;
             }

@@ -1,4 +1,4 @@
-﻿namespace ENBOrganizer.Model.Entities
+﻿namespace ENBOrganizer.Domain.Entities
 {
     public interface IEntity
     {

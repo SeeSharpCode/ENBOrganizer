@@ -1,5 +1,6 @@
-﻿using ENBOrganizer.Data;
-using ENBOrganizer.Model.Entities;
+﻿using ENBOrganizer.Domain.Data;
+using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 
@@ -21,10 +22,18 @@ namespace ENBOrganizer.Domain.Services
             return _repository.Items;
         }
 
+        /// <exception cref="DuplicateEntityException" />
         public void Add(TEntity entity)
         {
-            _repository.Add(entity);
-
+            try
+            {
+                _repository.Add(entity);
+            }
+            catch (DuplicateEntityException)
+            {
+                throw;
+            }
+            
             RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, entity));
         }
 

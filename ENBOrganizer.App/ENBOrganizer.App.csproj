@@ -86,6 +86,7 @@
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
     <Compile Include="Messages\NavigationMessage.cs" />
+    <Compile Include="Messages\PresetNavigationMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PresetDetailViewModel.cs" />
@@ -171,10 +172,6 @@
     <ProjectReference Include="..\ENBOrganizer.Domain\ENBOrganizer.Domain.csproj">
       <Project>{646abcdc-fcc2-4047-ae89-00c581da1828}</Project>
       <Name>ENBOrganizer.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ENBOrganizer.Model\ENBOrganizer.Model.csproj">
-      <Project>{e383fee1-2359-4c26-ade8-a9f3da58122d}</Project>
-      <Name>ENBOrganizer.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\ENBOrganizer.Util\ENBOrganizer.Util.csproj">
       <Project>{6b47a309-26ec-404f-83cf-f37942d5b258}</Project>

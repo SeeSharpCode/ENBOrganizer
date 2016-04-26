@@ -1,6 +1,6 @@
 ﻿using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Services;
-using ENBOrganizer.Model.Entities;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;

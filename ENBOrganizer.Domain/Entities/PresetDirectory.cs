@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace ENBOrganizer.Model.Entities
+namespace ENBOrganizer.Domain.Entities
 {
     public class PresetDirectory : IPresetItem
     {
-        public string Name { get; set; }
-        public string Path { get; set; }
+        private DirectoryInfo _directory;
+
+        public string Name { get { return _directory.Name; } }
+        public string Path { get { return _directory.FullName; } }
 
         public List<IPresetItem> Items { get; set; }
 
-        public PresetDirectory(string name, string path, List<IPresetItem> presetItems)
+        public PresetDirectory(string path, List<IPresetItem> presetItems)
         {
-            Name = name;
-            Path = path;
+            _directory = new DirectoryInfo(path);
+
             Items = presetItems;
         }
 
@@ -22,19 +24,18 @@ namespace ENBOrganizer.Model.Entities
         {
             try
             {
-                DirectoryInfo directory = new DirectoryInfo(Path);
-                directory.Rename(newName);
+                _directory.Rename(newName);
             }
             catch (IOException)
             {
                 throw;
             }
-            
+
         }
 
         public void Delete()
         {
-            Directory.Delete(Path, true);
+            _directory.DeleteRecursive();
         }
     }
 }

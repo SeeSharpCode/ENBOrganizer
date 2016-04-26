@@ -1,5 +1,5 @@
 ﻿using System;
-using ENBOrganizer.Model.Entities;
+using ENBOrganizer.Domain.Entities;
 
 namespace ENBOrganizer.Domain
 {

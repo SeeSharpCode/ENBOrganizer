@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ENBOrganizer.Model.Entities
+﻿namespace ENBOrganizer.Model.Entities
 {
     public interface IPresetItem : IEntity
     {

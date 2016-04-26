@@ -34,17 +34,9 @@ namespace ENBOrganizer.Domain.Services
             string targetPath = Path.Combine("Images", preset.Game.Name + preset.Name + Path.GetExtension(imageSource));
             
             File.Delete(targetPath);
-
-            FileInfo file = new FileInfo(targetPath);
-
-
-            //if (file.Exists)
-            //    file.Delete();
-
             File.Copy(imageSource, targetPath);
 
-            
-
+            FileInfo file = new FileInfo(targetPath);
             _repository.Items.First(p => p.Equals(preset)).ImagePath = file.FullName;
             _repository.SaveChanges();
         }
@@ -169,9 +161,7 @@ namespace ENBOrganizer.Domain.Services
         public void Install(Preset preset, Game currentGame)
         {
             foreach (FileInfo file in preset.Directory.GetFiles())
-            {
                 file.CopyTo(Path.Combine(currentGame.DirectoryPath, file.Name), true);
-            }
 
             foreach (DirectoryInfo subdirectory in preset.Directory.GetDirectories())
             {

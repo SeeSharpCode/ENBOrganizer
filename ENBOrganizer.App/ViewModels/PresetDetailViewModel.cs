@@ -19,7 +19,7 @@ namespace ENBOrganizer.App.ViewModels
         private Preset _preset;
 
         public ICommand ChangePresetImageCommand { get; set; }
-        public ICommand GoToPresetsOverviewCommand { get; set; }
+        public ICommand NavigateToPresetOverviewCommand { get; set; }
         public ICommand DeletePresetCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
         public ICommand AddFileCommand { get; set; }
@@ -60,7 +60,7 @@ namespace ENBOrganizer.App.ViewModels
             _presetItemsService = presetItemsService;
 
             ChangePresetImageCommand = new RelayCommand(ChangePresetImage);
-            GoToPresetsOverviewCommand = new RelayCommand(NavigateToPresetsOverview);
+            NavigateToPresetOverviewCommand = new RelayCommand(NavigateToPresetsOverview);
             DeletePresetCommand = new RelayCommand(DeletePreset);
             DeleteItemCommand = new RelayCommand(DeleteItem);
             AddFileCommand = new RelayCommand(AddFile);
@@ -134,12 +134,12 @@ namespace ENBOrganizer.App.ViewModels
         {
             string newName = await DialogService.ShowInputDialog("Rename", "Please select a new name");
 
-            if (newName.Trim() == string.Empty)
+            if (newName == null || newName.Trim() == string.Empty)
                 return;
 
             try
             {
-                SelectedPresetItem.Rename(newName);
+                SelectedPresetItem.Rename(newName.Trim());
 
                 RaisePropertyChanged("Items");
             }

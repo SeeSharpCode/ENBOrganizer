@@ -65,8 +65,6 @@ namespace ENBOrganizer.App.ViewModels
 
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
-            // MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentGame = message.NewValue);
-
             Presets = _presetService.GetByGame(CurrentGame).ToObservableCollection();
         }
 

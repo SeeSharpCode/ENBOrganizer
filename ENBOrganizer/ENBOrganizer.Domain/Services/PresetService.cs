@@ -78,8 +78,8 @@ namespace ENBOrganizer.Domain.Services
         /// <exception cref="UnauthorizedAccessException" />
         /// <exception cref="NotSupportedException" />
         /// <exception cref="InvalidOperationException" />
-        /// /// <exception cref="PathTooLongException" />
-        /// /// /// <exception cref="IOException" />
+        /// <exception cref="PathTooLongException" />
+        /// <exception cref="IOException" />
         public void ImportDirectory(string sourceDirectoryPath, Game game)
         {
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourceDirectoryPath);

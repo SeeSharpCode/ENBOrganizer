@@ -53,9 +53,6 @@ namespace ENBOrganizer.App.ViewModels
             DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
 
             Games = _gameService.GetAll().ToObservableCollection();
-
-            // HACK: populates PresetsOverview on load
-            // RaisePropertyChanged("CurrentGame", null, CurrentGame, true);
         }
 
         private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

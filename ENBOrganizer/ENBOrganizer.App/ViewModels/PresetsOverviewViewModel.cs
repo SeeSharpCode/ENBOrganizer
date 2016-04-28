@@ -81,8 +81,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             Presets.Clear();
 
-            foreach (Preset preset in _presetService.GetByGame(CurrentGame))
-                Presets.Add(preset);
+            Presets.AddAll(_presetService.GetByGame(CurrentGame));
         }
 
         private void _presetService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

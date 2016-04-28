@@ -13,7 +13,6 @@ namespace ENBOrganizer.App.ViewModels
     public class GamesViewModel : ViewModelBase
     {
         private readonly GameService _gameService;
-        private readonly PresetService _presetService;
         private readonly DialogService _dialogService;
 
         public ICommand ShowAddGameDialogCommand { get; set; }
@@ -50,8 +49,6 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            _presetService = presetService;
-
             ShowAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowAddGameDialog());
             DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
 
@@ -73,7 +70,6 @@ namespace ENBOrganizer.App.ViewModels
 
         private void DeleteGame()
         {
-            _presetService.DeleteByGame(CurrentGame);
             _gameService.Delete(CurrentGame);
 
             CurrentGame = Games.FirstOrDefault();

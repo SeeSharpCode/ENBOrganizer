@@ -61,6 +61,10 @@ namespace ENBOrganizer.Domain.Services
 
                 CreateMasterListItemsFromPreset(preset);
             }
+            catch (Exception exception)
+            {
+
+            }
             catch (UnauthorizedAccessException)
             {
                 throw;

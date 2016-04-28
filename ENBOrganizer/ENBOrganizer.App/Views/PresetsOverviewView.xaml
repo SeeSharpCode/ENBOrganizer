@@ -40,7 +40,7 @@
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
         <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
-                                 ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" >
+                                 ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left">
             <controls:DropDownButton.Icon>
                 <Viewbox Width="32" Height="32" Stretch="Uniform">
                     <ContentControl Content="{DynamicResource appbar_add}" Focusable="False" />

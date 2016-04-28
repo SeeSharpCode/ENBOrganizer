@@ -1,15 +1,15 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain;
-using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
+using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
 
@@ -37,18 +37,7 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        private Game _currentGame;
-
-        public Game CurrentGame
-        {
-            get { return _currentGame; }
-            set
-            {
-                _currentGame = value;
-                LoadPresets();
-            }
-        }
-
+        public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ICommand SelectPresetCommand { get; private set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
@@ -71,20 +60,27 @@ namespace ENBOrganizer.App.ViewModels
                 new TitledCommand("Import Archive", "Create a preset an archive (.zip, .7z)", _importArchiveCommand),
                 new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
             };
-
-
+            
             SelectPresetCommand = new RelayCommand<Preset>((preset) => MessengerInstance.Send(new PresetNavigationMessage(preset)));
 
-            MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentGame = message.NewValue);
+            Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
-            Presets = _presetService.GetByGame(_currentGame).ToObservableCollection();
+            // MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentGame = message.NewValue);
+
+            Presets = _presetService.GetByGame(CurrentGame).ToObservableCollection();
+        }
+
+        private void ApplicationSettings_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == "CurrentGame")
+                LoadPresets();
         }
 
         private void LoadPresets()
         {
             Presets.Clear();
 
-            foreach (Preset preset in _presetService.GetByGame(_currentGame))
+            foreach (Preset preset in _presetService.GetByGame(CurrentGame))
                 Presets.Add(preset);
         }
 
@@ -106,7 +102,7 @@ namespace ENBOrganizer.App.ViewModels
 
             try
             {
-                _presetService.Add(new Preset(name, _currentGame));
+                _presetService.Add(new Preset(name, CurrentGame));
             }
             catch (DuplicateEntityException exception)
             {
@@ -121,7 +117,7 @@ namespace ENBOrganizer.App.ViewModels
 
             try
             {
-                _presetService.ImportActiveFiles(new Preset(name, _currentGame));
+                _presetService.ImportActiveFiles(new Preset(name, CurrentGame));
             }
             catch (DuplicateEntityException exception)
             {
@@ -138,7 +134,7 @@ namespace ENBOrganizer.App.ViewModels
 
             try
             {
-                _presetService.ImportArchive(archivePath, _currentGame);
+                _presetService.ImportArchive(archivePath, CurrentGame);
             }
             catch (UnauthorizedAccessException exception)
             {
@@ -163,7 +159,7 @@ namespace ENBOrganizer.App.ViewModels
 
             try
             {
-                _presetService.ImportDirectory(directoryPath, _currentGame);
+                _presetService.ImportDirectory(directoryPath, CurrentGame);
             }
             catch (InvalidOperationException exception)
             {

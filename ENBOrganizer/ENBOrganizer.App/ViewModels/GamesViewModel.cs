@@ -38,7 +38,7 @@ namespace ENBOrganizer.App.ViewModels
                 Properties.Settings.Default.CurrentGame = value;
                 Properties.Settings.Default.Save();
 
-                RaisePropertyChanged("CurrentGame", null, value, true);
+                RaisePropertyChanged("CurrentGame");
             }
         }
 
@@ -55,7 +55,7 @@ namespace ENBOrganizer.App.ViewModels
             Games = _gameService.GetAll().ToObservableCollection();
 
             // HACK: populates PresetsOverview on load
-            RaisePropertyChanged("CurrentGame", null, CurrentGame, true);
+            // RaisePropertyChanged("CurrentGame", null, CurrentGame, true);
         }
 
         private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

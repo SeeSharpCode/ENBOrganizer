@@ -55,7 +55,6 @@
     <Compile Include="IO\FileInfoExtensions.cs" />
     <Compile Include="StringAndCharExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\MessageBoxUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

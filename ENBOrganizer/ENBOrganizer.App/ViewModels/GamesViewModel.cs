@@ -14,6 +14,7 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly GameService _gameService;
         private readonly PresetService _presetService;
+        private readonly DialogService _dialogService;
 
         public ICommand ShowAddGameDialogCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
@@ -42,14 +43,16 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        public GamesViewModel(GameService gameService, PresetService presetService)
+        public GamesViewModel(GameService gameService, PresetService presetService, DialogService dialogService)
         {
             _gameService = gameService;
             _gameService.ItemsChanged += _gameService_ItemsChanged;
 
+            _dialogService = dialogService;
+
             _presetService = presetService;
 
-            ShowAddGameDialogCommand = new RelayCommand(() => DialogService.ShowAddGameDialog());
+            ShowAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowAddGameDialog());
             DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
 
             Games = _gameService.GetAll().ToObservableCollection();

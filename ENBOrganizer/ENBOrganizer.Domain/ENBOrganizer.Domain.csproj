@@ -63,7 +63,6 @@
     </Compile>
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\GameService.cs" />
-    <Compile Include="Services\PresetFileSystemService.cs" />
     <Compile Include="Services\PresetItemsService.cs" />
     <Compile Include="Services\PresetService.cs" />
   </ItemGroup>

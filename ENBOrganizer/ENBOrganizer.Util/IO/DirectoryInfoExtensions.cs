@@ -1,5 +1,4 @@
-﻿using ENBOrganizer.Util.UI;
-using System;
+﻿using System;
 using System.IO;
 
 namespace ENBOrganizer.Util.IO

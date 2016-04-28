@@ -12,6 +12,7 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly GameService _gameService;
         private readonly GamesViewModel _gamesViewModel;
+        private readonly DialogService _dialogService;
 
         public ICommand BrowseCommand { get; set; }
         public ICommand AddGameCommand { get; set; }
@@ -40,10 +41,11 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        public AddGameViewModel(GameService gameService, GamesViewModel gamesViewModel)
+        public AddGameViewModel(GameService gameService, GamesViewModel gamesViewModel, DialogService dialogService)
         {
             _gameService = gameService;
             _gamesViewModel = gamesViewModel;
+            _dialogService = dialogService;
 
             BrowseCommand = new RelayCommand(BrowseForGameFile);
             AddGameCommand = new RelayCommand(AddGame, CanAdd);
@@ -57,7 +59,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (DuplicateEntityException exception)
             {
-                await DialogService.ShowErrorDialog(exception.Message);
+                await _dialogService.ShowErrorDialog(exception.Message);
             }
             finally
             {
@@ -75,7 +77,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void BrowseForGameFile()
         {
-            string gameFilePath = DialogService.PromptForFile("Select the game's .exe file", "EXE Files (*.exe)|*.exe");
+            string gameFilePath = _dialogService.PromptForFile("Select the game's .exe file", "EXE Files (*.exe)|*.exe");
 
             if (gameFilePath.Equals(string.Empty))
                 return;

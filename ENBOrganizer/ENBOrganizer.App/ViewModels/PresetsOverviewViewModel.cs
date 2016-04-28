@@ -19,6 +19,7 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly PresetService _presetService;
         private readonly PresetDetailViewModel _presetDetailViewModel;
+        private readonly DialogService _dialogService;
 
         private readonly ICommand _addBlankPresetCommand;
         private readonly ICommand _importFolderCommand;
@@ -41,10 +42,12 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand SelectPresetCommand { get; private set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
-        public PresetsOverviewViewModel(PresetService presetService, PresetDetailViewModel presetDetailViewModel)
+        public PresetsOverviewViewModel(PresetService presetService, PresetDetailViewModel presetDetailViewModel, DialogService dialogService)
         {
             _presetService = presetService;
             _presetService.ItemsChanged += _presetService_ItemsChanged;
+
+            _dialogService = dialogService;
 
             _presetDetailViewModel = presetDetailViewModel;
             
@@ -93,7 +96,7 @@ namespace ENBOrganizer.App.ViewModels
         private async void AddBlank()
         {
             // TODO: exception handling
-            string name = await DialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
+            string name = await _dialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
 
             if (name == null || name.Trim() == string.Empty)
                 return;
@@ -104,14 +107,14 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (DuplicateEntityException exception)
             {
-                await DialogService.ShowErrorDialog(exception.Message);
+                await _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
         private async void ImportActiveFiles()
         {
             // TODO: exception handling
-            string name = await DialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
+            string name = await _dialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
 
             try
             {
@@ -119,13 +122,13 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (DuplicateEntityException exception)
             {
-                await DialogService.ShowErrorDialog(exception.Message);
+                await _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
         private async void ImportArchive()
         {
-            string archivePath = DialogService.PromptForFile("Please select a .zip file", "ZIP Files(*.zip) | *.zip");
+            string archivePath = _dialogService.PromptForFile("Please select a .zip file", "ZIP Files(*.zip) | *.zip");
 
             if (archivePath == null || archivePath.Trim() == string.Empty)
                 return;
@@ -136,21 +139,21 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (UnauthorizedAccessException exception)
             {
-                await DialogService.ShowErrorDialog(exception.Message);
+                await _dialogService.ShowErrorDialog(exception.Message);
             }
             catch (NotSupportedException exception)
             {
-                await DialogService.ShowErrorDialog(exception.Message);
+                await _dialogService.ShowErrorDialog(exception.Message);
             }
             catch (InvalidOperationException exception)
             {
-                await DialogService.ShowErrorDialog(exception.Message);
+                await _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
         private void ImportDirectory()
         {
-            string directoryPath = DialogService.PromptForFolder("Please select the preset folder...");
+            string directoryPath = _dialogService.PromptForFolder("Please select the preset folder...");
 
             if (directoryPath == string.Empty)
                 return;

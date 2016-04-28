@@ -9,21 +9,21 @@ using System.Windows.Forms;
 
 namespace ENBOrganizer.App
 {
-    public static class DialogService
+    public class DialogService
     {
-        public static async Task<string> ShowInputDialog(string title, string message)
+        private readonly MetroWindow _mainWindow = System.Windows.Application.Current.MainWindow as MetroWindow;
+
+        public async Task<string> ShowInputDialog(string title, string message)
         {
-            MetroWindow window = System.Windows.Application.Current.MainWindow as MetroWindow;
-            return await window.ShowInputAsync(title, message);
+            return await _mainWindow.ShowInputAsync(title, message);
         }
 
-        public static async Task<MessageDialogResult> ShowErrorDialog(string message)
+        public async Task<MessageDialogResult> ShowErrorDialog(string message)
         {
-            MetroWindow window = System.Windows.Application.Current.MainWindow as MetroWindow;
-            return await window.ShowMessageAsync("Error", message);
+            return await _mainWindow.ShowMessageAsync("Error", message);
         }
 
-        public static string PromptForFile(string title, string filter)
+        public string PromptForFile(string title, string filter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -34,7 +34,7 @@ namespace ENBOrganizer.App
             return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : string.Empty;
         }
 
-        public static List<string> PromptForFiles(string title, string filter)
+        public List<string> PromptForFiles(string title, string filter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -46,14 +46,14 @@ namespace ENBOrganizer.App
             return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileNames.ToList() : new List<string>();
         }
 
-        public static string PromptForFolder(string title)
+        public string PromptForFolder(string title)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog { Description = title };
 
             return folderBrowserDialog.ShowDialog() == DialogResult.OK ? folderBrowserDialog.SelectedPath : string.Empty;
         }
 
-        public static void ShowAddGameDialog()
+        public void ShowAddGameDialog()
         {
             Messenger.Default.Send(new DialogMessage(DialogActions.Open));
         }

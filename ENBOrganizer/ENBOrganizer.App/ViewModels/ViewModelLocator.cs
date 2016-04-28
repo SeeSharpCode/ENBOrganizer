@@ -8,6 +8,7 @@ namespace ENBOrganizer.App.ViewModels
     {
         public ViewModelLocator()
         {
+            SimpleIoc.Default.Register<DialogService>();
             SimpleIoc.Default.Register<GameService>();
             SimpleIoc.Default.Register<PresetService>();
             SimpleIoc.Default.Register<DataService<MasterListItem>>();

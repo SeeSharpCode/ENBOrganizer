@@ -15,6 +15,7 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly PresetService _presetService;
         private readonly PresetItemsService _presetItemsService;
+        private readonly DialogService _dialogService;
 
         private Preset _preset;
 
@@ -45,10 +46,12 @@ namespace ENBOrganizer.App.ViewModels
             get { return _presetItemsService.GetPresetItems(Path.Combine(_preset.Game.PresetsDirectory.FullName, _preset.Name)); }
         }
 
-        public PresetDetailViewModel(PresetService presetServce, PresetItemsService presetItemsService)
+        public PresetDetailViewModel(PresetService presetServce, PresetItemsService presetItemsService, DialogService dialogService)
         {
             _presetService = presetServce;
             _presetItemsService = presetItemsService;
+
+            _dialogService = dialogService;
 
             ChangePresetImageCommand = new RelayCommand(ChangePresetImage);
             NavigateToPresetOverviewCommand = new RelayCommand(NavigateToPresetsOverview);
@@ -70,7 +73,7 @@ namespace ENBOrganizer.App.ViewModels
         private void ChangePresetImage()
         {
             // TODO: filter
-            string imageSource = DialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
+            string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
 
             ImagePath = imageSource;
 
@@ -93,7 +96,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void AddFolder()
         {
-            string folderPath = DialogService.PromptForFolder("Please select a folder...");
+            string folderPath = _dialogService.PromptForFolder("Please select a folder...");
 
             if (folderPath == string.Empty)
                 return;
@@ -106,7 +109,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void AddFile()
         {
-            List<string> fileNames = DialogService.PromptForFiles("Please select a file(s) to add...", "All Files (*.*)|*.*");
+            List<string> fileNames = _dialogService.PromptForFiles("Please select a file(s) to add...", "All Files (*.*)|*.*");
 
             if (!fileNames.Any())
                 return;
@@ -125,7 +128,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private async void RenameItem()
         {
-            string newName = await DialogService.ShowInputDialog("Rename", "Please select a new name");
+            string newName = await _dialogService.ShowInputDialog("Rename", "Please select a new name");
 
             if (newName == null || newName.Trim() == string.Empty)
                 return;
@@ -138,7 +141,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (IOException exception)
             {
-                await DialogService.ShowErrorDialog(exception.Message);
+                await _dialogService.ShowErrorDialog(exception.Message);
             }
             
         }

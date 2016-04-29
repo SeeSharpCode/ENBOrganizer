@@ -29,6 +29,11 @@ namespace ENBOrganizer.Domain.Services
             _repository.SaveChanges();
         }
 
+        public void Save()
+        {
+            _repository.SaveChanges();
+        }
+
         public new void Add(Preset preset)
         {
             try

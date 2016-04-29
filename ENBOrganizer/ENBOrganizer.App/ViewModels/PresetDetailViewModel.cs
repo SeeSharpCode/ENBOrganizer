@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
+using System;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -21,6 +22,7 @@ namespace ENBOrganizer.App.ViewModels
         private Preset _preset;
 
         public ICommand ChangePresetImageCommand { get; set; }
+        public ICommand RenamePresetCommand { get; set; }
         public ICommand NavigateToPresetOverviewCommand { get; set; }
         public ICommand DeletePresetCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
@@ -40,7 +42,15 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        public string Name { get { return _preset.Name; } }
+        public string Name
+        {
+            get { return _preset.Name; }
+            set
+            {
+                _preset.Name = value;
+                RaisePropertyChanged("Name");
+            }
+        }
 
         public List<IPresetItem> Items
         {
@@ -62,8 +72,15 @@ namespace ENBOrganizer.App.ViewModels
             AddFolderCommand = new RelayCommand(AddFolder);
             OpenFileCommand = new RelayCommand(OpenFile);
             RenameItemCommand = new RelayCommand(RenameItem);
+            RenamePresetCommand = new RelayCommand(RenamePreset);
 
             MessengerInstance.Register<PresetNavigationMessage>(this, (message) => _preset = message.Preset);
+        }
+
+        private void RenamePreset()
+        {
+            Name = "Renamed Name";
+            _presetService.Save();
         }
 
         private void NavigateToPresetsOverview()
@@ -129,7 +146,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private async void RenameItem()
         {
-            string newName = await _dialogService.ShowInputDialog("Rename", "Please select a new name");
+            string newName = await _dialogService.ShowInputDialog("Rename", "Please enter a new name without the file extension.");
 
             if (newName == null || newName.Trim() == string.Empty)
                 return;
@@ -153,6 +170,9 @@ namespace ENBOrganizer.App.ViewModels
         private bool OverwriteRequiresRename(string newName)
         {
             string renamedPath = Path.Combine(Path.GetDirectoryName(SelectedPresetItem.Path), newName);
+
+            if (SelectedPresetItem is PresetFile)
+                renamedPath += Path.GetExtension(SelectedPresetItem.Path);
 
             return SelectedPresetItem is PresetFile ? new FileInfo(renamedPath).Exists : new DirectoryInfo(renamedPath).Exists;
         }

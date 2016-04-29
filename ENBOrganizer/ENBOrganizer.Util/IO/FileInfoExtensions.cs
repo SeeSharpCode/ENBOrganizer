@@ -8,6 +8,9 @@ namespace ENBOrganizer.Util.IO
         {
             string targetPath = Path.Combine(file.Directory.FullName, targetFileName + file.Extension);
 
+            if (file.FullName == targetPath)
+                return;
+
             if (File.Exists(targetPath))
             {
                 file.CopyTo(targetPath, true);

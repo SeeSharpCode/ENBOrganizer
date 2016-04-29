@@ -22,15 +22,7 @@ namespace ENBOrganizer.Domain.Entities
 
         public void Rename(string newName)
         {
-            try
-            {
-                _directory.Rename(newName);
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-
+            _directory.Rename(newName);
         }
 
         public void Delete()

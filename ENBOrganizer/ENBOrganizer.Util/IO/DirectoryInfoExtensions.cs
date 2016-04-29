@@ -47,7 +47,7 @@ namespace ENBOrganizer.Util.IO
             string renamedPath = Path.Combine(directory.Parent.FullName, name);
 
             if (Directory.Exists(renamedPath))
-                throw new IOException("A folder named " + directory.Name + " already exists in the target folder.");
+                Directory.Delete(renamedPath, true);
 
             directory.CopyTo(renamedPath);
             directory.Delete(true);

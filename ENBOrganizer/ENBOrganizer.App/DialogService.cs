@@ -18,6 +18,11 @@ namespace ENBOrganizer.App
             return await _mainWindow.ShowInputAsync(title, message);
         }
 
+        public async Task<MessageDialogResult> ShowYesOrNoDialog(string title, string message)
+        {
+            return await _mainWindow.ShowMessageAsync(title, message, MessageDialogStyle.AffirmativeAndNegative);
+        }
+
         public async Task<MessageDialogResult> ShowErrorDialog(string message)
         {
             return await _mainWindow.ShowMessageAsync("Error", message);

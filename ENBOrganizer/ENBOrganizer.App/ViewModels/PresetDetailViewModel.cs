@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -133,17 +134,27 @@ namespace ENBOrganizer.App.ViewModels
             if (newName == null || newName.Trim() == string.Empty)
                 return;
 
-            try
-            {
+            if (OverwriteRequiresRename(newName))
+                if (await _dialogService.ShowYesOrNoDialog("Overwrite?", GetOverwritePromptMessage()) == MessageDialogResult.Affirmative)
+                    SelectedPresetItem.Rename(newName.Trim());
+                else
+                    return;
+            else
                 SelectedPresetItem.Rename(newName.Trim());
 
-                RaisePropertyChanged("Items");
-            }
-            catch (IOException exception)
-            {
-                await _dialogService.ShowErrorDialog(exception.Message);
-            }
-            
+            RaisePropertyChanged("Items");
+        }
+
+        private string GetOverwritePromptMessage()
+        {
+            return SelectedPresetItem is PresetFile ? "Overwrite existing file?" : "Overwrite existing directory?";
+        }
+
+        private bool OverwriteRequiresRename(string newName)
+        {
+            string renamedPath = Path.Combine(Path.GetDirectoryName(SelectedPresetItem.Path), newName);
+
+            return SelectedPresetItem is PresetFile ? new FileInfo(renamedPath).Exists : new DirectoryInfo(renamedPath).Exists;
         }
     }
 }

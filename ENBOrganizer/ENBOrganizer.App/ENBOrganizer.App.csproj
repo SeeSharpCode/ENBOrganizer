@@ -97,6 +97,9 @@
       <DependentUpon>AddGameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedTreeView.cs" />
+    <Compile Include="Views\MasterListView.xaml.cs">
+      <DependentUpon>MasterListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PresetDetailView.xaml.cs">
       <DependentUpon>PresetDetailView.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MasterListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PresetDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

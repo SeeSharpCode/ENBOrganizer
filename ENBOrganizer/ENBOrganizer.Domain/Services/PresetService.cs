@@ -2,7 +2,6 @@
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util;
 using ENBOrganizer.Util.IO;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -44,119 +43,53 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        /// <exception cref="UnauthorizedAccessException" />
-        /// <exception cref="NotSupportedException" />
-        /// <exception cref="InvalidOperationException" />
         public void ImportArchive(string archivePath, Game game)
         {
             Preset preset = new Preset(Path.GetFileNameWithoutExtension(archivePath), game);
 
-            try
-            {
-                ZipFile.ExtractToDirectory(archivePath, preset.Directory.FullName);
+            ZipFile.ExtractToDirectory(archivePath, preset.Directory.FullName);
 
-                // TODO: following 2 lines are shared between ImportArchive and ImportFolder 
-                // and could we handle this with domain events?
-                base.Add(preset);
+            // TODO: following 2 lines are shared between ImportArchive and ImportFolder 
+            // and could we handle this with domain events?
+            base.Add(preset);
 
-                CreateMasterListItemsFromPreset(preset);
-            }
-            catch (Exception exception)
-            {
-
-            }
-            catch (UnauthorizedAccessException)
-            {
-                throw;
-            }
-            catch (NotSupportedException)
-            {
-                throw;
-            }
-            catch (InvalidOperationException)
-            {
-                throw;
-            }
+            CreateMasterListItemsFromPreset(preset);
         }
 
-        /// <exception cref="UnauthorizedAccessException" />
-        /// <exception cref="NotSupportedException" />
-        /// <exception cref="InvalidOperationException" />
-        /// <exception cref="PathTooLongException" />
-        /// <exception cref="IOException" />
         public void ImportDirectory(string sourceDirectoryPath, Game game)
         {
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourceDirectoryPath);
             Preset preset = new Preset(sourceDirectory.Name, game);
 
-            try
-            {
-                sourceDirectory.CopyTo(preset.Directory.FullName);
+            sourceDirectory.CopyTo(preset.Directory.FullName);
 
-                base.Add(preset);
+            base.Add(preset);
 
-                CreateMasterListItemsFromPreset(preset);
-            }
-            catch (InvalidOperationException)
-            {
-                throw;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Delete(preset);
-
-                throw;
-            }
-            catch (PathTooLongException)
-            {
-                if (preset.Directory.Exists)
-                    preset.Directory.DeleteRecursive();
-
-                Delete(preset);
-
-                throw;
-            }
-            catch (IOException)
-            {
-                if (preset.Directory.Exists)
-                    preset.Directory.DeleteRecursive();
-
-                Delete(preset);
-                
-                throw;
-            }
+            CreateMasterListItemsFromPreset(preset);
         }
 
         public void ImportActiveFiles(Preset preset)
         {
-            // TODO: more exception handling
-            try
+            Add(preset);
+
+            List<MasterListItem> masterListItems = _masterListItemService.GetAll();
+            List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
+            List<string> gameFiles = Directory.GetFiles(preset.Game.DirectoryPath).ToList();
+
+            foreach (MasterListItem masterListItem in masterListItems)
             {
-                Add(preset);
+                string installedPath = Path.Combine(preset.Game.DirectoryPath, masterListItem.Name);
 
-                List<MasterListItem> masterListItems = _masterListItemService.GetAll();
-                List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
-                List<string> gameFiles = Directory.GetFiles(preset.Game.DirectoryPath).ToList();
-
-                foreach (MasterListItem masterListItem in masterListItems)
+                if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
                 {
-                    string installedPath = Path.Combine(preset.Game.DirectoryPath, masterListItem.Name);
-
-                    if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
-                    {
-                        DirectoryInfo directory = new DirectoryInfo(installedPath);
-                        directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
-                    }
-                    else if (gameFiles.Contains(installedPath))
-                    {
-                        FileInfo file = new FileInfo(installedPath);
-                        file.CopyTo(Path.Combine(preset.Directory.FullName, file.Name));
-                    }
+                    DirectoryInfo directory = new DirectoryInfo(installedPath);
+                    directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
                 }
-            }
-            catch (DuplicateEntityException)
-            {
-                throw;
+                else if (gameFiles.Contains(installedPath))
+                {
+                    FileInfo file = new FileInfo(installedPath);
+                    file.CopyTo(Path.Combine(preset.Directory.FullName, file.Name));
+                }
             }
         }
 
@@ -180,7 +113,7 @@ namespace ENBOrganizer.Domain.Services
                     _masterListItemService.Add(masterListItem);
             }
         }
-        
+
         public void Install(Preset preset, Game currentGame)
         {
             foreach (FileInfo file in preset.Directory.GetFiles())

@@ -25,7 +25,7 @@ namespace ENBOrganizer.App.ViewModels
         private readonly ICommand _importFolderCommand;
         private readonly ICommand _importArchiveCommand;
         private readonly ICommand _importActiveFilesCommand;
-        
+
         private ObservableCollection<Preset> _presets;
 
         public ObservableCollection<Preset> Presets
@@ -50,7 +50,7 @@ namespace ENBOrganizer.App.ViewModels
             _dialogService = dialogService;
 
             _presetDetailViewModel = presetDetailViewModel;
-            
+
             _addBlankPresetCommand = new RelayCommand(AddBlank, () => true);
             _importFolderCommand = new RelayCommand(ImportDirectory, () => true);
             _importArchiveCommand = new RelayCommand(ImportArchive, () => true);
@@ -63,7 +63,7 @@ namespace ENBOrganizer.App.ViewModels
                 new TitledCommand("Import Archive", "Create a preset an archive (.zip, .7z)", _importArchiveCommand),
                 new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
             };
-            
+
             SelectPresetCommand = new RelayCommand<Preset>((preset) => MessengerInstance.Send(new PresetNavigationMessage(preset)));
 
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
@@ -115,39 +115,17 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: exception handling
             string name = await _dialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
 
-            try
-            {
-                _presetService.ImportActiveFiles(new Preset(name, CurrentGame));
-            }
-            catch (DuplicateEntityException exception)
-            {
-                await _dialogService.ShowErrorDialog(exception.Message);
-            }
+            _presetService.ImportActiveFiles(new Preset(name, CurrentGame));
         }
 
-        private async void ImportArchive()
+        private void ImportArchive()
         {
             string archivePath = _dialogService.PromptForFile("Please select a .zip file", "ZIP Files(*.zip) | *.zip");
 
             if (archivePath == null || archivePath.Trim() == string.Empty)
                 return;
 
-            try
-            {
-                _presetService.ImportArchive(archivePath, CurrentGame);
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                await _dialogService.ShowErrorDialog(exception.Message);
-            }
-            catch (NotSupportedException exception)
-            {
-                await _dialogService.ShowErrorDialog(exception.Message);
-            }
-            catch (InvalidOperationException exception)
-            {
-                await _dialogService.ShowErrorDialog(exception.Message);
-            }
+            _presetService.ImportArchive(archivePath, CurrentGame);
         }
 
         private void ImportDirectory()
@@ -157,26 +135,7 @@ namespace ENBOrganizer.App.ViewModels
             if (directoryPath == string.Empty)
                 return;
 
-            try
-            {
-                _presetService.ImportDirectory(directoryPath, CurrentGame);
-            }
-            catch (InvalidOperationException exception)
-            {
-                // TODO: MessageBoxUtil.ShowError(exception.Message);
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                //MessageBoxUtil.ShowError("Not all files were imported." + Environment.NewLine + Environment.NewLine + exception.Message);
-            }
-            catch (PathTooLongException exception)
-            {
-                //MessageBoxUtil.ShowError(exception.Message);
-            }
-            catch (IOException exception)
-            {
-                //MessageBoxUtil.ShowError("Not all files were imported." + Environment.NewLine + Environment.NewLine + exception.Message);
-            }
+            _presetService.ImportDirectory(directoryPath, CurrentGame);
         }
     }
 }

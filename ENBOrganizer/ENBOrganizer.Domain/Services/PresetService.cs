@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System;
 
 namespace ENBOrganizer.Domain.Services
 {
@@ -23,13 +24,7 @@ namespace ENBOrganizer.Domain.Services
             return _repository.Items.Where(preset => preset.Game.Equals(game)).ToList();
         }
 
-        public void ChangeImage(Preset preset, string imageSource)
-        {
-            _repository.Items.First(p => p.Equals(preset)).ImagePath = imageSource;
-            _repository.SaveChanges();
-        }
-
-        public void Save()
+        public void SaveChanges()
         {
             _repository.SaveChanges();
         }
@@ -46,6 +41,11 @@ namespace ENBOrganizer.Domain.Services
             {
                 throw;
             }
+        }
+
+        public void Uninstall(Preset _preset)
+        {
+            throw new NotImplementedException();
         }
 
         public void ImportArchive(string archivePath, Game game)
@@ -119,15 +119,15 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void Install(Preset preset, Game currentGame)
+        public void Install(Preset preset)
         {
             foreach (FileInfo file in preset.Directory.GetFiles())
-                file.CopyTo(Path.Combine(currentGame.DirectoryPath, file.Name), true);
+                file.CopyTo(Path.Combine(preset.Game.DirectoryPath, file.Name), true);
 
             foreach (DirectoryInfo subdirectory in preset.Directory.GetDirectories())
             {
                 if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: exception
-                    subdirectory.CopyTo(Path.Combine(currentGame.DirectoryPath, subdirectory.Name));
+                    subdirectory.CopyTo(Path.Combine(preset.Game.DirectoryPath, subdirectory.Name));
             }
         }
 

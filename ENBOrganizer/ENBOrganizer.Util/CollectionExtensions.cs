@@ -5,13 +5,13 @@ namespace ENBOrganizer.Util
 {
     public static class CollectionExtensions
     {
-        public static void AddAll<T>(this ObservableCollection<T> observableCollection, List<T> list)
+        public static void AddAll<T>(this ObservableCollection<T> observableCollection, IEnumerable<T> list)
         {
             foreach (T item in list)
                 observableCollection.Add(item);
         }
 
-        public static ObservableCollection<T> ToObservableCollection<T>(this List<T> list)
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> list)
         {
             return new ObservableCollection<T>(list);
         }

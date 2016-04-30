@@ -1,15 +1,15 @@
 ﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Services;
+using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using MahApps.Metro.Controls.Dialogs;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using MahApps.Metro.Controls.Dialogs;
-using System;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -77,10 +77,17 @@ namespace ENBOrganizer.App.ViewModels
             MessengerInstance.Register<PresetNavigationMessage>(this, (message) => _preset = message.Preset);
         }
 
-        private void RenamePreset()
+        private async void RenamePreset()
         {
-            Name = "Renamed Name";
-            _presetService.Save();
+            string newName = await _dialogService.ShowInputDialog("Rename Preset", "Please enter a new name for the preset.");
+
+            if (newName == null || newName.Trim() == string.Empty)
+                return;
+
+            _preset.Directory.Rename(newName);
+
+            Name = newName;
+            _presetService.SaveChanges();
         }
 
         private void NavigateToPresetsOverview()
@@ -94,8 +101,7 @@ namespace ENBOrganizer.App.ViewModels
             string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
 
             ImagePath = imageSource;
-
-            _presetService.ChangeImage(_preset, imageSource);
+            _presetService.SaveChanges();
         }
 
         private void DeletePreset()

@@ -22,11 +22,7 @@ namespace ENBOrganizer.App.ViewModels
         public string Name
         {
             get { return _name; }
-            set
-            {
-                _name = value.Trim();
-                RaisePropertyChanged("Name");
-            }
+            set { Set("Name", ref _name, value.Trim()); }
         }
 
         private string _executablePath;
@@ -34,11 +30,7 @@ namespace ENBOrganizer.App.ViewModels
         public string ExecutablePath
         {
             get { return _executablePath; }
-            set
-            {
-                _executablePath = value;
-                RaisePropertyChanged("ExecutablePath");
-            }
+            set { Set("ExecutablePath", ref _executablePath, value); }
         }
 
         public AddGameViewModel(GameService gameService, GamesViewModel gamesViewModel, DialogService dialogService)

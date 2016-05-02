@@ -18,11 +18,7 @@ namespace ENBOrganizer.App.ViewModels
         public bool IsAddGameFlyoutOpen
         {
             get { return _isAddGameFlyoutOpen; }
-            set
-            {
-                _isAddGameFlyoutOpen = value;
-                RaisePropertyChanged("IsAddGameFlyoutOpen");
-            }
+            set { Set("IsAddGameFlyoutOpen", ref _isAddGameFlyoutOpen, value); }
         }
         
         private ViewModelBase _currentViewModel;
@@ -30,11 +26,7 @@ namespace ENBOrganizer.App.ViewModels
         public ViewModelBase CurrentViewModel
         {
             get { return _currentViewModel; }
-            set
-            {
-                _currentViewModel = value;
-                RaisePropertyChanged("CurrentViewModel");
-            }
+            set { Set("CurrentViewModel", ref _currentViewModel, value); }
         }
 
         public MainViewModel(PresetsOverviewViewModel presetsOverviewViewModel, PresetDetailViewModel presetDetailViewModel, GamesViewModel gamesViewModel)

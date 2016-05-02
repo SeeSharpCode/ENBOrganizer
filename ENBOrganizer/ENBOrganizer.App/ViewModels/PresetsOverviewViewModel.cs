@@ -24,17 +24,7 @@ namespace ENBOrganizer.App.ViewModels
         private readonly ICommand _importArchiveCommand;
         private readonly ICommand _importActiveFilesCommand;
 
-        private ObservableCollection<Preset> _presets;
-
-        public ObservableCollection<Preset> Presets
-        {
-            get { return _presets; }
-            set
-            {
-                _presets = value;
-                RaisePropertyChanged("Presets");
-            }
-        }
+        public ObservableCollection<Preset> Presets { get; set; }
 
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ICommand SelectPresetCommand { get; private set; }

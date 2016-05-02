@@ -4,11 +4,6 @@ using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using MahApps.Metro.Controls.Dialogs;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
@@ -16,8 +11,8 @@ namespace ENBOrganizer.App.ViewModels
     public class PresetDetailViewModel : ViewModelBase
     {
         private readonly PresetService _presetService;
-        private readonly PresetItemsService _presetItemsService;
         private readonly DialogService _dialogService;
+        private readonly PresetFilesViewModel _presetFilesViewModel;
 
         private Preset _preset;
 
@@ -25,12 +20,6 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand RenamePresetCommand { get; set; }
         public ICommand NavigateToPresetOverviewCommand { get; set; }
         public ICommand DeletePresetCommand { get; set; }
-        public ICommand DeleteItemCommand { get; set; }
-        public ICommand AddFileCommand { get; set; }
-        public ICommand AddFolderCommand { get; set; }
-        public ICommand OpenFileCommand { get; set; }
-        public ICommand RenameItemCommand { get; set; }
-        public IPresetItem SelectedPresetItem { get; set; }
 
         public string ImagePath
         {
@@ -52,29 +41,26 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        public List<IPresetItem> Items
-        {
-            get { return _presetItemsService.GetPresetItems(Path.Combine(_preset.Game.PresetsDirectory.FullName, _preset.Name)); }
-        }
-
-        public PresetDetailViewModel(PresetService presetServce, PresetItemsService presetItemsService, DialogService dialogService)
+        public PresetDetailViewModel(PresetService presetServce, DialogService dialogService, PresetFilesViewModel presetFilesViewModel)
         {
             _presetService = presetServce;
-            _presetItemsService = presetItemsService;
-
             _dialogService = dialogService;
+            _presetFilesViewModel = presetFilesViewModel;
 
             ChangePresetImageCommand = new RelayCommand(ChangePresetImage);
             NavigateToPresetOverviewCommand = new RelayCommand(NavigateToPresetsOverview);
             DeletePresetCommand = new RelayCommand(DeletePreset);
-            DeleteItemCommand = new RelayCommand(DeleteItem);
-            AddFileCommand = new RelayCommand(AddFile);
-            AddFolderCommand = new RelayCommand(AddFolder);
-            OpenFileCommand = new RelayCommand(OpenFile);
-            RenameItemCommand = new RelayCommand(RenameItem);
+            
             RenamePresetCommand = new RelayCommand(RenamePreset);
 
-            MessengerInstance.Register<PresetNavigationMessage>(this, (message) => _preset = message.Preset);
+            MessengerInstance.Register<PresetNavigationMessage>(this, OnPresetSelected);
+        }
+
+        // TODO: is there a better way to do this?
+        private void OnPresetSelected(PresetNavigationMessage message)
+        {
+            _preset = message.Preset;
+            _presetFilesViewModel.Preset = message.Preset;
         }
 
         private async void RenamePreset()
@@ -109,78 +95,6 @@ namespace ENBOrganizer.App.ViewModels
             _presetService.Delete(_preset);
 
             NavigateToPresetsOverview();
-        }
-
-        private void DeleteItem()
-        {
-            SelectedPresetItem.Delete();
-
-            RaisePropertyChanged("Items");
-        }
-
-        private void AddFolder()
-        {
-            string folderPath = _dialogService.PromptForFolder("Please select a folder...");
-
-            if (folderPath == string.Empty)
-                return;
-
-            _presetItemsService.CopyDirectoryAsPresetItem(SelectedPresetItem, folderPath);
-
-            // TODO: use service event to react to items change
-            RaisePropertyChanged("Items");
-        }
-
-        private void AddFile()
-        {
-            List<string> fileNames = _dialogService.PromptForFiles("Please select a file(s) to add...", "All Files (*.*)|*.*");
-
-            if (!fileNames.Any())
-                return;
-
-            foreach (string filePath in fileNames)
-                _presetItemsService.CopyFileAsPresetItem(SelectedPresetItem, filePath);
-
-            RaisePropertyChanged("Items");
-        }
-
-        private void OpenFile()
-        {
-            // TODO: exception handling
-            Process.Start(SelectedPresetItem.Path);
-        }
-
-        private async void RenameItem()
-        {
-            string newName = await _dialogService.ShowInputDialog("Rename", "Please enter a new name without the file extension.");
-
-            if (newName == null || newName.Trim() == string.Empty)
-                return;
-
-            if (OverwriteRequiresRename(newName))
-                if (await _dialogService.ShowYesOrNoDialog("Overwrite?", GetOverwritePromptMessage()) == MessageDialogResult.Affirmative)
-                    SelectedPresetItem.Rename(newName.Trim());
-                else
-                    return;
-            else
-                SelectedPresetItem.Rename(newName.Trim());
-
-            RaisePropertyChanged("Items");
-        }
-
-        private string GetOverwritePromptMessage()
-        {
-            return SelectedPresetItem is PresetFile ? "Overwrite existing file?" : "Overwrite existing directory?";
-        }
-
-        private bool OverwriteRequiresRename(string newName)
-        {
-            string renamedPath = Path.Combine(Path.GetDirectoryName(SelectedPresetItem.Path), newName);
-
-            if (SelectedPresetItem is PresetFile)
-                renamedPath += Path.GetExtension(SelectedPresetItem.Path);
-
-            return SelectedPresetItem is PresetFile ? new FileInfo(renamedPath).Exists : new DirectoryInfo(renamedPath).Exists;
         }
     }
 }

@@ -88,13 +88,19 @@
     <Compile Include="Messages\NavigationMessage.cs" />
     <Compile Include="Messages\PresetNavigationMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
+    <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PresetDetailViewModel.cs" />
+    <Compile Include="ViewModels\PresetFilesViewModel.cs" />
     <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
     <Compile Include="TitledCommand.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\AddGameView.xaml.cs">
       <DependentUpon>AddGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddMasterListItemView.xaml.cs">
+      <DependentUpon>AddMasterListItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedTreeView.cs" />
     <Compile Include="Views\MasterListView.xaml.cs">
@@ -102,6 +108,9 @@
     </Compile>
     <Compile Include="Views\PresetDetailView.xaml.cs">
       <DependentUpon>PresetDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PresetFilesView.xaml.cs">
+      <DependentUpon>PresetFilesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PresetsOverviewView.xaml.cs">
       <DependentUpon>PresetsOverviewView.xaml</DependentUpon>
@@ -111,6 +120,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AddGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddMasterListItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -140,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PresetDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PresetFilesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

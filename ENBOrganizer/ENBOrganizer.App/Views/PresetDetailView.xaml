@@ -7,7 +7,8 @@
              xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
              xmlns:converters="clr-namespace:ENBOrganizer.App.Converters"
              mc:Ignorable="d"
-             x:Name="Root">
+             x:Name="Root"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetDetailViewModel, Mode=OneTime}">
     <UserControl.Resources>
         <converters:PathToIconConverter x:Key="PathToIconConverter" />
 
@@ -91,15 +92,14 @@
         </StackPanel>
 
         <Expander Header="Files" Margin="{StaticResource ControlMargin}">
-            <views:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
-                                MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" MinWidth="300" MinHeight="100" BorderThickness="0" />
+            <views:PresetFilesView />
         </Expander>
 
         <Expander Header="Tile Screenshot">
             <StackPanel Orientation="Vertical">
                 <Image Source="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}"
-                       MaxWidth="600" MaxHeight="337" HorizontalAlignment="Left" Stretch="UniformToFill" />
-                <Button Command="{Binding ChangePresetImageCommand, Mode=OneTime}" HorizontalAlignment="Left">
+                       Width="300" Height="125" HorizontalAlignment="Left" Stretch="UniformToFill" />
+                <Button Command="{Binding ChangePresetImageCommand, Mode=OneTime}" HorizontalAlignment="Left" Margin="{StaticResource ControlMargin}">
                     <TextBlock Text="Change" Style="{StaticResource ButtonTextStyle}" />
                 </Button>
             </StackPanel>

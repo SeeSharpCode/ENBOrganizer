@@ -39,7 +39,7 @@
                 <ContentControl Content="{Binding CurrentViewModel}" />
             </TabItem>
             <TabItem Header="Master List">
-                <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <views:MasterListView />
             </TabItem>
             <TabItem Header="Settings">
                 <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />

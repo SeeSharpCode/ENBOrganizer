@@ -18,17 +18,7 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand ShowAddGameDialogCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
 
-        private ObservableCollection<Game> _games;
-
-        public ObservableCollection<Game> Games
-        {
-            get { return _games; }
-            set
-            {
-                _games = value;
-                RaisePropertyChanged("Games");
-            }
-        }
+        public ObservableCollection<Game> Games { get; set; }
 
         public Game CurrentGame
         {

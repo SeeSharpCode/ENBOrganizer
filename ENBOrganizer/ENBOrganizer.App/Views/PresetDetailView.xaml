@@ -47,7 +47,7 @@
         <Expander Header="Tile Screenshot">
             <StackPanel Orientation="Vertical">
                 <Image Source="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}"
-                       MaxWidth="300" MaxHeight="125" HorizontalAlignment="Left" Stretch="UniformToFill" />
+                       MaxWidth="300" MaxHeight="125" HorizontalAlignment="Left" Stretch="Uniform" />
                 <Button Command="{Binding ChangePresetImageCommand, Mode=OneTime}" HorizontalAlignment="Left" Margin="{StaticResource ControlMargin}">
                     <TextBlock Text="Change" Style="{StaticResource ButtonTextStyle}" />
                 </Button>

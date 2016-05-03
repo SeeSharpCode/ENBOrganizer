@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using System;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -28,6 +29,7 @@ namespace ENBOrganizer.App.ViewModels
 
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ICommand SelectPresetCommand { get; private set; }
+        public ICommand EnablePresetCommand { get; set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
         public PresetsOverviewViewModel(PresetService presetService, PresetDetailViewModel presetDetailViewModel, DialogService dialogService)
@@ -52,11 +54,18 @@ namespace ENBOrganizer.App.ViewModels
                 new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
             };
 
-            SelectPresetCommand = new RelayCommand<Preset>((preset) => MessengerInstance.Send(new PresetNavigationMessage(preset)));
+            SelectPresetCommand = new RelayCommand<Preset>(preset => MessengerInstance.Send(new PresetNavigationMessage(preset)));
+            EnablePresetCommand = new RelayCommand<Preset>(EnablePreset);
 
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
             Presets = _presetService.GetByGame(CurrentGame).ToObservableCollection();
+        }
+
+        private void EnablePreset(Preset preset)
+        {
+            preset.IsEnabled = !preset.IsEnabled;
+            _presetService.SaveChanges();
         }
 
         private void ApplicationSettings_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

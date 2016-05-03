@@ -9,57 +9,6 @@
              mc:Ignorable="d"
              x:Name="Root"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetDetailViewModel, Mode=OneTime}">
-    <UserControl.Resources>
-        <converters:PathToIconConverter x:Key="PathToIconConverter" />
-
-        <HierarchicalDataTemplate DataType="{x:Type entities:PresetDirectory}" ItemsSource="{Binding Items, Mode=OneWay}">
-            <StackPanel Orientation="Horizontal" Margin="0 0 5 0">
-                <Rectangle Fill="White" Width="16" Height="16">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_folder}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-                <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path, Mode=OneWay}" Tag="{Binding ElementName=Root}" 
-                           Margin="5 0 0 0">
-                    <TextBlock.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DataContext.DeleteItemCommand, 
-                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
-                            <MenuItem Header="Add Folder" Command="{Binding PlacementTarget.Tag.DataContext.AddFolderCommand, 
-                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
-                            <MenuItem Header="Add File" Command="{Binding PlacementTarget.Tag.DataContext.AddFileCommand, 
-                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
-                            <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameItemCommand, 
-                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
-                        </ContextMenu>
-                    </TextBlock.ContextMenu>
-                </TextBlock>
-            </StackPanel>
-        </HierarchicalDataTemplate>
-
-        <DataTemplate DataType="{x:Type entities:PresetFile}">
-            <StackPanel Orientation="Horizontal" Margin="0 0 5 0">
-                <Image Source="{Binding Path, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
-                                   Width="16" Height="16" />
-                <TextBlock Text="{Binding Path=Name, Mode=OneWay}" ToolTip="{Binding Path=Path, Mode=OneWay}" Tag="{Binding ElementName=Root}" Margin="5 0 0 0">
-                    <TextBlock.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Open" Command="{Binding PlacementTarget.Tag.DataContext.OpenFileCommand, 
-                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                            AncestorType=ContextMenu}}" />
-                            <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DataContext.DeleteItemCommand, 
-                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                            AncestorType=ContextMenu}}" />
-                            <MenuItem Header="Rename" Command="{Binding PlacementTarget.Tag.DataContext.RenameItemCommand, 
-                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                            AncestorType=ContextMenu}}" />
-                        </ContextMenu>
-                    </TextBlock.ContextMenu>
-                </TextBlock>
-            </StackPanel>
-        </DataTemplate>
-    </UserControl.Resources>
-
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
         <Button Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" 
                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.NavigateToPresetOverviewCommand}"

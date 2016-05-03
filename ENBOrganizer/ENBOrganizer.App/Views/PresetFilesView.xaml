@@ -56,7 +56,7 @@
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
-    
+
     <StackPanel Orientation="Vertical">
         <views:ExtendedTreeView ItemsSource="{Binding Items, Mode=OneWay}" SelectedItem_="{Binding SelectedPresetItem, Mode=OneWayToSource}" 
                                 MouseRightButtonDown="ExtendedTreeView_MouseRightButtonDown" MinWidth="300" MinHeight="100" BorderThickness="0"

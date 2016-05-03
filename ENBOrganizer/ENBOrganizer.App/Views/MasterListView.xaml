@@ -23,7 +23,7 @@
                 </Rectangle>
             </Button>
         </StackPanel>
-        <ListView ItemsSource="{Binding MasterListItems, Mode=OneWay}">
+        <ListView ItemsSource="{Binding MasterListItems, Mode=OneWay}" Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" VerticalAlignment="Center">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name, Mode=OneTime}" />

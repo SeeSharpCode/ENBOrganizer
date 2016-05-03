@@ -19,13 +19,21 @@
         <DataTemplate DataType="{x:Type viewModels:PresetsOverviewViewModel}">
             <views:PresetsOverviewView />
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:AddGameViewModel}">
+            <views:AddGameView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:AddMasterListItemViewModel}">
+            <views:AddMasterListItemView />
+        </DataTemplate>
     </controls:MetroWindow.Resources>
 
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
             <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add Game" 
                              IsOpen="{Binding IsAddGameFlyoutOpen, Mode=TwoWay}" Theme="Accent">
-                <views:AddGameView />
+                <ContentControl Content="{Binding CurrentDialogViewModel}" />
             </controls:Flyout>
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
@@ -36,7 +44,7 @@
                 <views:GamesView />
             </TabItem>
             <TabItem Header="Presets">
-                <ContentControl Content="{Binding CurrentViewModel}" />
+                <ContentControl Content="{Binding CurrentPresetViewModel}" />
             </TabItem>
             <TabItem Header="Master List">
                 <views:MasterListView />

@@ -2,16 +2,12 @@
 using ENBOrganizer.Domain.Entities;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
-using System.ComponentModel;
 
 namespace ENBOrganizer.App.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private PresetsOverviewViewModel _presetsOverviewViewModel;
-        private PresetDetailViewModel _presetDetailViewModel;
-
-        public GamesViewModel GamesViewModel { get; set; }
+        private readonly ViewModelLocator _viewModelLocator;
 
         private bool _isAddGameFlyoutOpen;
 
@@ -20,44 +16,43 @@ namespace ENBOrganizer.App.ViewModels
             get { return _isAddGameFlyoutOpen; }
             set { Set("IsAddGameFlyoutOpen", ref _isAddGameFlyoutOpen, value); }
         }
+
+        private ViewModelBase _currentDialogViewModel;
+
+        public ViewModelBase CurrentDialogViewModel
+        {
+            get { return _currentDialogViewModel; }
+            set { Set("CurrentDialogViewModel", ref _currentDialogViewModel, value); }
+        }
         
-        private ViewModelBase _currentViewModel;
+        private ViewModelBase _currentPresetViewModel;
 
-        public ViewModelBase CurrentViewModel
+        public ViewModelBase CurrentPresetViewModel
         {
-            get { return _currentViewModel; }
-            set { Set("CurrentViewModel", ref _currentViewModel, value); }
+            get { return _currentPresetViewModel; }
+            set { Set("CurrentPresetViewModel", ref _currentPresetViewModel, value); }
         }
 
-        public MainViewModel(PresetsOverviewViewModel presetsOverviewViewModel, PresetDetailViewModel presetDetailViewModel, GamesViewModel gamesViewModel)
+        public MainViewModel(ViewModelLocator viewModelLocator)
         {
-            _presetsOverviewViewModel = presetsOverviewViewModel;
-            _presetDetailViewModel = presetDetailViewModel;
-            GamesViewModel = gamesViewModel;
-            GamesViewModel.PropertyChanged += GamesViewModel_PropertyChanged;
+            _viewModelLocator = viewModelLocator;
 
-            CurrentViewModel = _presetsOverviewViewModel;
+            CurrentPresetViewModel = _viewModelLocator.PresetsOverviewViewModel;
 
-            MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentViewModel = _presetsOverviewViewModel);
+            MessengerInstance.Register<PropertyChangedMessage<Game>>(this, (message) => CurrentPresetViewModel = _viewModelLocator.PresetsOverviewViewModel);
             MessengerInstance.Register<NavigationMessage>(this, true, OnNavigationMessage);
-            MessengerInstance.Register<DialogMessage>(this, (message) => OnDialogMessage(message));
-        }
-
-        private void GamesViewModel_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (propertyChangedEventArgs.PropertyName == "CurrentGame")
-                CurrentViewModel = _presetsOverviewViewModel;
+            MessengerInstance.Register<DialogMessage>(this, true, (message) => OnDialogMessage(message));
         }
 
         private void OnNavigationMessage(NavigationMessage navigationMessage)
         {
             switch (navigationMessage.ViewName)
             {
-                case ViewNames.PresetDetail:
-                    CurrentViewModel = _presetDetailViewModel;
+                case ViewName.PresetDetail:
+                    CurrentPresetViewModel = _viewModelLocator.PresetDetailViewModel;
                     break;
-                case ViewNames.PresetsOverview:
-                    CurrentViewModel = _presetsOverviewViewModel;
+                case ViewName.PresetsOverview:
+                    CurrentPresetViewModel = _viewModelLocator.PresetsOverviewViewModel;
                     break;
                 default:
                     break;
@@ -66,7 +61,19 @@ namespace ENBOrganizer.App.ViewModels
 
         private void OnDialogMessage(DialogMessage dialogMessage)
         {
-            IsAddGameFlyoutOpen = dialogMessage.DialogAction == DialogActions.Open;
+            if (dialogMessage.DialogAction == DialogAction.Open)
+            {
+                IsAddGameFlyoutOpen = true;
+
+                OpenDialogMessage openDialogMessage = dialogMessage as OpenDialogMessage;
+
+                if (openDialogMessage.Dialog == Dialog.AddGame)
+                    CurrentDialogViewModel = _viewModelLocator.AddGameViewModel;
+                else
+                    CurrentDialogViewModel = _viewModelLocator.AddMasterListItemViewModel;
+            }
+            else
+                IsAddGameFlyoutOpen = false;
         }
     }
 }

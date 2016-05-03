@@ -78,7 +78,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void NavigateToPresetsOverview()
         {
-            MessengerInstance.Send(new NavigationMessage(ViewNames.PresetsOverview));
+            MessengerInstance.Send(new NavigationMessage(ViewName.PresetsOverview));
         }
 
         private void ChangePresetImage()

@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using ENBOrganizer.App.Messages;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -28,7 +29,7 @@ namespace ENBOrganizer.App.ViewModels
                 Properties.Settings.Default.CurrentGame = value;
                 Properties.Settings.Default.Save();
 
-                RaisePropertyChanged("CurrentGame");
+                RaisePropertyChanged("CurrentGame", true);
             }
         }
 
@@ -39,7 +40,7 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            ShowAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowAddGameDialog());
+            ShowAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddGame));
             DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
 
             Games = _gameService.GetAll().ToObservableCollection();

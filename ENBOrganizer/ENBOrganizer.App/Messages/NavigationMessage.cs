@@ -2,7 +2,7 @@
 
 namespace ENBOrganizer.App.Messages
 {
-    public enum ViewNames
+    public enum ViewName
     {
         PresetsOverview,
         PresetDetail
@@ -10,9 +10,9 @@ namespace ENBOrganizer.App.Messages
 
     public class NavigationMessage : MessageBase
     {
-        public ViewNames ViewName { get; set; }
+        public ViewName ViewName { get; set; }
 
-        public NavigationMessage(ViewNames viewName)
+        public NavigationMessage(ViewName viewName)
         {
             ViewName = viewName;
         }

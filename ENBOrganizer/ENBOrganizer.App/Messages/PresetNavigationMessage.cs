@@ -7,7 +7,7 @@ namespace ENBOrganizer.App.Messages
         public Preset Preset { get; set; }
 
         public PresetNavigationMessage(Preset preset) 
-            : base(ViewNames.PresetDetail)
+            : base(ViewName.PresetDetail)
         {
             Preset = preset;
         }

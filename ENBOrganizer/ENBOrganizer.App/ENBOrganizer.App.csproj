@@ -86,6 +86,7 @@
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
     <Compile Include="Messages\NavigationMessage.cs" />
+    <Compile Include="Messages\OpenDialogMessage.cs" />
     <Compile Include="Messages\PresetNavigationMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />

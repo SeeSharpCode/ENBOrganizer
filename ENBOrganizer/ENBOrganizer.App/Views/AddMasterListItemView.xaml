@@ -5,8 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ENBOrganizer.App.Views"
              mc:Ignorable="d">
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Vertical">
         <Label Content="Name" />
-        <!--<TextBox Text=""-->
+        <TextBox Text="{Binding Name}" MinWidth="100" />
+        <Label Content="Type" Margin="{StaticResource ControlMargin}" />
+        <ComboBox ItemsSource="{Binding MasterListItemTypes, Mode=OneTime}" SelectedItem="{Binding SelectedMasterListItemType}" IsSynchronizedWithCurrentItem="True" />
+        <Button Command="{Binding AddMasterListItemCommand, Mode=OneTime}" HorizontalAlignment="Right" Margin="{StaticResource ControlMargin}">
+            <TextBlock Text="Save" Style="{StaticResource ButtonTextStyle}" />
+        </Button>
     </StackPanel>
 </UserControl>

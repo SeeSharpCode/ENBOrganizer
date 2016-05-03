@@ -2,7 +2,7 @@
 
 namespace ENBOrganizer.App.Messages
 {
-    public enum DialogActions
+    public enum DialogAction
     {
         Open,
         Close
@@ -10,9 +10,9 @@ namespace ENBOrganizer.App.Messages
 
     public class DialogMessage : MessageBase
     {
-        public DialogActions DialogAction { get; set; }
+        public DialogAction DialogAction { get; set; }
 
-        public DialogMessage(DialogActions dialogAction)
+        public DialogMessage(DialogAction dialogAction)
         {
             DialogAction = dialogAction;
         }

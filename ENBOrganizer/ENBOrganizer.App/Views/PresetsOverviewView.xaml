@@ -24,27 +24,54 @@
         </Style>
 
         <DataTemplate DataType="{x:Type entities:Preset}">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="384" Background="{DynamicResource AccentColorBrush}" Margin="10">
-                <Image MaxWidth="384" MaxHeight="216" Source="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Left" />
+            <StackPanel x:Name="PresetPanel" Orientation="Vertical" Margin="10">
+                <StackPanel.Background>
+                    <!--<ImageBrush ImageSource="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}">
+                    </ImageBrush>-->
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Grid ClipToBounds="True">
+                                <Image Source="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" Stretch="Fill">
+                                    <!--<Image.Effect>
+                                        <BlurEffect Radius=""/>
+                                    </Image.Effect>-->
+                                </Image>
+                                <Rectangle Fill="Black" Opacity=".5" />
+                            </Grid>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </StackPanel.Background>
+
+                <!--<Image MaxWidth="384" MaxHeight="216" Source="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Left" />-->
                 <Label Content="{Binding Name}" Style="{StaticResource DescriptionHeaderStyle}" Margin="10 5 10 5" />
-                <TextBlock Margin="10 0 10 10" TextWrapping="Wrap" Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it." />
+                <TextBlock Margin="10 0 10 10" TextWrapping="Wrap" Text="A bleak and somber ENB with DDOF turned on." />
                 <StackPanel Orientation="Horizontal" Margin="10 0 10 5">
                     <controls:ToggleSwitch OffLabel="Disabled" OnLabel="Enabled" />
+                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SelectPresetCommand, Mode=OneTime}" 
+                            CommandParameter="{Binding}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0">
+                        <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
                 </StackPanel>
             </StackPanel>
+            <!--<StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="384" Background="{DynamicResource AccentColorBrush}" Margin="10">-->
+
 
             <!--<controls:Tile x:Name="PresetTile" Title="{Binding Name}" Style="{StaticResource LargeTileStyle}" CommandParameter="{Binding}" 
                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SelectPresetCommand, Mode=OneTime}">
                 <controls:Tile.Background>
                     <ImageBrush ImageSource="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" />
                 </controls:Tile.Background>
-            </controls:Tile>
+            </controls:Tile>-->
 
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" Value="{x:Null}">
-                    <Setter TargetName="PresetTile" Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                    <Setter TargetName="PresetPanel" Property="Background" Value="{DynamicResource AccentColorBrush}" />
                 </DataTrigger>
-            </DataTemplate.Triggers>-->
+            </DataTemplate.Triggers>
         </DataTemplate>
     </UserControl.Resources>
 

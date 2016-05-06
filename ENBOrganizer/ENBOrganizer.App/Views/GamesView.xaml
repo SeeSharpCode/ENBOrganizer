@@ -26,7 +26,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <Button Command="{Binding ShowAddGameDialogCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Margin="5 0 0 0">
+            <Button Command="{Binding ShowAddGameDialogCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Margin="5 0 0 0" BorderBrush="White">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
@@ -34,7 +34,7 @@
                 </Rectangle>
             </Button>
 
-            <Button Command="{Binding DeleteGameCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}">
+            <Button Command="{Binding DeleteGameCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="White">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />

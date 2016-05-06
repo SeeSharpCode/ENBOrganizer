@@ -24,35 +24,57 @@
         </Style>
 
         <DataTemplate DataType="{x:Type entities:Preset}">
-            <StackPanel x:Name="PresetPanel" Orientation="Vertical" Margin="10" Width="345" Height="162">
-                <StackPanel.Background>
-                    <ImageBrush ImageSource="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" Stretch="UniformToFill" />
-                </StackPanel.Background>
+            <Grid x:Name="PresetsGrid" Margin="0 10 10 0" Width="345" Height="162">
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=TwoWay}" Stretch="UniformToFill" />
+                </Grid.Background>
 
-                <StackPanel HorizontalAlignment="Left" Margin="5 5 0 0">
-                    <StackPanel.Background>
+                <Label x:Name="PresetTitleLabel" Content="{Binding Name}" Style="{StaticResource DescriptionHeaderStyle}" Padding="5" Margin="5 5 0 0"
+                       VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Label.Background>
                         <SolidColorBrush Color="Black" Opacity=".7" />
-                    </StackPanel.Background>
-                    
-                    <Label Content="{Binding Name}" Style="{StaticResource DescriptionHeaderStyle}" Margin="5" />
-                </StackPanel>
-                
-                <!--<StackPanel Orientation="Horizontal" Margin="10 0 10 5">
-                    <controls:ToggleSwitch OffLabel="Disabled" OnLabel="Enabled" />
+                    </Label.Background>
+                </Label>
+
+                <CheckBox HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Padding="0" />
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="{StaticResource AccentColorBrush}">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=PresetsGrid, Path=IsMouseOver}" Value="False">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=PresetsGrid, Path=IsMouseOver}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+
                     <Button Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SelectPresetCommand, Mode=OneTime}" 
-                            CommandParameter="{Binding}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0">
+                            CommandParameter="{Binding}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Margin="5 0 0 0" BorderBrush="White">
                         <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </Button>
-                </StackPanel>-->
-            </StackPanel>
-            
+                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ChangePresetImageCommand, Mode=OneTime}" 
+                            CommandParameter="{Binding}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0 5 5 5" BorderBrush="White">
+                        <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" Value="{x:Null}">
-                    <Setter TargetName="PresetPanel" Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                    <Setter TargetName="PresetsGrid" Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                    <Setter TargetName="PresetTitleLabel" Property="Background" Value="Transparent" />
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -80,7 +102,7 @@
         <ItemsControl ItemsSource="{Binding Presets}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical" />
+                    <WrapPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>

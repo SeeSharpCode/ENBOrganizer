@@ -30,6 +30,7 @@ namespace ENBOrganizer.App.ViewModels
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ICommand SelectPresetCommand { get; private set; }
         public ICommand EnablePresetCommand { get; set; }
+        public ICommand ChangePresetImageCommand { get; set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
         public PresetsOverviewViewModel(PresetService presetService, PresetDetailViewModel presetDetailViewModel, DialogService dialogService)
@@ -56,10 +57,24 @@ namespace ENBOrganizer.App.ViewModels
 
             SelectPresetCommand = new RelayCommand<Preset>(preset => MessengerInstance.Send(new PresetNavigationMessage(preset)));
             EnablePresetCommand = new RelayCommand<Preset>(EnablePreset);
+            ChangePresetImageCommand = new RelayCommand<Preset>(ChangePresetImage);
 
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
             Presets = _presetService.GetByGame(CurrentGame).ToObservableCollection();
+        }
+
+        private void ChangePresetImage(Preset preset)
+        {
+            // TODO: filter
+            string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
+
+            // TODO: implement everywhere
+            if (string.IsNullOrWhiteSpace(imageSource))
+                return;
+
+            preset.ImagePath = imageSource;
+            _presetService.SaveChanges();
         }
 
         private void EnablePreset(Preset preset)

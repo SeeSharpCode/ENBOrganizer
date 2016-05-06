@@ -15,8 +15,7 @@ namespace ENBOrganizer.App.ViewModels
         private readonly PresetFilesViewModel _presetFilesViewModel;
 
         private Preset _preset;
-
-        public ICommand ChangePresetImageCommand { get; set; }
+        
         public ICommand RenamePresetCommand { get; set; }
         public ICommand NavigateToPresetOverviewCommand { get; set; }
         public ICommand DeletePresetCommand { get; set; }
@@ -46,8 +45,7 @@ namespace ENBOrganizer.App.ViewModels
             _presetService = presetServce;
             _dialogService = dialogService;
             _presetFilesViewModel = presetFilesViewModel;
-
-            ChangePresetImageCommand = new RelayCommand(ChangePresetImage);
+            
             NavigateToPresetOverviewCommand = new RelayCommand(NavigateToPresetsOverview);
             DeletePresetCommand = new RelayCommand(DeletePreset);
             
@@ -79,15 +77,6 @@ namespace ENBOrganizer.App.ViewModels
         private void NavigateToPresetsOverview()
         {
             MessengerInstance.Send(new NavigationMessage(ViewName.PresetsOverview));
-        }
-
-        private void ChangePresetImage()
-        {
-            // TODO: filter
-            string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
-
-            ImagePath = imageSource;
-            _presetService.SaveChanges();
         }
 
         private void DeletePreset()

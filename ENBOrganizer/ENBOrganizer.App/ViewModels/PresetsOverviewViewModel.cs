@@ -24,13 +24,13 @@ namespace ENBOrganizer.App.ViewModels
         private readonly ICommand _importFolderCommand;
         private readonly ICommand _importArchiveCommand;
         private readonly ICommand _importActiveFilesCommand;
-
         public ObservableCollection<Preset> Presets { get; set; }
 
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ICommand SelectPresetCommand { get; private set; }
         public ICommand EnablePresetCommand { get; set; }
         public ICommand ChangePresetImageCommand { get; set; }
+        public ICommand UninstallAllPresetsCommand { get; set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
         public PresetsOverviewViewModel(PresetService presetService, PresetDetailViewModel presetDetailViewModel, DialogService dialogService)
@@ -58,6 +58,7 @@ namespace ENBOrganizer.App.ViewModels
             SelectPresetCommand = new RelayCommand<Preset>(preset => MessengerInstance.Send(new PresetNavigationMessage(preset)));
             EnablePresetCommand = new RelayCommand<Preset>(EnablePreset);
             ChangePresetImageCommand = new RelayCommand<Preset>(ChangePresetImage);
+            UninstallAllPresetsCommand = new RelayCommand(() => _presetService.UninstallAll(CurrentGame));
 
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
@@ -109,7 +110,7 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: exception handling
             string name = await _dialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
 
-            if (name == null || name.Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(name))
                 return;
 
             try
@@ -134,7 +135,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             string archivePath = _dialogService.PromptForFile("Please select a .zip file", "ZIP Files(*.zip) | *.zip");
 
-            if (archivePath == null || archivePath.Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(archivePath))
                 return;
 
             _presetService.ImportArchive(archivePath, CurrentGame);
@@ -144,7 +145,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             string directoryPath = _dialogService.PromptForFolder("Please select the preset folder...");
 
-            if (directoryPath == string.Empty)
+            if (string.IsNullOrWhiteSpace(directoryPath))
                 return;
 
             _presetService.ImportDirectory(directoryPath, CurrentGame);

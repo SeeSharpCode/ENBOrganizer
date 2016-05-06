@@ -14,7 +14,7 @@ namespace ENBOrganizer.App.Views
             InitializeComponent();
         }
 
-        // HACK: Set the selected TreeViewItem on a right-click.
+        // HACK: set the selected TreeViewItem on a right-click
         private void ExtendedTreeView_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             TreeViewItem treeViewItem = VisualUpwardSearch(e.OriginalSource as DependencyObject);

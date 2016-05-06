@@ -46,7 +46,7 @@ namespace ENBOrganizer.App.ViewModels
             _dialogService = dialogService;
             _presetFilesViewModel = presetFilesViewModel;
             
-            NavigateToPresetOverviewCommand = new RelayCommand(NavigateToPresetsOverview);
+            NavigateToPresetOverviewCommand = new RelayCommand(() => MessengerInstance.Send(new NavigationMessage(ViewName.PresetsOverview)));
             DeletePresetCommand = new RelayCommand(DeletePreset);
             
             RenamePresetCommand = new RelayCommand(RenamePreset);
@@ -74,16 +74,11 @@ namespace ENBOrganizer.App.ViewModels
             _presetService.SaveChanges();
         }
 
-        private void NavigateToPresetsOverview()
-        {
-            MessengerInstance.Send(new NavigationMessage(ViewName.PresetsOverview));
-        }
-
         private void DeletePreset()
         {
             _presetService.Delete(_preset);
 
-            NavigateToPresetsOverview();
+            NavigateToPresetOverviewCommand.Execute(null);
         }
     }
 }

@@ -65,7 +65,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             string newName = await _dialogService.ShowInputDialog("Rename Preset", "Please enter a new name for the preset.");
 
-            if (newName == null || newName.Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(newName))
                 return;
 
             _preset.Directory.Rename(newName);

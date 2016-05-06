@@ -64,14 +64,14 @@ namespace ENBOrganizer.App.ViewModels
 
         private bool CanAdd()
         {
-            return !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(ExecutablePath);
+            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(ExecutablePath);
         }
 
         private void BrowseForGameFile()
         {
             string gameFilePath = _dialogService.PromptForFile("Select the game's .exe file", "EXE Files (*.exe)|*.exe");
 
-            if (gameFilePath.Equals(string.Empty))
+            if (string.IsNullOrWhiteSpace(gameFilePath))
                 return;
 
             Name = Path.GetFileNameWithoutExtension(gameFilePath);

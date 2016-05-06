@@ -92,7 +92,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             string newName = await _dialogService.ShowInputDialog("Rename", "Please enter a new name without the file extension.");
 
-            if (newName == null || newName.Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(newName))
                 return;
 
             if (OverwriteRequiresRename(newName))

@@ -41,7 +41,7 @@ namespace ENBOrganizer.App.ViewModels
             _dialogService = dialogService;
 
             ShowAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddGame));
-            DeleteGameCommand = new RelayCommand(DeleteGame, CanDelete);
+            DeleteGameCommand = new RelayCommand(() => _gameService.Delete(CurrentGame), () => CurrentGame != null);
 
             Games = _gameService.GetAll().ToObservableCollection();
         }
@@ -56,19 +56,10 @@ namespace ENBOrganizer.App.ViewModels
                 CurrentGame = game;
             }
             else
+            {
                 Games.Remove(game);
-        }
-
-        private void DeleteGame()
-        {
-            _gameService.Delete(CurrentGame);
-
-            CurrentGame = Games.FirstOrDefault();
-        }
-
-        private bool CanDelete()
-        {
-            return CurrentGame != null;
+                CurrentGame = Games.FirstOrDefault();
+            }
         }
     }
 }

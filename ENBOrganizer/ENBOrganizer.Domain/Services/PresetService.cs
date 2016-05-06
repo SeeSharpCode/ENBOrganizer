@@ -167,6 +167,11 @@ namespace ENBOrganizer.Domain.Services
                         directory.Delete(true);
                 }
             }
+
+            foreach (Preset preset in _repository.Items)
+                preset.IsEnabled = false;
+
+            SaveChanges();
         }
     }
 }

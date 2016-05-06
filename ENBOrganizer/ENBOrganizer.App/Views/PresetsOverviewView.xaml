@@ -36,7 +36,7 @@
                     </Label.Background>
                 </Label>
 
-                <CheckBox HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Padding="0" />
+                <CheckBox IsChecked="{Binding IsEnabled}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Padding="0" />
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="{StaticResource AccentColorBrush}">
                     <StackPanel.Style>
@@ -81,24 +81,34 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-        <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
+        <StackPanel Orientation="Horizontal">
+            <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
                                  ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left">
-            <controls:DropDownButton.Icon>
-                <Viewbox Width="32" Height="32" Stretch="Uniform">
-                    <ContentControl Content="{DynamicResource appbar_add}" Focusable="False" />
-                </Viewbox>
-            </controls:DropDownButton.Icon>
+                <controls:DropDownButton.Icon>
+                    <Viewbox Width="32" Height="32" Stretch="Uniform">
+                        <ContentControl Content="{DynamicResource appbar_add}" Focusable="False" />
+                    </Viewbox>
+                </controls:DropDownButton.Icon>
 
-            <controls:DropDownButton.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
-                    <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
-                    <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
-                    <Setter Property="Padding" Value="3" />
-                </Style>
-            </controls:DropDownButton.ItemContainerStyle>
-        </controls:DropDownButton>
+                <controls:DropDownButton.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
+                        <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
+                        <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
+                        <Setter Property="Padding" Value="3" />
+                    </Style>
+                </controls:DropDownButton.ItemContainerStyle>
+            </controls:DropDownButton>
 
+            <Button Command="{Binding UninstallAllPresetsCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="White">
+                <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_clean}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </StackPanel>
+        
         <ItemsControl ItemsSource="{Binding Presets}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

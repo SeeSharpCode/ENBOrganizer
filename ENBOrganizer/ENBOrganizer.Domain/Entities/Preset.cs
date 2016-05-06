@@ -18,7 +18,10 @@ namespace ENBOrganizer.Domain.Entities
         public bool IsEnabled
         {
             get { return _isEnabled; }
-            set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); }
+            set
+            {
+                _isEnabled = value;
+                RaisePropertyChanged("IsEnabled"); }
         }
 
         [XmlIgnore]

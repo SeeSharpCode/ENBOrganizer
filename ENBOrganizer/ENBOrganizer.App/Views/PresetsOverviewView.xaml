@@ -17,12 +17,6 @@
             <Setter Property="Width" Value="48" />
         </Style>
 
-        <Style x:Key="LargeTileStyle" x:Name="LargeTileStyle" TargetType="controls:Tile">
-            <Setter Property="Height" Value="125" />
-            <Setter Property="TitleFontSize" Value="14" />
-            <Setter Property="Width" Value="300" />
-        </Style>
-
         <DataTemplate DataType="{x:Type entities:Preset}">
             <Grid x:Name="PresetsGrid" Margin="0 10 10 0" Width="345" Height="162">
                 <Grid.Background>

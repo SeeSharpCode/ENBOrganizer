@@ -29,12 +29,12 @@
                     <ImageBrush ImageSource="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=TwoWay}" Stretch="UniformToFill" />
                 </Grid.Background>
 
-                <Label x:Name="PresetTitleLabel" Content="{Binding Name}" Style="{StaticResource DescriptionHeaderStyle}" Padding="5" Margin="5 5 0 0"
-                       VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <Label.Background>
+                <TextBlock x:Name="PresetTitleLabel" Text="{Binding Name}" FontSize="22" Padding="5" Margin="5 5 0 0"
+                       VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap">
+                    <TextBlock.Background>
                         <SolidColorBrush Color="Black" Opacity=".7" />
-                    </Label.Background>
-                </Label>
+                    </TextBlock.Background>
+                </TextBlock>
 
                 <CheckBox IsChecked="{Binding IsEnabled}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Padding="0" />
 

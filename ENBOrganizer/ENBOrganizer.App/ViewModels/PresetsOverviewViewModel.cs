@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-using System;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -69,8 +68,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             // TODO: filter
             string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
-
-            // TODO: implement everywhere
+            
             if (string.IsNullOrWhiteSpace(imageSource))
                 return;
 

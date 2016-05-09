@@ -14,31 +14,10 @@ namespace ENBOrganizer.App.ViewModels
         private readonly DialogService _dialogService;
         private readonly PresetFilesViewModel _presetFilesViewModel;
 
-        private Preset _preset;
-        
+        public Preset Preset { get; set; }
         public ICommand RenamePresetCommand { get; set; }
         public ICommand NavigateToPresetOverviewCommand { get; set; }
         public ICommand DeletePresetCommand { get; set; }
-
-        public string ImagePath
-        {
-            get { return _preset.ImagePath; }
-            set
-            {
-                _preset.ImagePath = value;
-                RaisePropertyChanged("ImagePath");
-            }
-        }
-
-        public string Name
-        {
-            get { return _preset.Name; }
-            set
-            {
-                _preset.Name = value;
-                RaisePropertyChanged("Name");
-            }
-        }
 
         public PresetDetailViewModel(PresetService presetServce, DialogService dialogService, PresetFilesViewModel presetFilesViewModel)
         {
@@ -57,7 +36,7 @@ namespace ENBOrganizer.App.ViewModels
         // TODO: is there a better way to do this?
         private void OnPresetSelected(PresetNavigationMessage message)
         {
-            _preset = message.Preset;
+            Preset = message.Preset;
             _presetFilesViewModel.Preset = message.Preset;
         }
 
@@ -68,15 +47,15 @@ namespace ENBOrganizer.App.ViewModels
             if (string.IsNullOrWhiteSpace(newName))
                 return;
 
-            _preset.Directory.Rename(newName);
+            Preset.Directory.Rename(newName);
 
-            Name = newName;
+            Preset.Name = newName;
             _presetService.SaveChanges();
         }
 
         private void DeletePreset()
         {
-            _presetService.Delete(_preset);
+            _presetService.Delete(Preset);
 
             NavigateToPresetOverviewCommand.Execute(null);
         }

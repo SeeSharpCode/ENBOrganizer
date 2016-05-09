@@ -1,5 +1,4 @@
 ﻿using ENBOrganizer.Util;
-using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -7,33 +6,13 @@ namespace ENBOrganizer.Domain.Entities
 {
     // TODO: remove INotifyPropertyChanged from this model class
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
-    public class Preset : IEntity, INotifyPropertyChanged
+    public class Preset : IEntity
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public string Name { get; set; }
         public Game Game { get; set; }
-
-        private string _imagePath;
-        public string ImagePath
-        {
-            get { return _imagePath; }
-            set
-            {
-                _imagePath = value;
-                RaisePropertyChanged("ImagePath");
-            }
-        }
-
-        private bool _isEnabled;
-
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                _isEnabled = value;
-                RaisePropertyChanged("IsEnabled"); }
-        }
+        public string ImagePath { get; set; }
+        public bool IsEnabled { get; set; }
 
         [XmlIgnore]
         public DirectoryInfo Directory
@@ -44,8 +23,6 @@ namespace ENBOrganizer.Domain.Entities
                 return new DirectoryInfo(path); 
              }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Preset() { } // Required for serialization.
 
@@ -63,11 +40,6 @@ namespace ENBOrganizer.Domain.Entities
                 return false;
 
             return Name.EqualsIgnoreCase(preset.Name) && Game.Equals(preset.Game);
-        }
-
-        private void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

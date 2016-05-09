@@ -21,7 +21,7 @@
         </Button>
 
         <StackPanel Orientation="Horizontal">
-            <Label Content="{Binding Name, Mode=OneWay}" Style="{StaticResource DescriptionHeaderStyle}" VerticalAlignment="Center" />
+            <Label Content="{Binding Preset.Name, Mode=OneWay}" Style="{StaticResource DescriptionHeaderStyle}" VerticalAlignment="Center" />
             <Button Command="{Binding RenamePresetCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center"
                     Style="{DynamicResource MetroCircleButtonStyle}" Margin="5 0 0 0">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">

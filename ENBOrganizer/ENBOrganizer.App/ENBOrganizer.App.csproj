@@ -96,6 +96,7 @@
     <Compile Include="ViewModels\PresetFilesViewModel.cs" />
     <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
     <Compile Include="TitledCommand.cs" />
+    <Compile Include="ViewModels\PresetViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\AddGameView.xaml.cs">
       <DependentUpon>AddGameView.xaml</DependentUpon>
@@ -115,6 +116,9 @@
     </Compile>
     <Compile Include="Views\PresetsOverviewView.xaml.cs">
       <DependentUpon>PresetsOverviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PresetView.xaml.cs">
+      <DependentUpon>PresetView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -162,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PresetsOverviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PresetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

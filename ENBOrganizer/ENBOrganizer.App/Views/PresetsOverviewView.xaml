@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
-             xmlns:interaction="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
+             xmlns:views="clr-namespace:ENBOrganizer.App.Views"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsOverviewViewModel}">
     <UserControl.Resources>
@@ -18,8 +18,9 @@
             <Setter Property="Width" Value="48" />
         </Style>
 
-        <DataTemplate DataType="{x:Type entities:Preset}">
-            <Grid x:Name="PresetsGrid" Margin="0 10 10 0" Width="345" Height="162">
+        <DataTemplate DataType="{x:Type viewModels:PresetViewModel}">
+            <views:PresetView />
+            <!--<Grid x:Name="PresetsGrid" Margin="0 10 10 0" Width="345" Height="162">
                 <Grid.Background>
                     <ImageBrush ImageSource="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}" Stretch="UniformToFill" />
                 </Grid.Background>
@@ -31,6 +32,9 @@
                     </TextBlock.Background>
                 </TextBlock>
 
+                -->
+            <!--IsEnabled binding mode is OneTime because the domain service will take handle IsEnabled-->
+            <!--
                 <CheckBox IsChecked="{Binding IsEnabled, Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Padding="0">
                     <interaction:Interaction.Triggers>
                         <interaction:EventTrigger EventName="Checked">
@@ -82,7 +86,7 @@
                     <Setter TargetName="PresetsGrid" Property="Background" Value="{DynamicResource AccentColorBrush}" />
                     <Setter TargetName="PresetTitleLabel" Property="Background" Value="Transparent" />
                 </DataTrigger>
-            </DataTemplate.Triggers>
+            </DataTemplate.Triggers>-->
         </DataTemplate>
     </UserControl.Resources>
 
@@ -114,8 +118,8 @@
                 </Rectangle>
             </Button>
         </StackPanel>
-        
-        <ItemsControl ItemsSource="{Binding Presets}">
+
+        <ItemsControl ItemsSource="{Binding PresetViewModels}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" />

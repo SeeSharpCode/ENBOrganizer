@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
@@ -23,7 +24,7 @@ namespace ENBOrganizer.App.ViewModels
         private readonly ICommand _importFolderCommand;
         private readonly ICommand _importArchiveCommand;
         private readonly ICommand _importActiveFilesCommand;
-        public ObservableCollection<Preset> Presets { get; set; }
+        public ObservableCollection<PresetViewModel> PresetViewModels { get; set; }
 
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ICommand SelectPresetCommand { get; private set; }
@@ -63,7 +64,7 @@ namespace ENBOrganizer.App.ViewModels
 
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
-            Presets = _presetService.GetByGame(CurrentGame).ToObservableCollection();
+            LoadPresets();
         }
 
         private void ChangePresetImage(Preset preset)
@@ -86,17 +87,20 @@ namespace ENBOrganizer.App.ViewModels
 
         private void LoadPresets()
         {
-            Presets.Clear();
+            if (PresetViewModels == null)
+                PresetViewModels = new ObservableCollection<PresetViewModel>();
 
-            Presets.AddAll(_presetService.GetByGame(CurrentGame));
+            PresetViewModels.Clear();
+
+            PresetViewModels.AddAll(_presetService.GetByGame(CurrentGame).Select(preset => new PresetViewModel(preset)).ToObservableCollection());
         }
 
         private void _presetService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
             if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
-                Presets.Add(repositoryChangedEventArgs.Entity as Preset);
+                PresetViewModels.Add(new PresetViewModel(repositoryChangedEventArgs.Entity as Preset));
             else
-                Presets.Remove(repositoryChangedEventArgs.Entity as Preset);
+                PresetViewModels.Remove(PresetViewModels.First(presetViewModel => presetViewModel.Preset.Equals(repositoryChangedEventArgs.Entity as Preset)));
         }
 
         private async void AddBlank()

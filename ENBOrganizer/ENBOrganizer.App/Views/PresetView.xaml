@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="ENBOrganizer.App.Views.PresetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:views="clr-namespace:ENBOrganizer.App.Views"
+             xmlns:interaction="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
+             mc:Ignorable="d">
+    <Grid x:Name="PresetGrid" Margin="0 10 10 0" Width="345" Height="162" 
+          Background="{Binding ImagePath, Converter={StaticResource PathToBitmapConverter}, Mode=OneWay}">
+        <TextBlock x:Name="PresetTitleLabel" Text="{Binding Name}" FontSize="22" Padding="5" Margin="5 5 0 0"
+                       VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="Black" Opacity=".7" />
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=ImagePath}" Value="{x:Null}">
+                            <Setter Property="Background" Value="Transparent" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <!--IsEnabled binding mode is OneTime because the domain service will take handle IsEnabled-->
+        <CheckBox IsChecked="{Binding IsEnabled, Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Padding="0">
+            <interaction:Interaction.Triggers>
+                <interaction:EventTrigger EventName="Checked">
+                    <interaction:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                Path=DataContext.EnablePresetCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                </interaction:EventTrigger>
+                <interaction:EventTrigger EventName="Unchecked">
+                    <interaction:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                Path=DataContext.DisablePresetCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                </interaction:EventTrigger>
+            </interaction:Interaction.Triggers>
+        </CheckBox>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="{StaticResource AccentColorBrush}">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=PresetsGrid, Path=IsMouseOver}" Value="False">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=PresetsGrid, Path=IsMouseOver}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+
+            <Button Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SelectPresetCommand, Mode=OneTime}" 
+                            CommandParameter="{Binding}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Margin="5 0 0 0" BorderBrush="White">
+                <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ChangePresetImageCommand, Mode=OneTime}" 
+                            CommandParameter="{Binding}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0 5 5 5" BorderBrush="White">
+                <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

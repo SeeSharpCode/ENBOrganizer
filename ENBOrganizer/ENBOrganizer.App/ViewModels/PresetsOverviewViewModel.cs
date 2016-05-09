@@ -27,9 +27,10 @@ namespace ENBOrganizer.App.ViewModels
 
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ICommand SelectPresetCommand { get; private set; }
+        public ICommand DisablePresetCommand { get; set; }
         public ICommand EnablePresetCommand { get; set; }
         public ICommand ChangePresetImageCommand { get; set; }
-        public ICommand UninstallAllPresetsCommand { get; set; }
+        public ICommand DisableAllPresetsCommand { get; set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
         public PresetsOverviewViewModel(PresetService presetService, PresetDetailViewModel presetDetailViewModel, DialogService dialogService)
@@ -55,9 +56,10 @@ namespace ENBOrganizer.App.ViewModels
             };
 
             SelectPresetCommand = new RelayCommand<Preset>(preset => MessengerInstance.Send(new PresetNavigationMessage(preset)));
-            EnablePresetCommand = new RelayCommand<Preset>(EnablePreset);
+            EnablePresetCommand = new RelayCommand<Preset>(preset => _presetService.Enable(preset));
+            DisablePresetCommand = new RelayCommand<Preset>(preset => _presetService.Disable(preset));
             ChangePresetImageCommand = new RelayCommand<Preset>(ChangePresetImage);
-            UninstallAllPresetsCommand = new RelayCommand(() => _presetService.UninstallAll(CurrentGame));
+            DisableAllPresetsCommand = new RelayCommand(() => _presetService.DisableAll(CurrentGame));
 
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
@@ -73,12 +75,6 @@ namespace ENBOrganizer.App.ViewModels
                 return;
 
             preset.ImagePath = imageSource;
-            _presetService.SaveChanges();
-        }
-
-        private void EnablePreset(Preset preset)
-        {
-            preset.IsEnabled = !preset.IsEnabled;
             _presetService.SaveChanges();
         }
 

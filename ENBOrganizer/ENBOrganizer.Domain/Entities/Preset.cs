@@ -5,13 +5,24 @@ using System.Xml.Serialization;
 
 namespace ENBOrganizer.Domain.Entities
 {
+    // TODO: remove INotifyPropertyChanged from this model class
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public class Preset : IEntity, INotifyPropertyChanged
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public string Name { get; set; }
         public Game Game { get; set; }
-        public string ImagePath { get; set; }
+
+        private string _imagePath;
+        public string ImagePath
+        {
+            get { return _imagePath; }
+            set
+            {
+                _imagePath = value;
+                RaisePropertyChanged("ImagePath");
+            }
+        }
 
         private bool _isEnabled;
 

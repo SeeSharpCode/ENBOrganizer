@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
+             xmlns:interaction="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsOverviewViewModel}">
     <UserControl.Resources>
@@ -30,7 +31,18 @@
                     </TextBlock.Background>
                 </TextBlock>
 
-                <CheckBox IsChecked="{Binding IsEnabled}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Padding="0" />
+                <CheckBox IsChecked="{Binding IsEnabled, Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Padding="0">
+                    <interaction:Interaction.Triggers>
+                        <interaction:EventTrigger EventName="Checked">
+                            <interaction:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                Path=DataContext.EnablePresetCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                        </interaction:EventTrigger>
+                        <interaction:EventTrigger EventName="Unchecked">
+                            <interaction:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                Path=DataContext.DisablePresetCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                        </interaction:EventTrigger>
+                    </interaction:Interaction.Triggers>
+                </CheckBox>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="{StaticResource AccentColorBrush}">
                     <StackPanel.Style>
@@ -94,7 +106,7 @@
                 </controls:DropDownButton.ItemContainerStyle>
             </controls:DropDownButton>
 
-            <Button Command="{Binding UninstallAllPresetsCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="White">
+            <Button Command="{Binding DisableAllPresetsCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="White">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_clean}" />

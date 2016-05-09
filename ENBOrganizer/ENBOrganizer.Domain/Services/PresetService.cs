@@ -43,9 +43,11 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void Uninstall(Preset _preset)
+        public void Disable(Preset preset)
         {
-            throw new NotImplementedException();
+            // TODO: actual uninstall logic
+            preset.IsEnabled = false;
+            SaveChanges();
         }
 
         public void ImportArchive(string archivePath, Game game)
@@ -119,7 +121,7 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void Install(Preset preset)
+        public void Enable(Preset preset)
         {
             foreach (FileInfo file in preset.Directory.GetFiles())
                 file.CopyTo(Path.Combine(preset.Game.DirectoryPath, file.Name), true);
@@ -129,6 +131,9 @@ namespace ENBOrganizer.Domain.Services
                 if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: exception
                     subdirectory.CopyTo(Path.Combine(preset.Game.DirectoryPath, subdirectory.Name));
             }
+
+            preset.IsEnabled = true;
+            SaveChanges();
         }
 
         public new void Delete(Preset preset)
@@ -146,7 +151,7 @@ namespace ENBOrganizer.Domain.Services
                 Delete(preset);
         }
 
-        public void UninstallAll(Game currentGame)
+        public void DisableAll(Game currentGame)
         {
             foreach (MasterListItem masterListItem in _masterListItemService.GetAll())
             {

@@ -41,7 +41,7 @@ namespace ENBOrganizer.Domain.Services
 
             _presetService.DeleteByGame(game);
 
-            game.PresetsDirectory.DeleteRecursive();
+            game.PresetsDirectory.Delete(true);
         }
     }
 }

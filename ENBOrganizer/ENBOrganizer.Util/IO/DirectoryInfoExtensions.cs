@@ -22,29 +22,6 @@ namespace ENBOrganizer.Util.IO
                 CopyTo(subdirectory, Path.Combine(targetDirectory.FullName, subdirectory.Name));
         }
 
-        public static void DeleteRecursive(this DirectoryInfo directory)
-        {
-            if (!directory.Exists)
-                return;
-
-            FileInfo[] files = directory.GetFiles();
-            DirectoryInfo[] directories = directory.GetDirectories();
-
-            foreach (FileInfo file in files)
-            {
-                file.Attributes = FileAttributes.Normal;
-                file.Delete();
-            }
-
-            foreach (DirectoryInfo subdirectory in directories)
-            {
-                subdirectory.Attributes = FileAttributes.Normal;
-                DeleteRecursive(subdirectory);
-            }
-
-            directory.Delete();
-        }
-
         public static void Rename(this DirectoryInfo directory, string name)
         {
             string renamedPath = Path.Combine(directory.Parent.FullName, name);

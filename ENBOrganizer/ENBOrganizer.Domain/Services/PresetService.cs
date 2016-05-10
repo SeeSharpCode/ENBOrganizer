@@ -162,7 +162,7 @@ namespace ENBOrganizer.Domain.Services
 
         public new void Delete(Preset preset)
         {
-            preset.Directory.DeleteRecursive();
+            preset.Directory.Delete(true);
 
             base.Delete(preset);
         }

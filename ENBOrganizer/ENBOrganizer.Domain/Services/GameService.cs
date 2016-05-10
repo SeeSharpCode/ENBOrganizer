@@ -1,6 +1,6 @@
 ﻿using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
-using System.IO;
+using System;
 
 namespace ENBOrganizer.Domain.Services
 {
@@ -12,9 +12,7 @@ namespace ENBOrganizer.Domain.Services
         {
             _presetService = presetService;
         }
-
-        /// <exception cref="DuplicateEntityException" />
-        /// <exception cref="IOException" />
+        
         public new void Add(Game game)
         {
             try
@@ -27,7 +25,7 @@ namespace ENBOrganizer.Domain.Services
             {
                 throw;
             }
-            catch (IOException)
+            catch (Exception)
             {
                 base.Delete(game);
 

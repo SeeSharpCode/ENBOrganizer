@@ -23,14 +23,7 @@ namespace ENBOrganizer.Domain.Services
         {
             return _repository.Items.Where(preset => preset.Game.Equals(game)).ToList();
         }
-
-        public void SaveChanges()
-        {
-            _repository.SaveChanges();
-        }
-
-        /// <exception cref="DuplicateEntityException" />
-        /// <exception cref="IOException" />
+        
         public new void Add(Preset preset)
         {
             try
@@ -43,7 +36,7 @@ namespace ENBOrganizer.Domain.Services
             {
                 throw;
             }
-            catch (IOException)
+            catch (Exception) 
             {
                 base.Delete(preset);
 
@@ -51,16 +44,28 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void Disable(Preset preset)
+        public void ImportDirectory(string sourceDirectoryPath, Game game)
         {
-            foreach (FileSystemInfo fileSystemInfo in preset.Directory.GetFileSystemInfos())
-            {
-                string installedPath = Path.Combine(preset.Game.DirectoryPath, fileSystemInfo.Name);
+            DirectoryInfo sourceDirectory = new DirectoryInfo(sourceDirectoryPath);
+            Preset preset = new Preset(sourceDirectory.Name, game);
 
-                if (fileSystemInfo is DirectoryInfo && Directory.Exists(installedPath))
-                    Directory.Delete(installedPath, true);
-                else if (File.Exists(installedPath))
-                    File.Delete(installedPath);
+            try
+            {
+                base.Add(preset);
+
+                sourceDirectory.CopyTo(preset.Directory.FullName);
+                
+                CreateMasterListItemsFromPreset(preset);
+            }
+            catch (DuplicateEntityException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                Delete(preset);
+
+                throw;
             }
         }
 
@@ -68,32 +73,31 @@ namespace ENBOrganizer.Domain.Services
         {
             Preset preset = new Preset(Path.GetFileNameWithoutExtension(archivePath), game);
 
-            ZipFile.ExtractToDirectory(archivePath, preset.Directory.FullName);
+            try
+            {
+                base.Add(preset);
 
-            // TODO: following 2 lines are shared between ImportArchive and ImportFolder 
-            // and could we handle this with domain events?
-            base.Add(preset);
+                ZipFile.ExtractToDirectory(archivePath, preset.Directory.FullName);
 
-            CreateMasterListItemsFromPreset(preset);
+                CreateMasterListItemsFromPreset(preset);
+            }
+            catch (DuplicateEntityException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                Delete(preset);
+
+                throw;
+            }
         }
-
-        public void ImportDirectory(string sourceDirectoryPath, Game game)
-        {
-            DirectoryInfo sourceDirectory = new DirectoryInfo(sourceDirectoryPath);
-            Preset preset = new Preset(sourceDirectory.Name, game);
-
-            sourceDirectory.CopyTo(preset.Directory.FullName);
-
-            base.Add(preset);
-
-            CreateMasterListItemsFromPreset(preset);
-        }
-
+        
         public void ImportActiveFiles(Preset preset)
         {
             try
             {
-                Add(preset);
+                base.Add(preset);
 
                 List<MasterListItem> masterListItems = _masterListItemService.GetAll();
                 List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
@@ -119,32 +123,11 @@ namespace ENBOrganizer.Domain.Services
             {
                 throw;
             }
-            catch (Exception exception) when (exception is UnauthorizedAccessException || exception is DirectoryNotFoundException)
+            catch (Exception)
             {
                 Delete(preset);
 
                 throw;
-            }
-        }
-
-        private void CreateMasterListItemsFromPreset(Preset preset)
-        {
-            List<MasterListItem> masterListItems = _masterListItemService.GetAll();
-
-            foreach (DirectoryInfo directory in preset.Directory.GetDirectories())
-            {
-                MasterListItem masterListItem = new MasterListItem(directory.Name, MasterListItemType.Directory);
-
-                if (!masterListItems.Contains(masterListItem))
-                    _masterListItemService.Add(masterListItem);
-            }
-
-            foreach (FileInfo file in preset.Directory.GetFiles())
-            {
-                MasterListItem masterListItem = new MasterListItem(file.Name, MasterListItemType.File);
-
-                if (!masterListItems.Contains(masterListItem))
-                    _masterListItemService.Add(masterListItem);
             }
         }
 
@@ -160,19 +143,17 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public new void Delete(Preset preset)
+        public void Disable(Preset preset)
         {
-            preset.Directory.Delete(true);
+            foreach (FileSystemInfo fileSystemInfo in preset.Directory.GetFileSystemInfos())
+            {
+                string installedPath = Path.Combine(preset.Game.DirectoryPath, fileSystemInfo.Name);
 
-            base.Delete(preset);
-        }
-
-        public void DeleteByGame(Game game)
-        {
-            List<Preset> presets = GetAll().Where(preset => preset.Game.Equals(game)).ToList();
-
-            foreach (Preset preset in presets)
-                Delete(preset);
+                if (fileSystemInfo is DirectoryInfo && Directory.Exists(installedPath))
+                    Directory.Delete(installedPath, true);
+                else if (File.Exists(installedPath))
+                    File.Delete(installedPath);
+            }
         }
 
         public void DisableAll(Game currentGame)
@@ -196,6 +177,53 @@ namespace ENBOrganizer.Domain.Services
                         directory.Delete(true);
                 }
             }
+        }
+
+        private void CreateMasterListItemsFromPreset(Preset preset)
+        {
+            List<MasterListItem> masterListItems = _masterListItemService.GetAll();
+
+            foreach (DirectoryInfo directory in preset.Directory.GetDirectories())
+            {
+                MasterListItem masterListItem = new MasterListItem(directory.Name, MasterListItemType.Directory);
+
+                try
+                {
+                    _masterListItemService.Add(masterListItem);
+                }
+                catch (DuplicateEntityException) { }                    
+            }
+
+            foreach (FileInfo file in preset.Directory.GetFiles())
+            {
+                MasterListItem masterListItem = new MasterListItem(file.Name, MasterListItemType.File);
+
+                try
+                {
+                    _masterListItemService.Add(masterListItem);
+                }
+                catch (DuplicateEntityException) { }
+            }
+        }
+        
+        public new void Delete(Preset preset)
+        {
+            preset.Directory.Delete(true);
+
+            base.Delete(preset);
+        }
+
+        public void DeleteByGame(Game game)
+        {
+            List<Preset> presets = GetAll().Where(preset => preset.Game.Equals(game)).ToList();
+
+            foreach (Preset preset in presets)
+                Delete(preset);
+        }
+        
+        public void SaveChanges()
+        {
+            _repository.SaveChanges();
         }
     }
 }

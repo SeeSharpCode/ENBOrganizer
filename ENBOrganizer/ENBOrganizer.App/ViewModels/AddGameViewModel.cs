@@ -50,7 +50,7 @@ namespace ENBOrganizer.App.ViewModels
             {
                 _gameService.Add(new Game(Name, ExecutablePath));
             }
-            catch (Exception exception) when (exception is DuplicateEntityException || exception is IOException)
+            catch (Exception exception) 
             {
                 await _dialogService.ShowErrorDialog(exception.Message);
             }

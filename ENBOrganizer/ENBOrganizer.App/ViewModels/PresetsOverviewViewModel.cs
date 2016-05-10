@@ -102,7 +102,41 @@ namespace ENBOrganizer.App.ViewModels
             {
                 _presetService.Add(new Preset(name, CurrentGame));
             }
-            catch (Exception exception) when (exception is DuplicateEntityException || exception is IOException)
+            catch (Exception exception) 
+            {
+                await _dialogService.ShowErrorDialog(exception.Message);
+            }
+        }
+
+        private async void ImportDirectory()
+        {
+            string directoryPath = _dialogService.PromptForFolder("Please select the preset folder...");
+
+            if (string.IsNullOrWhiteSpace(directoryPath))
+                return;
+
+            try
+            {
+                _presetService.ImportDirectory(directoryPath, CurrentGame);
+            }
+            catch (Exception exception)
+            {
+                await _dialogService.ShowErrorDialog(exception.Message);
+            }
+        }
+
+        private async void ImportArchive()
+        {
+            string archivePath = _dialogService.PromptForFile("Please select a .zip file", "ZIP Files(*.zip) | *.zip");
+
+            if (string.IsNullOrWhiteSpace(archivePath))
+                return;
+
+            try
+            {
+                _presetService.ImportArchive(archivePath, CurrentGame);
+            }
+            catch (Exception exception)
             {
                 await _dialogService.ShowErrorDialog(exception.Message);
             }
@@ -110,37 +144,16 @@ namespace ENBOrganizer.App.ViewModels
 
         private async void ImportActiveFiles()
         {
-            // TODO: exception handling
             string name = await _dialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
 
             try
             {
                 _presetService.ImportActiveFiles(new Preset(name, CurrentGame));
             }
-            catch (Exception exception) when (exception is DuplicateEntityException || exception is UnauthorizedAccessException || exception is DirectoryNotFoundException)
+            catch (Exception exception)
             {
                 await _dialogService.ShowErrorDialog(exception.Message);
             }
-        }
-
-        private void ImportArchive()
-        {
-            string archivePath = _dialogService.PromptForFile("Please select a .zip file", "ZIP Files(*.zip) | *.zip");
-
-            if (string.IsNullOrWhiteSpace(archivePath))
-                return;
-            
-            _presetService.ImportArchive(archivePath, CurrentGame);
-        }
-
-        private void ImportDirectory()
-        {
-            string directoryPath = _dialogService.PromptForFolder("Please select the preset folder...");
-
-            if (string.IsNullOrWhiteSpace(directoryPath))
-                return;
-
-            _presetService.ImportDirectory(directoryPath, CurrentGame);
         }
     }
 }

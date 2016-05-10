@@ -57,12 +57,19 @@ namespace ENBOrganizer.App.ViewModels
             LoadPresets();
         }
 
-        private void DisableAllPresets()
+        private async void DisableAllPresets()
         {
-            _presetService.DisableAll(CurrentGame);
+            try
+            {
+                _presetService.DisableAll(CurrentGame);
 
-            foreach (PresetViewModel presetViewModel in PresetViewModels)
-                presetViewModel.IsEnabled = false;
+                foreach (PresetViewModel presetViewModel in PresetViewModels)
+                    presetViewModel.IsEnabled = false;
+            }
+            catch (Exception exception)
+            {
+                await _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
         private void ApplicationSettings_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

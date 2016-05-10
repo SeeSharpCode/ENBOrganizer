@@ -133,49 +133,71 @@ namespace ENBOrganizer.Domain.Services
 
         public void Enable(Preset preset)
         {
-            foreach (FileInfo file in preset.Directory.GetFiles())
-                file.CopyTo(Path.Combine(preset.Game.DirectoryPath, file.Name), true);
-
-            foreach (DirectoryInfo subdirectory in preset.Directory.GetDirectories())
+            try
             {
-                if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: exception
-                    subdirectory.CopyTo(Path.Combine(preset.Game.DirectoryPath, subdirectory.Name));
+                foreach (FileInfo file in preset.Directory.GetFiles())
+                    file.CopyTo(Path.Combine(preset.Game.DirectoryPath, file.Name), true);
+
+                foreach (DirectoryInfo subdirectory in preset.Directory.GetDirectories())
+                {
+                    if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: exception
+                        subdirectory.CopyTo(Path.Combine(preset.Game.DirectoryPath, subdirectory.Name));
+                }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public void Disable(Preset preset)
         {
-            foreach (FileSystemInfo fileSystemInfo in preset.Directory.GetFileSystemInfos())
+            try
             {
-                string installedPath = Path.Combine(preset.Game.DirectoryPath, fileSystemInfo.Name);
+                foreach (FileSystemInfo fileSystemInfo in preset.Directory.GetFileSystemInfos())
+                {
+                    string installedPath = Path.Combine(preset.Game.DirectoryPath, fileSystemInfo.Name);
 
-                if (fileSystemInfo is DirectoryInfo && Directory.Exists(installedPath))
-                    Directory.Delete(installedPath, true);
-                else if (File.Exists(installedPath))
-                    File.Delete(installedPath);
+                    if (fileSystemInfo is DirectoryInfo && Directory.Exists(installedPath))
+                        Directory.Delete(installedPath, true);
+                    else if (File.Exists(installedPath))
+                        File.Delete(installedPath);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public void DisableAll(Game currentGame)
         {
-            foreach (MasterListItem masterListItem in _masterListItemService.GetAll())
+            try
             {
-                string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
-
-                if (masterListItem.Type.Equals(MasterListItemType.File))
+                foreach (MasterListItem masterListItem in _masterListItemService.GetAll())
                 {
-                    FileInfo file = new FileInfo(installedPath);
+                    string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
 
-                    if (file.Exists)
-                        file.Delete();
-                }
-                else
-                {
-                    DirectoryInfo directory = new DirectoryInfo(installedPath);
+                    if (masterListItem.Type.Equals(MasterListItemType.File))
+                    {
+                        FileInfo file = new FileInfo(installedPath);
 
-                    if (directory.Exists)
-                        directory.Delete(true);
+                        if (file.Exists)
+                            file.Delete();
+                    }
+                    else
+                    {
+                        DirectoryInfo directory = new DirectoryInfo(installedPath);
+
+                        if (directory.Exists)
+                            directory.Delete(true);
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 

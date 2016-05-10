@@ -85,22 +85,36 @@ namespace ENBOrganizer.App.ViewModels
             _presetService.SaveChanges();
         }
 
-        private void Enable()
+        private async void Enable()
         {
-            _presetService.Enable(Preset);
+            try
+            {
+                _presetService.Enable(Preset);
 
-            IsEnabled = true;
+                IsEnabled = true;
 
-            _presetService.SaveChanges();
+                _presetService.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                await _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
-        private void Disable()
+        private async void Disable()
         {
-            _presetService.Disable(Preset);
+            try
+            {
+                _presetService.Disable(Preset);
 
-            IsEnabled = false;
+                IsEnabled = false;
 
-            _presetService.SaveChanges();
+                _presetService.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                await _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
         private async void ChangeImage()

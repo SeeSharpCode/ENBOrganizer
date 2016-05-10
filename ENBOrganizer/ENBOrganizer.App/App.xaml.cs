@@ -14,6 +14,7 @@ namespace ENBOrganizer.App
     // TODO: optimize UI speed
     // TODO: settings
     // TODO: add support for binaries
+    // TODO: Remove exception handling when it's just catching Exception and displaying a message. This could be done globally.
     public partial class App : Application
     {
         public App()

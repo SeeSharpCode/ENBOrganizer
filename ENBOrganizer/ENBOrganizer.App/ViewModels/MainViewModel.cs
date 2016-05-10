@@ -12,7 +12,7 @@ namespace ENBOrganizer.App.ViewModels
         public bool IsAddGameFlyoutOpen
         {
             get { return _isAddGameFlyoutOpen; }
-            set { Set("IsAddGameFlyoutOpen", ref _isAddGameFlyoutOpen, value); }
+            set { Set(nameof(IsAddGameFlyoutOpen), ref _isAddGameFlyoutOpen, value); }
         }
 
         private ViewModelBase _currentDialogViewModel;
@@ -20,7 +20,7 @@ namespace ENBOrganizer.App.ViewModels
         public ViewModelBase CurrentDialogViewModel
         {
             get { return _currentDialogViewModel; }
-            set { Set("CurrentDialogViewModel", ref _currentDialogViewModel, value); }
+            set { Set(nameof(CurrentDialogViewModel), ref _currentDialogViewModel, value); }
         }
 
         public MainViewModel(ViewModelLocator viewModelLocator)

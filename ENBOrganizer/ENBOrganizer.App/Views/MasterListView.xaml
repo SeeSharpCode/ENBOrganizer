@@ -8,14 +8,14 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MasterListViewModel}">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Button Command="{Binding RenamePresetCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}">
+            <Button Command="{Binding AddMasterListItemCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            <Button Command="{Binding DeletePresetCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}">
+            <Button Command="{Binding DeleteMasterListItemCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
@@ -23,7 +23,8 @@
                 </Rectangle>
             </Button>
         </StackPanel>
-        <ListView ItemsSource="{Binding MasterListItems, Mode=OneWay}" Margin="{StaticResource ControlMargin}" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <ListView ItemsSource="{Binding MasterListItems, Mode=OneWay}" Margin="{StaticResource ControlMargin}" SelectedItem="{Binding SelectedMasterListItem, Mode=OneWayToSource}" 
+                  IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" VerticalAlignment="Center">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name, Mode=OneTime}" />

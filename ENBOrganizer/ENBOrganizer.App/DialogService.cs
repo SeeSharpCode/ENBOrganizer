@@ -1,5 +1,4 @@
 ﻿using ENBOrganizer.App.Messages;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -64,7 +63,7 @@ namespace ENBOrganizer.App
             Messenger.Default.Send(new OpenDialogMessage(dialog));
         }
 
-        public static void CloseDialog()
+        public void CloseDialog()
         {
             Messenger.Default.Send(new DialogMessage(DialogAction.Close));
         }

@@ -5,9 +5,11 @@ using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 
@@ -86,12 +88,11 @@ namespace ENBOrganizer.App.ViewModels
             if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
                 PresetViewModels.Add(new PresetViewModel(preset));
             else
-                PresetViewModels.Remove(PresetViewModels.First(presetViewModel => presetViewModel.GetPreset().Equals(preset)));
+                PresetViewModels.Remove(PresetViewModels.First(presetViewModel => presetViewModel.Preset.Equals(preset)));
         }
 
         private async void AddBlank()
         {
-            // TODO: exception handling
             string name = await _dialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
 
             if (string.IsNullOrWhiteSpace(name))
@@ -101,7 +102,7 @@ namespace ENBOrganizer.App.ViewModels
             {
                 _presetService.Add(new Preset(name, CurrentGame));
             }
-            catch (DuplicateEntityException exception)
+            catch (Exception exception) when (exception is DuplicateEntityException || exception is IOException)
             {
                 await _dialogService.ShowErrorDialog(exception.Message);
             }
@@ -112,7 +113,14 @@ namespace ENBOrganizer.App.ViewModels
             // TODO: exception handling
             string name = await _dialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
 
-            _presetService.ImportActiveFiles(new Preset(name, CurrentGame));
+            try
+            {
+                _presetService.ImportActiveFiles(new Preset(name, CurrentGame));
+            }
+            catch (Exception exception) when (exception is DuplicateEntityException || exception is UnauthorizedAccessException || exception is DirectoryNotFoundException)
+            {
+                await _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
         private void ImportArchive()
@@ -121,7 +129,7 @@ namespace ENBOrganizer.App.ViewModels
 
             if (string.IsNullOrWhiteSpace(archivePath))
                 return;
-
+            
             _presetService.ImportArchive(archivePath, CurrentGame);
         }
 

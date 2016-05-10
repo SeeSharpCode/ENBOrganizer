@@ -18,12 +18,12 @@ namespace ENBOrganizer.App.Converters
 
                 if (string.IsNullOrWhiteSpace(imagePath) || !File.Exists(imagePath))
                     return App.Current.FindResource("AccentColorBrush");
-                
+
                 return new ImageBrush(new BitmapImage(new Uri(imagePath)) { CacheOption = BitmapCacheOption.OnLoad }) { Stretch = Stretch.UniformToFill };
             }
             catch (Exception)
             {
-                return null;
+                return App.Current.FindResource("AccentColorBrush");
             }
         }
 

@@ -1,21 +1,22 @@
 ﻿using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
+using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
-using System.Windows.Input;
 using System;
-using ENBOrganizer.Util.IO;
 using System.Diagnostics;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace ENBOrganizer.App.ViewModels
 {
     public class PresetViewModel : ViewModelBase
     {
-        private Preset _preset;
         private readonly DialogService _dialogService;
         private readonly PresetService _presetService;
 
+        public Preset Preset { get; set; }
         public ICommand ChangeImageCommand { get; set; }
         public ICommand DisablePresetCommand { get; set; }
         public ICommand EnablePresetCommand { get; set; }
@@ -25,31 +26,31 @@ namespace ENBOrganizer.App.ViewModels
 
         public string Name
         {
-            get { return _preset.Name; }
+            get { return Preset.Name; }
             set
             {
-                _preset.Name = value;
-                RaisePropertyChanged("Name");
+                Preset.Name = value;
+                RaisePropertyChanged(nameof(Name));
             }
         }
 
         public string ImagePath
         {
-            get { return _preset.ImagePath; }
+            get { return Preset.ImagePath; }
             set
             {
-                _preset.ImagePath = value;
-                RaisePropertyChanged("ImagePath");
+                Preset.ImagePath = value;
+                RaisePropertyChanged(nameof(ImagePath));
             }
         }
 
         public bool IsEnabled
         {
-            get { return _preset.IsEnabled; }
+            get { return Preset.IsEnabled; }
             set
             {
-                _preset.IsEnabled = value;
-                RaisePropertyChanged("IsEnabled");
+                Preset.IsEnabled = value;
+                RaisePropertyChanged(nameof(IsEnabled));
             }
         }
 
@@ -59,7 +60,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private PresetViewModel(Preset preset, DialogService dialogService, PresetService presetService)
         {
-            _preset = preset;
+            Preset = preset;
             _dialogService = dialogService;
             _presetService = presetService;
 
@@ -67,8 +68,8 @@ namespace ENBOrganizer.App.ViewModels
             EnablePresetCommand = new RelayCommand(Enable);
             DisablePresetCommand = new RelayCommand(Disable);
             RenamePresetCommand = new RelayCommand(Rename);
-            OpenFileExplorerCommand = new RelayCommand(() => Process.Start(_preset.Directory.FullName));
-            DeletePresetCommand = new RelayCommand(() => _presetService.Delete(_preset));
+            OpenFileExplorerCommand = new RelayCommand(() => Process.Start(Preset.Directory.FullName));
+            DeletePresetCommand = new RelayCommand(() => _presetService.Delete(Preset));
         }
 
         private async void Rename()
@@ -78,7 +79,7 @@ namespace ENBOrganizer.App.ViewModels
             if (string.IsNullOrWhiteSpace(newName))
                 return;
 
-            _preset.Directory.Rename(newName);
+            Preset.Directory.Rename(newName);
 
             Name = newName;
             _presetService.SaveChanges();
@@ -86,7 +87,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void Enable()
         {
-            _presetService.Enable(_preset);
+            _presetService.Enable(Preset);
 
             IsEnabled = true;
 
@@ -95,19 +96,14 @@ namespace ENBOrganizer.App.ViewModels
 
         private void Disable()
         {
-            _presetService.Disable(_preset);
+            _presetService.Disable(Preset);
 
             IsEnabled = false;
 
             _presetService.SaveChanges();
         }
 
-        public Preset GetPreset()
-        {
-            return _preset;
-        }
-
-        private void ChangeImage()
+        private async void ChangeImage()
         {
             // TODO: filter
             string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
@@ -115,7 +111,20 @@ namespace ENBOrganizer.App.ViewModels
             if (string.IsNullOrWhiteSpace(imageSource))
                 return;
 
-            ImagePath = imageSource;
+            // Ensure the path points to a real image file.
+            try
+            {
+                new BitmapImage(new Uri(imageSource));
+
+                ImagePath = imageSource;
+            }
+            catch (Exception)
+            {
+                await _dialogService.ShowErrorDialog("The selected file is not a valid image.");
+
+                ImagePath = null;
+            }
+
             _presetService.SaveChanges();
         }
     }

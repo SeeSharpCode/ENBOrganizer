@@ -2,10 +2,12 @@
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util;
 using ENBOrganizer.Util.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security.Permissions;
 
 namespace ENBOrganizer.Domain.Services
 {
@@ -28,16 +30,23 @@ namespace ENBOrganizer.Domain.Services
             _repository.SaveChanges();
         }
 
+        /// <exception cref="DuplicateEntityException" />
         public new void Add(Preset preset)
         {
             try
             {
-                preset.Directory.Create();
-
                 base.Add(preset);
+
+                preset.Directory.Create();
             }
             catch (DuplicateEntityException)
             {
+                throw;
+            }
+            catch (IOException)
+            {
+                base.Delete(preset);
+
                 throw;
             }
         }
@@ -82,26 +91,39 @@ namespace ENBOrganizer.Domain.Services
 
         public void ImportActiveFiles(Preset preset)
         {
-            Add(preset);
-
-            List<MasterListItem> masterListItems = _masterListItemService.GetAll();
-            List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
-            List<string> gameFiles = Directory.GetFiles(preset.Game.DirectoryPath).ToList();
-
-            foreach (MasterListItem masterListItem in masterListItems)
+            try
             {
-                string installedPath = Path.Combine(preset.Game.DirectoryPath, masterListItem.Name);
+                Add(preset);
 
-                if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
+                List<MasterListItem> masterListItems = _masterListItemService.GetAll();
+                List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
+                List<string> gameFiles = Directory.GetFiles(preset.Game.DirectoryPath).ToList();
+
+                foreach (MasterListItem masterListItem in masterListItems)
                 {
-                    DirectoryInfo directory = new DirectoryInfo(installedPath);
-                    directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
+                    string installedPath = Path.Combine(preset.Game.DirectoryPath, masterListItem.Name);
+
+                    if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
+                    {
+                        DirectoryInfo directory = new DirectoryInfo(installedPath);
+                        directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
+                    }
+                    else if (gameFiles.Contains(installedPath))
+                    {
+                        FileInfo file = new FileInfo(installedPath);
+                        file.CopyTo(Path.Combine(preset.Directory.FullName, file.Name));
+                    }
                 }
-                else if (gameFiles.Contains(installedPath))
-                {
-                    FileInfo file = new FileInfo(installedPath);
-                    file.CopyTo(Path.Combine(preset.Directory.FullName, file.Name));
-                }
+            }
+            catch (DuplicateEntityException)
+            {
+                throw;
+            }
+            catch (Exception exception) when (exception is UnauthorizedAccessException || exception is DirectoryNotFoundException)
+            {
+                Delete(preset);
+
+                throw;
             }
         }
 
@@ -140,7 +162,7 @@ namespace ENBOrganizer.Domain.Services
 
         public new void Delete(Preset preset)
         {
-            preset.Directory.Delete(true);
+            preset.Directory.DeleteRecursive();
 
             base.Delete(preset);
         }

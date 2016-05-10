@@ -28,13 +28,13 @@ namespace ENBOrganizer.Domain.Services
             try
             {
                 _repository.Add(entity);
+
+                RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, entity));
             }
             catch (DuplicateEntityException)
             {
                 throw;
             }
-            
-            RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, entity));
         }
 
         public void Delete(TEntity entity)

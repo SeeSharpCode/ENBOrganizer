@@ -3,6 +3,7 @@ using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System;
 using System.IO;
 using System.Windows.Input;
 
@@ -22,7 +23,7 @@ namespace ENBOrganizer.App.ViewModels
         public string Name
         {
             get { return _name; }
-            set { Set("Name", ref _name, value.Trim()); }
+            set { Set(nameof(Name), ref _name, value.Trim()); }
         }
 
         private string _executablePath;
@@ -30,7 +31,7 @@ namespace ENBOrganizer.App.ViewModels
         public string ExecutablePath
         {
             get { return _executablePath; }
-            set { Set("ExecutablePath", ref _executablePath, value); }
+            set { Set(nameof(ExecutablePath), ref _executablePath, value); }
         }
 
         public AddGameViewModel(GameService gameService, GamesViewModel gamesViewModel, DialogService dialogService)
@@ -49,7 +50,7 @@ namespace ENBOrganizer.App.ViewModels
             {
                 _gameService.Add(new Game(Name, ExecutablePath));
             }
-            catch (DuplicateEntityException exception)
+            catch (Exception exception) when (exception is DuplicateEntityException || exception is IOException)
             {
                 await _dialogService.ShowErrorDialog(exception.Message);
             }
@@ -58,13 +59,13 @@ namespace ENBOrganizer.App.ViewModels
                 Name = string.Empty;
                 ExecutablePath = string.Empty;
 
-                DialogService.CloseDialog();
+                _dialogService.CloseDialog();
             }
         }
 
         private bool CanAdd()
         {
-            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(ExecutablePath);
+            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(ExecutablePath) && File.Exists(ExecutablePath);
         }
 
         private void BrowseForGameFile()

@@ -29,7 +29,7 @@ namespace ENBOrganizer.App.ViewModels
                 Properties.Settings.Default.CurrentGame = value;
                 Properties.Settings.Default.Save();
 
-                RaisePropertyChanged("CurrentGame", true);
+                RaisePropertyChanged(nameof(CurrentGame), true);
             }
         }
 

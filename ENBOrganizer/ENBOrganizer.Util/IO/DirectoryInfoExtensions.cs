@@ -24,6 +24,9 @@ namespace ENBOrganizer.Util.IO
 
         public static void DeleteRecursive(this DirectoryInfo directory)
         {
+            if (!directory.Exists)
+                return;
+
             FileInfo[] files = directory.GetFiles();
             DirectoryInfo[] directories = directory.GetDirectories();
 

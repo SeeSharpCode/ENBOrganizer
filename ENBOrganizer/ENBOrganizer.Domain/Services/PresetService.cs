@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System;
 
 namespace ENBOrganizer.Domain.Services
 {
@@ -45,9 +44,15 @@ namespace ENBOrganizer.Domain.Services
 
         public void Disable(Preset preset)
         {
-            // TODO: actual uninstall logic
-            preset.IsEnabled = false;
-            SaveChanges();
+            foreach (FileSystemInfo fileSystemInfo in preset.Directory.GetFileSystemInfos())
+            {
+                string installedPath = Path.Combine(preset.Game.DirectoryPath, fileSystemInfo.Name);
+
+                if (fileSystemInfo is DirectoryInfo && Directory.Exists(installedPath))
+                    Directory.Delete(installedPath, true);
+                else if (File.Exists(installedPath))
+                    File.Delete(installedPath);
+            }
         }
 
         public void ImportArchive(string archivePath, Game game)
@@ -131,9 +136,6 @@ namespace ENBOrganizer.Domain.Services
                 if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: exception
                     subdirectory.CopyTo(Path.Combine(preset.Game.DirectoryPath, subdirectory.Name));
             }
-
-            preset.IsEnabled = true;
-            SaveChanges();
         }
 
         public new void Delete(Preset preset)

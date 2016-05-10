@@ -48,11 +48,8 @@
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\IEntity.cs" />
-    <Compile Include="Entities\IPresetItem.cs" />
     <Compile Include="Entities\MasterListItem.cs" />
     <Compile Include="Entities\Preset.cs" />
-    <Compile Include="Entities\PresetDirectory.cs" />
-    <Compile Include="Entities\PresetFile.cs" />
     <Compile Include="Exceptions\DuplicateEntityException.cs" />
     <Compile Include="RepositoryChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,7 +60,6 @@
     </Compile>
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\GameService.cs" />
-    <Compile Include="Services\PresetItemsService.cs" />
     <Compile Include="Services\PresetService.cs" />
   </ItemGroup>
   <ItemGroup>

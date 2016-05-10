@@ -7,14 +7,12 @@
                       xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
                       Title="ENB Organizer"
                       TitleCaps="False"
+                      MinWidth="450"
+                      MinHeight="300"
                       SizeToContent="WidthAndHeight"
                       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
     <controls:MetroWindow.Resources>
         <converters:PathToIconConverter x:Key="PathToIconConverter" />
-
-        <DataTemplate DataType="{x:Type viewModels:PresetDetailViewModel}">
-            <views:PresetDetailView />
-        </DataTemplate>
 
         <DataTemplate DataType="{x:Type viewModels:PresetsOverviewViewModel}">
             <views:PresetsOverviewView />
@@ -44,13 +42,10 @@
                 <views:GamesView />
             </TabItem>
             <TabItem Header="Presets">
-                <ContentControl Content="{Binding CurrentPresetViewModel}" />
+                <views:PresetsOverviewView />
             </TabItem>
             <TabItem Header="Master List">
                 <views:MasterListView />
-            </TabItem>
-            <TabItem Header="Settings">
-                <Button Content="Sup" HorizontalAlignment="Left" VerticalAlignment="Top" />
             </TabItem>
         </controls:MetroAnimatedSingleRowTabControl>
     </Grid>

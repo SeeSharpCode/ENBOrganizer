@@ -85,15 +85,11 @@
     <Compile Include="Converters\PathToBitmapConverter.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
-    <Compile Include="Messages\NavigationMessage.cs" />
     <Compile Include="Messages\OpenDialogMessage.cs" />
-    <Compile Include="Messages\PresetNavigationMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterListViewModel.cs" />
-    <Compile Include="ViewModels\PresetDetailViewModel.cs" />
-    <Compile Include="ViewModels\PresetFilesViewModel.cs" />
     <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
     <Compile Include="TitledCommand.cs" />
     <Compile Include="ViewModels\PresetViewModel.cs" />
@@ -107,12 +103,6 @@
     <Compile Include="Views\ExtendedTreeView.cs" />
     <Compile Include="Views\MasterListView.xaml.cs">
       <DependentUpon>MasterListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PresetDetailView.xaml.cs">
-      <DependentUpon>PresetDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PresetFilesView.xaml.cs">
-      <DependentUpon>PresetFilesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PresetsOverviewView.xaml.cs">
       <DependentUpon>PresetsOverviewView.xaml</DependentUpon>
@@ -154,14 +144,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\MasterListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PresetDetailView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PresetFilesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

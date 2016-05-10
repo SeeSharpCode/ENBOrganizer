@@ -12,6 +12,8 @@ namespace ENBOrganizer.App
     // TODO: split PresetItems into its own view model?
     // TODO: double-check reponsibilties of services
     // TODO: optimize UI speed
+    // TODO: settings
+    // TODO: add support for binaries
     public partial class App : Application
     {
         public App()

@@ -1,5 +1,4 @@
-﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.Domain;
+﻿using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
@@ -17,7 +16,6 @@ namespace ENBOrganizer.App.ViewModels
     public class PresetsOverviewViewModel : ViewModelBase
     {
         private readonly PresetService _presetService;
-        private readonly PresetDetailViewModel _presetDetailViewModel;
         private readonly DialogService _dialogService;
 
         private readonly ICommand _addBlankPresetCommand;
@@ -27,21 +25,15 @@ namespace ENBOrganizer.App.ViewModels
         public ObservableCollection<PresetViewModel> PresetViewModels { get; set; }
 
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
-        public ICommand SelectPresetCommand { get; private set; }
-        public ICommand DisablePresetCommand { get; set; }
-        public ICommand EnablePresetCommand { get; set; }
-        public ICommand ChangePresetImageCommand { get; set; }
         public ICommand DisableAllPresetsCommand { get; set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
-        public PresetsOverviewViewModel(PresetService presetService, PresetDetailViewModel presetDetailViewModel, DialogService dialogService)
+        public PresetsOverviewViewModel(PresetService presetService, DialogService dialogService)
         {
             _presetService = presetService;
             _presetService.ItemsChanged += _presetService_ItemsChanged;
 
             _dialogService = dialogService;
-
-            _presetDetailViewModel = presetDetailViewModel;
 
             _addBlankPresetCommand = new RelayCommand(AddBlank, () => true);
             _importFolderCommand = new RelayCommand(ImportDirectory, () => true);
@@ -56,27 +48,19 @@ namespace ENBOrganizer.App.ViewModels
                 new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
             };
 
-            SelectPresetCommand = new RelayCommand<Preset>(preset => MessengerInstance.Send(new PresetNavigationMessage(preset)));
-            EnablePresetCommand = new RelayCommand<Preset>(preset => _presetService.Enable(preset));
-            DisablePresetCommand = new RelayCommand<Preset>(preset => _presetService.Disable(preset));
-            ChangePresetImageCommand = new RelayCommand<Preset>(ChangePresetImage);
-            DisableAllPresetsCommand = new RelayCommand(() => _presetService.DisableAll(CurrentGame));
+            DisableAllPresetsCommand = new RelayCommand(DisableAllPresets);
 
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
             LoadPresets();
         }
 
-        private void ChangePresetImage(Preset preset)
+        private void DisableAllPresets()
         {
-            // TODO: filter
-            string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
-            
-            if (string.IsNullOrWhiteSpace(imageSource))
-                return;
+            _presetService.DisableAll(CurrentGame);
 
-            preset.ImagePath = imageSource;
-            _presetService.SaveChanges();
+            foreach (PresetViewModel presetViewModel in PresetViewModels)
+                presetViewModel.IsEnabled = false;
         }
 
         private void ApplicationSettings_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -97,10 +81,12 @@ namespace ENBOrganizer.App.ViewModels
 
         private void _presetService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
+            Preset preset = repositoryChangedEventArgs.Entity as Preset;
+
             if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
-                PresetViewModels.Add(new PresetViewModel(repositoryChangedEventArgs.Entity as Preset));
+                PresetViewModels.Add(new PresetViewModel(preset));
             else
-                PresetViewModels.Remove(PresetViewModels.First(presetViewModel => presetViewModel.Preset.Equals(repositoryChangedEventArgs.Entity as Preset)));
+                PresetViewModels.Remove(PresetViewModels.First(presetViewModel => presetViewModel.GetPreset().Equals(preset)));
         }
 
         private async void AddBlank()

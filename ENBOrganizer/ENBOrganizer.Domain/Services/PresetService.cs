@@ -30,6 +30,7 @@ namespace ENBOrganizer.Domain.Services
         }
 
         /// <exception cref="DuplicateEntityException" />
+        /// <exception cref="IOException" />
         public new void Add(Preset preset)
         {
             try
@@ -195,11 +196,6 @@ namespace ENBOrganizer.Domain.Services
                         directory.Delete(true);
                 }
             }
-
-            foreach (Preset preset in _repository.Items)
-                preset.IsEnabled = false;
-
-            SaveChanges();
         }
     }
 }

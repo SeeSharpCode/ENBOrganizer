@@ -9,7 +9,7 @@ namespace ENBOrganizer.App.Converters
 {
     public class PathToBitmapConverter : IValueConverter
     {
-        // TODO: this could be a style with a DataTrigger
+        // TODO: ensure it's a valid image
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try

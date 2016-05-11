@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace ENBOrganizer.Util.IO
 {
@@ -31,21 +30,6 @@ namespace ENBOrganizer.Util.IO
 
             directory.CopyTo(renamedPath);
             directory.Delete(true);
-        }
-
-        public static bool CanWrite(this DirectoryInfo directory)
-        {
-            try
-            {
-                string testFilePath = Path.Combine(directory.FullName, Path.GetRandomFileName());
-                File.Create(testFilePath, 1, FileOptions.DeleteOnClose);
-
-                return true;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return false;
-            }
         }
     }
 }

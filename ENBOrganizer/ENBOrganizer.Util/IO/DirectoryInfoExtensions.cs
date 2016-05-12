@@ -27,9 +27,6 @@ namespace ENBOrganizer.Util.IO
 
             DirectoryInfo renamedDirectory = new DirectoryInfo(renamedPath);
 
-            if (renamedDirectory.Exists)
-                renamedDirectory.Delete(true);
-
             directory.CopyTo(renamedPath);
             directory.Delete(true);
         }

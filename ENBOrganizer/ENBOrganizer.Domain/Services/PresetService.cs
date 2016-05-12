@@ -142,7 +142,6 @@ namespace ENBOrganizer.Domain.Services
             {
                 throw;
             }
-            
         }
 
         public void Disable(Preset preset)

@@ -82,15 +82,14 @@ namespace ENBOrganizer.App.ViewModels
             try
             {
                 Preset.Directory.Rename(newName);
+
+                Name = newName;
+                _presetService.SaveChanges();
             }
             catch (Exception exception)
             {
                 await _dialogService.ShowErrorDialog(exception.Message);
             }
-            
-
-            Name = newName;
-            _presetService.SaveChanges();
         }
 
         private async void Enable()

@@ -35,10 +35,10 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            _addBlankPresetCommand = new RelayCommand(AddBlank, () => true);
-            _importFolderCommand = new RelayCommand(ImportDirectory, () => true);
-            _importArchiveCommand = new RelayCommand(ImportArchive, () => true);
-            _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => true);
+            _addBlankPresetCommand = new RelayCommand(AddBlank, CanAddPreset);
+            _importFolderCommand = new RelayCommand(ImportDirectory, CanAddPreset);
+            _importArchiveCommand = new RelayCommand(ImportArchive, CanAddPreset);
+            _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, CanAddPreset);
 
             TitledCommands = new List<TitledCommand>
             {
@@ -53,6 +53,11 @@ namespace ENBOrganizer.App.ViewModels
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
             LoadPresets();
+        }
+
+        private bool CanAddPreset()
+        {
+            return CurrentGame != null;
         }
 
         private async void DisableAllPresets()
@@ -72,8 +77,12 @@ namespace ENBOrganizer.App.ViewModels
 
         private void ApplicationSettings_PropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == "CurrentGame")
+            if (propertyChangedEventArgs.PropertyName == nameof(CurrentGame))
+            {
+                RaisePropertyChanged(nameof(CurrentGame));
                 LoadPresets();
+            }
+                
         }
 
         private void LoadPresets()

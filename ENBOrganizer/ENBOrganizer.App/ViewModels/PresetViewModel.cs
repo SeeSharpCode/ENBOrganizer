@@ -79,7 +79,15 @@ namespace ENBOrganizer.App.ViewModels
             if (string.IsNullOrWhiteSpace(newName))
                 return;
 
-            Preset.Directory.Rename(newName);
+            try
+            {
+                Preset.Directory.Rename(newName);
+            }
+            catch (Exception exception)
+            {
+                await _dialogService.ShowErrorDialog(exception.Message);
+            }
+            
 
             Name = newName;
             _presetService.SaveChanges();

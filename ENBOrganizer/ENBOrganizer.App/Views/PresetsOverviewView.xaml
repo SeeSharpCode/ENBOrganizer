@@ -59,13 +59,32 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Width="{Binding ElementName=PresetsPanel, Path=ActualHeight}">
-            <ItemsControl ItemsSource="{Binding PresetViewModels, Mode=OneWay}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel x:Name="PresetsPanel" Orientation="Horizontal" Width="Auto" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <ScrollViewer.Style>
+                <Style TargetType="ScrollViewer">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <ItemsControl ItemsSource="{Binding PresetViewModels, Mode=OneWay}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel x:Name="PresetsPanel" Orientation="Horizontal" Width="Auto" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentGame, Mode=OneWay}" Value="{x:Null}">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <TextBlock Text="Select a game to start adding presets." FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ScrollViewer.Style>
+            
         </ScrollViewer>
     </Grid>
 </UserControl>

@@ -44,7 +44,7 @@ namespace ENBOrganizer.App.ViewModels
             {
                 new TitledCommand("Blank", "Create a blank preset", _addBlankPresetCommand),
                 new TitledCommand("Import Folder", "Create a preset from a folder", _importFolderCommand),
-                new TitledCommand("Import Archive", "Create a preset an archive (.zip, .7z)", _importArchiveCommand),
+                new TitledCommand("Import Archive", "Create a preset from an archive (.zip, .7z)", _importArchiveCommand),
                 new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
             };
 

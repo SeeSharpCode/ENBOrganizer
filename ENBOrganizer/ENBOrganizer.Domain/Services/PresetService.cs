@@ -136,14 +136,7 @@ namespace ENBOrganizer.Domain.Services
         {
             try
             {
-                foreach (FileInfo file in preset.Directory.GetFiles())
-                    file.CopyTo(Path.Combine(preset.Game.DirectoryPath, file.Name), true);
-
-                foreach (DirectoryInfo subdirectory in preset.Directory.GetDirectories())
-                {
-                    if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: see if copying Data overrides anything
-                        subdirectory.CopyTo(Path.Combine(preset.Game.DirectoryPath, subdirectory.Name));
-                }
+                preset.Directory.CopyTo(preset.Game.DirectoryPath);
             }
             catch (Exception)
             {

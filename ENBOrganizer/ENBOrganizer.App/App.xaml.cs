@@ -8,6 +8,7 @@ namespace ENBOrganizer.App
     // TODO: optimize UI speed
     // TODO: settings
     // TODO: add support for binaries
+    // TODO: save the user's last tab
     // TODO: Remove exception handling when it's just catching Exception and displaying a message. This could be done globally.
 
     // TODO: better exception dialog in here

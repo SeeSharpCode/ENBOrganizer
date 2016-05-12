@@ -25,8 +25,10 @@ namespace ENBOrganizer.Util.IO
         {
             string renamedPath = Path.Combine(directory.Parent.FullName, name);
 
-            if (Directory.Exists(renamedPath))
-                Directory.Delete(renamedPath, true);
+            DirectoryInfo renamedDirectory = new DirectoryInfo(renamedPath);
+
+            if (renamedDirectory.Exists)
+                renamedDirectory.Delete(true);
 
             directory.CopyTo(renamedPath);
             directory.Delete(true);

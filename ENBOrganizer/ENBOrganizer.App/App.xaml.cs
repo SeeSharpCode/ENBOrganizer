@@ -12,16 +12,18 @@ namespace ENBOrganizer.App
     // TODO: settings
     // TODO: add support for binaries
     // TODO: Remove exception handling when it's just catching Exception and displaying a message. This could be done globally.
+
+    // TODO: better exception dialog in here
     public partial class App : Application
     {
-        public App()
+        public App() 
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs eventArgs)
         {
-            MessageBox.Show(e.ExceptionObject.ToString());
+           MessageBox.Show(eventArgs.ExceptionObject.ToString());
         }
     }
 }

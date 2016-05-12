@@ -35,11 +35,11 @@ namespace ENBOrganizer.Domain.Services
 
         public new void Delete(Game game)
         {
-            base.Delete(game);
-
             _presetService.DeleteByGame(game);
 
             game.PresetsDirectory.Delete(true);
+
+            base.Delete(game);
         }
     }
 }

@@ -81,6 +81,16 @@
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding CurrentGameHasNoPresets, Mode=OneWay}" Value="True">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        There are no presets for the selected game. <LineBreak />
+                                        Click the + button above to start adding presets.
+                                    </TextBlock>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </ScrollViewer.Style>

@@ -28,6 +28,8 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand DisableAllPresetsCommand { get; set; }
         public List<TitledCommand> TitledCommands { get; set; }
 
+        public bool CurrentGameHasNoPresets { get { return CurrentGame != null && !PresetViewModels.Any(); } }
+
         public PresetsOverviewViewModel(PresetService presetService, DialogService dialogService)
         {
             _presetService = presetService;
@@ -81,6 +83,7 @@ namespace ENBOrganizer.App.ViewModels
             {
                 RaisePropertyChanged(nameof(CurrentGame));
                 LoadPresets();
+                RaisePropertyChanged(nameof(CurrentGameHasNoPresets));
             }
                 
         }
@@ -103,6 +106,8 @@ namespace ENBOrganizer.App.ViewModels
                 PresetViewModels.Add(new PresetViewModel(preset));
             else
                 PresetViewModels.Remove(PresetViewModels.First(presetViewModel => presetViewModel.Preset.Equals(preset)));
+
+            RaisePropertyChanged(nameof(CurrentGameHasNoPresets));
         }
 
         private async void AddBlank()

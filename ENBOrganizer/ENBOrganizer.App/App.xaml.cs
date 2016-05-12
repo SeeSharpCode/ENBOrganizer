@@ -5,7 +5,6 @@ namespace ENBOrganizer.App
 {
     // TODO: indeterminate progress bar on footer
     // TODO: remove unused icons
-    // TODO: double-check reponsibilties of services
     // TODO: optimize UI speed
     // TODO: settings
     // TODO: add support for binaries

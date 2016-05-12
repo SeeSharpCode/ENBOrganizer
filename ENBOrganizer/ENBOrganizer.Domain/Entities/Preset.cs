@@ -4,7 +4,6 @@ using System.Xml.Serialization;
 
 namespace ENBOrganizer.Domain.Entities
 {
-    // TODO: remove INotifyPropertyChanged from this model class
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public class Preset : IEntity
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()

@@ -10,6 +10,7 @@ using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
+    // TODO: is a separate service needed for handling the file operations?
     public class PresetService : DataService<Preset>
     {
         private readonly DataService<MasterListItem> _masterListItemService;
@@ -140,7 +141,7 @@ namespace ENBOrganizer.Domain.Services
 
                 foreach (DirectoryInfo subdirectory in preset.Directory.GetDirectories())
                 {
-                    if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: exception
+                    if (!subdirectory.Name.EqualsIgnoreCase("Data")) // TODO: see if copying Data overrides anything
                         subdirectory.CopyTo(Path.Combine(preset.Game.DirectoryPath, subdirectory.Name));
                 }
             }

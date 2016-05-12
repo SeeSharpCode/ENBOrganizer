@@ -8,14 +8,16 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MasterListViewModel}">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Button Command="{Binding AddMasterListItemCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}">
+            <Button Command="{Binding AddMasterListItemCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}"
+                    BorderBrush="White" ToolTip="Add new Master List item">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            <Button Command="{Binding DeleteMasterListItemCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}">
+            <Button Command="{Binding DeleteMasterListItemCommand, Mode=OneTime}" Width="40" Height="40" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}"
+                    BorderBrush="White" ToolTip="Delete selected Master List item">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />

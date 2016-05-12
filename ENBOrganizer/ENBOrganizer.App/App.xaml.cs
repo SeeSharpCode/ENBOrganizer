@@ -4,8 +4,6 @@ using System.Windows;
 namespace ENBOrganizer.App
 {
     // TODO: indeterminate progress bar on footer
-    // TODO: tooltips for everything
-    // TODO: double-check binding modes
     // TODO: remove unused icons
     // TODO: double-check reponsibilties of services
     // TODO: optimize UI speed

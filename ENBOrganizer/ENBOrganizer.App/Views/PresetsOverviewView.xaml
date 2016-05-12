@@ -31,7 +31,7 @@
         
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
-                                 ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left">
+                                 ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" ToolTip="Add a new preset">
                 <controls:DropDownButton.Icon>
                     <Viewbox Width="32" Height="32" Stretch="Uniform">
                         <ContentControl Content="{DynamicResource appbar_add}" Focusable="False" />
@@ -48,7 +48,8 @@
                 </controls:DropDownButton.ItemContainerStyle>
             </controls:DropDownButton>
 
-            <Button Command="{Binding DisableAllPresetsCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="White">
+            <Button Command="{Binding DisableAllPresetsCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
+                    BorderBrush="White" ToolTip="Disable all presets">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_clean}" />
@@ -58,7 +59,7 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Width="{Binding ElementName=PresetsPanel, Path=ActualHeight}">
-            <ItemsControl ItemsSource="{Binding PresetViewModels}">
+            <ItemsControl ItemsSource="{Binding PresetViewModels, Mode=OneWay}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel x:Name="PresetsPanel" Orientation="Horizontal" Width="Auto" />

@@ -1,6 +1,5 @@
 ﻿using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
-using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
@@ -9,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Windows.Input;
 

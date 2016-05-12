@@ -31,7 +31,7 @@
         <controls:FlyoutsControl>
             <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add Game" 
                              IsOpen="{Binding IsAddGameFlyoutOpen, Mode=TwoWay}" Theme="Accent">
-                <ContentControl Content="{Binding CurrentDialogViewModel}" />
+                <ContentControl Content="{Binding CurrentDialogViewModel, Mode=OneWay}" />
             </controls:Flyout>
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>

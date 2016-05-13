@@ -98,7 +98,7 @@ namespace ENBOrganizer.Domain.Services
         {
             try
             {
-                base.Add(preset);
+                Add(preset);
 
                 List<MasterListItem> masterListItems = _masterListItemService.GetAll();
                 List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();

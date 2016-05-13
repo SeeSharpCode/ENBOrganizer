@@ -9,6 +9,7 @@ namespace ENBOrganizer.App
     // TODO: settings
     // TODO: add support for binaries
     // TODO: save the user's last tab
+    // TODO: how to setup Games folder?
     // TODO: Remove exception handling when it's just catching Exception and displaying a message. This could be done globally.
 
     // TODO: better exception dialog in here

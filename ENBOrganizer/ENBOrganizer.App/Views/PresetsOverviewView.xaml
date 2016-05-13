@@ -23,7 +23,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid HorizontalAlignment="Left">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -66,7 +66,7 @@
                             <ItemsControl ItemsSource="{Binding PresetViewModels, Mode=OneWay}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel x:Name="PresetsPanel" Orientation="Horizontal" Width="Auto" />
+                                        <WrapPanel x:Name="PresetsPanel" Orientation="Horizontal" Width="Auto" MaxWidth="1300" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>

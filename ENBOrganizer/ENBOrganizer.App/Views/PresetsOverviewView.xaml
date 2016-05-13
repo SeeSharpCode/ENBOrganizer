@@ -77,14 +77,14 @@
                         <DataTrigger Binding="{Binding CurrentGame, Mode=OneWay}" Value="{x:Null}">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <TextBlock Text="Select a game to start adding presets." FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <TextBlock Text="Select a game to start adding presets." FontSize="16" />
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding CurrentGameHasNoPresets, Mode=OneWay}" Value="True">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock FontSize="16">
                                         There are no presets for the selected game. <LineBreak />
                                         Click the + button above to start adding presets.
                                     </TextBlock>

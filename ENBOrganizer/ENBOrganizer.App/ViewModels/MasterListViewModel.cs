@@ -12,7 +12,7 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class MasterListViewModel : ViewModelBase
     {
-        private readonly DataService<MasterListItem> _masterListItemService;
+        private readonly MasterListService _masterListService;
         private readonly DialogService _dialogService;
 
         public ICommand AddMasterListItemCommand { get; set; }
@@ -20,17 +20,17 @@ namespace ENBOrganizer.App.ViewModels
         public MasterListItem SelectedMasterListItem { get; set; }
         public ObservableCollection<MasterListItem> MasterListItems { get; set; }
 
-        public MasterListViewModel(DataService<MasterListItem> masterListItemsService, DialogService dialogService)
+        public MasterListViewModel(MasterListService masterListService, DialogService dialogService)
         {
-            _masterListItemService = masterListItemsService;
-            _masterListItemService.ItemsChanged += _masterListItemService_ItemsChanged;
+            _masterListService = masterListService;
+            _masterListService.ItemsChanged += _masterListItemService_ItemsChanged;
 
             _dialogService = dialogService;
 
             AddMasterListItemCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddMasterListItem));
-            DeleteMasterListItemCommand = new RelayCommand(() => _masterListItemService.Delete(SelectedMasterListItem), () => SelectedMasterListItem != null);
+            DeleteMasterListItemCommand = new RelayCommand(() => _masterListService.Delete(SelectedMasterListItem), () => SelectedMasterListItem != null);
 
-            MasterListItems = _masterListItemService.GetAll().ToObservableCollection();
+            MasterListItems = _masterListService.GetAll().ToObservableCollection();
         }
 
         private void _masterListItemService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

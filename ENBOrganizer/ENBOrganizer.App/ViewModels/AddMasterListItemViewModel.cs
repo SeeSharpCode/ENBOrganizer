@@ -12,7 +12,7 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class AddMasterListItemViewModel : ViewModelBase
     {
-        private readonly DataService<MasterListItem> _masterListItemsService;
+        private readonly MasterListService _masterListService;
         private readonly DialogService _dialogService;
 
         public ICommand AddMasterListItemCommand { get; set; }
@@ -38,9 +38,9 @@ namespace ENBOrganizer.App.ViewModels
             get { return Enum.GetValues(typeof(MasterListItemType)).Cast<MasterListItemType>(); }
         }
         
-        public AddMasterListItemViewModel(DataService<MasterListItem> masterListItemsService, DialogService dialogService)
+        public AddMasterListItemViewModel(MasterListService masterListService, DialogService dialogService)
         {
-            _masterListItemsService = masterListItemsService;
+            _masterListService = masterListService;
             _dialogService = dialogService;
 
             AddMasterListItemCommand = new RelayCommand(AddMasterListItem, () => !string.IsNullOrWhiteSpace(Name));
@@ -50,7 +50,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             try
             {
-                _masterListItemsService.Add(new MasterListItem(Name, SelectedMasterListItemType));
+                _masterListService.Add(new MasterListItem(Name, SelectedMasterListItemType));
             }
             catch (DuplicateEntityException exception)
             {

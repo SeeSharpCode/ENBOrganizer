@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\GameService.cs" />
+    <Compile Include="Services\MasterListService.cs" />
     <Compile Include="Services\PresetService.cs" />
   </ItemGroup>
   <ItemGroup>

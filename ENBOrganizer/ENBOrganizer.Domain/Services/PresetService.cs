@@ -1,6 +1,5 @@
 ﻿using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
-using ENBOrganizer.Util;
 using ENBOrganizer.Util.IO;
 using System;
 using System.Collections.Generic;
@@ -13,11 +12,11 @@ namespace ENBOrganizer.Domain.Services
     // TODO: is a separate service needed for handling the file operations?
     public class PresetService : DataService<Preset>
     {
-        private readonly DataService<MasterListItem> _masterListItemService;
+        private readonly MasterListService _masterListService;
 
-        public PresetService(DataService<MasterListItem> masterListItemService)
+        public PresetService(MasterListService masterListService)
         {
-            _masterListItemService = masterListItemService;
+            _masterListService = masterListService;
         }
 
         public List<Preset> GetByGame(Game game)
@@ -100,7 +99,7 @@ namespace ENBOrganizer.Domain.Services
             {
                 Add(preset);
 
-                List<MasterListItem> masterListItems = _masterListItemService.GetAll();
+                List<MasterListItem> masterListItems = _masterListService.GetAll();
                 List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
                 List<string> gameFiles = Directory.GetFiles(preset.Game.DirectoryPath).ToList();
 
@@ -168,7 +167,7 @@ namespace ENBOrganizer.Domain.Services
         {
             try
             {
-                foreach (MasterListItem masterListItem in _masterListItemService.GetAll())
+                foreach (MasterListItem masterListItem in _masterListService.GetAll())
                 {
                     string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
 
@@ -196,7 +195,7 @@ namespace ENBOrganizer.Domain.Services
 
         private void CreateMasterListItemsFromPreset(Preset preset)
         {
-            List<MasterListItem> masterListItems = _masterListItemService.GetAll();
+            List<MasterListItem> masterListItems = _masterListService.GetAll();
 
             foreach (DirectoryInfo directory in preset.Directory.GetDirectories())
             {
@@ -204,7 +203,7 @@ namespace ENBOrganizer.Domain.Services
 
                 try
                 {
-                    _masterListItemService.Add(masterListItem);
+                    _masterListService.Add(masterListItem);
                 }
                 catch (DuplicateEntityException) { }                    
             }
@@ -215,7 +214,7 @@ namespace ENBOrganizer.Domain.Services
 
                 try
                 {
-                    _masterListItemService.Add(masterListItem);
+                    _masterListService.Add(masterListItem);
                 }
                 catch (DuplicateEntityException) { }
             }

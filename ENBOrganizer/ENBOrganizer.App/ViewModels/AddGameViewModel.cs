@@ -1,5 +1,4 @@
 ﻿using ENBOrganizer.Domain.Entities;
-using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;

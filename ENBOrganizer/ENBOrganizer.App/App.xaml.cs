@@ -10,6 +10,7 @@ namespace ENBOrganizer.App
     // TODO: add support for binaries
     // TODO: save the user's last tab
     // TODO: icon
+    // TODO: essential files/folders
     // TODO: how to setup Games folder?
     // TODO: drag and drop
     // TODO: recognize changes made outside the program

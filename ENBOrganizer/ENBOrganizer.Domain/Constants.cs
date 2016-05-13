@@ -1,7 +1,8 @@
 ﻿namespace ENBOrganizer.Domain
 {
-    public class Paths
+    public class DirectoryNames
     {
         public const string Games = "Games";
+        public const string Data = "Data";
     }
 }

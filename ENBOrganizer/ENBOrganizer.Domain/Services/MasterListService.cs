@@ -9,7 +9,7 @@ namespace ENBOrganizer.Domain.Services
         {
             try
             {
-                if (masterListItem.Name == "Data" && masterListItem.Type == MasterListItemType.Directory)
+                if (masterListItem.Name == DirectoryNames.Data && masterListItem.Type == MasterListItemType.Directory)
                     return;
 
                 base.Add(masterListItem);

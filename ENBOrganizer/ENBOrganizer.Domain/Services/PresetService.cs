@@ -151,7 +151,7 @@ namespace ENBOrganizer.Domain.Services
                 {
                     string installedPath = Path.Combine(preset.Game.DirectoryPath, fileSystemInfo.Name);
 
-                    if (fileSystemInfo is DirectoryInfo && Directory.Exists(installedPath))
+                    if (fileSystemInfo is DirectoryInfo && Directory.Exists(installedPath) && fileSystemInfo.Name != DirectoryNames.Data)
                         Directory.Delete(installedPath, true);
                     else if (File.Exists(installedPath))
                         File.Delete(installedPath);

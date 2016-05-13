@@ -12,6 +12,7 @@ namespace ENBOrganizer.App
     // TODO: icon
     // TODO: essential files/folders
     // TODO: how to setup Games folder?
+    // TODO: n00b's guide
     // TODO: drag and drop
     // TODO: recognize changes made outside the program
     // TODO: Remove exception handling when it's just catching Exception and displaying a message. This could be done globally.

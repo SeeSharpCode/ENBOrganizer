@@ -36,17 +36,36 @@
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
 
-    <Grid Margin="10 0 10 10">
-        <controls:MetroAnimatedSingleRowTabControl controls:TabControlHelper.IsUnderlined="True">
-            <TabItem Header="Games">
-                <views:GamesView />
-            </TabItem>
-            <TabItem Header="Presets">
-                <views:PresetsOverviewView />
-            </TabItem>
-            <TabItem Header="Master List">
-                <views:MasterListView />
-            </TabItem>
-        </controls:MetroAnimatedSingleRowTabControl>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid Margin="10 0 10 10" Grid.Row="0">
+            <controls:MetroAnimatedSingleRowTabControl controls:TabControlHelper.IsUnderlined="True">
+                <TabItem Header="Games">
+                    <views:GamesView />
+                </TabItem>
+                <TabItem Header="Binaries">
+
+                </TabItem>
+                <TabItem Header="Presets">
+                    <views:PresetsOverviewView />
+                </TabItem>
+                <TabItem Header="Master List">
+                    <views:MasterListView />
+                </TabItem>
+            </controls:MetroAnimatedSingleRowTabControl>
+
+
+        </Grid>
+
+        <StatusBar VerticalAlignment="Bottom" Grid.Row="1">
+            <StatusBarItem>Current Game:</StatusBarItem>
+            <StatusBarItem Content="{Binding GamesViewModel.CurrentGame.Name, Mode=OneWay}" />
+            <!--<Separator Style="{StaticResource MetroStatusBarSeparator}" />-->
+        </StatusBar>
     </Grid>
+
 </controls:MetroWindow>

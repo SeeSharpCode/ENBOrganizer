@@ -7,6 +7,8 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly ViewModelLocator _viewModelLocator;
 
+        public GamesViewModel GamesViewModel { get { return _viewModelLocator.GamesViewModel; } }
+
         private bool _isAddGameFlyoutOpen;
 
         public bool IsAddGameFlyoutOpen

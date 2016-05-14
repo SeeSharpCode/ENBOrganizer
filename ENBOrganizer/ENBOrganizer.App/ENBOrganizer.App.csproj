@@ -90,6 +90,7 @@
     <Compile Include="Messages\OpenDialogMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
+    <Compile Include="ViewModels\BinariesViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
@@ -101,6 +102,9 @@
     </Compile>
     <Compile Include="Views\AddMasterListItemView.xaml.cs">
       <DependentUpon>AddMasterListItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BinariesView.xaml.cs">
+      <DependentUpon>BinariesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedTreeView.cs" />
     <Compile Include="Views\MasterListView.xaml.cs">
@@ -121,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddMasterListItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BinariesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

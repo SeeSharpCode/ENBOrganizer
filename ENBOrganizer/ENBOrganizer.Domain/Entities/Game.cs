@@ -18,7 +18,7 @@ namespace ENBOrganizer.Domain.Entities
         {
             get
             {
-                string path = Path.Combine(DirectoryNames.Games, Name);
+                string path = Path.Combine(DirectoryNames.Games, Name, DirectoryNames.Presets);
                 return new DirectoryInfo(path); 
             }
         } 

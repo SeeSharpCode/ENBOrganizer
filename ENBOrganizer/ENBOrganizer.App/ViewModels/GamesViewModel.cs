@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using ENBOrganizer.App.Messages;
+using System.Diagnostics;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -18,6 +19,7 @@ namespace ENBOrganizer.App.ViewModels
 
         public ICommand ShowAddGameDialogCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
+        public ICommand OpenGameFolderCommand { get; set; }
 
         public ObservableCollection<Game> Games { get; set; }
 
@@ -42,6 +44,7 @@ namespace ENBOrganizer.App.ViewModels
 
             ShowAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddGame));
             DeleteGameCommand = new RelayCommand(() => _gameService.Delete(CurrentGame), () => CurrentGame != null);
+            OpenGameFolderCommand = new RelayCommand(() => Process.Start(CurrentGame.DirectoryPath), () => CurrentGame != null);
 
             Games = _gameService.GetAll().ToObservableCollection();
         }

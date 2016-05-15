@@ -3,10 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ENBOrganizer.App.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:views="clr-namespace:ENBOrganizer.App.Views"
+             mc:Ignorable="d"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=BinariesViewModel}">
+    <StackPanel Orientation="Vertical">
+        <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
+                                 ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" ToolTip="Add new binary">
+            <controls:DropDownButton.Icon>
+                <Viewbox Width="32" Height="32" Stretch="Uniform">
+                    <ContentControl Content="{DynamicResource appbar_add}" Focusable="False" />
+                </Viewbox>
+            </controls:DropDownButton.Icon>
+
+            <controls:DropDownButton.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
+                    <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
+                    <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
+                    <Setter Property="Padding" Value="3" />
+                </Style>
+            </controls:DropDownButton.ItemContainerStyle>
+        </controls:DropDownButton>
+
+        <ListView ItemsSource="{Binding Binaries, Mode=OneWay}" HorizontalAlignment="Left" Margin="{StaticResource ControlMargin}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name, Mode=OneTime}" />
+                    
+                    <GridViewColumn Header="Files">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding Path=DataContext.OpenFilesCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}" 
+                                        CommandParameter="{Binding}" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" ToolTip="Open files">
+                                    <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder_open}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
+                    <GridViewColumn Header="Delete">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding Path=DataContext.DeleteBinaryCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}" 
+                                        CommandParameter="{Binding}" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" ToolTip="Delete binary">
+                                    <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
 </UserControl>

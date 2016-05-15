@@ -5,11 +5,27 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
     public class BinaryService : DataService<Binary>
     {
+        private readonly MasterListService _masterListService;
+
+        public BinaryService(MasterListService masterListService)
+            : base("Binaries.xml")
+        {
+            _masterListService = masterListService;
+        }
+
+        public new void Delete(Binary binary)
+        {
+            binary.Directory.Delete(true);
+
+            base.Delete(binary);
+        }
+
         public void ImportDirectory(string sourceDirectoryPath, Game game)
         {
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourceDirectoryPath);
@@ -61,23 +77,25 @@ namespace ENBOrganizer.Domain.Services
             {
                 Add(binary);
 
-                List<MasterListItem> masterListItems = _masterListService.GetAll();
-                List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
-                List<string> gameFiles = Directory.GetFiles(preset.Game.DirectoryPath).ToList();
+                List<MasterListItem> masterListItems = _masterListService.GetAll()
+                    .Where(masterListItem => masterListItem.Type == MasterListItemType.BinaryDirectory || masterListItem.Type == MasterListItemType.BinaryFile).ToList();
+
+                List<string> gameDirectories = Directory.GetDirectories(binary.Game.DirectoryPath).ToList();
+                List<string> gameFiles = Directory.GetFiles(binary.Game.DirectoryPath).ToList();
 
                 foreach (MasterListItem masterListItem in masterListItems)
                 {
-                    string installedPath = Path.Combine(preset.Game.DirectoryPath, masterListItem.Name);
+                    string installedPath = Path.Combine(binary.Game.DirectoryPath, masterListItem.Name);
 
-                    if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
+                    if (masterListItem.Type.Equals(MasterListItemType.BinaryDirectory) && gameDirectories.Contains(installedPath))
                     {
                         DirectoryInfo directory = new DirectoryInfo(installedPath);
-                        directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
+                        directory.CopyTo(Path.Combine(binary.Directory.FullName, directory.Name));
                     }
                     else if (gameFiles.Contains(installedPath))
                     {
                         FileInfo file = new FileInfo(installedPath);
-                        file.CopyTo(Path.Combine(preset.Directory.FullName, file.Name));
+                        file.CopyTo(Path.Combine(binary.Directory.FullName, file.Name));
                     }
                 }
             }
@@ -87,7 +105,7 @@ namespace ENBOrganizer.Domain.Services
             }
             catch (Exception)
             {
-                Delete(preset);
+                Delete(binary);
 
                 throw;
             }

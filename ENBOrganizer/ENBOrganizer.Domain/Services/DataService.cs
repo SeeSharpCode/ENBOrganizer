@@ -12,10 +12,12 @@ namespace ENBOrganizer.Domain.Services
 
         public event EventHandler<RepositoryChangedEventArgs> ItemsChanged;
 
-        public DataService()
+        public DataService(string repositoryName)
         {
-            _repository = new Repository<TEntity>(typeof(TEntity).Name + "s.xml");
+            _repository = new Repository<TEntity>(repositoryName);
         }
+
+        public DataService() : this(typeof(TEntity).Name + "s.xml") { }
 
         public List<TEntity> GetAll()
         {

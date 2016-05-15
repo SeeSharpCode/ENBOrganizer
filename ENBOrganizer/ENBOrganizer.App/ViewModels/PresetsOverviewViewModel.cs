@@ -37,10 +37,10 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            _addBlankPresetCommand = new RelayCommand(AddBlank, CanAddPreset);
-            _importFolderCommand = new RelayCommand(ImportDirectory, CanAddPreset);
-            _importArchiveCommand = new RelayCommand(ImportArchive, CanAddPreset);
-            _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, CanAddPreset);
+            _addBlankPresetCommand = new RelayCommand(AddBlank, () => CurrentGame != null);
+            _importFolderCommand = new RelayCommand(ImportDirectory, () => CurrentGame != null);
+            _importArchiveCommand = new RelayCommand(ImportArchive, () => CurrentGame != null);
+            _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
 
             TitledCommands = new List<TitledCommand>
             {
@@ -55,11 +55,6 @@ namespace ENBOrganizer.App.ViewModels
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
             LoadPresets();
-        }
-
-        private bool CanAddPreset()
-        {
-            return CurrentGame != null;
         }
 
         private async void DisableAllPresets()
@@ -146,7 +141,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private async void ImportArchive()
         {
-            string archivePath = _dialogService.PromptForFile("Please select a .zip file", "ZIP Files(*.zip) | *.zip");
+            string archivePath = _dialogService.PromptForFile("Please select an archive file", "ZIP Files(*.zip) | *.zip");
 
             if (string.IsNullOrWhiteSpace(archivePath))
                 return;
@@ -164,6 +159,9 @@ namespace ENBOrganizer.App.ViewModels
         private async void ImportActiveFiles()
         {
             string name = await _dialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
+
+            if (string.IsNullOrWhiteSpace(name))
+                return;
 
             try
             {

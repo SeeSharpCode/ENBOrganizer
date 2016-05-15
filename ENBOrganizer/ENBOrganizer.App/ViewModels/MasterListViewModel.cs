@@ -17,7 +17,6 @@ namespace ENBOrganizer.App.ViewModels
 
         public ICommand AddMasterListItemCommand { get; set; }
         public ICommand DeleteMasterListItemCommand { get; set; }
-        public MasterListItem SelectedMasterListItem { get; set; }
         public ObservableCollection<MasterListItem> MasterListItems { get; set; }
 
         public MasterListViewModel(MasterListService masterListService, DialogService dialogService)
@@ -28,7 +27,7 @@ namespace ENBOrganizer.App.ViewModels
             _dialogService = dialogService;
 
             AddMasterListItemCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddMasterListItem));
-            DeleteMasterListItemCommand = new RelayCommand(() => _masterListService.Delete(SelectedMasterListItem), () => SelectedMasterListItem != null);
+            DeleteMasterListItemCommand = new RelayCommand<MasterListItem>(masterListItem => _masterListService.Delete(masterListItem));
 
             MasterListItems = _masterListService.GetAll().ToObservableCollection();
         }

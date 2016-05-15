@@ -126,7 +126,6 @@ namespace ENBOrganizer.App.ViewModels
 
         private async void ChangeImage()
         {
-            // TODO: filter
             string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
 
             if (string.IsNullOrWhiteSpace(imageSource))

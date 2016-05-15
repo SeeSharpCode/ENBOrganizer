@@ -9,15 +9,6 @@
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsOverviewViewModel}">
     <UserControl.Resources>
-        <Style x:Key="CircleDropDownButton" BasedOn="{StaticResource {x:Type controls:DropDownButton}}" TargetType="controls:DropDownButton">
-            <Setter Property="ArrowVisibility" Value="Collapsed" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="ButtonStyle" Value="{DynamicResource MetroCircleButtonStyle}" />
-            <Setter Property="FocusVisualStyle" Value="{DynamicResource MetroCircleButtonFocusVisual}" />
-            <Setter Property="Height" Value="48" />
-            <Setter Property="Width" Value="48" />
-        </Style>
-
         <DataTemplate DataType="{x:Type viewModels:PresetViewModel}">
             <views:PresetView />
         </DataTemplate>

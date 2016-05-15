@@ -48,7 +48,7 @@
                     <views:GamesView />
                 </TabItem>
                 <TabItem Header="Binaries">
-
+                    <views:BinariesView />
                 </TabItem>
                 <TabItem Header="Presets">
                     <views:PresetsOverviewView />

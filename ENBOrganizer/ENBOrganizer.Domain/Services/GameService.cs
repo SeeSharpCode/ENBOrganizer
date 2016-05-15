@@ -20,6 +20,7 @@ namespace ENBOrganizer.Domain.Services
                 base.Add(game);
 
                 game.PresetsDirectory.Create();
+                game.BinariesDirectory.Create();
             }
             catch (DuplicateEntityException)
             {

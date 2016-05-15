@@ -10,6 +10,7 @@ namespace ENBOrganizer.Domain.Entities
     {
         public string Name { get; set; }
         public Game Game { get; set; }
+        public Binary Binary { get; set; }
         public string ImagePath { get; set; }
         public bool IsEnabled { get; set; }
 
@@ -35,10 +36,7 @@ namespace ENBOrganizer.Domain.Entities
         {
             Preset preset = other as Preset;
 
-            if (preset == null)
-                return false;
-
-            return Name.EqualsIgnoreCase(preset.Name) && Game.Equals(preset.Game);
+            return preset != null ? Name.EqualsIgnoreCase(preset.Name) && Game.Equals(preset.Game) : false;
         }
     }
 }

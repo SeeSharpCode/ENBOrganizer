@@ -16,7 +16,8 @@ namespace ENBOrganizer.App.ViewModels
             TitledCommands = new List<TitledCommand>
             {
                 new TitledCommand("Import Folder", "Create from a folder", _importFolderCommand),
-                new TitledCommand("Import Archive", "Create from archive (.zip, .7z)", _importArchiveCommand)
+                new TitledCommand("Import Archive", "Create from an archive (.zip, .7z)", _importArchiveCommand),
+                new TitledCommand("Import Active Files", "Create from binary files currently in your game folder", _importArchiveCommand)
             };
         }
     }

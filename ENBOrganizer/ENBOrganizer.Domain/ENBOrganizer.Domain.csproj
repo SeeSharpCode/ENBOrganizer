@@ -59,6 +59,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\BinaryService.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\MasterListService.cs" />

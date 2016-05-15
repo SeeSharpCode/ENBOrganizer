@@ -21,7 +21,17 @@ namespace ENBOrganizer.Domain.Entities
                 string path = Path.Combine(DirectoryNames.Games, Name, DirectoryNames.Presets);
                 return new DirectoryInfo(path); 
             }
-        } 
+        }
+
+        [XmlIgnore]
+        public DirectoryInfo BinariesDirectory
+        {
+            get
+            {
+                string path = Path.Combine(DirectoryNames.Games, Name, DirectoryNames.Binaries);
+                return new DirectoryInfo(path);
+            }
+        }
 
         [XmlIgnore]
         public string DirectoryPath
@@ -41,10 +51,7 @@ namespace ENBOrganizer.Domain.Entities
         {
             Game game = other as Game;
 
-            if (game == null)
-                return false;
-
-            return Name.EqualsIgnoreCase(game.Name);
+            return game != null ? Name.EqualsIgnoreCase(game.Name) : false;
         }
     }
 }

@@ -91,6 +91,7 @@
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
     <Compile Include="ViewModels\BinariesViewModel.cs" />
+    <Compile Include="ViewModels\ImportPresetViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
@@ -107,6 +108,9 @@
       <DependentUpon>BinariesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedTreeView.cs" />
+    <Compile Include="Views\ImportPresetView.xaml.cs">
+      <DependentUpon>ImportPresetView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MasterListView.xaml.cs">
       <DependentUpon>MasterListView.xaml</DependentUpon>
     </Compile>
@@ -133,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GamesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ImportPresetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

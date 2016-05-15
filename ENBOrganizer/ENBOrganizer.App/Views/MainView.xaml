@@ -25,11 +25,15 @@
         <DataTemplate DataType="{x:Type viewModels:AddMasterListItemViewModel}">
             <views:AddMasterListItemView />
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:ImportPresetViewModel}">
+            <views:ImportPresetView />
+        </DataTemplate>
     </controls:MetroWindow.Resources>
 
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
-            <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add Game" 
+            <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add" 
                              IsOpen="{Binding IsAddGameFlyoutOpen, Mode=TwoWay}" Theme="Accent">
                 <ContentControl Content="{Binding CurrentDialogViewModel, Mode=OneWay}" />
             </controls:Flyout>

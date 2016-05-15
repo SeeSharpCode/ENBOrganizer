@@ -13,11 +13,11 @@
         </Grid.Resources>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -26,7 +26,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Content="Name" Grid.Row="0" Grid.Column="0" />
-        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
+        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
 
         <Label Content="Exe Path" Grid.Row="2" Grid.Column="0" />
         <TextBox Text="{Binding ExecutablePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="260" Width="150" HorizontalAlignment="Left" 

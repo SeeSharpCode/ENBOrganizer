@@ -3,7 +3,8 @@
     public enum Dialog
     {
         AddGame,
-        AddMasterListItem
+        AddMasterListItem,
+        ImportPreset
     }
 
     public class OpenDialogMessage : DialogMessage

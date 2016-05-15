@@ -28,7 +28,7 @@ namespace ENBOrganizer.App.ViewModels
         public MainViewModel(ViewModelLocator viewModelLocator)
         {
             _viewModelLocator = viewModelLocator;
-            
+
             MessengerInstance.Register<DialogMessage>(this, true, (message) => OnDialogMessage(message));
         }
 
@@ -40,10 +40,18 @@ namespace ENBOrganizer.App.ViewModels
 
                 OpenDialogMessage openDialogMessage = dialogMessage as OpenDialogMessage;
 
-                if (openDialogMessage.Dialog == Dialog.AddGame)
-                    CurrentDialogViewModel = _viewModelLocator.AddGameViewModel;
-                else
-                    CurrentDialogViewModel = _viewModelLocator.AddMasterListItemViewModel;
+                switch (openDialogMessage.Dialog)
+                {
+                    case Dialog.AddGame:
+                        CurrentDialogViewModel = _viewModelLocator.AddGameViewModel;
+                        break;
+                    case Dialog.AddMasterListItem:
+                        CurrentDialogViewModel = _viewModelLocator.AddMasterListItemViewModel;
+                        break;
+                    case Dialog.ImportPreset:
+                        CurrentDialogViewModel = _viewModelLocator.ImportPresetViewModel;
+                        break;
+                }
             }
             else
                 IsAddGameFlyoutOpen = false;

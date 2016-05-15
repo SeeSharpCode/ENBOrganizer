@@ -55,7 +55,7 @@ namespace ENBOrganizer.Domain.Services
 
                 sourceDirectory.CopyTo(preset.Directory.FullName);
                 
-                CreateMasterListItemsFromPreset(preset);
+                _masterListService.CreateMasterListItems(preset);
             }
             catch (DuplicateEntityException)
             {
@@ -79,7 +79,7 @@ namespace ENBOrganizer.Domain.Services
 
                 ZipFile.ExtractToDirectory(archivePath, preset.Directory.FullName);
 
-                CreateMasterListItemsFromPreset(preset);
+                _masterListService.CreateMasterListItems(preset);
             }
             catch (DuplicateEntityException)
             {
@@ -99,7 +99,9 @@ namespace ENBOrganizer.Domain.Services
             {
                 Add(preset);
 
-                List<MasterListItem> masterListItems = _masterListService.GetAll();
+                List<MasterListItem> masterListItems = _masterListService.GetAll()
+                    .Where(masterListItem => masterListItem.Type == MasterListItemType.PresetDirectory || masterListItem.Type == MasterListItemType.PresetFile).ToList();
+
                 List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
                 List<string> gameFiles = Directory.GetFiles(preset.Game.DirectoryPath).ToList();
 
@@ -107,7 +109,7 @@ namespace ENBOrganizer.Domain.Services
                 {
                     string installedPath = Path.Combine(preset.Game.DirectoryPath, masterListItem.Name);
 
-                    if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
+                    if (masterListItem.Type.Equals(MasterListItemType.PresetDirectory) && gameDirectories.Contains(installedPath))
                     {
                         DirectoryInfo directory = new DirectoryInfo(installedPath);
                         directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
@@ -171,7 +173,7 @@ namespace ENBOrganizer.Domain.Services
                 {
                     string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
 
-                    if (masterListItem.Type.Equals(MasterListItemType.File))
+                    if (masterListItem.Type.Equals(MasterListItemType.PresetFile))
                     {
                         FileInfo file = new FileInfo(installedPath);
 
@@ -190,33 +192,6 @@ namespace ENBOrganizer.Domain.Services
             catch (Exception)
             {
                 throw;
-            }
-        }
-
-        private void CreateMasterListItemsFromPreset(Preset preset)
-        {
-            List<MasterListItem> masterListItems = _masterListService.GetAll();
-
-            foreach (DirectoryInfo directory in preset.Directory.GetDirectories())
-            {
-                MasterListItem masterListItem = new MasterListItem(directory.Name, MasterListItemType.Directory);
-
-                try
-                {
-                    _masterListService.Add(masterListItem);
-                }
-                catch (DuplicateEntityException) { }                    
-            }
-
-            foreach (FileInfo file in preset.Directory.GetFiles())
-            {
-                MasterListItem masterListItem = new MasterListItem(file.Name, MasterListItemType.File);
-
-                try
-                {
-                    _masterListService.Add(masterListItem);
-                }
-                catch (DuplicateEntityException) { }
             }
         }
         

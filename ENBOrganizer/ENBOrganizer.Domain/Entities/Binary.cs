@@ -4,7 +4,9 @@ using System.Xml.Serialization;
 
 namespace ENBOrganizer.Domain.Entities
 {
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public class Binary : IEntity
+#pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public string Name { get; set; }
         public Game Game { get; set; }
@@ -17,6 +19,14 @@ namespace ENBOrganizer.Domain.Entities
                 string path = Path.Combine(Game.BinariesDirectory.FullName, Name);
                 return new DirectoryInfo(path);
             }
+        }
+
+        public Binary() { } // Required for serialization.
+
+        public Binary(string name, Game game)
+        {
+            Name = name;
+            Game = game;
         }
 
         public override bool Equals(object other)

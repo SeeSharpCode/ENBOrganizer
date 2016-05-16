@@ -7,7 +7,7 @@
              mc:Ignorable="d">
     <StackPanel Orientation="Vertical" Margin="10">
         <Label Content="Name" />
-        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" />
+        <TextBox Text="{Binding Name, Mode=TwoWay}" MinWidth="100" />
         <Label Content="Type" Margin="{StaticResource ControlMargin}" />
         <ComboBox ItemsSource="{Binding MasterListItemTypes, Mode=OneTime}" SelectedItem="{Binding SelectedMasterListItemType}" IsSynchronizedWithCurrentItem="True" />
         <Button Command="{Binding AddMasterListItemCommand, Mode=OneTime}" HorizontalAlignment="Right" Margin="{StaticResource ControlMargin}">

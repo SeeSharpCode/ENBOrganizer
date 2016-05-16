@@ -44,40 +44,18 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void ImportDirectory(string sourceDirectoryPath, Game game)
+        public void Import(Preset preset, string sourcePath)
         {
-            DirectoryInfo sourceDirectory = new DirectoryInfo(sourceDirectoryPath);
-            Preset preset = new Preset(sourceDirectory.Name, game);
-
             try
             {
                 base.Add(preset);
 
-                sourceDirectory.CopyTo(preset.Directory.FullName);
-                
-                _masterListService.CreateMasterListItems(preset);
-            }
-            catch (DuplicateEntityException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                Delete(preset);
+                DirectoryInfo sourceDirectory = new DirectoryInfo(sourcePath);
 
-                throw;
-            }
-        }
-
-        public void ImportArchive(string archivePath, Game game)
-        {
-            Preset preset = new Preset(Path.GetFileNameWithoutExtension(archivePath), game);
-
-            try
-            {
-                base.Add(preset);
-
-                ZipFile.ExtractToDirectory(archivePath, preset.Directory.FullName);
+                if (sourceDirectory.Exists)
+                    sourceDirectory.CopyTo(preset.Directory.FullName);
+                else
+                    ZipFile.ExtractToDirectory(sourcePath, preset.Directory.FullName);
 
                 _masterListService.CreateMasterListItems(preset);
             }

@@ -4,21 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
              xmlns:views="clr-namespace:ENBOrganizer.App.Views"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ImportPresetViewModel}">
     <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Left">
         <Label Content="Name" />
-        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" TextWrapping="Wrap" HorizontalAlignment="Left" />
-        
+        <TextBox Text="{Binding Name, Mode=TwoWay}" Width="150" TextWrapping="Wrap" HorizontalAlignment="Left" />
+
         <Label Content="Source Folder or Archive" Margin="{StaticResource ControlMargin}" />
         <StackPanel Orientation="Horizontal">
             <TextBox Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" TextWrapping="Wrap" />
-            <controls:DropDownButton Content="Browse" DisplayMemberPath="Title" Orientation="Horizontal" 
+            <controls:DropDownButton Content="Browse" DisplayMemberPath="Title" Orientation="Horizontal" VerticalAlignment="Bottom"
                                      ItemsSource="{Binding TitledCommands, Mode=OneTime}" Margin="5 0 0 0">
                 <controls:DropDownButton.ItemContainerStyle>
                     <Style TargetType="MenuItem">
-                        <!--<Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />-->
                         <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
                         <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
                         <Setter Property="Padding" Value="3" />
@@ -28,46 +28,22 @@
         </StackPanel>
 
         <Label Content="Binary" Margin="{StaticResource ControlMargin}" />
-        <ComboBox ItemsSource="{Binding Binaries, Mode=OneWay}" SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                  IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" DisplayMemberPath="Name" />
 
-        <Button HorizontalAlignment="Left" Margin="{StaticResource ControlMargin}">
+        <ComboBox SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" DisplayMemberPath="Name">
+            <ComboBox.Resources>
+                <CollectionViewSource x:Key="BinariesDataSource" Source="{Binding Binaries}" />
+            </ComboBox.Resources>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <entities:Binary Name="-- None --" />
+                    <CollectionContainer Collection="{Binding Source={StaticResource BinariesDataSource}}" />
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+
+        <Button Command="{Binding SaveCommand, Mode=OneTime}" HorizontalAlignment="Left" Margin="{StaticResource ControlMargin}">
             <TextBlock Text="Save" Style="{StaticResource ButtonTextStyle}" />
         </Button>
     </StackPanel>
-    <!--<Grid Margin="10">
-        <Grid.Resources>
-            <Style TargetType="RowDefinition">
-                <Setter Property="Height" Value="Auto" />
-            </Style>
-        </Grid.Resources>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <Label Content="Name" Grid.Row="0" Grid.Column="0" />
-        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
-
-        <Label Content="Exe Path" Grid.Row="2" Grid.Column="0" />
-        <TextBox Text="{Binding ExecutablePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="260" Width="150" HorizontalAlignment="Left" 
-                 TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" />
-        <Button Command="{Binding BrowseCommand, Mode=OneTime}" Margin="5 0 0 0" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1">
-            <TextBlock Text="Browse..." Style="{StaticResource ButtonTextStyle}" />
-        </Button>
-
-        <Button Command="{Binding AddGameCommand, Mode=OneTime}" HorizontalAlignment="Right" Margin="{StaticResource ControlMargin}" 
-                Grid.Row="4" Grid.Column="0" VerticalAlignment="Top">
-            <TextBlock Text="Save" Style="{StaticResource ButtonTextStyle}" />
-        </Button>
-    </Grid>-->
 </UserControl>

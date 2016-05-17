@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=BinariesViewModel}">
     <StackPanel Orientation="Vertical">
-        <controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
+        <!--<controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
                                  ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" ToolTip="Add new binary">
             <controls:DropDownButton.Icon>
                 <Viewbox Width="32" Height="32" Stretch="Uniform">
@@ -23,14 +23,14 @@
                     <Setter Property="Padding" Value="3" />
                 </Style>
             </controls:DropDownButton.ItemContainerStyle>
-        </controls:DropDownButton>
+        </controls:DropDownButton>-->
 
-        <ListView ItemsSource="{Binding Binaries, Mode=OneWay}" HorizontalAlignment="Left" Margin="{StaticResource ControlMargin}">
+        <ListView ItemsSource="{Binding Binaries, Mode=OneWay}" HorizontalAlignment="Left">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name, Mode=OneTime}" />
                     
-                    <GridViewColumn Header="Files">
+                    <!--<GridViewColumn Header="Files">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding Path=DataContext.OpenFilesCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}" 
@@ -43,9 +43,9 @@
                                 </Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    </GridViewColumn>-->
                     
-                    <GridViewColumn Header="Delete">
+                    <!--<GridViewColumn Header="Delete">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding Path=DataContext.DeleteBinaryCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}" 
@@ -58,7 +58,7 @@
                                 </Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    </GridViewColumn>-->
                 </GridView>
             </ListView.View>
         </ListView>

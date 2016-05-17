@@ -14,7 +14,7 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         SizeToContent="WidthAndHeight"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
-    <controls:MetroWindow.Resources>
+    <Window.Resources>
         <converters:PathToIconConverter x:Key="PathToIconConverter" />
 
         <DataTemplate DataType="{x:Type viewModels:PresetsOverviewViewModel}">
@@ -32,16 +32,16 @@
         <DataTemplate DataType="{x:Type viewModels:ImportPresetViewModel}">
             <views:ImportPresetView />
         </DataTemplate>
-    </controls:MetroWindow.Resources>
+    </Window.Resources>
 
-    <controls:MetroWindow.Flyouts>
+    <!--<controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
             <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add" 
                              IsOpen="{Binding IsAddGameFlyoutOpen, Mode=TwoWay}" Theme="Accent">
                 <ContentControl Content="{Binding CurrentDialogViewModel, Mode=OneWay}" />
             </controls:Flyout>
         </controls:FlyoutsControl>
-    </controls:MetroWindow.Flyouts>
+    </controls:MetroWindow.Flyouts>-->
 
     <Grid>
         <Grid.RowDefinitions>
@@ -49,8 +49,14 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid Margin="10 0 10 10" Grid.Row="0">
-            <controls:MetroAnimatedSingleRowTabControl controls:TabControlHelper.IsUnderlined="True">
+        <Button Content="Hey" Grid.Row="0" />
+        <ListBox Grid.Row="2">
+            <ListBoxItem>Item 1</ListBoxItem>
+            <ListBoxItem>Item 2</ListBoxItem>
+        </ListBox>
+
+        <!--<Grid Margin="10 0 10 10" Grid.Row="0">
+            <TabControl>
                 <TabItem Header="Games">
                     <views:GamesView />
                 </TabItem>
@@ -63,10 +69,8 @@
                 <TabItem Header="Master List">
                     <views:MasterListView />
                 </TabItem>
-            </controls:MetroAnimatedSingleRowTabControl>
-
-
-        </Grid>
+            </TabControl>
+        </Grid>-->
 
         <StatusBar VerticalAlignment="Bottom" Grid.Row="1">
             <StatusBarItem>Current Game:</StatusBarItem>

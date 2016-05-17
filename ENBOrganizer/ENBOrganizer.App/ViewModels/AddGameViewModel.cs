@@ -43,7 +43,7 @@ namespace ENBOrganizer.App.ViewModels
             AddGameCommand = new RelayCommand(AddGame, CanAdd);
         }
 
-        private async void AddGame()
+        private void AddGame()
         {
             try
             {
@@ -51,7 +51,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception) 
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
             finally
             {

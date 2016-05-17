@@ -31,13 +31,7 @@
         <Label Content="Exe Path" Grid.Row="2" Grid.Column="0" />
         <TextBox Text="{Binding ExecutablePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="260" Width="150" HorizontalAlignment="Left" 
                  TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" />
-        <Button Command="{Binding BrowseCommand, Mode=OneTime}" Margin="5 0 0 0" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1">
-            <TextBlock Text="Browse..." Style="{StaticResource ButtonTextStyle}" />
-        </Button>
-
-        <Button Command="{Binding AddGameCommand, Mode=OneTime}" HorizontalAlignment="Right" Margin="{StaticResource ControlMargin}" 
-                Grid.Row="4" Grid.Column="0" VerticalAlignment="Top">
-            <TextBlock Text="Save" Style="{StaticResource ButtonTextStyle}" />
-        </Button>
+        <Button Content="BROWSE" Command="{Binding BrowseCommand, Mode=OneTime}" Margin="5 0 0 0" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" />
+        <Button Content="SAVE" Command="{Binding AddGameCommand, Mode=OneTime}" HorizontalAlignment="Right" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

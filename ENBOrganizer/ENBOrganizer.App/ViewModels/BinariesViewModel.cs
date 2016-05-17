@@ -60,7 +60,7 @@ namespace ENBOrganizer.App.ViewModels
                 Binaries.Remove(repositoryChangedEventArgs.Entity as Binary);
         }
 
-        private async void ImportDirectory()
+        private void ImportDirectory()
         {
             string directoryPath = _dialogService.PromptForFolder("Please select the binary folder...");
 
@@ -73,11 +73,11 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
-        private async void ImportArchive()
+        private void ImportArchive()
         {
             // TODO: this should support more than just .zip
             string archivePath = _dialogService.PromptForFile("Please select an archive file", "ZIP Files(*.zip) | *.zip");
@@ -91,7 +91,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
@@ -108,7 +108,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
         }
     }

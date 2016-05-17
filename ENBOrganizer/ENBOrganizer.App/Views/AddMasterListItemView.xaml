@@ -8,10 +8,10 @@
     <StackPanel Orientation="Vertical" Margin="10">
         <Label Content="Name" />
         <TextBox Text="{Binding Name, Mode=TwoWay}" MinWidth="100" />
-        <Label Content="Type" Margin="{StaticResource ControlMargin}" />
+        <Label Content="Type" />
         <ComboBox ItemsSource="{Binding MasterListItemTypes, Mode=OneTime}" SelectedItem="{Binding SelectedMasterListItemType}" IsSynchronizedWithCurrentItem="True" />
-        <Button Command="{Binding AddMasterListItemCommand, Mode=OneTime}" HorizontalAlignment="Right" Margin="{StaticResource ControlMargin}">
-            <TextBlock Text="Save" Style="{StaticResource ButtonTextStyle}" />
+        <Button Command="{Binding AddMasterListItemCommand, Mode=OneTime}" HorizontalAlignment="Right">
+            <TextBlock Text="Save" />
         </Button>
     </StackPanel>
 </UserControl>

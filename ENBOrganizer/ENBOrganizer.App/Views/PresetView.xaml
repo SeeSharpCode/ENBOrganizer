@@ -38,7 +38,7 @@
             </interaction:Interaction.Triggers>
         </CheckBox>
 
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="{StaticResource AccentColorBrush}">
+        <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="{StaticResource AccentColorBrush}">
             <StackPanel.Style>
                 <Style TargetType="StackPanel">
                     <Style.Triggers>
@@ -81,6 +81,6 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </UserControl>

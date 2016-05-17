@@ -79,7 +79,7 @@ namespace ENBOrganizer.App.ViewModels
                 Binaries.Remove(repositoryChangedEventArgs.Entity as Binary);
         }
 
-        private async void Save()
+        private void Save()
         {
             Preset preset = new Preset(Name, CurrentGame);
 
@@ -93,7 +93,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
             finally
             {

@@ -55,7 +55,7 @@ namespace ENBOrganizer.App.ViewModels
             LoadPresets();
         }
 
-        private async void DisableAllPresets()
+        private void DisableAllPresets()
         {
             try
             {
@@ -66,7 +66,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
@@ -114,9 +114,9 @@ namespace ENBOrganizer.App.ViewModels
             {
                 _presetService.Add(new Preset(name, CurrentGame));
             }
-            catch (Exception exception) 
+            catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
@@ -133,7 +133,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
         }
     }

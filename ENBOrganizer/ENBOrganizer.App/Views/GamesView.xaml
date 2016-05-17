@@ -11,7 +11,7 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical">
-        <Label Content="Current Game" Style="{DynamicResource DescriptionHeaderStyle}" />
+        <Label Content="Current Game" />
         <StackPanel Orientation="Horizontal">
             <ComboBox ItemsSource="{Binding Games, Mode=OneWay}" SelectedItem="{Binding Path=CurrentGame, Mode=TwoWay}" 
                   HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100">
@@ -26,32 +26,32 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <Button Command="{Binding ShowAddGameDialogCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
+            <!--<Button Command="{Binding ShowAddGameDialogCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
                     Margin="5 0 0 0" BorderBrush="White" ToolTip="Add a new game">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
-            </Button>
+            </Button>-->
 
-            <Button Command="{Binding OpenGameFolderCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
+            <!--<Button Command="{Binding OpenGameFolderCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
                     BorderBrush="White" ToolTip="Open game folder">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder_open}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
-            </Button>
+            </Button>-->
 
-            <Button Command="{Binding DeleteGameCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}"
+            <!--<Button Command="{Binding DeleteGameCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}"
                     BorderBrush="White" ToolTip="Delete the selected game">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
-            </Button>
+            </Button>-->
         </StackPanel>
     </StackPanel>
 </UserControl>

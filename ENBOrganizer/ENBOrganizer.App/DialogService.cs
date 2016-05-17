@@ -1,7 +1,6 @@
 ﻿using ENBOrganizer.App.Messages;
 using GalaSoft.MvvmLight.Messaging;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,21 +10,19 @@ namespace ENBOrganizer.App
 {
     public class DialogService
     {
-        private readonly MetroWindow _mainWindow = System.Windows.Application.Current.MainWindow as MetroWindow;
-
         public async Task<string> ShowInputDialog(string title, string message)
         {
-            return await _mainWindow.ShowInputAsync(title, message);
+            throw new NotImplementedException();
         }
 
-        public async Task<MessageDialogResult> ShowYesOrNoDialog(string title, string message)
+        public void ShowYesOrNoDialog(string title, string message)
         {
-            return await _mainWindow.ShowMessageAsync(title, message, MessageDialogStyle.AffirmativeAndNegative);
+            throw new NotImplementedException();
         }
 
-        public async Task<MessageDialogResult> ShowErrorDialog(string message)
+        public void ShowErrorDialog(string message)
         {
-            return await _mainWindow.ShowMessageAsync("Error", message);
+            throw new NotImplementedException();
         }
 
         public string PromptForFile(string title, string filter)

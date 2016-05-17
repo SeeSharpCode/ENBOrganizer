@@ -11,10 +11,10 @@
         <Label Content="Name" />
         <TextBox Text="{Binding Name, Mode=TwoWay}" Width="150" TextWrapping="Wrap" HorizontalAlignment="Left" />
 
-        <Label Content="Source Folder or Archive" Margin="{StaticResource ControlMargin}" />
+        <Label Content="Source Folder or Archive" />
         <StackPanel Orientation="Horizontal">
             <TextBox Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" TextWrapping="Wrap" />
-            <controls:DropDownButton Content="Browse" DisplayMemberPath="Title" Orientation="Horizontal" VerticalAlignment="Bottom"
+            <!--<controls:DropDownButton Content="Browse" DisplayMemberPath="Title" Orientation="Horizontal" VerticalAlignment="Bottom"
                                      ItemsSource="{Binding TitledCommands, Mode=OneTime}" Margin="5 0 0 0">
                 <controls:DropDownButton.ItemContainerStyle>
                     <Style TargetType="MenuItem">
@@ -23,10 +23,10 @@
                         <Setter Property="Padding" Value="3" />
                     </Style>
                 </controls:DropDownButton.ItemContainerStyle>
-            </controls:DropDownButton>
+            </controls:DropDownButton>-->
         </StackPanel>
 
-        <Label Content="Binary" Margin="{StaticResource ControlMargin}" />
+        <Label Content="Binary" />
 
         <ComboBox SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" DisplayMemberPath="Name">
@@ -41,8 +41,6 @@
             </ComboBox.ItemsSource>
         </ComboBox>
 
-        <Button Command="{Binding SaveCommand, Mode=OneTime}" HorizontalAlignment="Left" Margin="{StaticResource ControlMargin}">
-            <TextBlock Text="Save" Style="{StaticResource ButtonTextStyle}" />
-        </Button>
+        <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" HorizontalAlignment="Left" />
     </StackPanel>
 </UserControl>

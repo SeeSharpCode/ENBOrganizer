@@ -72,9 +72,10 @@ namespace ENBOrganizer.App.ViewModels
             DeletePresetCommand = new RelayCommand(() => _presetService.Delete(Preset));
         }
 
-        private async void Rename()
+        private void Rename()
         {
-            string newName = await _dialogService.ShowInputDialog("Rename Preset", "Please enter a new name for the preset.");
+            // TODO: string newName = _dialogService.ShowInputDialog("Rename Preset", "Please enter a new name for the preset.");
+            string newName = string.Empty;
 
             if (string.IsNullOrWhiteSpace(newName))
                 return;
@@ -88,11 +89,11 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
-        private async void Enable()
+        private void Enable()
         {
             try
             {
@@ -104,11 +105,11 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
-        private async void Disable()
+        private void Disable()
         {
             try
             {
@@ -120,11 +121,11 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
         }
 
-        private async void ChangeImage()
+        private void ChangeImage()
         {
             string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
 
@@ -140,7 +141,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (Exception)
             {
-                await _dialogService.ShowErrorDialog("The selected file is not a valid image.");
+                _dialogService.ShowErrorDialog("The selected file is not a valid image.");
 
                 ImagePath = null;
             }

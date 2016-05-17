@@ -46,7 +46,7 @@ namespace ENBOrganizer.App.ViewModels
             AddMasterListItemCommand = new RelayCommand(AddMasterListItem, () => !string.IsNullOrWhiteSpace(Name));
         }
 
-        private async void AddMasterListItem()
+        private void AddMasterListItem()
         {
             try
             {
@@ -54,7 +54,7 @@ namespace ENBOrganizer.App.ViewModels
             }
             catch (DuplicateEntityException exception)
             {
-                await _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog(exception.Message);
             }
             finally
             {

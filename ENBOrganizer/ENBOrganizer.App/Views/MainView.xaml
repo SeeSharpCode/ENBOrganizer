@@ -4,15 +4,17 @@
         xmlns:views="clr-namespace:ENBOrganizer.App.Views"
         xmlns:converters="clr-namespace:ENBOrganizer.App.Converters"
         xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="ENB Organizer"
         MinWidth="640"
         MinHeight="360"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
-        TextElement.FontWeight="Medium"
-        TextElement.FontSize="14"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-        SizeToContent="WidthAndHeight"
+        FontFamily="{StaticResource MaterialDesignFont}"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
     <Window.Resources>
         <converters:PathToIconConverter x:Key="PathToIconConverter" />
@@ -34,6 +36,59 @@
         </DataTemplate>
     </Window.Resources>
 
+    <materialDesign:DialogHost>
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel>
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                  DockPanel.Dock="Top"
+                                  HorizontalAlignment="Right" Margin="16"
+                                  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                    <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="0">
+                        <StackPanel Orientation="Horizontal" Margin="32 0 32 0">
+                            <materialDesign:PackIcon Kind="GamepadVariant" Width="24" Height="24" VerticalAlignment="Center" Margin="0 0 5 0" />
+                            <TextBlock Text="Games" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="32 0 32 0">
+                            <materialDesign:PackIcon Kind="FolderImage" Width="24" Height="24" VerticalAlignment="Center" Margin="0 0 5 0" />
+                            <TextBlock Text="Presets" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="32 0 32 0">
+                            <materialDesign:PackIcon Kind="FormatListBulleted" Width="24" Height="24" VerticalAlignment="Center" Margin="0 0 5 0" />
+                            <TextBlock Text="Master List" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="32 0 32 0">
+                            <materialDesign:PackIcon Kind="Settings" Width="24" Height="24" VerticalAlignment="Center" Margin="0 0 5 0" />
+                            <TextBlock Text="Settings" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </ListBox>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+
+            <DockPanel>
+                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                          Mode="PrimaryMid" DockPanel.Dock="Top">
+                    <DockPanel>
+                        <ToggleButton x:Name="MenuToggleButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False" />
+                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                            <StackPanel>
+                                <Button Content="Don't know if I'll need this" />
+                                <Button Content="Nice Popup" />
+                                <Button Content="Goodbye" />
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">ENB Organizer</TextBlock>
+                    </DockPanel>
+                </materialDesign:ColorZone>
+                <Button Content="WELCOME" VerticalAlignment="Top" Margin="10" />
+                <ContentControl Margin="16" Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Content}" />
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
+
     <!--<controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
             <controls:Flyout Position="Left" AreAnimationsEnabled="True" Header="Add" 
@@ -42,8 +97,10 @@
             </controls:Flyout>
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>-->
+    
+    
 
-    <Grid>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -55,7 +112,7 @@
             <ListBoxItem>Item 2</ListBoxItem>
         </ListBox>
 
-        <!--<Grid Margin="10 0 10 10" Grid.Row="0">
+        --><!--<Grid Margin="10 0 10 10" Grid.Row="0">
             <TabControl>
                 <TabItem Header="Games">
                     <views:GamesView />
@@ -70,13 +127,13 @@
                     <views:MasterListView />
                 </TabItem>
             </TabControl>
-        </Grid>-->
+        </Grid>--><!--
 
         <StatusBar VerticalAlignment="Bottom" Grid.Row="1">
             <StatusBarItem>Current Game:</StatusBarItem>
             <StatusBarItem Content="{Binding GamesViewModel.CurrentGame.Name, Mode=OneWay}" />
-            <!--<Separator Style="{StaticResource MetroStatusBarSeparator}" />-->
+            --><!--<Separator Style="{StaticResource MetroStatusBarSeparator}" />--><!--
         </StatusBar>
-    </Grid>
+    </Grid>-->
 
 </Window>

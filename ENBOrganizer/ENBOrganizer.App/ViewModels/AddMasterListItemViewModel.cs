@@ -60,7 +60,7 @@ namespace ENBOrganizer.App.ViewModels
             {
                 Name = string.Empty;
 
-                _dialogService.CloseDialog();
+                //_dialogService.CloseDialog();
             }
         }
     }

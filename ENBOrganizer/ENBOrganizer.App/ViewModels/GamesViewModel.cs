@@ -7,16 +7,16 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using ENBOrganizer.App.Messages;
 using System.Diagnostics;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class GamesViewModel : ViewModelBase
+    public class GamesViewModel : ViewModelBase, IPageViewModel
     {
         private readonly GameService _gameService;
         private readonly DialogService _dialogService;
 
+        public string Name { get { return "Games"; } }
         public ICommand ShowAddGameDialogCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
         public ICommand OpenGameFolderCommand { get; set; }
@@ -42,11 +42,13 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            ShowAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddGame));
+            // ShowAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddGame));
             DeleteGameCommand = new RelayCommand(() => _gameService.Delete(CurrentGame), () => CurrentGame != null);
             OpenGameFolderCommand = new RelayCommand(() => Process.Start(CurrentGame.DirectoryPath), () => CurrentGame != null);
 
             Games = _gameService.GetAll().ToObservableCollection();
+
+            _gameService.Add(new Game("Skyrim", @"C:\Apps\Skyrim\Skyrim.exe"));
         }
 
         private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

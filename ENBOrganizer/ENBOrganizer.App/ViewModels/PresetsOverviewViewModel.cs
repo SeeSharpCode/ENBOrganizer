@@ -1,5 +1,4 @@
-﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.Domain;
+﻿using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
@@ -38,7 +37,7 @@ namespace ENBOrganizer.App.ViewModels
             _dialogService = dialogService;
 
             _addBlankPresetCommand = new RelayCommand(AddBlank, () => CurrentGame != null);
-            _importDirectoryOrArchiveCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.ImportPreset), () => CurrentGame != null);
+            //_importDirectoryOrArchiveCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.ImportPreset), () => CurrentGame != null);
             _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
 
             TitledCommands = new List<TitledCommand>

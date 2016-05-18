@@ -1,6 +1,4 @@
-﻿using ENBOrganizer.App.Messages;
-using GalaSoft.MvvmLight.Messaging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,14 +53,14 @@ namespace ENBOrganizer.App
             return folderBrowserDialog.ShowDialog() == DialogResult.OK ? folderBrowserDialog.SelectedPath : string.Empty;
         }
 
-        public void ShowDialog(Dialog dialog)
-        {
-            Messenger.Default.Send(new OpenDialogMessage(dialog));
-        }
+        //public void ShowDialog(Dialog dialog)
+        //{
+        //    Messenger.Default.Send(new OpenDialogMessage(dialog));
+        //}
 
-        public void CloseDialog()
-        {
-            Messenger.Default.Send(new DialogMessage(DialogAction.Close));
-        }
+        //public void CloseDialog()
+        //{
+        //    Messenger.Default.Send(new DialogMessage(DialogAction.Close));
+        //}
     }
 }

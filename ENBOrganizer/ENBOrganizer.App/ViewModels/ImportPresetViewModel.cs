@@ -100,7 +100,7 @@ namespace ENBOrganizer.App.ViewModels
                 Name = string.Empty;
                 SourcePath = string.Empty;
 
-                _dialogService.CloseDialog();
+                //_dialogService.CloseDialog();
             }
         }
 

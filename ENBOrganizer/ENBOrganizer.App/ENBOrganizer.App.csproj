@@ -90,12 +90,11 @@
     </ApplicationDefinition>
     <Compile Include="Converters\PathToBitmapConverter.cs" />
     <Compile Include="DialogService.cs" />
-    <Compile Include="Messages\DialogMessage.cs" />
-    <Compile Include="Messages\OpenDialogMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
     <Compile Include="ViewModels\BinariesViewModel.cs" />
     <Compile Include="ViewModels\ImportPresetViewModel.cs" />
+    <Compile Include="ViewModels\IPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />

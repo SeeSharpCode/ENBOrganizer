@@ -1,5 +1,5 @@
-﻿using ENBOrganizer.App.Messages;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
+using System.Collections.Generic;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -7,54 +7,33 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly ViewModelLocator _viewModelLocator;
 
-        public GamesViewModel GamesViewModel { get { return _viewModelLocator.GamesViewModel; } }
+        public List<IPageViewModel> PageViewModels { get; set; }
 
-        private bool _isAddGameFlyoutOpen;
+        private IPageViewModel _selectedViewModel;
 
-        public bool IsAddGameFlyoutOpen
+        public IPageViewModel SelectedViewModel
         {
-            get { return _isAddGameFlyoutOpen; }
-            set { Set(nameof(IsAddGameFlyoutOpen), ref _isAddGameFlyoutOpen, value); }
+            get { return _selectedViewModel; }
+            set
+            {
+                Set(nameof(SelectedViewModel), ref _selectedViewModel, value);
+                IsMenuToggleChecked = false;
+            }
         }
 
-        private ViewModelBase _currentDialogViewModel;
+        private bool _isMenuToggleChecked;
 
-        public ViewModelBase CurrentDialogViewModel
+        public bool IsMenuToggleChecked
         {
-            get { return _currentDialogViewModel; }
-            set { Set(nameof(CurrentDialogViewModel), ref _currentDialogViewModel, value); }
+            get { return _isMenuToggleChecked; }
+            set { Set(nameof(IsMenuToggleChecked), ref _isMenuToggleChecked, value); }
         }
-
+        
         public MainViewModel(ViewModelLocator viewModelLocator)
         {
             _viewModelLocator = viewModelLocator;
 
-            MessengerInstance.Register<DialogMessage>(this, true, (message) => OnDialogMessage(message));
-        }
-
-        private void OnDialogMessage(DialogMessage dialogMessage)
-        {
-            if (dialogMessage.DialogAction == DialogAction.Open)
-            {
-                IsAddGameFlyoutOpen = true;
-
-                OpenDialogMessage openDialogMessage = dialogMessage as OpenDialogMessage;
-
-                switch (openDialogMessage.Dialog)
-                {
-                    case Dialog.AddGame:
-                        CurrentDialogViewModel = _viewModelLocator.AddGameViewModel;
-                        break;
-                    case Dialog.AddMasterListItem:
-                        CurrentDialogViewModel = _viewModelLocator.AddMasterListItemViewModel;
-                        break;
-                    case Dialog.ImportPreset:
-                        CurrentDialogViewModel = _viewModelLocator.ImportPresetViewModel;
-                        break;
-                }
-            }
-            else
-                IsAddGameFlyoutOpen = false;
+            PageViewModels = new List<IPageViewModel> { _viewModelLocator.GamesViewModel, _viewModelLocator.MasterListViewModel };
         }
     }
 }

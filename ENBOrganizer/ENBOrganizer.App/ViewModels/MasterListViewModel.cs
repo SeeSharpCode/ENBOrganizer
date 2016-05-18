@@ -1,5 +1,4 @@
-﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.Domain;
+﻿using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
@@ -10,11 +9,12 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class MasterListViewModel : ViewModelBase
+    public class MasterListViewModel : ViewModelBase, IPageViewModel
     {
         private readonly MasterListService _masterListService;
         private readonly DialogService _dialogService;
 
+        public string Name { get { return "Master List"; } }
         public ICommand AddMasterListItemCommand { get; set; }
         public ICommand DeleteMasterListItemCommand { get; set; }
         public ObservableCollection<MasterListItem> MasterListItems { get; set; }
@@ -26,7 +26,7 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            AddMasterListItemCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddMasterListItem));
+            //AddMasterListItemCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddMasterListItem));
             DeleteMasterListItemCommand = new RelayCommand<MasterListItem>(masterListItem => _masterListService.Delete(masterListItem));
 
             MasterListItems = _masterListService.GetAll().ToObservableCollection();

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:converters="clr-namespace:ENBOrganizer.App.Converters"
+             xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel, Mode=OneTime}">
@@ -10,23 +11,9 @@
         <converters:PathToIconConverter x:Key="PathToIconConverter" />
     </UserControl.Resources>
 
-    <StackPanel Orientation="Vertical">
-        <Label Content="Current Game" />
-        <StackPanel Orientation="Horizontal">
-            <ComboBox ItemsSource="{Binding Games, Mode=OneWay}" SelectedItem="{Binding Path=CurrentGame, Mode=TwoWay}" 
-                  HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="100">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
-                                   Width="16" Height="16" />
-                            <Label Content="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" Margin="5 0 0 0" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <!--<Button Command="{Binding ShowAddGameDialogCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
+    <Grid>
+        <!--<StackPanel Orientation="Horizontal">
+            --><!--<Button Command="{Binding ShowAddGameDialogCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
                     Margin="5 0 0 0" BorderBrush="White" ToolTip="Add a new game">
                 <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
@@ -51,7 +38,28 @@
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
-            </Button>-->
-        </StackPanel>
-    </StackPanel>
+            </Button>--><!--
+        </StackPanel>-->
+
+        <ItemsControl ItemsSource="{Binding Games}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type entities:Game}">
+                    <Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
+                        <Grid HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="Checkerz" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
+                                               Width="32" Height="32" />
+                            <StackPanel Margin="8 0 0 0" Grid.Column="1">
+                                <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                                <TextBlock Text="{Binding ExecutablePath}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

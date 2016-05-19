@@ -8,6 +8,10 @@
         Title="ENB Organizer"
         MinWidth="640"
         MinHeight="360"
+        Width="800"
+        Height="600"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="14"
@@ -17,7 +21,14 @@
         FontFamily="{StaticResource MaterialDesignFont}"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
     <Window.Resources>
-        <converters:PathToIconConverter x:Key="PathToIconConverter" />
+        <ResourceDictionary>
+            <converters:PathToIconConverter x:Key="PathToIconConverter" />
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <materialDesign:DialogHost>
@@ -74,7 +85,20 @@
                                 <Button Content="Goodbye" />
                             </StackPanel>
                         </materialDesign:PopupBox>
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">ENB Organizer</TextBlock>
+                        <!--<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">ENB Organizer</TextBlock>-->
+                        <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Games, Mode=OneWay}"
+                                  SelectedItem="{Binding Path=CurrentGame, Mode=TwoWay}" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
+                                               Width="32" Height="32" />
+                                        <Label Content="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" FontSize="22" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </DockPanel>
                 </materialDesign:ColorZone>
                 <ContentControl Margin="16" Content="{Binding SelectedViewModel}" />

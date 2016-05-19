@@ -47,8 +47,6 @@ namespace ENBOrganizer.App.ViewModels
             OpenGameFolderCommand = new RelayCommand(() => Process.Start(CurrentGame.DirectoryPath), () => CurrentGame != null);
 
             Games = _gameService.GetAll().ToObservableCollection();
-
-            _gameService.Add(new Game("Skyrim", @"C:\Apps\Skyrim\Skyrim.exe"));
         }
 
         private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

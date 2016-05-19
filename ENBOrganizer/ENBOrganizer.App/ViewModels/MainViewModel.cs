@@ -6,7 +6,7 @@ namespace ENBOrganizer.App.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly ViewModelLocator _viewModelLocator;
-
+        
         public List<IPageViewModel> PageViewModels { get; set; }
 
         private IPageViewModel _selectedViewModel;

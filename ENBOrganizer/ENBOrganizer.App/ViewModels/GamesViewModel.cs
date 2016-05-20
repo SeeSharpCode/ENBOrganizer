@@ -1,13 +1,14 @@
-﻿using ENBOrganizer.Domain;
-using ENBOrganizer.Domain.Services;
+﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
-using System.Diagnostics;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -17,10 +18,10 @@ namespace ENBOrganizer.App.ViewModels
         private readonly DialogService _dialogService;
 
         public string Name { get { return "Games"; } }
-        public ICommand ShowAddGameDialogCommand { get; set; }
+        public ICommand OpenAddGameDialogCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
-        public ICommand OpenGameFolderCommand { get; set; }
-
+        public ICommand ViewFilesCommand { get; set; }
+        public ICommand EditGameCommand { get; set; }
         public ObservableCollection<Game> Games { get; set; }
 
         public Game CurrentGame
@@ -29,12 +30,24 @@ namespace ENBOrganizer.App.ViewModels
             set
             {
                 Properties.Settings.Default.CurrentGame = value;
-                Properties.Settings.Default.Save();
-
-                RaisePropertyChanged(nameof(CurrentGame), true);
+                RaisePropertyChanged(nameof(CurrentGame));
             }
         }
+        
+        private bool _isAddGameDialogOpen;
 
+        public bool IsAddGameDialogOpen
+        {
+            get { return _isAddGameDialogOpen; }
+            set
+            {
+                Set(nameof(IsAddGameDialogOpen), ref _isAddGameDialogOpen, value);
+
+                if (!value)
+                    PopulateGames();
+            }
+        }
+        
         public GamesViewModel(GameService gameService, PresetService presetService, DialogService dialogService)
         {
             _gameService = gameService;
@@ -42,11 +55,40 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            // ShowAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.AddGame));
-            DeleteGameCommand = new RelayCommand(() => _gameService.Delete(CurrentGame), () => CurrentGame != null);
-            OpenGameFolderCommand = new RelayCommand(() => Process.Start(CurrentGame.DirectoryPath), () => CurrentGame != null);
+            MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
 
-            Games = _gameService.GetAll().ToObservableCollection();
+            OpenAddGameDialogCommand = new RelayCommand(() => _dialogService.OpenDialog(DialogName.AddGame));
+            EditGameCommand = new RelayCommand<Game>(EditGame);
+            ViewFilesCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));
+            DeleteGameCommand = new RelayCommand<Game>(game => _gameService.Delete(game));
+
+            PopulateGames();
+        }
+
+        private void PopulateGames()
+        {
+            if (Games == null)
+                Games = new ObservableCollection<Game>();
+
+            Games.Clear();
+            Games.AddAll(_gameService.GetAll().ToObservableCollection());
+        }
+
+        private void EditGame(Game game)
+        {
+            _dialogService.OpenDialog(DialogName.AddGame);
+            MessengerInstance.Send(game);
+        }
+
+        private void OnDialogMessage(DialogMessage dialogMessage)
+        {
+            if (dialogMessage.DialogName != DialogName.AddGame)
+                return;
+
+            if (dialogMessage.DialogAction == DialogAction.Open)
+                IsAddGameDialogOpen = true;
+            else
+                IsAddGameDialogOpen = false;
         }
 
         private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
@@ -56,12 +98,16 @@ namespace ENBOrganizer.App.ViewModels
             if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
             {
                 Games.Add(game);
-                CurrentGame = game;
+
+                if (CurrentGame == null)
+                    CurrentGame = game;
             }
             else
             {
                 Games.Remove(game);
-                CurrentGame = Games.FirstOrDefault();
+
+                if (CurrentGame == game)
+                    CurrentGame = Games.FirstOrDefault();
             }
         }
     }

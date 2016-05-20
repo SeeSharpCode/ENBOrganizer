@@ -85,9 +85,9 @@
                                 <Button Content="Goodbye" />
                             </StackPanel>
                         </materialDesign:PopupBox>
-                        <!--<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">ENB Organizer</TextBlock>-->
                         <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Games, Mode=OneWay}"
-                                  SelectedItem="{Binding Path=CurrentGame, Mode=TwoWay}" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"
+                                  SelectedItem="{Binding Path=GamesViewModel.CurrentGame, Mode=TwoWay}"
+                                  MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -101,7 +101,7 @@
                         </ComboBox>
                     </DockPanel>
                 </materialDesign:ColorZone>
-                <ContentControl Margin="16" Content="{Binding SelectedViewModel}" />
+                <ContentControl Content="{Binding SelectedViewModel}" />
             </DockPanel>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

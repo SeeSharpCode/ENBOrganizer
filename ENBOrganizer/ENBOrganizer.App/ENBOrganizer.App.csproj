@@ -90,6 +90,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\PathToBitmapConverter.cs" />
     <Compile Include="DialogService.cs" />
+    <Compile Include="Messages\DialogMessage.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
     <Compile Include="ViewModels\BinariesViewModel.cs" />

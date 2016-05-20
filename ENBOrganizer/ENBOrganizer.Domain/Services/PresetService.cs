@@ -187,10 +187,5 @@ namespace ENBOrganizer.Domain.Services
             foreach (Preset preset in presets)
                 Delete(preset);
         }
-        
-        public void SaveChanges()
-        {
-            _repository.SaveChanges();
-        }
     }
 }

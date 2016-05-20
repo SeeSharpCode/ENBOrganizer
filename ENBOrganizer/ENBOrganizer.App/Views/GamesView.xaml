@@ -3,63 +3,52 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:converters="clr-namespace:ENBOrganizer.App.Converters"
+             xmlns:views="clr-namespace:ENBOrganizer.App.Views"
              xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             Name="RootElement"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel, Mode=OneTime}">
     <UserControl.Resources>
         <converters:PathToIconConverter x:Key="PathToIconConverter" />
     </UserControl.Resources>
 
-    <Grid>
-        <!--<StackPanel Orientation="Horizontal">
-            --><!--<Button Command="{Binding ShowAddGameDialogCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
-                    Margin="5 0 0 0" BorderBrush="White" ToolTip="Add a new game">
-                <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>-->
+    <materialDesign:DialogHost IsOpen="{Binding IsAddGameDialogOpen, Mode=TwoWay}">
+        <materialDesign:DialogHost.DialogContent>
+            <views:AddGameView />
+        </materialDesign:DialogHost.DialogContent>
 
-            <!--<Button Command="{Binding OpenGameFolderCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
-                    BorderBrush="White" ToolTip="Open game folder">
-                <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder_open}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>-->
+        <StackPanel Orientation="Vertical" Margin="16">
+            <Button Command="{Binding OpenAddGameDialogCommand, Mode=OneTime}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
+                    Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add a new game">
+                <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+            </Button>
 
-            <!--<Button Command="{Binding DeleteGameCommand, Mode=OneTime}" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}"
-                    BorderBrush="White" ToolTip="Delete the selected game">
-                <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>--><!--
-        </StackPanel>-->
-
-        <ItemsControl ItemsSource="{Binding Games}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type entities:Game}">
-                    <Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
-                        <Grid HorizontalAlignment="Left">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition SharedSizeGroup="Checkerz" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
-                                               Width="32" Height="32" />
-                            <StackPanel Margin="8 0 0 0" Grid.Column="1">
-                                <TextBlock FontWeight="Bold" Text="{Binding Name}" />
-                                <TextBlock Text="{Binding ExecutablePath}" />
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+            <ItemsControl ItemsSource="{Binding Games}" Margin="0 10 0 0" HorizontalAlignment="Left">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type entities:Game}">
+                        <Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
+                            <DockPanel>
+                                <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
+                                               Width="32" Height="32" DockPanel.Dock="Left" />
+                                <StackPanel Margin="8 0 0 0" DockPanel.Dock="Left">
+                                    <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                                    <TextBlock Text="{Binding ExecutablePath}" TextWrapping="Wrap" Width="350" />
+                                </StackPanel>
+                                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">
+                                    <StackPanel>
+                                        <Button Content="Edit" Command="{Binding ElementName=RootElement, Path=DataContext.EditGameCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                                        <Button Content="View Files" Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                                        <Button Content="Delete" Command="{Binding ElementName=RootElement, Path=DataContext.DeleteGameCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </materialDesign:DialogHost>
 </UserControl>

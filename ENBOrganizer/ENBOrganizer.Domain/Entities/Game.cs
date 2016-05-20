@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 using ENBOrganizer.Util;
+using System.Collections.Generic;
 
 namespace ENBOrganizer.Domain.Entities
 {
@@ -12,6 +13,9 @@ namespace ENBOrganizer.Domain.Entities
     {
         public string Name { get; set; }
         public string ExecutablePath { get; set; } 
+
+        [XmlIgnore]
+        public List<Preset> Presets { get; set; }
 
         [XmlIgnore]
         public DirectoryInfo PresetsDirectory

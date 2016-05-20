@@ -46,6 +46,11 @@ namespace ENBOrganizer.Domain.Services
             RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Deleted, entity));
         }
 
+        public void SaveChanges()
+        {
+            _repository.SaveChanges();
+        }
+
         public void RaiseItemsChanged(RepositoryChangedEventArgs eventArgs)
         {
             ItemsChanged?.Invoke(this, eventArgs);

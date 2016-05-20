@@ -1,7 +1,9 @@
-﻿using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Ioc;
 using System;
 using System.IO;
 using System.Windows.Input;
@@ -13,16 +15,18 @@ namespace ENBOrganizer.App.ViewModels
         private readonly GameService _gameService;
         private readonly GamesViewModel _gamesViewModel;
         private readonly DialogService _dialogService;
+        private Game _game;
 
         public ICommand BrowseCommand { get; set; }
-        public ICommand AddGameCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         private string _name;
 
         public string Name
         {
             get { return _name; }
-            set { Set(nameof(Name), ref _name, value.Trim()); }
+            set { Set(nameof(Name), ref _name, value); }
         }
 
         private string _executablePath;
@@ -33,21 +37,41 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(ExecutablePath), ref _executablePath, value); }
         }
 
-        public AddGameViewModel(GameService gameService, GamesViewModel gamesViewModel, DialogService dialogService)
+        public AddGameViewModel(GameService gameService, PresetService presetService, DialogService dialogService)
         {
             _gameService = gameService;
-            _gamesViewModel = gamesViewModel;
             _dialogService = dialogService;
 
+            MessengerInstance.Register<Game>(this, OnUpdateGameMessageReceived);
+
             BrowseCommand = new RelayCommand(BrowseForGameFile);
-            AddGameCommand = new RelayCommand(AddGame, CanAdd);
+            SaveCommand = new RelayCommand(Save, CanSave);
+            CancelCommand = new RelayCommand(Close);
         }
 
-        private void AddGame()
+        private void OnUpdateGameMessageReceived(Game game)
+        {
+            _game = game;
+
+            Name = game.Name;
+            ExecutablePath = game.ExecutablePath;
+        }
+
+        private void Close()
+        {
+            _game = null;
+
+            _dialogService.CloseDialog(DialogName.AddGame);
+        }
+
+        private void Save()
         {
             try
             {
-                _gameService.Add(new Game(Name, ExecutablePath));
+                if (_game == null)
+                    _gameService.Add(new Game(Name, ExecutablePath));
+                else
+                    UpdateGame();
             }
             catch (Exception exception) 
             {
@@ -55,14 +79,24 @@ namespace ENBOrganizer.App.ViewModels
             }
             finally
             {
-                Name = string.Empty;
-                ExecutablePath = string.Empty;
-
-                //_dialogService.CloseDialog();
+                Close();
             }
         }
 
-        private bool CanAdd()
+        private void UpdateGame()
+        {
+            _game.Name = Name;
+            _game.ExecutablePath = ExecutablePath;
+
+            _gameService.SaveChanges();
+
+            foreach (Preset preset in _game.Presets)
+                preset.Game = _game;
+
+            SimpleIoc.Default.GetInstance<PresetService>().SaveChanges();
+        }
+
+        private bool CanSave()
         {
             return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(ExecutablePath) && File.Exists(ExecutablePath);
         }

@@ -1,6 +1,7 @@
 ﻿using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using System;
+using System.Collections.Generic;
 
 namespace ENBOrganizer.Domain.Services
 {
@@ -11,6 +12,16 @@ namespace ENBOrganizer.Domain.Services
         public GameService(PresetService presetService)
         {
             _presetService = presetService;
+        }
+
+        public new List<Game> GetAll()
+        {
+            List<Game> games = base.GetAll();
+
+            foreach (Game game in games)
+                game.Presets = _presetService.GetByGame(game);
+
+            return games;
         }
         
         public new void Add(Game game)

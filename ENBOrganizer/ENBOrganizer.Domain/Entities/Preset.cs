@@ -5,10 +5,9 @@ using System.Xml.Serialization;
 namespace ENBOrganizer.Domain.Entities
 {
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
-    public class Preset : IEntity
+    public class Preset : EntityBase
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        public string Name { get; set; }
         public Game Game { get; set; }
         public Binary Binary { get; set; }
         public string ImagePath { get; set; }

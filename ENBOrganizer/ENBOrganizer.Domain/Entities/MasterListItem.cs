@@ -11,10 +11,9 @@ namespace ENBOrganizer.Domain.Entities
     }
 
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
-    public class MasterListItem : IEntity
+    public class MasterListItem : EntityBase
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        public string Name { get; set; }
         public MasterListItemType Type { get; set; }
 
         public MasterListItem() { }

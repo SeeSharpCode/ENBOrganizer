@@ -48,7 +48,7 @@
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Entities\Binary.cs" />
     <Compile Include="Entities\Game.cs" />
-    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Entities\MasterListItem.cs" />
     <Compile Include="Entities\Preset.cs" />
     <Compile Include="Exceptions\DuplicateEntityException.cs" />

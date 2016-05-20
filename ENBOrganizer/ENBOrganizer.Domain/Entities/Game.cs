@@ -8,11 +8,20 @@ namespace ENBOrganizer.Domain.Entities
 {
     [SettingsSerializeAs(SettingsSerializeAs.Xml)]
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
-    public class Game : IEntity
+    public class Game : EntityBase
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        public string Name { get; set; }
-        public string ExecutablePath { get; set; } 
+        private string _executablePath;
+
+        public string ExecutablePath
+        {
+            get { return _executablePath; }
+            set
+            {
+                _executablePath = value;
+                RaisePropertyChanged(nameof(ExecutablePath));
+            }
+        }
 
         [XmlIgnore]
         public List<Preset> Presets { get; set; }
@@ -46,8 +55,8 @@ namespace ENBOrganizer.Domain.Entities
         public Game() { } // Required for serialization.
 
         public Game(string name, string executablePath)
+            : base(name)
         {
-            Name = name;
             ExecutablePath = executablePath;
         }
 
@@ -55,7 +64,7 @@ namespace ENBOrganizer.Domain.Entities
         {
             Game game = other as Game;
 
-            return game != null ? Name.EqualsIgnoreCase(game.Name) : false;
+            return game != null ? ID.EqualsIgnoreCase(game.ID) : false;
         }
     }
 }

@@ -3,11 +3,12 @@ using ENBOrganizer.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace ENBOrganizer.Domain.Data
 {
-    public class Repository<TEntity> where TEntity : IEntity
+    public class Repository<TEntity> where TEntity : EntityBase
     {
         private readonly string _fileName;
 

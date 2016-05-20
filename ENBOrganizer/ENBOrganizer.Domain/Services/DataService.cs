@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class DataService<TEntity> where TEntity : IEntity
+    public class DataService<TEntity> where TEntity : EntityBase 
     {
         protected readonly Repository<TEntity> _repository;
 

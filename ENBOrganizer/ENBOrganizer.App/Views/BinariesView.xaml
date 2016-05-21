@@ -15,22 +15,18 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel Orientation="Vertical" Margin="15">
-        <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-                                 PlacementMode="BottomAndAlignCentres"
-                                 ToolTipService.Placement="Right"
-                                 Width="40" Height="40"
-                                 ToolTip="Add new binaries">
-            <StackPanel>
-                <Button Command="{Binding ElementName=RootElement, Path=DataContext.ImportDirectoryCommand, Mode=OneTime}" ToolTip="From Folder">
-                    <materialDesign:PackIcon Kind="FolderUpload" Height="24" Width="24" />
-                </Button>
-                <Button Command="{Binding ImportArchiveCommand, Mode=OneTime}" ToolTip="From Archive">
-                    <materialDesign:PackIcon Kind="Archive" Height="24" Width="24" />
-                </Button>
-            </StackPanel>
-        </materialDesign:PopupBox>
-        <!--<controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
+
+    <materialDesign:DialogHost>
+        <materialDesign:DialogHost.DialogContent>
+            <views:InputDialogView />
+        </materialDesign:DialogHost.DialogContent>
+        <StackPanel Orientation="Vertical" Margin="15">
+            <Button Command="{Binding ImportDirectoryCommand, Mode=OneTime}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
+                    Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add a new game">
+                <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+            </Button>
+            <!--<controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
                                  ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" ToolTip="Add new binary">
             <controls:DropDownButton.Icon>
                 <Viewbox Width="32" Height="32" Stretch="Uniform">
@@ -48,12 +44,12 @@
             </controls:DropDownButton.ItemContainerStyle>
         </controls:DropDownButton>-->
 
-        <!--<ListView ItemsSource="{Binding Binaries, Mode=OneWay}" HorizontalAlignment="Left">
+            <!--<ListView ItemsSource="{Binding Binaries, Mode=OneWay}" HorizontalAlignment="Left">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name, Mode=OneTime}" />-->
-                    
-                    <!--<GridViewColumn Header="Files">
+
+            <!--<GridViewColumn Header="Files">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding Path=DataContext.OpenFilesCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}" 
@@ -67,8 +63,8 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>-->
-                    
-                    <!--<GridViewColumn Header="Delete">
+
+            <!--<GridViewColumn Header="Delete">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding Path=DataContext.DeleteBinaryCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}" 
@@ -82,8 +78,9 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>-->
-                <!--</GridView>
+            <!--</GridView>
             </ListView.View>
         </ListView>-->
-    </StackPanel>
+        </StackPanel>
+    </materialDesign:DialogHost>
 </UserControl>

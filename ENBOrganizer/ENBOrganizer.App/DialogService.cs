@@ -1,5 +1,9 @@
 ﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.App.ViewModels;
+using ENBOrganizer.App.Views;
+using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +14,14 @@ namespace ENBOrganizer.App
 {
     public class DialogService
     {
-        public async Task<string> ShowInputDialog(string title, string message)
+        public async Task<object> ShowInputDialog()
         {
-            throw new NotImplementedException();
+            var view = new InputDialogView
+            {
+                DataContext = SimpleIoc.Default.GetInstance<InputDialogViewModel>()
+            };
+            
+            return await DialogHost.Show(view, "RootDialog");
         }
 
         public void ShowYesOrNoDialog(string title, string message)
@@ -55,7 +64,7 @@ namespace ENBOrganizer.App
             return folderBrowserDialog.ShowDialog() == DialogResult.OK ? folderBrowserDialog.SelectedPath : string.Empty;
         }
 
-        public void OpenDialog(DialogName dialogName)
+        public void ShowDialog(DialogName dialogName)
         {
             Messenger.Default.Send(new DialogMessage(dialogName, DialogAction.Open));
         }

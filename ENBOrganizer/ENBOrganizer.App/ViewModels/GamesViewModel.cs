@@ -30,6 +30,8 @@ namespace ENBOrganizer.App.ViewModels
             set
             {
                 Properties.Settings.Default.CurrentGame = value;
+                Properties.Settings.Default.Save();
+
                 RaisePropertyChanged(nameof(CurrentGame));
             }
         }
@@ -57,7 +59,7 @@ namespace ENBOrganizer.App.ViewModels
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
 
-            OpenAddGameDialogCommand = new RelayCommand(() => _dialogService.OpenDialog(DialogName.AddGame));
+            OpenAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddGame));
             EditGameCommand = new RelayCommand<Game>(EditGame);
             ViewFilesCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));
             DeleteGameCommand = new RelayCommand<Game>(game => _gameService.Delete(game));
@@ -76,7 +78,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void EditGame(Game game)
         {
-            _dialogService.OpenDialog(DialogName.AddGame);
+            _dialogService.ShowDialog(DialogName.AddGame);
             MessengerInstance.Send(game);
         }
 

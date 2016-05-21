@@ -4,6 +4,7 @@ using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly BinaryService _binaryService;
         private readonly DialogService _dialogService;
+        private readonly InputDialogViewModel _inputDialogViewModel;
 
         public ICommand ImportDirectoryCommand { get; set; }
         public ICommand ImportArchiveCommand { get; set; }
@@ -24,12 +26,21 @@ namespace ENBOrganizer.App.ViewModels
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ObservableCollection<Binary> Binaries { get; set; }
 
-        public BinariesViewModel(BinaryService binaryService, DialogService dialogService)
+        private bool _isInputDialogOpen;
+
+        public bool IsInputDialogOpen
+        {
+            get { return _isInputDialogOpen; }
+            set { Set(nameof(IsInputDialogOpen), ref _isInputDialogOpen, value); }
+        }
+        
+        public BinariesViewModel(BinaryService binaryService, DialogService dialogService, InputDialogViewModel inputDialogViewModel)
         {
             _binaryService = binaryService;
             _binaryService.ItemsChanged += _binaryService_ItemsChanged;
 
             _dialogService = dialogService;
+            _inputDialogViewModel = inputDialogViewModel;
 
             ImportDirectoryCommand = new RelayCommand(ImportDirectory, () => CurrentGame != null);
             ImportArchiveCommand = new RelayCommand(ImportArchive, () => CurrentGame != null);
@@ -53,6 +64,9 @@ namespace ENBOrganizer.App.ViewModels
 
             if (string.IsNullOrWhiteSpace(directoryPath))
                 return;
+
+            object something = _dialogService.ShowInputDialog();
+
 
             try
             {

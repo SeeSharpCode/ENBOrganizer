@@ -35,7 +35,7 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            OpenAddMasterListItemDialogCommand = new RelayCommand(() => _dialogService.OpenDialog(DialogName.AddMasterListItem));
+            OpenAddMasterListItemDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddMasterListItem));
             DeleteMasterListItemCommand = new RelayCommand<MasterListItem>(masterListItem => _masterListService.Delete(masterListItem));
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);

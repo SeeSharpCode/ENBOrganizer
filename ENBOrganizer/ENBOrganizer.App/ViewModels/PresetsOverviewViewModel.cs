@@ -95,36 +95,36 @@ namespace ENBOrganizer.App.ViewModels
 
         private async void AddBlank()
         {
-            string name = await _dialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
+            ////string name = await _dialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
 
-            if (string.IsNullOrWhiteSpace(name))
-                return;
+            //if (string.IsNullOrWhiteSpace(name))
+            //    return;
 
-            try
-            {
-                _presetService.Add(new Preset(name, CurrentGame));
-            }
-            catch (Exception exception)
-            {
-                _dialogService.ShowErrorDialog(exception.Message);
-            }
+            //try
+            //{
+            //    _presetService.Add(new Preset(name, CurrentGame));
+            //}
+            //catch (Exception exception)
+            //{
+            //    _dialogService.ShowErrorDialog(exception.Message);
+            //}
         }
 
         private async void ImportActiveFiles()
         {
-            string name = await _dialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
+            //string name = await _dialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
 
-            if (string.IsNullOrWhiteSpace(name))
-                return;
+            //if (string.IsNullOrWhiteSpace(name))
+            //    return;
 
-            try
-            {
-                _presetService.ImportActiveFiles(new Preset(name, CurrentGame));
-            }
-            catch (Exception exception)
-            {
-                _dialogService.ShowErrorDialog(exception.Message);
-            }
+            //try
+            //{
+            //    _presetService.ImportActiveFiles(new Preset(name, CurrentGame));
+            //}
+            //catch (Exception exception)
+            //{
+            //    _dialogService.ShowErrorDialog(exception.Message);
+            //}
         }
     }
 }

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:views="clr-namespace:ENBOrganizer.App.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Name="RootElement"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MasterListViewModel}">
     <materialDesign:DialogHost IsOpen="{Binding IsAddMasterListDialogOpen, Mode=TwoWay}">
@@ -12,12 +13,44 @@
             <views:AddMasterListItemView />
         </materialDesign:DialogHost.DialogContent>
 
-        <StackPanel Orientation="Vertical" Margin="15">
+        <StackPanel Orientation="Vertical" Margin="15" HorizontalAlignment="Left">
             <Button Command="{Binding OpenAddMasterListItemDialogCommand, Mode=OneTime}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
-                    Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add a new game">
+                    Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add a new master list item">
                 <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
             </Button>
+
+            <DataGrid ItemsSource="{Binding MasterListItems, Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True" VerticalContentAlignment="Center">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Name">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name, Mode=OneTime}" VerticalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Type">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Type, Mode=OneTime}" VerticalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Delete">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteMasterListItemCommand, Mode=OneTime}" 
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource MaterialDesignToolButton}">
+                                    <materialDesign:PackIcon Kind="Delete" Foreground="{DynamicResource PrimaryHueLightBrush}" Width="30" />
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
 
             <!--<ListView ItemsSource="{Binding MasterListItems, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <ListView.View>

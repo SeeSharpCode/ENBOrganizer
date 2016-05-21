@@ -28,7 +28,6 @@ namespace ENBOrganizer.Domain.Services
         {
             try
             {
-                game.ID = Guid.NewGuid().ToString();
                 base.Add(game);
 
                 game.PresetsDirectory.Create();

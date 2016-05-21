@@ -17,8 +17,8 @@ namespace ENBOrganizer.Domain.Entities
         public MasterListItem() { }
 
         public MasterListItem(string name, MasterListItemType type)
+            : base(name)
         {
-            Name = name;
             Type = type;
         }
 

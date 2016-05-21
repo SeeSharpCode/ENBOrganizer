@@ -51,30 +51,6 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-
-            <!--<ListView ItemsSource="{Binding MasterListItems, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name, Mode=OneTime}" />
-                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type, Mode=OneTime}" />
-
-                        --><!--<GridViewColumn Header="Delete">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Command="{Binding Path=DataContext.DeleteMasterListItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}" 
-                                        CommandParameter="{Binding}" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" ToolTip="Open files">
-                                    <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>--><!--
-                    </GridView>
-                </ListView.View>
-            </ListView>-->
         </StackPanel>
     </materialDesign:DialogHost>
 </UserControl>

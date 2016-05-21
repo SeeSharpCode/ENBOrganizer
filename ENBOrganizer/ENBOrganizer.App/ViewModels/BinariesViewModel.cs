@@ -15,7 +15,6 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly BinaryService _binaryService;
         private readonly DialogService _dialogService;
-        private readonly InputDialogViewModel _inputDialogViewModel;
 
         public ICommand ImportDirectoryCommand { get; set; }
         public ICommand ImportArchiveCommand { get; set; }
@@ -33,13 +32,12 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsInputDialogOpen), ref _isInputDialogOpen, value); }
         }
         
-        public BinariesViewModel(BinaryService binaryService, DialogService dialogService, InputDialogViewModel inputDialogViewModel)
-        {
+        public BinariesViewModel(BinaryService binaryService, DialogService dialogService)
+        { 
             _binaryService = binaryService;
             _binaryService.ItemsChanged += _binaryService_ItemsChanged;
 
             _dialogService = dialogService;
-            _inputDialogViewModel = inputDialogViewModel;
 
             ImportDirectoryCommand = new RelayCommand(ImportDirectory, () => CurrentGame != null);
             ImportArchiveCommand = new RelayCommand(ImportArchive, () => CurrentGame != null);
@@ -65,8 +63,7 @@ namespace ENBOrganizer.App.ViewModels
                 return;
 
             object something = _dialogService.ShowInputDialog();
-
-
+            
             try
             {
                 _binaryService.ImportDirectory(directoryPath, CurrentGame);

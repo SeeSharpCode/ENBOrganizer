@@ -4,7 +4,6 @@ using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;

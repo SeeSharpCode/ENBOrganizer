@@ -29,6 +29,8 @@ namespace ENBOrganizer.Domain.Services
         {
             try
             {
+                entity.ID = Guid.NewGuid().ToString();
+
                 _repository.Add(entity);
 
                 RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, entity));

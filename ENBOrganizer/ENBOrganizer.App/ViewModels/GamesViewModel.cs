@@ -41,13 +41,7 @@ namespace ENBOrganizer.App.ViewModels
         public bool IsAddGameDialogOpen
         {
             get { return _isAddGameDialogOpen; }
-            set
-            {
-                Set(nameof(IsAddGameDialogOpen), ref _isAddGameDialogOpen, value);
-
-                if (!value)
-                    PopulateGames();
-            }
+            set { Set(nameof(IsAddGameDialogOpen), ref _isAddGameDialogOpen, value); }
         }
         
         public GamesViewModel(GameService gameService, PresetService presetService, DialogService dialogService)

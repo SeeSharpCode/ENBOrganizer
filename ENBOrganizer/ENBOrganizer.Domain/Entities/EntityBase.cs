@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace ENBOrganizer.Domain.Entities
 {
@@ -24,7 +23,6 @@ namespace ENBOrganizer.Domain.Entities
         public EntityBase(string name)
         {
             Name = name;
-            ID = Guid.NewGuid().ToString();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

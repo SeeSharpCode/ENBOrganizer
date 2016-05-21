@@ -18,9 +18,10 @@ namespace ENBOrganizer.App.ViewModels
             {
                 Set(nameof(SelectedViewModel), ref _selectedViewModel, value);
                 IsMenuToggleChecked = false;
+                
             }
         }
-
+        
         private bool _isMenuToggleChecked;
 
         public bool IsMenuToggleChecked

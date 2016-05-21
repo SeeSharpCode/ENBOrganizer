@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
@@ -15,7 +16,8 @@ namespace ENBOrganizer.App.ViewModels
         private readonly MasterListService _masterListService;
         private readonly DialogService _dialogService;
 
-        public ICommand AddMasterListItemCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         private MasterListItemType _selectedMasterListItemType;
 
@@ -43,7 +45,8 @@ namespace ENBOrganizer.App.ViewModels
             _masterListService = masterListService;
             _dialogService = dialogService;
 
-            AddMasterListItemCommand = new RelayCommand(AddMasterListItem, () => !string.IsNullOrWhiteSpace(Name));
+            SaveCommand = new RelayCommand(AddMasterListItem, () => !string.IsNullOrWhiteSpace(Name));
+            CancelCommand = new RelayCommand(Close);
         }
 
         private void AddMasterListItem()
@@ -58,10 +61,15 @@ namespace ENBOrganizer.App.ViewModels
             }
             finally
             {
-                Name = string.Empty;
-
-                //_dialogService.CloseDialog();
+                Close();
             }
+        }
+
+        private void Close()
+        {
+            Name = string.Empty;
+
+            _dialogService.CloseDialog(DialogName.AddMasterListItem);
         }
     }
 }

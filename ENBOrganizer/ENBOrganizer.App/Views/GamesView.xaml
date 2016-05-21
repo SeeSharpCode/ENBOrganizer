@@ -19,7 +19,7 @@
             <views:AddGameView />
         </materialDesign:DialogHost.DialogContent>
 
-        <StackPanel Orientation="Vertical" Margin="16">
+        <StackPanel Orientation="Vertical" Margin="15">
             <Button Command="{Binding OpenAddGameDialogCommand, Mode=OneTime}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
                     Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add a new game">

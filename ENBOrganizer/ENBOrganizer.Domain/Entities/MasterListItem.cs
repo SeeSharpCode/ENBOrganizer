@@ -4,10 +4,8 @@ namespace ENBOrganizer.Domain.Entities
 {
     public enum MasterListItemType
     {
-        PresetDirectory,
-        PresetFile,
-        BinaryDirectory,
-        BinaryFile
+        File,
+        Directory
     }
 
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()

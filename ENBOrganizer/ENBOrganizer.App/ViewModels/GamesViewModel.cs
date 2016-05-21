@@ -85,10 +85,7 @@ namespace ENBOrganizer.App.ViewModels
             if (dialogMessage.DialogName != DialogName.AddGame)
                 return;
 
-            if (dialogMessage.DialogAction == DialogAction.Open)
-                IsAddGameDialogOpen = true;
-            else
-                IsAddGameDialogOpen = false;
+            IsAddGameDialogOpen = dialogMessage.DialogAction == DialogAction.Open;
         }
 
         private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

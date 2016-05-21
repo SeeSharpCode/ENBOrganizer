@@ -57,7 +57,7 @@ namespace ENBOrganizer.Domain.Services
                 else
                     ZipFile.ExtractToDirectory(sourcePath, preset.Directory.FullName);
 
-                _masterListService.CreateMasterListItems(preset);
+                _masterListService.CreateMasterListItems(preset.Directory);
             }
             catch (DuplicateEntityException)
             {
@@ -77,8 +77,7 @@ namespace ENBOrganizer.Domain.Services
             {
                 Add(preset);
 
-                List<MasterListItem> masterListItems = _masterListService.GetAll()
-                    .Where(masterListItem => masterListItem.Type == MasterListItemType.PresetDirectory || masterListItem.Type == MasterListItemType.PresetFile).ToList();
+                List<MasterListItem> masterListItems = _masterListService.GetAll();
 
                 List<string> gameDirectories = Directory.GetDirectories(preset.Game.DirectoryPath).ToList();
                 List<string> gameFiles = Directory.GetFiles(preset.Game.DirectoryPath).ToList();
@@ -87,7 +86,7 @@ namespace ENBOrganizer.Domain.Services
                 {
                     string installedPath = Path.Combine(preset.Game.DirectoryPath, masterListItem.Name);
 
-                    if (masterListItem.Type.Equals(MasterListItemType.PresetDirectory) && gameDirectories.Contains(installedPath))
+                    if (masterListItem.Type  == MasterListItemType.Directory && gameDirectories.Contains(installedPath))
                     {
                         DirectoryInfo directory = new DirectoryInfo(installedPath);
                         directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
@@ -151,7 +150,7 @@ namespace ENBOrganizer.Domain.Services
                 {
                     string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
 
-                    if (masterListItem.Type.Equals(MasterListItemType.PresetFile))
+                    if (masterListItem.Type == MasterListItemType.File)
                     {
                         FileInfo file = new FileInfo(installedPath);
 

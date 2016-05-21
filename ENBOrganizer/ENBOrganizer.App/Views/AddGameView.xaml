@@ -25,11 +25,11 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Label Content="Name" Grid.Row="0" Grid.Column="0" />
-            <TextBox Text="{Binding Game.Name, Mode=TwoWay}" Width="150" TextWrapping="Wrap"
+            <Label Content="Name" Grid.Row="0" Grid.Column="0" Padding="0" FontWeight="Medium" />
+            <TextBox Text="{Binding Game.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" TextWrapping="Wrap"
                      HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
 
-            <Label Content="Exe Path" Grid.Row="2" Grid.Column="0" />
+            <Label Content="Exe Path" Grid.Row="2" Grid.Column="0" Padding="0" FontWeight="Medium" Margin="0 10 0 0" />
             <TextBox Text="{Binding Game.ExecutablePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      MaxLength="260" MinWidth="150" MaxWidth="400" HorizontalAlignment="Left" 
                      TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" />
@@ -39,7 +39,7 @@
 
         <StackPanel Orientation="Horizontal">
             <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" 
-                    IsDefault="True" Style="{StaticResource MaterialDesignFlatButton}" />
+                    Style="{StaticResource MaterialDesignFlatButton}" />
             <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}" Style="{StaticResource MaterialDesignFlatButton}" />
         </StackPanel>
     </StackPanel>

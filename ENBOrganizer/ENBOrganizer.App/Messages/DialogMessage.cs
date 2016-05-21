@@ -2,7 +2,8 @@
 {
     public enum DialogName
     {
-        AddGame
+        AddGame,
+        AddMasterListItem
     }
 
     public enum DialogAction

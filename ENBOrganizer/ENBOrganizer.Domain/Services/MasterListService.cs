@@ -10,7 +10,7 @@ namespace ENBOrganizer.Domain.Services
         {
             try
             {
-                if (masterListItem.Name == DirectoryNames.Data && masterListItem.Type == MasterListItemType.PresetDirectory)
+                if (masterListItem.Name == DirectoryNames.Data && masterListItem.Type == MasterListItemType.Directory)
                     return;
 
                 base.Add(masterListItem);
@@ -21,27 +21,11 @@ namespace ENBOrganizer.Domain.Services
             }
         }
         
-        public void CreateMasterListItems(Preset preset)
+        public void CreateMasterListItems(DirectoryInfo directory)
         {
-            foreach (FileSystemInfo fileSystemInfo in preset.Directory.GetFileSystemInfos())
+            foreach (FileSystemInfo fileSystemInfo in directory.GetFileSystemInfos())
             {
-                MasterListItemType masterListItemType = fileSystemInfo is DirectoryInfo ? MasterListItemType.PresetDirectory : MasterListItemType.PresetFile;
-
-                MasterListItem masterListItem = new MasterListItem(fileSystemInfo.Name, masterListItemType);
-
-                try
-                {
-                    Add(masterListItem);
-                }
-                catch (DuplicateEntityException) { }
-            }
-        }
-
-        public void CreateMasterListItems(Binary binary)
-        {
-            foreach (FileSystemInfo fileSystemInfo in binary.Directory.GetFileSystemInfos())
-            {
-                MasterListItemType masterListItemType = fileSystemInfo is DirectoryInfo ? MasterListItemType.BinaryDirectory : MasterListItemType.BinaryFile;
+                MasterListItemType masterListItemType = fileSystemInfo is DirectoryInfo ? MasterListItemType.Directory : MasterListItemType.File;
 
                 MasterListItem masterListItem = new MasterListItem(fileSystemInfo.Name, masterListItemType);
 

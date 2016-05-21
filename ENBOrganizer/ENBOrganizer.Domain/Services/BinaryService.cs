@@ -77,8 +77,7 @@ namespace ENBOrganizer.Domain.Services
             {
                 Add(binary);
 
-                List<MasterListItem> masterListItems = _masterListService.GetAll()
-                    .Where(masterListItem => masterListItem.Type == MasterListItemType.BinaryDirectory || masterListItem.Type == MasterListItemType.BinaryFile).ToList();
+                List<MasterListItem> masterListItems = _masterListService.GetAll();
 
                 List<string> gameDirectories = Directory.GetDirectories(binary.Game.DirectoryPath).ToList();
                 List<string> gameFiles = Directory.GetFiles(binary.Game.DirectoryPath).ToList();
@@ -87,7 +86,7 @@ namespace ENBOrganizer.Domain.Services
                 {
                     string installedPath = Path.Combine(binary.Game.DirectoryPath, masterListItem.Name);
 
-                    if (masterListItem.Type.Equals(MasterListItemType.BinaryDirectory) && gameDirectories.Contains(installedPath))
+                    if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
                     {
                         DirectoryInfo directory = new DirectoryInfo(installedPath);
                         directory.CopyTo(Path.Combine(binary.Directory.FullName, directory.Name));

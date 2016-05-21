@@ -2,10 +2,8 @@
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util.IO;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
@@ -58,45 +56,6 @@ namespace ENBOrganizer.Domain.Services
                 Add(binary);
 
                 ZipFile.ExtractToDirectory(archivePath, binary.Directory.FullName);
-            }
-            catch (DuplicateEntityException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                Delete(binary);
-
-                throw;
-            }
-        }
-
-        public void ImportActiveFiles(Binary binary)
-        {
-            try
-            {
-                Add(binary);
-
-                List<MasterListItem> masterListItems = _masterListService.GetAll();
-
-                List<string> gameDirectories = Directory.GetDirectories(binary.Game.DirectoryPath).ToList();
-                List<string> gameFiles = Directory.GetFiles(binary.Game.DirectoryPath).ToList();
-
-                foreach (MasterListItem masterListItem in masterListItems)
-                {
-                    string installedPath = Path.Combine(binary.Game.DirectoryPath, masterListItem.Name);
-
-                    if (masterListItem.Type.Equals(MasterListItemType.Directory) && gameDirectories.Contains(installedPath))
-                    {
-                        DirectoryInfo directory = new DirectoryInfo(installedPath);
-                        directory.CopyTo(Path.Combine(binary.Directory.FullName, directory.Name));
-                    }
-                    else if (gameFiles.Contains(installedPath))
-                    {
-                        FileInfo file = new FileInfo(installedPath);
-                        file.CopyTo(Path.Combine(binary.Directory.FullName, file.Name));
-                    }
-                }
             }
             catch (DuplicateEntityException)
             {

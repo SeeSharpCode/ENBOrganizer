@@ -23,8 +23,8 @@ namespace ENBOrganizer.Domain.Entities
         public Binary() { } // Required for serialization.
 
         public Binary(string name, Game game)
+            : base(name)
         {
-            Name = name;
             Game = game;
         }
 
@@ -32,7 +32,7 @@ namespace ENBOrganizer.Domain.Entities
         {
             Binary binary = other as Binary;
 
-            return binary != null ? Name.EqualsIgnoreCase(binary.Name) && Game.Equals(binary.Game) : false;
+            return binary != null ? ID.EqualsIgnoreCase(binary.ID) : false;
         }
     }
 }

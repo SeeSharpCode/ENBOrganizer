@@ -1,14 +1,13 @@
-﻿using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.Domain;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
+using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Input;
 using System;
 using System.Collections.ObjectModel;
-using ENBOrganizer.Domain;
-using ENBOrganizer.Util;
+using System.IO;
+using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -39,7 +38,6 @@ namespace ENBOrganizer.App.ViewModels
 
         public Binary Binary { get; set; }
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
-        public List<TitledCommand> TitledCommands { get; set; }
         public ObservableCollection<Binary> Binaries { get; set; }
         public ICommand SaveCommand { get; set; }
 
@@ -53,12 +51,6 @@ namespace ENBOrganizer.App.ViewModels
 
             _browseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
             _browseForArchiveCommand = new RelayCommand(BrowseForArchive);
-
-            TitledCommands = new List<TitledCommand>
-            {
-                new TitledCommand("Browse Folder", "Browse for a folder", _browseForDirectoryCommand),
-                new TitledCommand("Browse Archive", "Browse for an archive file", _browseForArchiveCommand)
-            };
 
             SaveCommand = new RelayCommand(Save, CanSave);
 

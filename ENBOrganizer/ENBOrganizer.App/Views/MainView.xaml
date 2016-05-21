@@ -38,30 +38,32 @@
                     <DockPanel.Resources>
                         <DataTemplate DataType="{x:Type viewModels:GamesViewModel}">
                             <StackPanel Orientation="Horizontal" Margin="32 0 32 0">
-                                <materialDesign:PackIcon Kind="GamepadVariant" Width="24" Height="24" VerticalAlignment="Center" Margin="0 0 5 0" />
+                                <materialDesign:PackIcon Kind="GamepadVariant" Width="24" Height="24" 
+                                                         VerticalAlignment="Center" Margin="0 0 5 0" />
                                 <TextBlock Text="Games" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:PresetsOverviewViewModel}">
+                        <DataTemplate DataType="{x:Type viewModels:BinariesViewModel}">
                             <StackPanel Orientation="Horizontal" Margin="32 0 32 0">
-                                <materialDesign:PackIcon Kind="FolderImage" Width="24" Height="24" VerticalAlignment="Center" Margin="0 0 5 0" />
-                                <TextBlock Text="Presets" VerticalAlignment="Center" />
+                                <materialDesign:PackIcon Kind="PackageVariantClosed" Width="24" Height="24" 
+                                                         VerticalAlignment="Center" Margin="0 0 5 0" />
+                                <TextBlock Text="Binaries" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type viewModels:MasterListViewModel}">
                             <StackPanel Orientation="Horizontal" Margin="32 0 32 0">
-                                <materialDesign:PackIcon Kind="FormatListBulleted" Width="24" Height="24" VerticalAlignment="Center" Margin="0 0 5 0" />
+                                <materialDesign:PackIcon Kind="FormatListBulleted" Width="24" Height="24" 
+                                                         VerticalAlignment="Center" Margin="0 0 5 0" />
                                 <TextBlock Text="Master List" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DockPanel.Resources>
 
                     <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
-                                  DockPanel.Dock="Top"
-                                  HorizontalAlignment="Right" Margin="16"
+                                  DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="16"
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                    <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedItem="{Binding SelectedViewModel}"
-                             ItemsSource="{Binding PageViewModels, Mode=OneWay}" SelectedIndex="0" />
+                    <ListBox ItemsSource="{Binding PageViewModels, Mode=OneWay}" 
+                             SelectedItem="{Binding SelectedViewModel}" Margin="0 16 0 16" />
                 </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
 
@@ -72,6 +74,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type viewModels:MasterListViewModel}">
                         <views:MasterListView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:BinariesViewModel}">
+                        <views:BinariesView />
                     </DataTemplate>
                 </DockPanel.Resources>
                 <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
@@ -86,8 +91,8 @@
                             </StackPanel>
                         </materialDesign:PopupBox>
                         <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Games, Mode=OneWay}"
-                                  SelectedItem="{Binding Path=GamesViewModel.CurrentGame, Mode=TwoWay}"
-                                  MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"
+                                  SelectedItem="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.CurrentGame, Mode=TwoWay}"
+                                  IsSynchronizedWithCurrentItem="True" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>

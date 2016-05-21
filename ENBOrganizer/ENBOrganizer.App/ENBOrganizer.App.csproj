@@ -99,7 +99,6 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
-    <Compile Include="TitledCommand.cs" />
     <Compile Include="ViewModels\PresetViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\AddGameView.xaml.cs">

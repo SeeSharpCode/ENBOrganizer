@@ -5,26 +5,23 @@ using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class BinariesViewModel : ViewModelBase
+    public class BinariesViewModel : ViewModelBase, IPageViewModel
     {
         private readonly BinaryService _binaryService;
         private readonly DialogService _dialogService;
 
-        private ICommand _importDirectoryCommand;
-        private ICommand _importArchiveCommand;
-        private ICommand _importActiveFilesCommand;
-
-        public List<TitledCommand> TitledCommands { get; set; }
-        public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
+        public ICommand ImportDirectoryCommand { get; set; }
+        public ICommand ImportArchiveCommand { get; set; }
         public ICommand OpenFilesCommand { get; set; }
         public ICommand DeleteBinaryCommand { get; set; }
+        public string Name { get { return "Binaries"; } }
+        public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ObservableCollection<Binary> Binaries { get; set; }
 
         public BinariesViewModel(BinaryService binaryService, DialogService dialogService)
@@ -34,24 +31,14 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            _importDirectoryCommand = new RelayCommand(ImportDirectory, () => CurrentGame != null);
-            _importArchiveCommand = new RelayCommand(ImportArchive, () => CurrentGame != null);
-            _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
-
-            TitledCommands = new List<TitledCommand>
-            {
-                new TitledCommand("Import Folder", "Create from a folder", _importDirectoryCommand),
-                new TitledCommand("Import Archive", "Create from an archive (.zip, .7z)", _importArchiveCommand),
-                new TitledCommand("Import Active Files", "Create from binary files currently in your game folder", _importActiveFilesCommand)
-            };
-
+            ImportDirectoryCommand = new RelayCommand(ImportDirectory, () => CurrentGame != null);
+            ImportArchiveCommand = new RelayCommand(ImportArchive, () => CurrentGame != null);
             OpenFilesCommand = new RelayCommand<Binary>(binary => Process.Start(binary.Directory.FullName));
             DeleteBinaryCommand = new RelayCommand<Binary>(binary => _binaryService.Delete(binary));
 
             Binaries = _binaryService.GetAll().ToObservableCollection();
         }
-
-        // TODO: this logic is repeated in most ViewModels
+        
         private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
             if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
@@ -88,23 +75,6 @@ namespace ENBOrganizer.App.ViewModels
             try
             {
                 _binaryService.ImportArchive(archivePath, CurrentGame);
-            }
-            catch (Exception exception)
-            {
-                _dialogService.ShowErrorDialog(exception.Message);
-            }
-        }
-
-        private async void ImportActiveFiles()
-        {
-            string name = await _dialogService.ShowInputDialog("Import Active Files", "Please enter a name for your preset:");
-
-            if (string.IsNullOrWhiteSpace(name))
-                return;
-
-            try
-            {
-                _binaryService.ImportActiveFiles(new Binary(name, CurrentGame));
             }
             catch (Exception exception)
             {

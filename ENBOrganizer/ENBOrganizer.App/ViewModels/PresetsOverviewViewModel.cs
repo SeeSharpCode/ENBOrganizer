@@ -5,7 +5,6 @@ using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -25,7 +24,6 @@ namespace ENBOrganizer.App.ViewModels
 
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ICommand DisableAllPresetsCommand { get; set; }
-        public List<TitledCommand> TitledCommands { get; set; }
 
         public bool CurrentGameHasNoPresets { get { return CurrentGame != null && !PresetViewModels.Any(); } }
 
@@ -39,13 +37,6 @@ namespace ENBOrganizer.App.ViewModels
             _addBlankPresetCommand = new RelayCommand(AddBlank, () => CurrentGame != null);
             //_importDirectoryOrArchiveCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.ImportPreset), () => CurrentGame != null);
             _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
-
-            TitledCommands = new List<TitledCommand>
-            {
-                new TitledCommand("Blank", "Create a blank preset", _addBlankPresetCommand),
-                new TitledCommand("Import Folder or Archive", "Create a preset from a folder or archive file", _importDirectoryOrArchiveCommand),
-                new TitledCommand("Import Active Files", "Create a preset from preset files/folders currently in your game folder", _importActiveFilesCommand)
-            };
 
             DisableAllPresetsCommand = new RelayCommand(DisableAllPresets);
 

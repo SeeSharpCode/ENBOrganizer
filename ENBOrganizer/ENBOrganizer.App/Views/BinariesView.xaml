@@ -4,9 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:views="clr-namespace:ENBOrganizer.App.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
+             Name="RootElement"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=BinariesViewModel}">
-    <StackPanel Orientation="Vertical">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel Orientation="Vertical" Margin="15">
+        <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                                 PlacementMode="BottomAndAlignCentres"
+                                 ToolTipService.Placement="Right"
+                                 Width="40" Height="40"
+                                 ToolTip="Add new binaries">
+            <StackPanel>
+                <Button Command="{Binding ElementName=RootElement, Path=DataContext.ImportDirectoryCommand, Mode=OneTime}" ToolTip="From Folder">
+                    <materialDesign:PackIcon Kind="FolderUpload" Height="24" Width="24" />
+                </Button>
+                <Button Command="{Binding ImportArchiveCommand, Mode=OneTime}" ToolTip="From Archive">
+                    <materialDesign:PackIcon Kind="Archive" Height="24" Width="24" />
+                </Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
         <!--<controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
                                  ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" ToolTip="Add new binary">
             <controls:DropDownButton.Icon>
@@ -25,10 +48,10 @@
             </controls:DropDownButton.ItemContainerStyle>
         </controls:DropDownButton>-->
 
-        <ListView ItemsSource="{Binding Binaries, Mode=OneWay}" HorizontalAlignment="Left">
+        <!--<ListView ItemsSource="{Binding Binaries, Mode=OneWay}" HorizontalAlignment="Left">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name, Mode=OneTime}" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name, Mode=OneTime}" />-->
                     
                     <!--<GridViewColumn Header="Files">
                         <GridViewColumn.CellTemplate>
@@ -59,8 +82,8 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>-->
-                </GridView>
+                <!--</GridView>
             </ListView.View>
-        </ListView>
+        </ListView>-->
     </StackPanel>
 </UserControl>

@@ -33,7 +33,14 @@ namespace ENBOrganizer.App.ViewModels
         {
             _viewModelLocator = viewModelLocator;
 
-            PageViewModels = new List<IPageViewModel> { _viewModelLocator.GamesViewModel, _viewModelLocator.MasterListViewModel };
+            PageViewModels = new List<IPageViewModel>
+            {
+                _viewModelLocator.GamesViewModel,
+                _viewModelLocator.BinariesViewModel,
+                _viewModelLocator.MasterListViewModel
+            };
+
+            SelectedViewModel = _viewModelLocator.GamesViewModel;
         }
     }
 }

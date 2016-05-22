@@ -1,20 +1,16 @@
-﻿using ENBOrganizer.Util;
-using System.IO;
-using System.Xml.Serialization;
+﻿using System.IO;
 
 namespace ENBOrganizer.Domain.Entities
 {
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
-    public class Preset : EntityBase
+    public class Preset : FileSystemEntity
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        public Game Game { get; set; }
         public Binary Binary { get; set; }
         public string ImagePath { get; set; }
         public bool IsEnabled { get; set; }
-
-        [XmlIgnore]
-        public DirectoryInfo Directory
+        
+        public override DirectoryInfo Directory
         {
             get
             {
@@ -23,19 +19,8 @@ namespace ENBOrganizer.Domain.Entities
              }
         }
 
-        public Preset() { } // Required for serialization.
+        public Preset() { } // Required for XML serialization.
 
-        public Preset(string name, Game game)
-        {
-            Name = name;
-            Game = game;
-        }
-        
-        public override bool Equals(object other)
-        {
-            Preset preset = other as Preset;
-
-            return preset != null ? Name.EqualsIgnoreCase(preset.Name) && Game.Equals(preset.Game) : false;
-        }
+        public Preset(string name, Game game) : base(name, game) { }
     }
 }

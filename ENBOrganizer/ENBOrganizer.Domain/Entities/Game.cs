@@ -1,8 +1,7 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
-using ENBOrganizer.Util;
-using System.Collections.Generic;
 
 namespace ENBOrganizer.Domain.Entities
 {
@@ -52,19 +51,12 @@ namespace ENBOrganizer.Domain.Entities
             get { return Path.GetDirectoryName(ExecutablePath); }
         }
 
-        public Game() { } // Required for serialization.
+        public Game() { } // Required for XML serialization.
 
         public Game(string name, string executablePath)
             : base(name)
         {
             ExecutablePath = executablePath;
-        }
-
-        public override bool Equals(object other)
-        {
-            Game game = other as Game;
-
-            return game != null ? ID.EqualsIgnoreCase(game.ID) : false;
         }
     }
 }

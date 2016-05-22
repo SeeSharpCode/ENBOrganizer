@@ -47,6 +47,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Entities\Binary.cs" />
+    <Compile Include="Entities\FileSystemEntity.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Entities\MasterListItem.cs" />
@@ -61,6 +62,7 @@
     </Compile>
     <Compile Include="Services\BinaryService.cs" />
     <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\MasterListService.cs" />
     <Compile Include="Services\PresetService.cs" />

@@ -35,12 +35,12 @@
                                                Width="32" Height="32" DockPanel.Dock="Left" />
                                 <StackPanel Margin="8 0 0 0" DockPanel.Dock="Left">
                                     <TextBlock FontWeight="Bold" Text="{Binding Name}" />
-                                    <TextBlock Text="{Binding ExecutablePath}" TextWrapping="Wrap" Width="350" />
+                                    <TextBlock Text="{Binding ExecutablePath}" TextWrapping="Wrap" Width="500" />
                                 </StackPanel>
                                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">
                                     <StackPanel>
                                         <Button Content="Edit" Command="{Binding ElementName=RootElement, Path=DataContext.EditGameCommand, Mode=OneTime}" CommandParameter="{Binding}" />
-                                        <Button Content="View Files" Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                                        <Button Content="Open Folder" Command="{Binding ElementName=RootElement, Path=DataContext.OpenDirectoryCommand, Mode=OneTime}" CommandParameter="{Binding}" />
                                         <Button Content="Delete" Command="{Binding ElementName=RootElement, Path=DataContext.DeleteGameCommand, Mode=OneTime}" CommandParameter="{Binding}" />
                                     </StackPanel>
                                 </materialDesign:PopupBox>

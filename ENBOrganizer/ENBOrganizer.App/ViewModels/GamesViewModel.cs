@@ -20,7 +20,7 @@ namespace ENBOrganizer.App.ViewModels
         public string Name { get { return "Games"; } }
         public ICommand OpenAddGameDialogCommand { get; set; }
         public ICommand DeleteGameCommand { get; set; }
-        public ICommand ViewFilesCommand { get; set; }
+        public ICommand OpenDirectoryCommand { get; set; }
         public ICommand EditGameCommand { get; set; }
         public ObservableCollection<Game> Games { get; set; }
 
@@ -55,7 +55,7 @@ namespace ENBOrganizer.App.ViewModels
 
             OpenAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddGame));
             EditGameCommand = new RelayCommand<Game>(EditGame);
-            ViewFilesCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));
+            OpenDirectoryCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));
             DeleteGameCommand = new RelayCommand<Game>(game => _gameService.Delete(game));
 
             PopulateGames();

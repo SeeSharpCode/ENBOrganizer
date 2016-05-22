@@ -18,7 +18,7 @@ namespace ENBOrganizer.App.ViewModels
 
         public string Name { get { return "Binaries"; } }
         public ICommand OpenAddBinaryDialogCommand { get; set; }
-        public ICommand OpenFilesCommand { get; set; }
+        public ICommand ViewFilesCommand { get; set; }
         public ICommand DeleteBinaryCommand { get; set; }
         public ObservableCollection<Binary> Binaries { get; set; }
 
@@ -37,7 +37,7 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
             
-            OpenFilesCommand = new RelayCommand<Binary>(binary => Process.Start(binary.Directory.FullName));
+            ViewFilesCommand = new RelayCommand<Binary>(binary => Process.Start(binary.Directory.FullName));
             DeleteBinaryCommand = new RelayCommand<Binary>(binary => _binaryService.Delete(binary));
             OpenAddBinaryDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddBinary));
 

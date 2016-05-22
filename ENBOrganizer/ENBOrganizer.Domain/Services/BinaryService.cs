@@ -24,38 +24,20 @@ namespace ENBOrganizer.Domain.Services
             base.Delete(binary);
         }
 
-        public void ImportDirectory(string sourceDirectoryPath, Game game)
+        public void Import(Binary binary, string sourcePath)
         {
-            DirectoryInfo sourceDirectory = new DirectoryInfo(sourceDirectoryPath);
-            Binary binary = new Binary(sourceDirectory.Name, game);
-
             try
             {
                 Add(binary);
 
-                sourceDirectory.CopyTo(binary.Directory.FullName);
-            }
-            catch (DuplicateEntityException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                Delete(binary);
+                DirectoryInfo sourceDirectory = new DirectoryInfo(sourcePath);
 
-                throw;
-            }
-        }
+                if (sourceDirectory.Exists)
+                    sourceDirectory.CopyTo(binary.Directory.FullName);
+                else
+                    ZipFile.ExtractToDirectory(sourcePath, binary.Directory.FullName);
 
-        public void ImportArchive(string archivePath, Game game)
-        {
-            Binary binary = new Binary(Path.GetFileNameWithoutExtension(archivePath), game);
-
-            try
-            {
-                Add(binary);
-
-                ZipFile.ExtractToDirectory(archivePath, binary.Directory.FullName);
+                _masterListService.CreateMasterListItems(binary.Directory);
             }
             catch (DuplicateEntityException)
             {

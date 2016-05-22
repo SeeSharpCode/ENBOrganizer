@@ -3,7 +3,8 @@
     public enum DialogName
     {
         AddGame,
-        AddMasterListItem
+        AddMasterListItem,
+        AddBinary
     }
 
     public enum DialogAction

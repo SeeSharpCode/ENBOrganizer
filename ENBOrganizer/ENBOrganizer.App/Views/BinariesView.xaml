@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:views="clr-namespace:ENBOrganizer.App.Views"
+             xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              Name="RootElement"
@@ -16,71 +17,36 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <materialDesign:DialogHost>
+    <materialDesign:DialogHost IsOpen="{Binding IsAddBinaryDialogOpen, Mode=TwoWay}">
         <materialDesign:DialogHost.DialogContent>
-            <views:InputDialogView />
+            <views:AddBinaryView />
         </materialDesign:DialogHost.DialogContent>
         <StackPanel Orientation="Vertical" Margin="15">
-            <Button Command="{Binding ImportDirectoryCommand, Mode=OneTime}"
+            <Button Command="{Binding OpenAddBinaryDialogCommand, Mode=OneTime}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
-                    Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add a new game">
+                    Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add new binaries">
                 <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
             </Button>
-            <!--<controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
-                                 ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" ToolTip="Add new binary">
-            <controls:DropDownButton.Icon>
-                <Viewbox Width="32" Height="32" Stretch="Uniform">
-                    <ContentControl Content="{DynamicResource appbar_add}" Focusable="False" />
-                </Viewbox>
-            </controls:DropDownButton.Icon>
 
-            <controls:DropDownButton.ItemContainerStyle>
-                <Style TargetType="MenuItem">
-                    <Setter Property="Header" Value="{Binding Title, Mode=OneTime}" />
-                    <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
-                    <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
-                    <Setter Property="Padding" Value="3" />
-                </Style>
-            </controls:DropDownButton.ItemContainerStyle>
-        </controls:DropDownButton>-->
-
-            <!--<ListView ItemsSource="{Binding Binaries, Mode=OneWay}" HorizontalAlignment="Left">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name, Mode=OneTime}" />-->
-
-            <!--<GridViewColumn Header="Files">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Command="{Binding Path=DataContext.OpenFilesCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}" 
-                                        CommandParameter="{Binding}" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" ToolTip="Open files">
-                                    <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder_open}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>-->
-
-            <!--<GridViewColumn Header="Delete">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Command="{Binding Path=DataContext.DeleteBinaryCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}" 
-                                        CommandParameter="{Binding}" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" ToolTip="Delete binary">
-                                    <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>-->
-            <!--</GridView>
-            </ListView.View>
-        </ListView>-->
+            <ItemsControl ItemsSource="{Binding Binaries}" Margin="0 10 0 0" HorizontalAlignment="Left">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type entities:Binary}">
+                        <Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
+                            <DockPanel>
+                                <CheckBox DockPanel.Dock="Left" />
+                                <TextBlock FontWeight="Bold" Text="{Binding Name}" DockPanel.Dock="Left" />
+                                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">
+                                    <StackPanel>
+                                        <Button Content="Edit" Command="{Binding ElementName=RootElement, Path=DataContext.EditGameCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                                        <Button Content="View Files" Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                                        <Button Content="Delete" Command="{Binding ElementName=RootElement, Path=DataContext.DeleteGameCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </StackPanel>
     </materialDesign:DialogHost>
 </UserControl>

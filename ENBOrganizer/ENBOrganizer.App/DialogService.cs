@@ -1,29 +1,14 @@
 ﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.App.ViewModels;
-using ENBOrganizer.App.Views;
-using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
-using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ENBOrganizer.App
 {
     public class DialogService
     {
-        public async Task<object> ShowInputDialog()
-        {
-            var view = new InputDialogView
-            {
-                DataContext = SimpleIoc.Default.GetInstance<InputDialogViewModel>()
-            };
-            
-            return await DialogHost.Show(view, "RootDialog");
-        }
-
         public void ShowYesOrNoDialog(string title, string message)
         {
             throw new NotImplementedException();

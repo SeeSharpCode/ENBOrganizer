@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ENBOrganizer.App.Views
 {
     /// <summary>
-    /// Interaction logic for InputDialogView.xaml
+    /// Interaction logic for AddBinaryView.xaml
     /// </summary>
-    public partial class InputDialogView : UserControl
+    public partial class AddBinaryView : UserControl
     {
-        public InputDialogView()
+        public AddBinaryView()
         {
             InitializeComponent();
         }

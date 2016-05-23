@@ -1,31 +1,26 @@
 ﻿using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util.IO;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class FileSystemService
+    public class FileSystemService<TEntity> : DataService<TEntity> where TEntity : FileSystemEntity
     {
-        private readonly DataService<FileSystemEntity> _dataService;
         private readonly MasterListService _masterListService;
 
-        public FileSystemService(DataService<FileSystemEntity> dataService, MasterListService masterListService)
+        public FileSystemService(MasterListService masterListService)
         {
-            _dataService = dataService;
             _masterListService = masterListService;
         }
 
-        public void Import(FileSystemEntity entity, string sourcePath)
+        public void Import(TEntity entity, string sourcePath)
         {
             try
             {
-                _dataService.Add(entity);
+                Add(entity);
 
                 DirectoryInfo sourceDirectory = new DirectoryInfo(sourcePath);
 
@@ -42,10 +37,17 @@ namespace ENBOrganizer.Domain.Services
             }
             catch (Exception)
             {
-                Delete(binary);
+                Delete(entity);
 
                 throw;
             }
+        }
+
+        public new void Delete(TEntity entity)
+        {
+            entity.Directory.Delete(true);
+
+            base.Delete(entity);
         }
     }
 }

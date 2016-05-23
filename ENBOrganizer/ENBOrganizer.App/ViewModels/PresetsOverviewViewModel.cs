@@ -33,8 +33,7 @@ namespace ENBOrganizer.App.ViewModels
             _presetService.ItemsChanged += _presetService_ItemsChanged;
 
             _dialogService = dialogService;
-
-            _addBlankPresetCommand = new RelayCommand(AddBlank, () => CurrentGame != null);
+            
             //_importDirectoryOrArchiveCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.ImportPreset), () => CurrentGame != null);
             _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
 
@@ -68,7 +67,6 @@ namespace ENBOrganizer.App.ViewModels
                 LoadPresets();
                 RaisePropertyChanged(nameof(CurrentGameHasNoPresets));
             }
-                
         }
 
         private void LoadPresets()
@@ -91,23 +89,6 @@ namespace ENBOrganizer.App.ViewModels
                 PresetViewModels.Remove(PresetViewModels.First(presetViewModel => presetViewModel.Preset.Equals(preset)));
 
             RaisePropertyChanged(nameof(CurrentGameHasNoPresets));
-        }
-
-        private async void AddBlank()
-        {
-            ////string name = await _dialogService.ShowInputDialog("Add Blank Preset", "Please enter a name for your preset:");
-
-            //if (string.IsNullOrWhiteSpace(name))
-            //    return;
-
-            //try
-            //{
-            //    _presetService.Add(new Preset(name, CurrentGame));
-            //}
-            //catch (Exception exception)
-            //{
-            //    _dialogService.ShowErrorDialog(exception.Message);
-            //}
         }
 
         private async void ImportActiveFiles()

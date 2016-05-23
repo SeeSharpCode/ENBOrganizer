@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Domain.Services;
+﻿using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.Ioc;
 
 namespace ENBOrganizer.App.ViewModels
@@ -11,7 +12,7 @@ namespace ENBOrganizer.App.ViewModels
             SimpleIoc.Default.Register<GameService>();
             SimpleIoc.Default.Register<PresetService>();
             SimpleIoc.Default.Register<MasterListService>();
-            SimpleIoc.Default.Register<BinaryService>();
+            SimpleIoc.Default.Register<FileSystemService<Binary>>();
 
             SimpleIoc.Default.Register<ViewModelLocator>();
 

@@ -13,7 +13,7 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class BinariesViewModel : ViewModelBase, IPageViewModel
     {
-        private readonly BinaryService _binaryService;
+        private readonly FileSystemService<Binary> _binaryService;
         private readonly DialogService _dialogService;
 
         public string Name { get { return "Binaries"; } }
@@ -30,7 +30,7 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsAddBinaryDialogOpen), ref _isAddBinaryDialogOpen, value); }
         }
         
-        public BinariesViewModel(BinaryService binaryService, DialogService dialogService)
+        public BinariesViewModel(FileSystemService<Binary> binaryService, DialogService dialogService)
         { 
             _binaryService = binaryService;
             _binaryService.ItemsChanged += _binaryService_ItemsChanged;

@@ -12,7 +12,7 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class AddBinaryViewModel : ViewModelBase
     {
-        private readonly BinaryService _binaryService;
+        private readonly FileSystemService<Binary> _binaryService;
         private readonly DialogService _dialogService;
 
         private Game CurrentGame { get { return Settings.Default.CurrentGame; } }
@@ -38,7 +38,7 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(SourcePath), ref _sourcePath, value); }
         }
 
-        public AddBinaryViewModel(BinaryService binaryService, DialogService dialogService)
+        public AddBinaryViewModel(FileSystemService<Binary> binaryService, DialogService dialogService)
         {
             _binaryService = binaryService;
             _dialogService = dialogService;

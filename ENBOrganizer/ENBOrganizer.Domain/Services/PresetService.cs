@@ -23,26 +23,6 @@ namespace ENBOrganizer.Domain.Services
         {
             return _repository.Items.Where(preset => preset.Game.Equals(game)).ToList();
         }
-        
-        public new void Add(Preset preset)
-        {
-            try
-            {
-                base.Add(preset);
-
-                preset.Directory.Create();
-            }
-            catch (DuplicateEntityException)
-            {
-                throw;
-            }
-            catch (Exception) 
-            {
-                base.Delete(preset);
-
-                throw;
-            }
-        }
 
         public void Import(Preset preset, string sourcePath)
         {
@@ -170,13 +150,6 @@ namespace ENBOrganizer.Domain.Services
             {
                 throw;
             }
-        }
-        
-        public new void Delete(Preset preset)
-        {
-            preset.Directory.Delete(true);
-
-            base.Delete(preset);
         }
 
         public void DeleteByGame(Game game)

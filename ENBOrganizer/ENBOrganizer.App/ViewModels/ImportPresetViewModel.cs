@@ -14,7 +14,7 @@ namespace ENBOrganizer.App.ViewModels
     public class ImportPresetViewModel : ViewModelBase
     {
         private readonly PresetService _presetService;
-        private readonly BinaryService _binaryService;
+        private readonly FileSystemService<Binary> _binaryService;
         private readonly DialogService _dialogService;
 
         private ICommand _browseForDirectoryCommand;
@@ -41,7 +41,7 @@ namespace ENBOrganizer.App.ViewModels
         public ObservableCollection<Binary> Binaries { get; set; }
         public ICommand SaveCommand { get; set; }
 
-        public ImportPresetViewModel(PresetService presetService, BinaryService binaryService, DialogService dialogService)
+        public ImportPresetViewModel(PresetService presetService, FileSystemService<Binary> binaryService, DialogService dialogService)
         {
             _presetService = presetService;
             _binaryService = binaryService;

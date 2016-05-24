@@ -24,7 +24,7 @@ namespace ENBOrganizer.App.ViewModels
             SimpleIoc.Default.Register<MasterListViewModel>();
             SimpleIoc.Default.Register<AddMasterListItemViewModel>();
             SimpleIoc.Default.Register<BinariesViewModel>();
-            SimpleIoc.Default.Register<ImportPresetViewModel>();
+            SimpleIoc.Default.Register<AddPresetViewModel>();
             SimpleIoc.Default.Register<AddBinaryViewModel>();
         }
 
@@ -35,7 +35,7 @@ namespace ENBOrganizer.App.ViewModels
         public MasterListViewModel MasterListViewModel { get { return SimpleIoc.Default.GetInstance<MasterListViewModel>(); } }
         public AddMasterListItemViewModel AddMasterListItemViewModel { get { return SimpleIoc.Default.GetInstance<AddMasterListItemViewModel>(); } }
         public BinariesViewModel BinariesViewModel { get { return SimpleIoc.Default.GetInstance<BinariesViewModel>(); } }
-        public ImportPresetViewModel ImportPresetViewModel { get { return SimpleIoc.Default.GetInstance<ImportPresetViewModel>(); } }
+        public AddPresetViewModel ImportPresetViewModel { get { return SimpleIoc.Default.GetInstance<AddPresetViewModel>(); } }
         public AddBinaryViewModel AddBinaryViewModel { get { return SimpleIoc.Default.GetInstance<AddBinaryViewModel>(); } }
     }
 }

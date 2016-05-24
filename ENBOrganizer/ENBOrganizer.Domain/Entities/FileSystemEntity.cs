@@ -6,6 +6,7 @@ namespace ENBOrganizer.Domain.Entities
     public abstract class FileSystemEntity : EntityBase
     {
         public Game Game { get; set; }
+        public bool IsEnabled { get; set; }
 
         [XmlIgnore]
         public abstract DirectoryInfo Directory { get; }

@@ -9,15 +9,14 @@ namespace ENBOrganizer.Domain.Data
 {
     public class Repository<TEntity> where TEntity : EntityBase
     {
-        private readonly string _fileName;
+        private readonly string _fileName = typeof(TEntity).Name + ".xml";
 
         private readonly Lazy<List<TEntity>> _items;
 
         public List<TEntity> Items { get { return _items.Value; } }
 
-        public Repository(string fileName)
+        public Repository()
         {
-            _fileName = fileName;
             _items = new Lazy<List<TEntity>>(Load);
         }
 

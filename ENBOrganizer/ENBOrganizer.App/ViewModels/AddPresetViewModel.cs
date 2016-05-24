@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class ImportPresetViewModel : ViewModelBase
+    public class AddPresetViewModel : ViewModelBase
     {
         private readonly PresetService _presetService;
         private readonly FileSystemService<Binary> _binaryService;
@@ -41,7 +41,7 @@ namespace ENBOrganizer.App.ViewModels
         public ObservableCollection<Binary> Binaries { get; set; }
         public ICommand SaveCommand { get; set; }
 
-        public ImportPresetViewModel(PresetService presetService, FileSystemService<Binary> binaryService, DialogService dialogService)
+        public AddPresetViewModel(PresetService presetService, FileSystemService<Binary> binaryService, DialogService dialogService)
         {
             _presetService = presetService;
             _binaryService = binaryService;

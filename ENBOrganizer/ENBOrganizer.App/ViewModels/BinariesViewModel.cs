@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using System;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -20,6 +21,7 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand OpenAddBinaryDialogCommand { get; set; }
         public ICommand ViewFilesCommand { get; set; }
         public ICommand DeleteBinaryCommand { get; set; }
+        public ICommand ChangeBinaryStateCommand { get; set; }
         public ObservableCollection<Binary> Binaries { get; set; }
 
         private bool _isAddBinaryDialogOpen;
@@ -29,21 +31,40 @@ namespace ENBOrganizer.App.ViewModels
             get { return _isAddBinaryDialogOpen; }
             set { Set(nameof(IsAddBinaryDialogOpen), ref _isAddBinaryDialogOpen, value); }
         }
-        
+
         public BinariesViewModel(FileSystemService<Binary> binaryService, DialogService dialogService)
-        { 
+        {
             _binaryService = binaryService;
             _binaryService.ItemsChanged += _binaryService_ItemsChanged;
 
             _dialogService = dialogService;
-            
+
             ViewFilesCommand = new RelayCommand<Binary>(binary => Process.Start(binary.Directory.FullName));
             DeleteBinaryCommand = new RelayCommand<Binary>(binary => _binaryService.Delete(binary));
             OpenAddBinaryDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddBinary));
+            ChangeBinaryStateCommand = new RelayCommand<Binary>(OnBinaryStateChanged);
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessageReceived);
 
             Binaries = _binaryService.GetAll().ToObservableCollection();
+        }
+
+        private void OnBinaryStateChanged(Binary binary)
+        {
+            try
+            {
+                if (binary.IsEnabled)
+                    _binaryService.Disable(binary);
+                else
+                    _binaryService.Enable(binary);
+
+                //binary.IsEnabled = !binary.IsEnabled;
+                //_binaryService.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
         private void OnDialogMessageReceived(DialogMessage message)

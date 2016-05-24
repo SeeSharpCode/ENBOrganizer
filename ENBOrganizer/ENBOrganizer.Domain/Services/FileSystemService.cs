@@ -2,14 +2,16 @@
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util.IO;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
     public class FileSystemService<TEntity> : DataService<TEntity> where TEntity : FileSystemEntity
     {
-        private readonly MasterListService _masterListService;
+        protected readonly MasterListService _masterListService;
 
         public FileSystemService(MasterListService masterListService)
         {
@@ -48,6 +50,82 @@ namespace ENBOrganizer.Domain.Services
             entity.Directory.Delete(true);
 
             base.Delete(entity);
+        }
+
+        public void Enable(TEntity entity)
+        {
+            try
+            {
+                entity.Directory.CopyTo(entity.Game.DirectoryPath);
+
+                entity.IsEnabled = true;
+                SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Disable(TEntity entity)
+        {
+            try
+            {
+                foreach (FileSystemInfo fileSystemInfo in entity.Directory.GetFileSystemInfos())
+                {
+                    string installedPath = Path.Combine(entity.Game.DirectoryPath, fileSystemInfo.Name);
+
+                    if (fileSystemInfo is DirectoryInfo && Directory.Exists(installedPath) && fileSystemInfo.Name != DirectoryNames.Data)
+                        Directory.Delete(installedPath, true);
+                    else if (File.Exists(installedPath))
+                        File.Delete(installedPath);
+                }
+
+                entity.IsEnabled = false;
+                SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void DisableAll(Game currentGame)
+        {
+            try
+            {
+                foreach (MasterListItem masterListItem in _masterListService.GetAll())
+                {
+                    string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
+
+                    if (masterListItem.Type == MasterListItemType.File)
+                    {
+                        FileInfo file = new FileInfo(installedPath);
+
+                        if (file.Exists)
+                            file.Delete();
+                    }
+                    else
+                    {
+                        DirectoryInfo directory = new DirectoryInfo(installedPath);
+
+                        if (directory.Exists)
+                            directory.Delete(true);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void DeleteByGame(Game game)
+        {
+            List<TEntity> entities = GetAll().Where(entity => entity.Game.Equals(game)).ToList();
+
+            foreach (TEntity entity in entities)
+                Delete(entity);
         }
     }
 }

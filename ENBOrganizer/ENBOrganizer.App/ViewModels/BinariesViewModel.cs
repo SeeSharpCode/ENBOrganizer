@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using System;
+using System.Linq;
+using ENBOrganizer.App.Properties;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -22,6 +24,8 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand ViewFilesCommand { get; set; }
         public ICommand DeleteBinaryCommand { get; set; }
         public ICommand ChangeBinaryStateCommand { get; set; }
+        public ICommand DisableAllCommand { get; set; }
+        public Game CurrentGame { get { return Settings.Default.CurrentGame; } }
         public ObservableCollection<Binary> Binaries { get; set; }
 
         private bool _isAddBinaryDialogOpen;
@@ -43,10 +47,23 @@ namespace ENBOrganizer.App.ViewModels
             DeleteBinaryCommand = new RelayCommand<Binary>(binary => _binaryService.Delete(binary));
             OpenAddBinaryDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddBinary));
             ChangeBinaryStateCommand = new RelayCommand<Binary>(OnBinaryStateChanged);
+            DisableAllCommand = new RelayCommand(DisableAll);
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessageReceived);
 
             Binaries = _binaryService.GetAll().ToObservableCollection();
+        }
+
+        private void DisableAll()
+        {
+            try
+            {
+                _binaryService.DisableAll(CurrentGame);
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
         private void OnBinaryStateChanged(Binary binary)

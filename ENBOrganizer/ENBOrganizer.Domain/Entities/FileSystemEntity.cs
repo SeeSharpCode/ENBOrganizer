@@ -6,7 +6,18 @@ namespace ENBOrganizer.Domain.Entities
     public abstract class FileSystemEntity : EntityBase
     {
         public Game Game { get; set; }
-        public bool IsEnabled { get; set; }
+
+        private bool _isEnabled;
+
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                RaisePropertyChanged(nameof(IsEnabled));
+            }
+        }
 
         [XmlIgnore]
         public abstract DirectoryInfo Directory { get; }

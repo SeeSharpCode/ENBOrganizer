@@ -11,11 +11,6 @@ namespace ENBOrganizer.Domain.Services
     public class PresetService : FileSystemService<Preset>
     {
         public PresetService(MasterListService masterListService) : base(masterListService) { }
-
-        public List<Preset> GetByGame(Game game)
-        {
-            return _repository.Items.Where(preset => preset.Game.Equals(game)).ToList();
-        }
         
         public void ImportActiveFiles(Preset preset)
         {

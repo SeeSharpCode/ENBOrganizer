@@ -1,4 +1,6 @@
-﻿namespace ENBOrganizer.Domain.Entities
+﻿using ENBOrganizer.Util;
+
+namespace ENBOrganizer.Domain.Entities
 {
     public enum MasterListItemType
     {
@@ -18,6 +20,13 @@
             : base(name)
         {
             Type = type;
+        }
+
+        public override bool Equals(object other)
+        {
+            MasterListItem masterListItem = other as MasterListItem;
+
+            return masterListItem != null ? Name.EqualsIgnoreCase(masterListItem.Name) && Type.Equals(masterListItem.Type) : false;
         }
     }
 }

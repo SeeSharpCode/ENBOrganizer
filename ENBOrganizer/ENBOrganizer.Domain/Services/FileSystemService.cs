@@ -94,30 +94,39 @@ namespace ENBOrganizer.Domain.Services
         {
             try
             {
-                foreach (MasterListItem masterListItem in _masterListService.GetAll())
+                foreach (TEntity entity in GetByGame(currentGame))
                 {
-                    string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
-
-                    if (masterListItem.Type == MasterListItemType.File)
-                    {
-                        FileInfo file = new FileInfo(installedPath);
-
-                        if (file.Exists)
-                            file.Delete();
-                    }
-                    else
-                    {
-                        DirectoryInfo directory = new DirectoryInfo(installedPath);
-
-                        if (directory.Exists)
-                            directory.Delete(true);
-                    }
+                    Disable(entity);
                 }
+                //foreach (MasterListItem masterListItem in _masterListService.GetAll())
+                //{
+                //    string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
+
+                //    if (masterListItem.Type == MasterListItemType.File)
+                //    {
+                //        FileInfo file = new FileInfo(installedPath);
+
+                //        if (file.Exists)
+                //            file.Delete();
+                //    }
+                //    else
+                //    {
+                //        DirectoryInfo directory = new DirectoryInfo(installedPath);
+
+                //        if (directory.Exists)
+                //            directory.Delete(true);
+                //    }
+                //}
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        public List<TEntity> GetByGame(Game game)
+        {
+            return GetAll().Where(entity => entity.Game.Equals(game)).ToList();
         }
 
         public void DeleteByGame(Game game)

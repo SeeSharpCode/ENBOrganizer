@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Domain;
+﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
@@ -16,16 +17,23 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly PresetService _presetService;
         private readonly DialogService _dialogService;
-
-        private readonly ICommand _addBlankPresetCommand;
+        
         private readonly ICommand _importDirectoryOrArchiveCommand;
         private readonly ICommand _importActiveFilesCommand;
         public ObservableCollection<PresetViewModel> PresetViewModels { get; set; }
 
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
+        public ICommand OpenAddPresetDialogCommand { get; set; }
         public ICommand DisableAllPresetsCommand { get; set; }
-
         public bool CurrentGameHasNoPresets { get { return CurrentGame != null && !PresetViewModels.Any(); } }
+
+        private bool _isAddPresetDialogOpen;
+
+        public bool IsAddPresetDialogOpen
+        {
+            get { return _isAddPresetDialogOpen; }
+            set { Set(nameof(IsAddPresetDialogOpen), ref _isAddPresetDialogOpen, value); }
+        }
 
         public PresetsOverviewViewModel(PresetService presetService, DialogService dialogService)
         {
@@ -34,14 +42,23 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
             
-            //_importDirectoryOrArchiveCommand = new RelayCommand(() => _dialogService.ShowDialog(Dialog.ImportPreset), () => CurrentGame != null);
             _importActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
-
+            OpenAddPresetDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddPreset), () => CurrentGame != null);
             DisableAllPresetsCommand = new RelayCommand(DisableAllPresets);
 
             Properties.Settings.Default.PropertyChanged += ApplicationSettings_PropertyChanged;
 
+            MessengerInstance.Register<DialogMessage>(this, OnDialogMessageReceived);
+
             LoadPresets();
+        }
+
+        private void OnDialogMessageReceived(DialogMessage message)
+        {
+            if (message.DialogName != DialogName.AddPreset)
+                return;
+
+            IsAddPresetDialogOpen = message.DialogAction == DialogAction.Open;
         }
 
         private void DisableAllPresets()

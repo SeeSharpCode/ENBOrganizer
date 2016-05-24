@@ -4,7 +4,8 @@
     {
         AddGame,
         AddMasterListItem,
-        AddBinary
+        AddBinary,
+        AddPreset
     }
 
     public enum DialogAction

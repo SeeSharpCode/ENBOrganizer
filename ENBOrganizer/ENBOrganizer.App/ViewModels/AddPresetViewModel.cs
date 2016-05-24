@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Domain;
+﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
@@ -16,9 +17,6 @@ namespace ENBOrganizer.App.ViewModels
         private readonly PresetService _presetService;
         private readonly FileSystemService<Binary> _binaryService;
         private readonly DialogService _dialogService;
-
-        private ICommand _browseForDirectoryCommand;
-        private ICommand _browseForArchiveCommand;
         
         private string _name;
 
@@ -39,6 +37,9 @@ namespace ENBOrganizer.App.ViewModels
         public Binary Binary { get; set; }
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ObservableCollection<Binary> Binaries { get; set; }
+        public ICommand BrowseForDirectoryCommand { get; set; }
+        public ICommand BrowseForArchiveCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
         public ICommand SaveCommand { get; set; }
 
         public AddPresetViewModel(PresetService presetService, FileSystemService<Binary> binaryService, DialogService dialogService)
@@ -49,9 +50,9 @@ namespace ENBOrganizer.App.ViewModels
 
             _dialogService = dialogService;
 
-            _browseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
-            _browseForArchiveCommand = new RelayCommand(BrowseForArchive);
-
+            BrowseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
+            BrowseForArchiveCommand = new RelayCommand(BrowseForArchive);
+            CancelCommand = new RelayCommand(Close);
             SaveCommand = new RelayCommand(Save, CanSave);
 
             Binaries = _binaryService.GetAll().ToObservableCollection();
@@ -92,35 +93,38 @@ namespace ENBOrganizer.App.ViewModels
                 Name = string.Empty;
                 SourcePath = string.Empty;
 
-                //_dialogService.CloseDialog();
+                Close();
             }
+        }
+
+        private void BrowseForDirectory()
+        {
+            string directoryPath = _dialogService.PromptForFolder("Please select the preset folder...");
+
+            if (string.IsNullOrWhiteSpace(directoryPath))
+                return;
+
+            SourcePath = directoryPath;
+            Name = new DirectoryInfo(directoryPath).Name;
         }
 
         private void BrowseForArchive()
         {
-            // TODO: more than .zip
             string archivePath = _dialogService.PromptForFile("Please select an archive file", "ZIP Files(*.zip) | *.zip");
 
             if (string.IsNullOrWhiteSpace(archivePath))
                 return;
 
-            FileInfo file = new FileInfo(archivePath);
-
-            Name = file.Name;
-            SourcePath = file.FullName;
+            SourcePath = archivePath;
+            Name = Path.GetFileNameWithoutExtension(SourcePath);
         }
 
-        private void BrowseForDirectory()
+        private void Close()
         {
-            string directoryPath = _dialogService.PromptForFolder("Please select the preset folder");
+            Name = string.Empty;
+            SourcePath = string.Empty;
 
-            if (string.IsNullOrWhiteSpace(directoryPath))
-                return;
-
-            DirectoryInfo directory = new DirectoryInfo(directoryPath);
-
-            Name = directory.Name;
-            SourcePath = directory.FullName;
+            _dialogService.CloseDialog(DialogName.AddPreset);
         }
     }
 }

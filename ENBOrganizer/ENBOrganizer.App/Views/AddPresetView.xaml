@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
              xmlns:views="clr-namespace:ENBOrganizer.App.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ImportPresetViewModel}">
     <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Left">
@@ -14,20 +15,15 @@
         <Label Content="Source Folder or Archive" />
         <StackPanel Orientation="Horizontal">
             <TextBox Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" TextWrapping="Wrap" />
-            <!--<controls:DropDownButton Content="Browse" DisplayMemberPath="Title" Orientation="Horizontal" VerticalAlignment="Bottom"
-                                     ItemsSource="{Binding TitledCommands, Mode=OneTime}" Margin="5 0 0 0">
-                <controls:DropDownButton.ItemContainerStyle>
-                    <Style TargetType="MenuItem">
-                        <Setter Property="ToolTip" Value="{Binding Tooltip, Mode=OneTime}" />
-                        <Setter Property="Command" Value="{Binding Command, Mode=OneTime}" />
-                        <Setter Property="Padding" Value="3" />
-                    </Style>
-                </controls:DropDownButton.ItemContainerStyle>
-            </controls:DropDownButton>-->
+            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Grid.Row="3" Grid.Column="1">
+                <StackPanel>
+                    <Button Content="Browse for Folder" Command="{Binding BrowseForDirectoryCommand, Mode=OneTime}" />
+                    <Button Content="Browse for Archive" Command="{Binding BrowseForArchiveCommand, Mode=OneTime}" />
+                </StackPanel>
+            </materialDesign:PopupBox>
         </StackPanel>
 
         <Label Content="Binary" />
-
         <ComboBox SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" DisplayMemberPath="Name">
             <ComboBox.Resources>
@@ -41,6 +37,10 @@
             </ComboBox.ItemsSource>
         </ComboBox>
 
-        <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" HorizontalAlignment="Left" />
+        <StackPanel Orientation="Horizontal">
+            <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" 
+                    Style="{StaticResource MaterialDesignFlatButton}" />
+            <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}" Style="{StaticResource MaterialDesignFlatButton}" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

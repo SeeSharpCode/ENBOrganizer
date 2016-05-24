@@ -1,16 +1,16 @@
 ﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.App.Properties;
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Windows.Input;
-using System;
 using System.Linq;
-using ENBOrganizer.App.Properties;
+using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -45,13 +45,13 @@ namespace ENBOrganizer.App.ViewModels
 
             ViewFilesCommand = new RelayCommand<Binary>(binary => Process.Start(binary.Directory.FullName));
             DeleteBinaryCommand = new RelayCommand<Binary>(binary => _binaryService.Delete(binary));
-            OpenAddBinaryDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddBinary));
+            OpenAddBinaryDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddBinary), () => CurrentGame != null);
             ChangeBinaryStateCommand = new RelayCommand<Binary>(OnBinaryStateChanged);
             DisableAllCommand = new RelayCommand(DisableAll);
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessageReceived);
 
-            Binaries = _binaryService.GetAll().ToObservableCollection();
+            Binaries = _binaryService.GetAll().Where(binary => binary.Game.Equals(CurrentGame)).ToObservableCollection();
         }
 
         private void DisableAll()
@@ -74,9 +74,6 @@ namespace ENBOrganizer.App.ViewModels
                     _binaryService.Disable(binary);
                 else
                     _binaryService.Enable(binary);
-
-                //binary.IsEnabled = !binary.IsEnabled;
-                //_binaryService.SaveChanges();
             }
             catch (Exception exception)
             {

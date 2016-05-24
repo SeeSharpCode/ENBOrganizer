@@ -3,8 +3,8 @@ using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Ioc;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -12,17 +12,12 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class GamesViewModel : ViewModelBase, IPageViewModel
+    public class GamesViewModel : PageViewModelBase<Game>
     {
-        private readonly GameService _gameService;
-        private readonly DialogService _dialogService;
-
-        public string Name { get { return "Games"; } }
-        public ICommand OpenAddGameDialogCommand { get; set; }
+        public override string Name { get { return "Games"; } }
         public ICommand DeleteGameCommand { get; set; }
         public ICommand OpenDirectoryCommand { get; set; }
         public ICommand EditGameCommand { get; set; }
-        public ObservableCollection<Game> Games { get; set; }
 
         public Game CurrentGame
         {
@@ -44,30 +39,20 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsAddGameDialogOpen), ref _isAddGameDialogOpen, value); }
         }
         
-        public GamesViewModel(GameService gameService, PresetService presetService, DialogService dialogService)
+        public GamesViewModel()
+            : base(SimpleIoc.Default.GetInstance<GameService>(), SimpleIoc.Default.GetInstance<DialogService>(), DialogName.AddGame)
         {
-            _gameService = gameService;
-            _gameService.ItemsChanged += _gameService_ItemsChanged;
-
-            _dialogService = dialogService;
-
-            MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
-
-            OpenAddGameDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.AddGame));
             EditGameCommand = new RelayCommand<Game>(EditGame);
             OpenDirectoryCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));
-            DeleteGameCommand = new RelayCommand<Game>(game => _gameService.Delete(game));
-
-            PopulateGames();
         }
 
-        private void PopulateGames()
+        protected override void PopulateModels()
         {
-            if (Games == null)
-                Games = new ObservableCollection<Game>();
+            if (Models == null)
+                Models = new ObservableCollection<Game>();
 
-            Games.Clear();
-            Games.AddAll(_gameService.GetAll().ToObservableCollection());
+            Models.Clear();
+            Models.AddAll(_dataService.GetAll().ToObservableCollection());
         }
 
         private void EditGame(Game game)
@@ -76,32 +61,29 @@ namespace ENBOrganizer.App.ViewModels
             MessengerInstance.Send(game);
         }
 
-        private void OnDialogMessage(DialogMessage dialogMessage)
-        {
-            if (dialogMessage.DialogName != DialogName.AddGame)
-                return;
-
-            IsAddGameDialogOpen = dialogMessage.DialogAction == DialogAction.Open;
-        }
-
-        private void _gameService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
+        private new void _dataService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
             Game game = repositoryChangedEventArgs.Entity as Game;
 
             if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
             {
-                Games.Add(game);
+                Models.Add(game);
 
                 if (CurrentGame == null)
                     CurrentGame = game;
             }
             else
             {
-                Games.Remove(game);
+                Models.Remove(game);
 
                 if (CurrentGame == game)
-                    CurrentGame = Games.FirstOrDefault();
+                    CurrentGame = Models.FirstOrDefault();
             }
+        }
+
+        protected override bool CanSave()
+        {
+            return true;
         }
     }
 }

@@ -96,9 +96,9 @@
     <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
     <Compile Include="ViewModels\BinariesViewModel.cs" />
     <Compile Include="ViewModels\AddPresetViewModel.cs" />
-    <Compile Include="ViewModels\IPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterListViewModel.cs" />
+    <Compile Include="ViewModels\PageViewModelBase.cs" />
     <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
     <Compile Include="ViewModels\PresetViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
@@ -123,9 +123,6 @@
     </Compile>
     <Compile Include="Views\PresetsOverviewView.xaml.cs">
       <DependentUpon>PresetsOverviewView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PresetView.xaml.cs">
-      <DependentUpon>PresetView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AddBinaryView.xaml">
       <SubType>Designer</SubType>
@@ -173,10 +170,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PresetsOverviewView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PresetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

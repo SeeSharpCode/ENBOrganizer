@@ -84,7 +84,6 @@
                     </Style.Triggers>
                 </Style>
             </ScrollViewer.Style>
-            
         </ScrollViewer>
     </Grid>
 </UserControl>

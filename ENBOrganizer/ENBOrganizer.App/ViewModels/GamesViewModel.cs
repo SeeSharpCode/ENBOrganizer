@@ -2,10 +2,7 @@
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
-using ENBOrganizer.Util;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Ioc;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
@@ -14,12 +11,10 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class GamesViewModel : PageViewModelBase<Game>
     {
-        public override string Name { get { return "Games"; } }
-        public ICommand DeleteGameCommand { get; set; }
         public ICommand OpenDirectoryCommand { get; set; }
         public ICommand EditGameCommand { get; set; }
 
-        public Game CurrentGame
+        public new Game CurrentGame
         {
             get { return Properties.Settings.Default.CurrentGame; }
             set
@@ -31,28 +26,16 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
         
-        private bool _isAddGameDialogOpen;
-
-        public bool IsAddGameDialogOpen
-        {
-            get { return _isAddGameDialogOpen; }
-            set { Set(nameof(IsAddGameDialogOpen), ref _isAddGameDialogOpen, value); }
-        }
-        
-        public GamesViewModel()
-            : base(SimpleIoc.Default.GetInstance<GameService>(), SimpleIoc.Default.GetInstance<DialogService>(), DialogName.AddGame)
+        public GamesViewModel(GameService gameService, DialogService dialogService)
+            : base(gameService, dialogService, DialogName.AddGame, "Games")
         {
             EditGameCommand = new RelayCommand<Game>(EditGame);
             OpenDirectoryCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));
         }
 
-        protected override void PopulateModels()
+        protected new bool CanAdd()
         {
-            if (Models == null)
-                Models = new ObservableCollection<Game>();
-
-            Models.Clear();
-            Models.AddAll(_dataService.GetAll().ToObservableCollection());
+            return true;
         }
 
         private void EditGame(Game game)
@@ -79,11 +62,6 @@ namespace ENBOrganizer.App.ViewModels
                 if (CurrentGame == game)
                     CurrentGame = Models.FirstOrDefault();
             }
-        }
-
-        protected override bool CanSave()
-        {
-            return true;
         }
     }
 }

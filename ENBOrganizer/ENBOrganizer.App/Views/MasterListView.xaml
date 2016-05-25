@@ -8,19 +8,19 @@
              Name="RootElement"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MasterListViewModel}">
-    <materialDesign:DialogHost IsOpen="{Binding IsAddMasterListDialogOpen, Mode=TwoWay}">
+    <materialDesign:DialogHost IsOpen="{Binding IsAddDialogOpen, Mode=TwoWay}">
         <materialDesign:DialogHost.DialogContent>
             <views:AddMasterListItemView />
         </materialDesign:DialogHost.DialogContent>
 
         <DockPanel Margin="15" HorizontalAlignment="Left">
-            <Button Command="{Binding OpenAddMasterListItemDialogCommand, Mode=OneTime}"
+            <Button Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}"  Margin="5 0 0 0" 
                    HorizontalAlignment="Left" ToolTip="Add a new master list item" DockPanel.Dock="Top">
                 <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
             </Button>
 
-            <DataGrid ItemsSource="{Binding MasterListItems, Mode=OneWay}" AutoGenerateColumns="False" 
+            <DataGrid ItemsSource="{Binding Models, Mode=OneWay}" AutoGenerateColumns="False" 
                       IsReadOnly="True" VerticalContentAlignment="Center" Margin="0 5 0 0">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Name">
@@ -42,7 +42,7 @@
                     <DataGridTemplateColumn Header="Delete">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteMasterListItemCommand, Mode=OneTime}" 
+                                <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" 
                                         CommandParameter="{Binding}"
                                         Style="{StaticResource MaterialDesignToolButton}">
                                     <materialDesign:PackIcon Kind="Delete" Foreground="{DynamicResource PrimaryHueLightBrush}" Width="30" />

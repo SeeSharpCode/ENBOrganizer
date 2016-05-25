@@ -97,7 +97,6 @@
     <Compile Include="ViewModels\BinariesViewModel.cs" />
     <Compile Include="ViewModels\AddPresetViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PageViewModelBase.cs" />
     <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
     <Compile Include="ViewModels\PresetViewModel.cs" />

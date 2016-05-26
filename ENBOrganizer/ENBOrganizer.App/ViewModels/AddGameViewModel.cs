@@ -9,6 +9,7 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
+    // TODO: fix editing games
     public class AddGameViewModel : ViewModelBase
     {
         private readonly GameService _gameService;

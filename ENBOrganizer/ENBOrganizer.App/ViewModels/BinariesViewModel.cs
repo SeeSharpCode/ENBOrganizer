@@ -1,13 +1,11 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.App.Properties;
-using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
@@ -16,25 +14,36 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class BinariesViewModel : PageViewModelBase<Binary>
     {
-        protected readonly new FileSystemService<Binary> _dataService;
+        protected new FileSystemService<Binary> DataService { get { return (FileSystemService<Binary>)base.DataService; } }
+        protected override DialogName DialogName { get { return DialogName.AddBinary; } }
 
         public ICommand ViewFilesCommand { get; set; }
         public ICommand ChangeBinaryStateCommand { get; set; }
         public ICommand DisableAllCommand { get; set; }
+        
+        public override string Name { get { return "Binaries"; } }
 
         public BinariesViewModel(FileSystemService<Binary> binaryService, DialogService dialogService)
-            : base(binaryService, dialogService, DialogName.AddBinary, "Binaries")
+            : base(binaryService, dialogService)
         {
             ViewFilesCommand = new RelayCommand<Binary>(binary => Process.Start(binary.Directory.FullName));
             ChangeBinaryStateCommand = new RelayCommand<Binary>(OnBinaryStateChanged);
             DisableAllCommand = new RelayCommand(DisableAll);
+
+            Settings.Default.PropertyChanged += Default_PropertyChanged;
+        }
+
+        private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
+        {
+            if (eventArgs.PropertyName == "CurrentGame")
+                PopulateModels();
         }
 
         private void DisableAll()
         {
             try
             {
-                _dataService.DisableAll(CurrentGame);
+                DataService.DisableAll(CurrentGame);
             }
             catch (Exception exception)
             {
@@ -43,9 +52,10 @@ namespace ENBOrganizer.App.ViewModels
         }
 
         // TODO: this code is repeated
-        protected new void PopulateModels()
+        protected override void PopulateModels()
         {
-            Models = _dataService.GetAll().Where(binary => binary.Game.Equals(CurrentGame)).ToObservableCollection();
+            Models.Clear();
+            Models.AddAll(DataService.GetAll().Where(binary => binary.Game.Equals(CurrentGame)));
         }
 
         private void OnBinaryStateChanged(Binary binary)
@@ -53,9 +63,9 @@ namespace ENBOrganizer.App.ViewModels
             try
             {
                 if (binary.IsEnabled)
-                    _dataService.Disable(binary);
+                    DataService.Disable(binary);
                 else
-                    _dataService.Enable(binary);
+                    DataService.Enable(binary);
             }
             catch (Exception exception)
             {

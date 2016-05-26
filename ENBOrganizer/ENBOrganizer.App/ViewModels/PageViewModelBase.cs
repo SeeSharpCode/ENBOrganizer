@@ -11,13 +11,25 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class PageViewModelBase<TEntity> : ViewModelBase where TEntity : EntityBase
+    public abstract class PageViewModelBase<TEntity> : ViewModelBase, IPageViewModel where TEntity : EntityBase
     {
-        protected readonly DataService<TEntity> _dataService;
+        protected virtual DataService<TEntity> DataService { get; set; }
         protected readonly DialogService _dialogService;
-        private readonly DialogName _dialogName;
+        protected abstract DialogName DialogName { get; }
+        public abstract string Name { get; }
 
-        public ObservableCollection<TEntity> Models { get; set; }
+        private ObservableCollection<TEntity> _models;
+
+        public ObservableCollection<TEntity> Models
+        {
+            get
+            {
+                if (_models == null)
+                    _models = new ObservableCollection<TEntity>();
+
+                return _models;
+            }
+        }
 
         private bool _isAddDialogOpen;
 
@@ -27,24 +39,19 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsAddDialogOpen), ref _isAddDialogOpen, value); }
         }
 
-        public string Name { get; set; }
         public Game CurrentGame { get { return Settings.Default.CurrentGame; } }
         public ICommand OpenAddDialogCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
 
-        public PageViewModelBase(DataService<TEntity> dataService, DialogService dialogService, DialogName dialogName, string name)
+        public PageViewModelBase(DataService<TEntity> dataService, DialogService dialogService)
         {
-            _dataService = dataService;
-            _dataService.ItemsChanged += _dataService_ItemsChanged;
+            DataService = dataService;
+            DataService.ItemsChanged += _dataService_ItemsChanged;
 
             _dialogService = dialogService;
 
-            _dialogName = dialogName;
-
-            Name = name;
-
-            OpenAddDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(_dialogName), CanAdd);
-            DeleteCommand = new RelayCommand<TEntity>(entity => _dataService.Delete(entity));
+            OpenAddDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName), CanAdd);
+            DeleteCommand = new RelayCommand<TEntity>(entity => DataService.Delete(entity));
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
 
@@ -56,18 +63,15 @@ namespace ENBOrganizer.App.ViewModels
             return CurrentGame != null;
         }
 
-        protected void PopulateModels()
+        protected virtual void PopulateModels()
         {
-            if (Models == null)
-                Models = new ObservableCollection<TEntity>();
-
             Models.Clear();
-            Models.AddAll(_dataService.GetAll().ToObservableCollection());
+            Models.AddAll(DataService.GetAll().ToObservableCollection());
         }
 
         private void OnDialogMessage(DialogMessage message)
         {
-            if (message.DialogName != _dialogName)
+            if (message.DialogName != DialogName)
                 return;
 
             IsAddDialogOpen = message.DialogAction == DialogAction.Open;

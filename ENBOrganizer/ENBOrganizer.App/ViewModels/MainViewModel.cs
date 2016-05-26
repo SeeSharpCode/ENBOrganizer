@@ -1,6 +1,5 @@
 ﻿using ENBOrganizer.Domain.Entities;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
 using System.Collections.Generic;
 
 namespace ENBOrganizer.App.ViewModels
@@ -9,11 +8,11 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly ViewModelLocator _viewModelLocator;
         
-        public List<PageViewModelBase<EntityBase>> PageViewModels { get; set; } 
+        public List<IPageViewModel> PageViewModels { get; set; } 
 
-        private PageViewModelBase<EntityBase> _selectedViewModel;
+        private IPageViewModel _selectedViewModel;
 
-        public PageViewModelBase<EntityBase> SelectedViewModel
+        public IPageViewModel SelectedViewModel
         {
             get { return _selectedViewModel; }
             set
@@ -35,14 +34,12 @@ namespace ENBOrganizer.App.ViewModels
         {
             _viewModelLocator = viewModelLocator;
 
-            PageViewModels = new List<PageViewModelBase<EntityBase>>();
-            PageViewModels.Add(_viewModelLocator.GamesViewModel);
-
-            //{
-            //    _viewModelLocator.GamesViewModel,
-            //    _viewModelLocator.BinariesViewModel,
-            //    _viewModelLocator.MasterListViewModel
-            //};
+            PageViewModels = new List<IPageViewModel>()
+            {
+                _viewModelLocator.GamesViewModel,
+                _viewModelLocator.BinariesViewModel,
+                _viewModelLocator.MasterListViewModel
+            };
 
             SelectedViewModel = _viewModelLocator.GamesViewModel;
         }

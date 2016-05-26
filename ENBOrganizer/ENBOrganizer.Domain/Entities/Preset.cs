@@ -8,7 +8,6 @@ namespace ENBOrganizer.Domain.Entities
     {
         public Binary Binary { get; set; }
         public string ImagePath { get; set; }
-        public bool IsEnabled { get; set; }
         
         public override DirectoryInfo Directory
         {

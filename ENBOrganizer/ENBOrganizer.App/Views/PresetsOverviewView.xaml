@@ -9,7 +9,7 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsOverviewViewModel}">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type viewModels:PresetViewModel}">
-            <views:PresetView />
+            <!--<views:PresetView />-->
         </DataTemplate>
     </UserControl.Resources>
 

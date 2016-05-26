@@ -45,7 +45,7 @@
                                     <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">
                                         <StackPanel>
                                             <Button Content="View Files" Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" CommandParameter="{Binding}" />
-                                            <Button Content="Delete" Command="{Binding ElementName=RootElement, Path=DataContext.DeleteBinaryCommand, Mode=OneTime}" CommandParameter="{Binding}" />
+                                            <Button Content="Delete" Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" CommandParameter="{Binding}" />
                                         </StackPanel>
                                     </materialDesign:PopupBox>
                                 </DockPanel>

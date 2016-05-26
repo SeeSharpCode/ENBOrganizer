@@ -1,4 +1,5 @@
 ﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.App.Properties;
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
@@ -11,23 +12,26 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class GamesViewModel : PageViewModelBase<Game>
     {
+        protected override DialogName DialogName { get { return DialogName.AddGame; } }
+
         public ICommand OpenDirectoryCommand { get; set; }
         public ICommand EditGameCommand { get; set; }
+        public override string Name { get { return "Games"; } }
 
         public new Game CurrentGame
         {
-            get { return Properties.Settings.Default.CurrentGame; }
+            get { return Settings.Default.CurrentGame; }
             set
             {
-                Properties.Settings.Default.CurrentGame = value;
-                Properties.Settings.Default.Save();
+                Settings.Default.CurrentGame = value;
+                Settings.Default.Save();
 
                 RaisePropertyChanged(nameof(CurrentGame));
             }
         }
         
         public GamesViewModel(GameService gameService, DialogService dialogService)
-            : base(gameService, dialogService, DialogName.AddGame, "Games")
+            : base(gameService, dialogService)
         {
             EditGameCommand = new RelayCommand<Game>(EditGame);
             OpenDirectoryCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));

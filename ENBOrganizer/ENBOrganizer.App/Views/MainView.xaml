@@ -4,6 +4,7 @@
         xmlns:views="clr-namespace:ENBOrganizer.App.Views"
         xmlns:converters="clr-namespace:ENBOrganizer.App.Converters"
         xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
+        xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="ENB Organizer"
         MinWidth="640"
@@ -90,7 +91,7 @@
                                 <Button Content="Goodbye" />
                             </StackPanel>
                         </materialDesign:PopupBox>
-                        <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Games, Mode=OneWay}"
+                        <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Models, Mode=OneWay}"
                                   SelectedItem="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.CurrentGame, Mode=TwoWay}"
                                   IsSynchronizedWithCurrentItem="True" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}">

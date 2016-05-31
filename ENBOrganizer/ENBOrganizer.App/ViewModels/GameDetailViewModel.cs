@@ -1,7 +1,6 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.IO;
@@ -9,24 +8,13 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    // TODO: fix editing games
-    public class GameDetailViewModel : ViewModelBase
+    public class GameDetailViewModel : DialogViewModelBase
     {
         private readonly GameService _gameService;
         private readonly DialogService _dialogService;
         private Game _game;
 
         public ICommand BrowseCommand { get; set; }
-        public ICommand SaveCommand { get; set; }
-        public ICommand CancelCommand { get; set; }
-
-        private string _name;
-
-        public string Name
-        {
-            get { return _name; }
-            set { Set(nameof(Name), ref _name, value); }
-        }
 
         private string _executablePath;
 
@@ -46,8 +34,6 @@ namespace ENBOrganizer.App.ViewModels
             MessengerInstance.Register<Game>(this, OnGameReceived);
 
             BrowseCommand = new RelayCommand(BrowseForGameFile);
-            SaveCommand = new RelayCommand(Save, CanSave);
-            CancelCommand = new RelayCommand(Close);
         }
 
         private void OnGameReceived(Game game)
@@ -58,14 +44,14 @@ namespace ENBOrganizer.App.ViewModels
             ExecutablePath = game.ExecutablePath;
         }
 
-        private void Close()
+        protected override void Close()
         {
             _game = new Game();
 
             _dialogService.CloseDialog(DialogName.AddGame);
         }
 
-        private void Save()
+        protected override void Save()
         {
             try
             {
@@ -87,7 +73,7 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        private bool CanSave()
+        protected override bool CanSave()
         {
             return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(ExecutablePath) && File.Exists(ExecutablePath);
         }

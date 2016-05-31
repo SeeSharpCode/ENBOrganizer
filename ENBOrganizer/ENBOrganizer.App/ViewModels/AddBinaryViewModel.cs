@@ -2,7 +2,6 @@
 using ENBOrganizer.App.Properties;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.IO;
@@ -10,7 +9,7 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class AddBinaryViewModel : ViewModelBase
+    public class AddBinaryViewModel : DialogViewModelBase
     {
         private readonly FileSystemService<Binary> _binaryService;
         private readonly DialogService _dialogService;
@@ -19,16 +18,6 @@ namespace ENBOrganizer.App.ViewModels
 
         public ICommand BrowseForDirectoryCommand { get; set; }
         public ICommand BrowseForArchiveCommand { get; set; }
-        public ICommand SaveCommand { get; set; }
-        public ICommand CancelCommand { get; set; }
-
-        private string _name;
-
-        public string Name
-        {
-            get { return _name; }
-            set { Set(nameof(Name), ref _name, value); }
-        }
 
         private string _sourcePath;
 
@@ -45,8 +34,6 @@ namespace ENBOrganizer.App.ViewModels
 
             BrowseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
             BrowseForArchiveCommand = new RelayCommand(BrowseForArchive);
-            SaveCommand = new RelayCommand(Save, CanSave);
-            CancelCommand = new RelayCommand(Close);
         }
 
         private void BrowseForDirectory()
@@ -71,13 +58,13 @@ namespace ENBOrganizer.App.ViewModels
             Name = Path.GetFileNameWithoutExtension(SourcePath);
         }
 
-        private bool CanSave()
+        protected override bool CanSave()
         {
             return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(SourcePath)
                 && (Directory.Exists(SourcePath) || File.Exists(SourcePath));
         }
 
-        private void Save()
+        protected override void Save()
         {
             try
             {
@@ -93,7 +80,7 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        private void Close()
+        protected override void Close()
         {
             Name = string.Empty;
             SourcePath = string.Empty;

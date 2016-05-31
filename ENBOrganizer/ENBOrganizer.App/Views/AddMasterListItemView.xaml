@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:views="clr-namespace:ENBOrganizer.App.Views"
              mc:Ignorable="d"
-             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MasterListItemDetailViewModel}">
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=AddMasterListItemViewModel}">
     <StackPanel Orientation="Vertical" Margin="10">
         <Label Content="Name" Padding="0" FontWeight="Medium" />
         <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" />

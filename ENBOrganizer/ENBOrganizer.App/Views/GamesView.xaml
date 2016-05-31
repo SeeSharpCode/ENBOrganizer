@@ -16,7 +16,7 @@
 
     <materialDesign:DialogHost IsOpen="{Binding IsAddDialogOpen, Mode=TwoWay}">
         <materialDesign:DialogHost.DialogContent>
-            <views:AddGameView />
+            <views:GameDetailView />
         </materialDesign:DialogHost.DialogContent>
 
         <DockPanel Margin="15">

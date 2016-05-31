@@ -92,9 +92,10 @@
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
     <Compile Include="ViewModels\AddBinaryViewModel.cs" />
+    <Compile Include="ViewModels\DialogViewModelBase.cs" />
     <Compile Include="ViewModels\GameDetailViewModel.cs" />
     <Compile Include="ViewModels\InputViewModel.cs" />
-    <Compile Include="ViewModels\MasterListItemDetailViewModel.cs" />
+    <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
     <Compile Include="ViewModels\BinariesViewModel.cs" />
     <Compile Include="ViewModels\AddPresetViewModel.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />

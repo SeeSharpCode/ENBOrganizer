@@ -3,11 +3,11 @@
 namespace ENBOrganizer.App.Views
 {
     /// <summary>
-    /// Interaction logic for ImportPresetView.xaml
+    /// Interaction logic for AddMasterListItemView.xaml
     /// </summary>
-    public partial class ImportPresetView : UserControl
+    public partial class AddMasterListItemView : UserControl
     {
-        public ImportPresetView()
+        public AddMasterListItemView()
         {
             InitializeComponent();
         }

@@ -5,9 +5,9 @@ namespace ENBOrganizer.App.Views
     /// <summary>
     /// Interaction logic for AddGameView.xaml
     /// </summary>
-    public partial class AddGameView : UserControl
+    public partial class GameDetailView : UserControl
     {
-        public AddGameView()
+        public GameDetailView()
         {
             InitializeComponent();
         }

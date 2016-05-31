@@ -3,11 +3,11 @@
 namespace ENBOrganizer.App.Views
 {
     /// <summary>
-    /// Interaction logic for ImportPresetView.xaml
+    /// Interaction logic for InputDialog.xaml
     /// </summary>
-    public partial class ImportPresetView : UserControl
+    public partial class InputView : UserControl
     {
-        public ImportPresetView()
+        public InputView()
         {
             InitializeComponent();
         }

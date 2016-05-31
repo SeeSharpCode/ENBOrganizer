@@ -92,8 +92,8 @@
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
     <Compile Include="ViewModels\AddBinaryViewModel.cs" />
-    <Compile Include="ViewModels\AddGameViewModel.cs" />
-    <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
+    <Compile Include="ViewModels\GameDetailViewModel.cs" />
+    <Compile Include="ViewModels\MasterListItemDetailViewModel.cs" />
     <Compile Include="ViewModels\BinariesViewModel.cs" />
     <Compile Include="ViewModels\AddPresetViewModel.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
@@ -106,11 +106,11 @@
     <Compile Include="Views\AddBinaryView.xaml.cs">
       <DependentUpon>AddBinaryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddGameView.xaml.cs">
-      <DependentUpon>AddGameView.xaml</DependentUpon>
+    <Compile Include="Views\GameDetailView.xaml.cs">
+      <DependentUpon>GameDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddMasterListItemView.xaml.cs">
-      <DependentUpon>AddMasterListItemView.xaml</DependentUpon>
+    <Compile Include="Views\MasterListItemDetailView.xaml.cs">
+      <DependentUpon>MasterListItemDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BinariesView.xaml.cs">
       <DependentUpon>BinariesView.xaml</DependentUpon>
@@ -129,11 +129,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddGameView.xaml">
+    <Page Include="Views\GameDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddMasterListItemView.xaml">
+    <Page Include="Views\MasterListItemDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

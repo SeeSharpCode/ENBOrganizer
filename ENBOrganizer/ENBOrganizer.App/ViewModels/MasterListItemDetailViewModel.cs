@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class AddMasterListItemViewModel : ViewModelBase
+    public class MasterListItemDetailViewModel : ViewModelBase
     {
         private readonly MasterListService _masterListService;
         private readonly DialogService _dialogService;
@@ -40,7 +40,7 @@ namespace ENBOrganizer.App.ViewModels
             get { return Enum.GetValues(typeof(MasterListItemType)).Cast<MasterListItemType>(); }
         }
         
-        public AddMasterListItemViewModel(MasterListService masterListService, DialogService dialogService)
+        public MasterListItemDetailViewModel(MasterListService masterListService, DialogService dialogService)
         {
             _masterListService = masterListService;
             _dialogService = dialogService;

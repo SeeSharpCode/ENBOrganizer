@@ -10,40 +10,57 @@ using System.Windows.Input;
 namespace ENBOrganizer.App.ViewModels
 {
     // TODO: fix editing games
-    public class AddGameViewModel : ViewModelBase
+    public class GameDetailViewModel : ViewModelBase
     {
         private readonly GameService _gameService;
         private readonly DialogService _dialogService;
-        
+        private Game _game;
+
         public ICommand BrowseCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        private Game _game;
+        private string _name;
 
-        public Game Game
+        public string Name
         {
-            get { return _game; }
-            set { Set(nameof(Game), ref _game, value); }
+            get { return _name; }
+            set { Set(nameof(Name), ref _name, value); }
         }
 
-        public AddGameViewModel(GameService gameService, PresetService presetService, DialogService dialogService)
+        private string _executablePath;
+
+        public string ExecutablePath
+        {
+            get { return _executablePath; }
+            set { Set(nameof(ExecutablePath), ref _executablePath, value); }
+        }
+        
+        public GameDetailViewModel(GameService gameService, PresetService presetService, DialogService dialogService)
         {
             _gameService = gameService;
             _dialogService = dialogService;
 
-            Game = new Game();
+            _game = new Game();
 
-            MessengerInstance.Register<Game>(this, game => Game = game);
+            MessengerInstance.Register<Game>(this, OnGameReceived);
 
             BrowseCommand = new RelayCommand(BrowseForGameFile);
             SaveCommand = new RelayCommand(Save, CanSave);
             CancelCommand = new RelayCommand(Close);
         }
 
+        private void OnGameReceived(Game game)
+        {
+            _game = game;
+
+            Name = game.Name;
+            ExecutablePath = game.ExecutablePath;
+        }
+
         private void Close()
         {
-            Game = new Game();
+            _game = new Game();
 
             _dialogService.CloseDialog(DialogName.AddGame);
         }
@@ -52,8 +69,11 @@ namespace ENBOrganizer.App.ViewModels
         {
             try
             {
-                if (string.IsNullOrEmpty(Game.ID))
-                    _gameService.Add(Game);
+                _game.Name = Name;
+                _game.ExecutablePath = ExecutablePath;
+
+                if (string.IsNullOrEmpty(_game.ID))
+                    _gameService.Add(_game);
                 else
                     _gameService.SaveChanges();
             }
@@ -69,7 +89,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private bool CanSave()
         {
-            return !string.IsNullOrWhiteSpace(Game.Name) && !string.IsNullOrWhiteSpace(Game.ExecutablePath) && File.Exists(Game.ExecutablePath);
+            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(ExecutablePath) && File.Exists(ExecutablePath);
         }
 
         private void BrowseForGameFile()
@@ -79,8 +99,8 @@ namespace ENBOrganizer.App.ViewModels
             if (string.IsNullOrWhiteSpace(gameFilePath))
                 return;
 
-            Game.Name = Path.GetFileNameWithoutExtension(gameFilePath);
-            Game.ExecutablePath = gameFilePath;
+            Name = Path.GetFileNameWithoutExtension(gameFilePath);
+            ExecutablePath = gameFilePath;
         }
     }
 }

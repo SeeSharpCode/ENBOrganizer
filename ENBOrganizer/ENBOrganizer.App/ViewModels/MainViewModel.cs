@@ -1,4 +1,4 @@
-﻿using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.App.Messages;
 using GalaSoft.MvvmLight;
 using System.Collections.Generic;
 
@@ -8,18 +8,34 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly ViewModelLocator _viewModelLocator;
         
-        public List<IPageViewModel> PageViewModels { get; set; } 
+        public List<IPageViewModel> PageViewModels { get; set; }
 
-        private IPageViewModel _selectedViewModel;
+        private IPageViewModel _currentPageViewModel;
 
-        public IPageViewModel SelectedViewModel
+        public IPageViewModel CurrentPageViewModel
         {
-            get { return _selectedViewModel; }
+            get { return _currentPageViewModel; }
             set
             {
-                Set(nameof(SelectedViewModel), ref _selectedViewModel, value);
+                Set(nameof(CurrentPageViewModel), ref _currentPageViewModel, value);
                 IsMenuToggleChecked = false;
             }
+        }
+
+        private bool _isDialogOpen;
+
+        public bool IsDialogOpen
+        {
+            get { return _isDialogOpen; }
+            set { Set(nameof(IsDialogOpen), ref _isDialogOpen, value); }
+        }
+
+        private DialogViewModelBase _currentDialogViewModel;
+
+        public DialogViewModelBase CurrentDialogViewModel
+        {
+            get { return _currentDialogViewModel; }
+            set { Set(nameof(CurrentDialogViewModel), ref _currentDialogViewModel, value); }
         }
         
         private bool _isMenuToggleChecked;
@@ -30,9 +46,9 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsMenuToggleChecked), ref _isMenuToggleChecked, value); }
         }
         
-        public MainViewModel(ViewModelLocator viewModelLocator)
+        public MainViewModel()
         {
-            _viewModelLocator = viewModelLocator;
+            _viewModelLocator = (ViewModelLocator)App.Current.Resources["ViewModelLocator"];
 
             PageViewModels = new List<IPageViewModel>()
             {
@@ -41,7 +57,16 @@ namespace ENBOrganizer.App.ViewModels
                 _viewModelLocator.MasterListViewModel
             };
 
-            SelectedViewModel = _viewModelLocator.GamesViewModel;
+            CurrentPageViewModel = _viewModelLocator.GamesViewModel;
+
+            MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
+        }
+
+        private void OnDialogMessage(DialogMessage message)
+        {
+            // TODO: switch on DialogName and set CurrentDialogViewModel accordingly
+            //CurrentDialogViewModel = message.DialogViewModel;
+            IsDialogOpen = message.DialogAction == DialogAction.Open;
         }
     }
 }

@@ -24,7 +24,11 @@
     <Window.Resources>
         <ResourceDictionary>
             <converters:PathToIconConverter x:Key="PathToIconConverter" />
-            
+
+            <!--<DataTemplate DataType="viewModels:GameDetailViewModel">
+                <views:GameDetailView />
+            </DataTemplate>-->
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
@@ -32,7 +36,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <materialDesign:DialogHost Identifier="RootDialog">
+    <materialDesign:DialogHost Identifier="RootDialog" DialogContent="{Binding CurrentDialogViewModel}" IsOpen="{Binding IsDialogOpen}">
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <DockPanel>
@@ -64,7 +68,7 @@
                                   DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="16"
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
                     <ListBox ItemsSource="{Binding PageViewModels, Mode=OneWay}" 
-                             SelectedItem="{Binding SelectedViewModel}" Margin="0 16 0 16" />
+                             SelectedItem="{Binding CurrentPageViewModel}" Margin="0 16 0 16" />
                 </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
 
@@ -107,7 +111,7 @@
                         </ComboBox>
                     </DockPanel>
                 </materialDesign:ColorZone>
-                <ContentControl Content="{Binding SelectedViewModel}" />
+                <ContentControl Content="{Binding CurrentPageViewModel}" />
             </DockPanel>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

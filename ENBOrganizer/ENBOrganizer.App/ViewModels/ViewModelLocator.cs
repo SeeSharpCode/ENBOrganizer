@@ -14,8 +14,6 @@ namespace ENBOrganizer.App.ViewModels
             SimpleIoc.Default.Register<MasterListService>();
             SimpleIoc.Default.Register<FileSystemService<Binary>>();
 
-            SimpleIoc.Default.Register<ViewModelLocator>();
-
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<GameDetailViewModel>();
             SimpleIoc.Default.Register<GamesViewModel>();

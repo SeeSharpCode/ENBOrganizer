@@ -11,7 +11,5 @@ namespace ENBOrganizer.App.ViewModels
             get { return _prompt; }
             set { Set(nameof(Prompt), ref _prompt, value); }
         }
-
-        
     }
 }

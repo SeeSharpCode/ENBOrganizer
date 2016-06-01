@@ -12,12 +12,13 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class GamesViewModel : PageViewModelBase<Game>
     {
-        protected override DialogName DialogName { get { return DialogName.AddGame; } }
+        protected override DialogName DialogName { get { return DialogName.GameDetail; } }
 
         public ICommand OpenDirectoryCommand { get; set; }
         public ICommand EditGameCommand { get; set; }
         public override string Name { get { return "Games"; } }
 
+        // TODO: this shouldn't be new
         public new Game CurrentGame
         {
             get { return Settings.Default.CurrentGame; }
@@ -37,18 +38,18 @@ namespace ENBOrganizer.App.ViewModels
             OpenDirectoryCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));
         }
 
-        protected new bool CanAdd()
+        protected override bool CanAdd()
         {
             return true;
         }
 
         private void EditGame(Game game)
         {
-            _dialogService.ShowDialog(DialogName.AddGame);
+            _dialogService.ShowDialog(DialogName.GameDetail);
             MessengerInstance.Send(game);
         }
 
-        private new void _dataService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
+        protected override void _dataService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
             Game game = repositoryChangedEventArgs.Entity as Game;
 

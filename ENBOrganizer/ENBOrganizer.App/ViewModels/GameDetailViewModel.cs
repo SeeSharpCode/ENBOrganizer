@@ -48,7 +48,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             _game = new Game();
 
-            _dialogService.CloseDialog(DialogName.AddGame);
+            _dialogService.CloseDialog(DialogName.GameDetail);
         }
 
         protected override void Save()

@@ -14,7 +14,7 @@ namespace ENBOrganizer.Domain.Services
             _presetService = presetService;
         }
 
-        public new List<Game> GetAll()
+        public override List<Game> GetAll()
         {
             List<Game> games = base.GetAll();
 
@@ -24,7 +24,7 @@ namespace ENBOrganizer.Domain.Services
             return games;
         }
         
-        public new void Add(Game game)
+        public override void Add(Game game)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public new void Delete(Game game)
+        public override void Delete(Game game)
         {
             _presetService.DeleteByGame(game);
 

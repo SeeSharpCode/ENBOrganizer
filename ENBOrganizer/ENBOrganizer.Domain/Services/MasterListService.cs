@@ -6,7 +6,7 @@ namespace ENBOrganizer.Domain.Services
 {
     public class MasterListService : DataService<MasterListItem>
     {
-        public new void Add(MasterListItem masterListItem)
+        public override void Add(MasterListItem masterListItem)
         {
             try
             {

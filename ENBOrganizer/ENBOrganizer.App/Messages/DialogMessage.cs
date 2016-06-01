@@ -2,7 +2,7 @@
 {
     public enum DialogName
     {
-        AddGame,
+        GameDetail,
         AddMasterListItem,
         AddBinary,
         AddPreset

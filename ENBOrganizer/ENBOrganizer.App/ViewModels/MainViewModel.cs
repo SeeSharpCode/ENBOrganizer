@@ -65,7 +65,19 @@ namespace ENBOrganizer.App.ViewModels
         private void OnDialogMessage(DialogMessage message)
         {
             // TODO: switch on DialogName and set CurrentDialogViewModel accordingly
-            //CurrentDialogViewModel = message.DialogViewModel;
+            switch (message.DialogName)
+            {
+                case DialogName.AddBinary:
+                    CurrentDialogViewModel = _viewModelLocator.AddBinaryViewModel;
+                    break;
+                case DialogName.GameDetail:
+                    CurrentDialogViewModel = _viewModelLocator.GameDetailViewModel;
+                    break;
+                case DialogName.AddMasterListItem:
+                    CurrentDialogViewModel = _viewModelLocator.AddMasterListItemViewModel;
+                    break;
+            }
+
             IsDialogOpen = message.DialogAction == DialogAction.Open;
         }
     }

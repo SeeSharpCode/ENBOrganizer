@@ -17,13 +17,13 @@ namespace ENBOrganizer.Domain.Services
             _repository = new Repository<TEntity>();
         }
 
-        public List<TEntity> GetAll()
+        public virtual List<TEntity> GetAll()
         {
             return _repository.Items;
         }
 
         /// <exception cref="DuplicateEntityException" />
-        public void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             _repository.Delete(entity);
 

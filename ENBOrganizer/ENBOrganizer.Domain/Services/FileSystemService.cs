@@ -45,7 +45,7 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public new void Delete(TEntity entity)
+        public override void Delete(TEntity entity)
         {
             entity.Directory.Delete(true);
 
@@ -95,28 +95,7 @@ namespace ENBOrganizer.Domain.Services
             try
             {
                 foreach (TEntity entity in GetByGame(currentGame))
-                {
                     Disable(entity);
-                }
-                //foreach (MasterListItem masterListItem in _masterListService.GetAll())
-                //{
-                //    string installedPath = Path.Combine(currentGame.DirectoryPath, masterListItem.Name);
-
-                //    if (masterListItem.Type == MasterListItemType.File)
-                //    {
-                //        FileInfo file = new FileInfo(installedPath);
-
-                //        if (file.Exists)
-                //            file.Delete();
-                //    }
-                //    else
-                //    {
-                //        DirectoryInfo directory = new DirectoryInfo(installedPath);
-
-                //        if (directory.Exists)
-                //            directory.Delete(true);
-                //    }
-                //}
             }
             catch (Exception)
             {

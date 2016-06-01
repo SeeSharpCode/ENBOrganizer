@@ -7,7 +7,6 @@ namespace ENBOrganizer.App.ViewModels
     {
         Game CurrentGame { get; }
         ICommand DeleteCommand { get; set; }
-        bool IsAddDialogOpen { get; set; }
         string Name { get; }
         ICommand OpenAddDialogCommand { get; set; }
     }

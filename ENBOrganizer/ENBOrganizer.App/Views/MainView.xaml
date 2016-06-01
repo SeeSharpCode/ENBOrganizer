@@ -25,9 +25,17 @@
         <ResourceDictionary>
             <converters:PathToIconConverter x:Key="PathToIconConverter" />
 
-            <!--<DataTemplate DataType="viewModels:GameDetailViewModel">
+            <DataTemplate DataType="viewModels:GameDetailViewModel">
                 <views:GameDetailView />
-            </DataTemplate>-->
+            </DataTemplate>
+
+            <DataTemplate DataType="viewModels:AddBinaryViewModel">
+                <views:AddBinaryView />
+            </DataTemplate>
+
+            <DataTemplate DataType="viewModels:AddMasterListItemViewModel">
+                <views:AddMasterListItemView />
+            </DataTemplate>
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />

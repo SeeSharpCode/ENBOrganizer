@@ -31,15 +31,7 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        private bool _isAddDialogOpen;
-
-        public bool IsAddDialogOpen
-        {
-            get { return _isAddDialogOpen; }
-            set { Set(nameof(IsAddDialogOpen), ref _isAddDialogOpen, value); }
-        }
-
-        public Game CurrentGame { get { return Settings.Default.CurrentGame; } }
+        public virtual Game CurrentGame { get { return Settings.Default.CurrentGame; } }
         public ICommand OpenAddDialogCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
 
@@ -53,12 +45,10 @@ namespace ENBOrganizer.App.ViewModels
             OpenAddDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName), CanAdd);
             DeleteCommand = new RelayCommand<TEntity>(entity => DataService.Delete(entity));
 
-            MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
-
             PopulateModels();
         }
 
-        protected bool CanAdd()
+        protected virtual bool CanAdd()
         {
             return CurrentGame != null;
         }
@@ -69,15 +59,7 @@ namespace ENBOrganizer.App.ViewModels
             Models.AddAll(DataService.GetAll().ToObservableCollection());
         }
 
-        private void OnDialogMessage(DialogMessage message)
-        {
-            if (message.DialogName != DialogName)
-                return;
-
-            IsAddDialogOpen = message.DialogAction == DialogAction.Open;
-        }
-
-        protected void _dataService_ItemsChanged(object sender, RepositoryChangedEventArgs eventArgs)
+        protected virtual void _dataService_ItemsChanged(object sender, RepositoryChangedEventArgs eventArgs)
         {
             TEntity entity = eventArgs.Entity as TEntity;
 

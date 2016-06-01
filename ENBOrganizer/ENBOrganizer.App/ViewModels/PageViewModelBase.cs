@@ -6,6 +6,7 @@ using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Ioc;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -35,6 +36,9 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand OpenAddDialogCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
 
+        public PageViewModelBase(DataService<TEntity> dataService)
+            : this(dataService, SimpleIoc.Default.GetInstance<DialogService>()) { }
+        
         public PageViewModelBase(DataService<TEntity> dataService, DialogService dialogService)
         {
             DataService = dataService;

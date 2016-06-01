@@ -26,7 +26,6 @@
                     <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
                 </Button>
 
-
                 <Button Content="DISABLE ALL" Command="{Binding DisableAllCommand, Mode=OneTime}"
                     Margin="10 0 0 0" HorizontalAlignment="Left" 
                     ToolTip="Delete all binary files from the current game folder" />

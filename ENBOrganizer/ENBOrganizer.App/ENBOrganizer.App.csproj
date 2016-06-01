@@ -93,6 +93,7 @@
     <Compile Include="Messages\DialogMessage.cs" />
     <Compile Include="ViewModels\AddBinaryViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModelBase.cs" />
+    <Compile Include="ViewModels\FileSystemViewModel.cs" />
     <Compile Include="ViewModels\GameDetailViewModel.cs" />
     <Compile Include="ViewModels\InputViewModel.cs" />
     <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PageViewModelBase.cs" />
-    <Compile Include="ViewModels\PresetsOverviewViewModel.cs" />
+    <Compile Include="ViewModels\PresetsViewModel.cs" />
     <Compile Include="ViewModels\PresetViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\AddBinaryView.xaml.cs">
@@ -127,8 +128,8 @@
     <Compile Include="Views\MasterListView.xaml.cs">
       <DependentUpon>MasterListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PresetsOverviewView.xaml.cs">
-      <DependentUpon>PresetsOverviewView.xaml</DependentUpon>
+    <Compile Include="Views\PresetsView.xaml.cs">
+      <DependentUpon>PresetsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AddBinaryView.xaml">
       <SubType>Designer</SubType>
@@ -179,7 +180,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PresetsOverviewView.xaml">
+    <Page Include="Views\PresetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

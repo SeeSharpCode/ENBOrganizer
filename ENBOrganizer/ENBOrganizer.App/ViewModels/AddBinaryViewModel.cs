@@ -12,7 +12,6 @@ namespace ENBOrganizer.App.ViewModels
     public class AddBinaryViewModel : DialogViewModelBase
     {
         private readonly FileSystemService<Binary> _binaryService;
-        private readonly DialogService _dialogService;
 
         private Game CurrentGame { get { return Settings.Default.CurrentGame; } }
 
@@ -27,10 +26,9 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(SourcePath), ref _sourcePath, value); }
         }
 
-        public AddBinaryViewModel(FileSystemService<Binary> binaryService, DialogService dialogService)
+        public AddBinaryViewModel(FileSystemService<Binary> binaryService)
         {
             _binaryService = binaryService;
-            _dialogService = dialogService;
 
             BrowseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
             BrowseForArchiveCommand = new RelayCommand(BrowseForArchive);

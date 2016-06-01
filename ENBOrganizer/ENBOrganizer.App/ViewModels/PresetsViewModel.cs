@@ -3,7 +3,6 @@ using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.ObjectModel;
@@ -13,15 +12,12 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class PresetsOverviewViewModel : ViewModelBase
+    public class PresetsViewModel : PageViewModelBase<Preset>
     {
+        protected new PresetService DataService { get { return (PresetService)base.DataService; } }
         private readonly PresetService _presetService;
-        private readonly DialogService _dialogService;
+        protected override DialogName DialogName { get { return DialogName.AddPreset; } }
         
-        private readonly ICommand _importDirectoryOrArchiveCommand;
-        private readonly ICommand _importActiveFilesCommand;
-        public ObservableCollection<PresetViewModel> PresetViewModels { get; set; }
-
         public Game CurrentGame { get { return Properties.Settings.Default.CurrentGame; } }
         public ICommand OpenAddPresetDialogCommand { get; set; }
         public ICommand DisableAllPresetsCommand { get; set; }
@@ -35,7 +31,7 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsAddPresetDialogOpen), ref _isAddPresetDialogOpen, value); }
         }
 
-        public PresetsOverviewViewModel(PresetService presetService, DialogService dialogService)
+        public PresetsViewModel(PresetService presetService, DialogService dialogService)
         {
             _presetService = presetService;
             _presetService.ItemsChanged += _presetService_ItemsChanged;
@@ -61,14 +57,11 @@ namespace ENBOrganizer.App.ViewModels
             IsAddPresetDialogOpen = message.DialogAction == DialogAction.Open;
         }
 
-        private void DisableAllPresets()
+        private void DisableAll()
         {
             try
             {
-                _presetService.DisableAll(CurrentGame);
-
-                foreach (PresetViewModel presetViewModel in PresetViewModels)
-                    presetViewModel.IsEnabled = false;
+                DataService.DisableAll(CurrentGame);
             }
             catch (Exception exception)
             {

@@ -1,26 +1,41 @@
-﻿<UserControl x:Class="ENBOrganizer.App.Views.PresetsOverviewView"
+﻿<UserControl x:Class="ENBOrganizer.App.Views.PresetsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:views="clr-namespace:ENBOrganizer.App.Views"
              mc:Ignorable="d"
-             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsOverviewViewModel}">
-    <UserControl.Resources>
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=PresetsViewModel}">
+    <!--<UserControl.Resources>
         <DataTemplate DataType="{x:Type viewModels:PresetViewModel}">
-            <!--<views:PresetView />-->
+            --><!--<views:PresetView />--><!--
         </DataTemplate>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
 
-    <Grid HorizontalAlignment="Left">
+    <DockPanel Margin="15">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <Button Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                    Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add new binaries">
+                <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+            </Button>
+
+            <Button Content="DISABLE ALL" Command="{Binding DisableAllCommand, Mode=OneTime}"
+                    Margin="10 0 0 0" HorizontalAlignment="Left" 
+                    ToolTip="Delete all binary files from the current game folder" />
+        </StackPanel>
+    </DockPanel>
+
+    <!--<Grid HorizontalAlignment="Left">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <!--<controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
+            --><!--<controls:DropDownButton Style="{StaticResource CircleDropDownButton}" Width="40" Height="40" Margin="0" 
                                  ItemsSource="{Binding TitledCommands, Mode=OneTime}" HorizontalAlignment="Left" ToolTip="Add a new preset">
                 <controls:DropDownButton.Icon>
                     <Viewbox Width="32" Height="32" Stretch="Uniform">
@@ -45,7 +60,7 @@
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_clean}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
-            </Button>-->
+            </Button>--><!--
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Width="{Binding ElementName=PresetsPanel, Path=ActualHeight}">
@@ -85,5 +100,5 @@
                 </Style>
             </ScrollViewer.Style>
         </ScrollViewer>
-    </Grid>
+    </Grid>-->
 </UserControl>

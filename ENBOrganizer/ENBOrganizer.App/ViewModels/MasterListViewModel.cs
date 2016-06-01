@@ -10,7 +10,7 @@ namespace ENBOrganizer.App.ViewModels
 
         public override string Name { get { return "Master List"; } }
         
-        public MasterListViewModel(MasterListService dataService, DialogService dialogService) 
-            : base(dataService, dialogService) { }
+        public MasterListViewModel(MasterListService dataService) 
+            : base(dataService) { }
     }
 }

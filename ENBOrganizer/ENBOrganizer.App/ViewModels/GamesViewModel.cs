@@ -30,8 +30,8 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
         
-        public GamesViewModel(GameService gameService, DialogService dialogService)
-            : base(gameService, dialogService)
+        public GamesViewModel(GameService gameService)
+            : base(gameService)
         {
             EditGameCommand = new RelayCommand<Game>(EditGame);
             OpenDirectoryCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));

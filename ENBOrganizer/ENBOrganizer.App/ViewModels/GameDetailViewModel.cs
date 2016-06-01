@@ -11,7 +11,6 @@ namespace ENBOrganizer.App.ViewModels
     public class GameDetailViewModel : DialogViewModelBase
     {
         private readonly GameService _gameService;
-        private readonly DialogService _dialogService;
         private Game _game;
 
         public ICommand BrowseCommand { get; set; }
@@ -24,10 +23,9 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(ExecutablePath), ref _executablePath, value); }
         }
         
-        public GameDetailViewModel(GameService gameService, PresetService presetService, DialogService dialogService)
+        public GameDetailViewModel(GameService gameService)
         {
             _gameService = gameService;
-            _dialogService = dialogService;
 
             _game = new Game();
 

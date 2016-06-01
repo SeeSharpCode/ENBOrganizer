@@ -5,9 +5,9 @@ namespace ENBOrganizer.App.Views
     /// <summary>
     /// Interaction logic for PresetsOverviewView.xaml
     /// </summary>
-    public partial class PresetsOverviewView : UserControl
+    public partial class PresetsView : UserControl
     {
-        public PresetsOverviewView()
+        public PresetsView()
         {
             InitializeComponent();
         }

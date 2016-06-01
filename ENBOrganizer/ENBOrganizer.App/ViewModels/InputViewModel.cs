@@ -4,8 +4,6 @@ namespace ENBOrganizer.App.ViewModels
 {
     public class InputViewModel : DialogViewModelBase
     {
-        private readonly DialogService _dialogService;
-
         private string _prompt;
 
         public string Prompt
@@ -20,11 +18,6 @@ namespace ENBOrganizer.App.ViewModels
         {
             get { return _input; }
             set { Set(nameof(Input), ref _input, value); }
-        }
-        
-        public InputViewModel(DialogService dialogService)
-        {
-            _dialogService = dialogService;
         }
 
         protected override void Save()

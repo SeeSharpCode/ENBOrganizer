@@ -38,7 +38,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void BrowseForDirectory()
         {
-            string directoryPath = _dialogService.PromptForFolder("Please select the binary folder...");
+            string directoryPath = _dialogService.ShowFolderBrowserDialog("Please select the binary folder...");
 
             if (string.IsNullOrWhiteSpace(directoryPath))
                 return;
@@ -49,7 +49,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void BrowseForArchive()
         {
-            string archivePath = _dialogService.PromptForFile("Please select an archive file", "ZIP Files(*.zip) | *.zip");
+            string archivePath = _dialogService.ShowOpenFileDialog("Please select an archive file", "ZIP Files(*.zip) | *.zip");
 
             if (string.IsNullOrWhiteSpace(archivePath))
                 return;

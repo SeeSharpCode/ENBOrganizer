@@ -1,17 +1,23 @@
 ﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.App.ViewModels;
+using ENBOrganizer.App.Views;
 using GalaSoft.MvvmLight.Messaging;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ENBOrganizer.App
 {
     public class DialogService
     {
-        public void ShowYesOrNoDialog(string title, string message)
+        private readonly ViewModelLocator _viewModelLocator;
+
+        public DialogService()
         {
-            throw new NotImplementedException();
+            _viewModelLocator = (ViewModelLocator)App.Current.Resources["ViewModelLocator"];
         }
 
         public void ShowErrorDialog(string message)
@@ -19,7 +25,7 @@ namespace ENBOrganizer.App
             throw new NotImplementedException();
         }
 
-        public string PromptForFile(string title, string filter)
+        public string ShowOpenFileDialog(string title, string filter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -30,7 +36,7 @@ namespace ENBOrganizer.App
             return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : string.Empty;
         }
 
-        public List<string> PromptForFiles(string title, string filter)
+        public List<string> ShowOpenFilesDialog(string title, string filter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -42,7 +48,7 @@ namespace ENBOrganizer.App
             return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileNames.ToList() : new List<string>();
         }
 
-        public string PromptForFolder(string title)
+        public string ShowFolderBrowserDialog(string title)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog { Description = title };
 
@@ -57,6 +63,28 @@ namespace ENBOrganizer.App
         public void CloseDialog(DialogName dialogName)
         {
             Messenger.Default.Send(new DialogMessage(dialogName, DialogAction.Close));
+        }
+
+        public async Task<object> ShowInputDialog(string prompt, string hostName)
+        {
+            _viewModelLocator.InputViewModel.Prompt = prompt;
+
+            InputView inputDialog = new InputView
+            {
+                DataContext = _viewModelLocator.InputViewModel
+            };
+
+            try
+            {
+                object input = await DialogHost.Show(inputDialog, hostName);
+
+                return input;
+            }
+            catch (Exception exception)
+            {
+
+                throw;
+            }
         }
     }
 }

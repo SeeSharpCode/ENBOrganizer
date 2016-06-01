@@ -25,15 +25,15 @@
         <ResourceDictionary>
             <converters:PathToIconConverter x:Key="PathToIconConverter" />
 
-            <DataTemplate DataType="viewModels:GameDetailViewModel">
+            <DataTemplate DataType="{x:Type viewModels:GameDetailViewModel}">
                 <views:GameDetailView />
             </DataTemplate>
 
-            <DataTemplate DataType="viewModels:AddBinaryViewModel">
+            <DataTemplate DataType="{x:Type viewModels:AddBinaryViewModel}">
                 <views:AddBinaryView />
             </DataTemplate>
 
-            <DataTemplate DataType="viewModels:AddMasterListItemViewModel">
+            <DataTemplate DataType="{x:Type viewModels:AddMasterListItemViewModel}">
                 <views:AddMasterListItemView />
             </DataTemplate>
 

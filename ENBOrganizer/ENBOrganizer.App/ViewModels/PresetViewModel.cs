@@ -127,7 +127,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void ChangeImage()
         {
-            string imageSource = _dialogService.PromptForFile("Select an image", "All Files (*.*)|*.*");
+            string imageSource = _dialogService.ShowOpenFileDialog("Select an image", "All Files (*.*)|*.*");
 
             if (string.IsNullOrWhiteSpace(imageSource))
                 return;

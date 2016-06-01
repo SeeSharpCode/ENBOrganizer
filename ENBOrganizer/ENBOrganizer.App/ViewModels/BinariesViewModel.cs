@@ -18,6 +18,7 @@ namespace ENBOrganizer.App.ViewModels
         protected override DialogName DialogName { get { return DialogName.AddBinary; } }
 
         public ICommand ViewFilesCommand { get; set; }
+        public ICommand RenameCommand { get; set; }
         public ICommand ChangeBinaryStateCommand { get; set; }
         public ICommand DisableAllCommand { get; set; }
         
@@ -29,8 +30,20 @@ namespace ENBOrganizer.App.ViewModels
             ViewFilesCommand = new RelayCommand<Binary>(binary => Process.Start(binary.Directory.FullName));
             ChangeBinaryStateCommand = new RelayCommand<Binary>(OnBinaryStateChanged);
             DisableAllCommand = new RelayCommand(DisableAll);
+            RenameCommand = new RelayCommand<Binary>(Rename);
 
             Settings.Default.PropertyChanged += Default_PropertyChanged;
+        }
+
+        private async void Rename(Binary binary)
+        {
+            string newName = (string)await _dialogService.ShowInputDialog("Name", "RenameBinaryDialog");
+
+            if (string.IsNullOrWhiteSpace(newName))
+                return;
+
+            binary.Name = newName;
+            DataService.SaveChanges();
         }
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
@@ -50,8 +63,7 @@ namespace ENBOrganizer.App.ViewModels
                 _dialogService.ShowErrorDialog(exception.Message);
             }
         }
-
-        // TODO: this code is repeated
+        
         protected override void PopulateModels()
         {
             Models.Clear();

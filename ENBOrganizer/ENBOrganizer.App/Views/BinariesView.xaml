@@ -17,11 +17,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DockPanel Margin="15">
-        <materialDesign:DialogHost IsOpen="{Binding IsAddDialogOpen, Mode=TwoWay}" DockPanel.Dock="Top">
-            <materialDesign:DialogHost.DialogContent>
-                <views:AddBinaryView />
-            </materialDesign:DialogHost.DialogContent>
+    <materialDesign:DialogHost Identifier="RenameBinaryDialog">
+        <DockPanel Margin="15">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                 <Button Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
@@ -29,34 +26,42 @@
                     <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
                 </Button>
 
-                <Button Content="DISABLE ALL" Command="{Binding DisableAllCommand, Mode=OneTime}"
-                        Margin="10 0 0 0" HorizontalAlignment="Left" ToolTip="Delete all binary files from the current game folder" />
-            </StackPanel>
-        </materialDesign:DialogHost>
 
-        <ScrollViewer Width="Auto" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Models}" Margin="0 10 0 0" HorizontalAlignment="Left">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type entities:Binary}">
-                        <Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
-                            <DockPanel>
-                                <ToggleButton DockPanel.Dock="Left" VerticalAlignment="Center" 
+                <Button Content="DISABLE ALL" Command="{Binding DisableAllCommand, Mode=OneTime}"
+                    Margin="10 0 0 0" HorizontalAlignment="Left" 
+                    ToolTip="Delete all binary files from the current game folder" />
+            </StackPanel>
+
+            <ScrollViewer Width="Auto" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Models}" Margin="0 10 0 0" HorizontalAlignment="Left">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type entities:Binary}">
+                            <Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
+                                <DockPanel>
+                                    <ToggleButton DockPanel.Dock="Left" VerticalAlignment="Center" 
                                                   Command="{Binding ElementName=RootElement, Path=DataContext.ChangeBinaryStateCommand}"
                                                   CommandParameter="{Binding}" IsChecked="{Binding IsEnabled, Mode=OneWay}" />
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" DockPanel.Dock="Left" Margin="5 0 0 0" TextWrapping="Wrap" Width="200" />
-                                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">
-                                    <StackPanel>
-                                        <Button Content="View Files" Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 
-                                                    CommandParameter="{Binding}" />
-                                        <Button Content="Delete" Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" 
-                                                    CommandParameter="{Binding}" />
-                                    </StackPanel>
-                                </materialDesign:PopupBox>
-                            </DockPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </DockPanel>
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" DockPanel.Dock="Left"
+                                           Margin="5 0 0 0" TextWrapping="Wrap" Width="200" />
+                                    <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">
+                                        <StackPanel>
+                                            <Button Content="Rename" 
+                                                Command="{Binding ElementName=RootElement, Path=DataContext.RenameCommand, Mode=OneTime}" 
+                                                CommandParameter="{Binding}" />
+                                            <Button Content="View Files" 
+                                                Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 
+                                                CommandParameter="{Binding}" />
+                                            <Button Content="Delete" 
+                                                Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" 
+                                                CommandParameter="{Binding}" />
+                                        </StackPanel>
+                                    </materialDesign:PopupBox>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+    </materialDesign:DialogHost>
 </UserControl>

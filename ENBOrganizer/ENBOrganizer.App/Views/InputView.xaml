@@ -6,8 +6,11 @@
              xmlns:local="clr-namespace:ENBOrganizer.App.Views"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=InputViewModel}">
-    <StackPanel>
-        <Label Content="{Binding Prompt}" />
-        <TextBox MinWidth="150" MaxWidth="400" TextWrapping="Wrap" />
+    <StackPanel Margin="15">
+        <Label Content="{Binding Prompt, Mode=OneWay}" />
+        <TextBox Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 MinWidth="150" MaxWidth="400" TextWrapping="Wrap" />
+        <Button Content="OK" Command="{Binding SaveCommand, Mode=OneTime}"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 5 0 0" />
     </StackPanel>
 </UserControl>

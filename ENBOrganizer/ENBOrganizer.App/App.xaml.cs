@@ -4,7 +4,6 @@ using System.Windows;
 namespace ENBOrganizer.App
 {
     // TODO: Remove exception handling when it's just catching Exception and displaying a message. This could be done globally.
-    // TODO: use FileSystemInfos where possible instead of concrete types
     // TODO: better exception dialog in here
     public partial class App : Application
     {

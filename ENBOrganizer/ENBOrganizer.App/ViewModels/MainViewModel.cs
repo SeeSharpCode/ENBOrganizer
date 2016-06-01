@@ -64,7 +64,6 @@ namespace ENBOrganizer.App.ViewModels
 
         private void OnDialogMessage(DialogMessage message)
         {
-            // TODO: switch on DialogName and set CurrentDialogViewModel accordingly
             switch (message.DialogName)
             {
                 case DialogName.AddBinary:

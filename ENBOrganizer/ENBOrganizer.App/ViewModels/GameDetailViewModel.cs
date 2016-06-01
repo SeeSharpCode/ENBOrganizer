@@ -58,7 +58,7 @@ namespace ENBOrganizer.App.ViewModels
                 _game.Name = Name;
                 _game.ExecutablePath = ExecutablePath;
 
-                if (string.IsNullOrEmpty(_game.ID))
+                if (string.IsNullOrWhiteSpace(_game.ID))
                     _gameService.Add(_game);
                 else
                     _gameService.SaveChanges();
@@ -80,7 +80,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void BrowseForGameFile()
         {
-            string gameFilePath = _dialogService.PromptForFile("Select the game's .exe file", "EXE Files (*.exe)|*.exe");
+            string gameFilePath = _dialogService.ShowOpenFileDialog("Select the game's .exe file", "EXE Files (*.exe)|*.exe");
 
             if (string.IsNullOrWhiteSpace(gameFilePath))
                 return;

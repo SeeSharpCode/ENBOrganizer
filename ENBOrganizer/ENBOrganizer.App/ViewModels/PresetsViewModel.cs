@@ -12,7 +12,6 @@ namespace ENBOrganizer.App.ViewModels
         protected new PresetService DataService { get { return (PresetService)base.DataService; } }
         protected override DialogName DialogName { get { return DialogName.AddPreset; } }
         
-        public override string Name { get { return "Presets"; } }
         public ICommand ImportActiveFilesCommand { get; set; }
 
         public PresetsViewModel(PresetService presetService)

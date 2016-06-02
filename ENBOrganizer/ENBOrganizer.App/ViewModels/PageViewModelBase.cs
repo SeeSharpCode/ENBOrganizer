@@ -17,7 +17,6 @@ namespace ENBOrganizer.App.ViewModels
         protected virtual DataService<TEntity> DataService { get; set; }
         protected readonly DialogService _dialogService;
         protected abstract DialogName DialogName { get; }
-        public abstract string Name { get; }
 
         private ObservableCollection<TEntity> _models;
 

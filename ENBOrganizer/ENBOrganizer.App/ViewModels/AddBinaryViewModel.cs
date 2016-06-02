@@ -1,5 +1,4 @@
 ﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.App.Properties;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -12,9 +11,7 @@ namespace ENBOrganizer.App.ViewModels
     public class AddBinaryViewModel : DialogViewModelBase
     {
         private readonly FileSystemService<Binary> _binaryService;
-
-        private Game CurrentGame { get { return Settings.Default.CurrentGame; } }
-
+        
         public ICommand BrowseForDirectoryCommand { get; set; }
         public ICommand BrowseForArchiveCommand { get; set; }
 

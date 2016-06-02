@@ -7,8 +7,6 @@ namespace ENBOrganizer.App.ViewModels
     public class BinariesViewModel : FileSystemViewModel<Binary>
     {
         protected override DialogName DialogName { get { return DialogName.AddBinary; } }
-        
-        public override string Name { get { return "Binaries"; } }
 
         public BinariesViewModel(FileSystemService<Binary> binaryService)
             : base(binaryService) { }

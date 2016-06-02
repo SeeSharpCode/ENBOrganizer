@@ -25,7 +25,9 @@
 
         <Label Content="Binary" />
         <ComboBox SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                  IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" DisplayMemberPath="Name">
+                  SelectedIndex="0"
+                  IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" 
+                  DisplayMemberPath="Name" Width="150">
             <ComboBox.Resources>
                 <CollectionViewSource x:Key="BinariesDataSource" Source="{Binding Binaries}" />
             </ComboBox.Resources>

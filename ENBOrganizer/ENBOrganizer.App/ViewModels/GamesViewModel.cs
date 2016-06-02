@@ -16,7 +16,6 @@ namespace ENBOrganizer.App.ViewModels
 
         public ICommand OpenDirectoryCommand { get; set; }
         public ICommand EditGameCommand { get; set; }
-        public override string Name { get { return "Games"; } }
         
         public new Game CurrentGame
         {

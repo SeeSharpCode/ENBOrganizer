@@ -5,9 +5,9 @@ namespace ENBOrganizer.App.Views
     /// <summary>
     /// Interaction logic for ImportPresetView.xaml
     /// </summary>
-    public partial class ImportPresetView : UserControl
+    public partial class AddPresetView : UserControl
     {
-        public ImportPresetView()
+        public AddPresetView()
         {
             InitializeComponent();
         }

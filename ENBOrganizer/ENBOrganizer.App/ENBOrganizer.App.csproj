@@ -104,7 +104,6 @@
     <Compile Include="ViewModels\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PageViewModelBase.cs" />
     <Compile Include="ViewModels\PresetsViewModel.cs" />
-    <Compile Include="ViewModels\PresetViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\AddBinaryView.xaml.cs">
       <DependentUpon>AddBinaryView.xaml</DependentUpon>

@@ -33,6 +33,10 @@
                 <views:AddBinaryView />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModels:AddPresetViewModel}">
+                <views:AddPresetView />
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModels:AddMasterListItemViewModel}">
                 <views:AddMasterListItemView />
             </DataTemplate>
@@ -63,6 +67,13 @@
                                 <TextBlock Text="Binaries" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:PresetsViewModel}">
+                            <StackPanel Orientation="Horizontal" Margin="32 0 32 0">
+                                <materialDesign:PackIcon Kind="PineTreeBox" Width="24" Height="24" 
+                                                         VerticalAlignment="Center" Margin="0 0 5 0" />
+                                <TextBlock Text="Presets" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
                         <DataTemplate DataType="{x:Type viewModels:MasterListViewModel}">
                             <StackPanel Orientation="Horizontal" Margin="32 0 32 0">
                                 <materialDesign:PackIcon Kind="FormatListBulleted" Width="24" Height="24" 
@@ -85,11 +96,14 @@
                     <DataTemplate DataType="{x:Type viewModels:GamesViewModel}">
                         <views:GamesView />
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:MasterListViewModel}">
-                        <views:MasterListView />
-                    </DataTemplate>
                     <DataTemplate DataType="{x:Type viewModels:BinariesViewModel}">
                         <views:BinariesView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:PresetsViewModel}">
+                        <views:PresetsView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:MasterListViewModel}">
+                        <views:MasterListView />
                     </DataTemplate>
                 </DockPanel.Resources>
                 <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"

@@ -54,7 +54,8 @@ namespace ENBOrganizer.App.ViewModels
             {
                 _viewModelLocator.GamesViewModel,
                 _viewModelLocator.BinariesViewModel,
-                _viewModelLocator.MasterListViewModel
+                _viewModelLocator.PresetsViewModel,
+                _viewModelLocator.MasterListViewModel,
             };
 
             CurrentPageViewModel = _viewModelLocator.GamesViewModel;

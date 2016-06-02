@@ -38,7 +38,7 @@
                             <Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
                                 <DockPanel>
                                     <ToggleButton DockPanel.Dock="Left" VerticalAlignment="Center" 
-                                                  Command="{Binding ElementName=RootElement, Path=DataContext.ChangeBinaryStateCommand}"
+                                                  Command="{Binding ElementName=RootElement, Path=DataContext.ChangeStateCommand}"
                                                   CommandParameter="{Binding}" IsChecked="{Binding IsEnabled, Mode=OneWay}" />
                                     <TextBlock Text="{Binding Name}" VerticalAlignment="Center" DockPanel.Dock="Left"
                                            Margin="5 0 0 0" TextWrapping="Wrap" Width="200" />

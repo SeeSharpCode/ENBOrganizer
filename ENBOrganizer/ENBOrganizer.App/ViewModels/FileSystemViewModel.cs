@@ -61,9 +61,6 @@ namespace ENBOrganizer.App.ViewModels
         {
             string newName = (string)await _dialogService.ShowInputDialog("Name", "RenameBinaryDialog");
 
-            if (string.IsNullOrWhiteSpace(newName))
-                return;
-
             binary.Name = newName;
             DataService.SaveChanges();
         }

@@ -4,7 +4,7 @@ using ENBOrganizer.Domain.Services;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public class BinariesViewModel : PageViewModelBase<Binary>
+    public class BinariesViewModel : FileSystemViewModel<Binary>
     {
         protected override DialogName DialogName { get { return DialogName.AddBinary; } }
         

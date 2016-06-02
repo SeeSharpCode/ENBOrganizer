@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace ENBOrganizer.App.Converters
 {
-    public class PathToBitmapConverter : IValueConverter
+    public class PathToImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -16,13 +16,13 @@ namespace ENBOrganizer.App.Converters
                 string imagePath = value?.ToString();
 
                 if (string.IsNullOrWhiteSpace(imagePath) || !File.Exists(imagePath))
-                    return App.Current.FindResource("AccentColorBrush");
+                    return null;
 
                 return new ImageBrush(new BitmapImage(new Uri(imagePath)) { CacheOption = BitmapCacheOption.OnLoad }) { Stretch = Stretch.UniformToFill };
             }
             catch (Exception)
             {
-                return App.Current.FindResource("AccentColorBrush");
+                return null;
             }
         }
 

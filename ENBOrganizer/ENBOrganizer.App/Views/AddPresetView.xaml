@@ -10,23 +10,31 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=AddPresetViewModel}">
     <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Left">
         <Label Content="Name" />
-        <TextBox Text="{Binding Name, Mode=TwoWay}" Width="150" TextWrapping="Wrap" HorizontalAlignment="Left" />
+        <TextBox Text="{Binding Name, Mode=TwoWay}" Width="300" TextWrapping="Wrap" HorizontalAlignment="Left" />
 
         <Label Content="Source Folder or Archive" />
         <StackPanel Orientation="Horizontal">
-            <TextBox Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" TextWrapping="Wrap" />
-            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Grid.Row="3" Grid.Column="1">
+            <TextBox Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Width="300" TextWrapping="Wrap" />
+            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" >
                 <StackPanel>
-                    <Button Content="Browse for Folder" Command="{Binding BrowseForDirectoryCommand, Mode=OneTime}" />
-                    <Button Content="Browse for Archive" Command="{Binding BrowseForArchiveCommand, Mode=OneTime}" />
+                    <Button Content="Browse for Folder" 
+                            Command="{Binding BrowseForDirectoryCommand, Mode=OneTime}" />
+                    <Button Content="Browse for Archive" 
+                            Command="{Binding BrowseForArchiveCommand, Mode=OneTime}" />
                 </StackPanel>
             </materialDesign:PopupBox>
         </StackPanel>
 
+        <Label Content="Description" />
+        <TextBox Text="{Binding Description, Mode=TwoWay}" 
+                 materialDesign:TextFieldAssist.Hint="e.g. a bleak and somber ENB"
+                 Width="300" TextWrapping="Wrap" HorizontalAlignment="Left" />
+
         <Label Content="Binary" />
         <ComboBox SelectedItem="{Binding Binary, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
                   IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" 
-                  DisplayMemberPath="Name" Width="150">
+                  DisplayMemberPath="Name">
             <ComboBox.Resources>
                 <CollectionViewSource x:Key="BinariesDataSource" Source="{Binding Binaries}" />
             </ComboBox.Resources>
@@ -38,10 +46,11 @@
             </ComboBox.ItemsSource>
         </ComboBox>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
             <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" 
                     Style="{StaticResource MaterialDesignFlatButton}" />
-            <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}" Style="{StaticResource MaterialDesignFlatButton}" />
+            <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}"
+                    Style="{StaticResource MaterialDesignFlatButton}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -7,9 +7,9 @@
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=AddMasterListItemViewModel}">
     <StackPanel Orientation="Vertical" Margin="10">
-        <Label Content="Name" Padding="0" FontWeight="Medium" />
+        <Label Content="Name" FontWeight="Medium" />
         <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" />
-        <Label Content="Type" FontWeight="Medium" Padding="0" Margin="0 10 0 0"/>
+        <Label Content="Type" FontWeight="Medium" Margin="0 10 0 0"/>
         <ComboBox ItemsSource="{Binding MasterListItemTypes, Mode=OneTime}" 
                   SelectedItem="{Binding SelectedMasterListItemType}" IsSynchronizedWithCurrentItem="True" />
 

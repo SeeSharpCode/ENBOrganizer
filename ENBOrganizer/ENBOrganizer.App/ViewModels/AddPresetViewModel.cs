@@ -24,6 +24,14 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(SourcePath), ref _sourcePath, value.Trim()); }
         }
 
+        private string _description;
+
+        public string Description
+        {
+            get { return _description; }
+            set { _description = value; }
+        }
+
         public Binary Binary { get; set; }
         public ObservableCollection<Binary> Binaries { get; set; }
         public ICommand BrowseForDirectoryCommand { get; set; }

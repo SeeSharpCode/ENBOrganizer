@@ -8,6 +8,7 @@ namespace ENBOrganizer.App.Converters
 {
     public class PathToIconConverter : IValueConverter
     {
+        // TODO: file may not exist
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string executableName = value.ToString();

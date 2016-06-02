@@ -13,6 +13,14 @@
             <converters:PathToImageConverter x:Key="PathToImageConverter" />
             <viewModels:ViewModelLocator x:Key="ViewModelLocator" />
 
+            <Style TargetType="RowDefinition">
+                <Setter Property="Height" Value="Auto" />
+            </Style>
+
+            <Style TargetType="ColumnDefinition">
+                <Setter Property="Width" Value="Auto" />
+            </Style>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />

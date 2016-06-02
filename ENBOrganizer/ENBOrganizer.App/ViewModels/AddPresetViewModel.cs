@@ -67,7 +67,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             try
             {
-                Preset preset = new Preset(Name, CurrentGame);
+                Preset preset = new Preset(Name, CurrentGame) { Description = Description };
 
                 // Detect whether the user has selected the default value in the ComboBox.
                 if (Binary.Name != "-- None --" && Binary.Game != null)

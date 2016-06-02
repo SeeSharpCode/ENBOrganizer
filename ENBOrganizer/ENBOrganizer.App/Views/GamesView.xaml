@@ -30,7 +30,7 @@
                                 <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
                                                Width="32" Height="32" DockPanel.Dock="Left" />
                                 <StackPanel Margin="8 0 0 0" DockPanel.Dock="Left">
-                                    <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                                    <TextBlock Text="{Binding Name}" FontWeight="Medium" />
                                     <TextBlock Text="{Binding ExecutablePath}" TextWrapping="Wrap" Width="450" />
                                 </StackPanel>
                                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">

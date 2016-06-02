@@ -27,7 +27,7 @@
         </StackPanel>
 
         <Label Content="Description" />
-        <TextBox Text="{Binding Description, Mode=TwoWay}" 
+        <TextBox Text="{Binding Description, Mode=OneWayToSource}" 
                  materialDesign:TextFieldAssist.Hint="e.g. a bleak and somber ENB"
                  Width="300" TextWrapping="Wrap" HorizontalAlignment="Left" />
 

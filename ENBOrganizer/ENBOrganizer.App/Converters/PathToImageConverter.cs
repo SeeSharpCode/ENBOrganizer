@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,9 +13,6 @@ namespace ENBOrganizer.App.Converters
             try
             {
                 string imagePath = value?.ToString();
-
-                if (string.IsNullOrWhiteSpace(imagePath) || !File.Exists(imagePath))
-                    return null;
 
                 return new ImageBrush(new BitmapImage(new Uri(imagePath)) { CacheOption = BitmapCacheOption.OnLoad }) { Stretch = Stretch.UniformToFill };
             }

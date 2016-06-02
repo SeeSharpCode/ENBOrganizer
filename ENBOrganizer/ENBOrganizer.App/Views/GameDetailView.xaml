@@ -7,12 +7,6 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=GameDetailViewModel, Mode=OneTime}">
     <StackPanel Orientation="Vertical" Margin="10">
         <Grid Margin="10">
-            <Grid.Resources>
-                <Style TargetType="RowDefinition">
-                    <Setter Property="Height" Value="Auto" />
-                </Style>
-            </Grid.Resources>
-
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />

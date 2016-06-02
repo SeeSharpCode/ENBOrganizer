@@ -2,6 +2,7 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
+using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ namespace ENBOrganizer.App.ViewModels
     public abstract class FileSystemViewModel<TEntity> : PageViewModelBase<TEntity> where TEntity : FileSystemEntity
     {
         protected new FileSystemService<TEntity> DataService { get { return (FileSystemService<TEntity>)base.DataService; } }
+        protected abstract string DialogHostName { get; }
 
         public ICommand ViewFilesCommand { get; set; }
         public ICommand ChangeStateCommand { get; set; }
@@ -25,7 +27,7 @@ namespace ENBOrganizer.App.ViewModels
             ViewFilesCommand = new RelayCommand<TEntity>(entity => Process.Start(entity.Directory.FullName));
             ChangeStateCommand = new RelayCommand<TEntity>(OnStateChanged);
             DisableAllCommand = new RelayCommand(DisableAll);
-            RenameCommand = new RelayCommand<Binary>(Rename);
+            RenameCommand = new RelayCommand<TEntity>(Rename);
 
             Settings.Default.PropertyChanged += Default_PropertyChanged;
         }
@@ -57,12 +59,18 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        private async void Rename(Binary binary)
+        private async void Rename(TEntity entity)
         {
-            string newName = (string)await _dialogService.ShowInputDialog("Name", "RenameBinaryDialog");
+            try
+            {
+                string newName = (string)await _dialogService.ShowInputDialog("Name", DialogHostName);
 
-            binary.Name = newName;
-            DataService.SaveChanges();
+                DataService.Rename(entity, newName);
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)

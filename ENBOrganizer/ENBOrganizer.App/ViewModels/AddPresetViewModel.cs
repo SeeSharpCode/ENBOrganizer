@@ -73,11 +73,16 @@ namespace ENBOrganizer.App.ViewModels
             }
             finally
             {
-                Name = string.Empty;
-                SourcePath = string.Empty;
-
                 Close();
             }
+        }
+
+        protected override void Close()
+        {
+            Name = string.Empty;
+            SourcePath = string.Empty;
+
+            _dialogService.CloseDialog(DialogName.AddPreset);
         }
 
         private void BrowseForDirectory()
@@ -100,14 +105,6 @@ namespace ENBOrganizer.App.ViewModels
 
             SourcePath = archivePath;
             Name = Path.GetFileNameWithoutExtension(SourcePath);
-        }
-
-        protected override void Close()
-        {
-            Name = string.Empty;
-            SourcePath = string.Empty;
-
-            _dialogService.CloseDialog(DialogName.AddPreset);
         }
     }
 }

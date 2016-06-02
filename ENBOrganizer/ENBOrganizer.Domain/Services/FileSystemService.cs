@@ -115,5 +115,19 @@ namespace ENBOrganizer.Domain.Services
             foreach (TEntity entity in entities)
                 Delete(entity);
         }
+
+        public void Rename(TEntity entity, string newName)
+        {
+            try
+            {
+                entity.Directory.Rename(newName);
+                entity.Name = newName;
+                SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

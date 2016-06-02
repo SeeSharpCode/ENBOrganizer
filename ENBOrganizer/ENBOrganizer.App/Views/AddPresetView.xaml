@@ -7,7 +7,7 @@
              xmlns:views="clr-namespace:ENBOrganizer.App.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ImportPresetViewModel}">
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=AddPresetViewModel}">
     <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Left">
         <Label Content="Name" />
         <TextBox Text="{Binding Name, Mode=TwoWay}" Width="150" TextWrapping="Wrap" HorizontalAlignment="Left" />
@@ -24,8 +24,7 @@
         </StackPanel>
 
         <Label Content="Binary" />
-        <ComboBox SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                  SelectedIndex="0"
+        <ComboBox SelectedItem="{Binding Binary, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
                   IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" 
                   DisplayMemberPath="Name" Width="150">
             <ComboBox.Resources>

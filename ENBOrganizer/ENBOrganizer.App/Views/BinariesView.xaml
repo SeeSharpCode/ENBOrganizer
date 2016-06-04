@@ -27,6 +27,7 @@
                 </Button>
 
                 <Button Content="DISABLE ALL" Command="{Binding DisableAllCommand, Mode=OneTime}"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
                     Margin="10 0 0 0" HorizontalAlignment="Left" 
                     ToolTip="Delete all binary files from the current game folder" />
             </StackPanel>

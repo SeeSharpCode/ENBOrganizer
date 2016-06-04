@@ -25,10 +25,15 @@ namespace ENBOrganizer.App.ViewModels
         {
             ViewFilesCommand = new RelayCommand<TEntity>(entity => Process.Start(entity.Directory.FullName));
             ChangeStateCommand = new RelayCommand<TEntity>(OnStateChanged);
-            DisableAllCommand = new RelayCommand(DisableAll);
+            DisableAllCommand = new RelayCommand(DisableAll, CanDisable);
             EditCommand = new RelayCommand<TEntity>(Edit);
 
             Settings.Default.PropertyChanged += Default_PropertyChanged;
+        }
+
+        private bool CanDisable()
+        {
+            return Models.Any();
         }
 
         protected abstract void Edit(TEntity entity);
@@ -59,9 +64,7 @@ namespace ENBOrganizer.App.ViewModels
                 _dialogService.ShowErrorDialog(exception.Message);
             }
         }
-
         
-
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
         {
             if (eventArgs.PropertyName == "CurrentGame")

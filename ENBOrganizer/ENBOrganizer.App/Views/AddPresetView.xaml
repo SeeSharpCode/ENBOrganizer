@@ -16,14 +16,31 @@
         <StackPanel Orientation="Horizontal">
             <TextBox Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Width="300" TextWrapping="Wrap" />
-            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" >
-                <StackPanel>
-                    <Button Content="Browse for Folder" 
-                            Command="{Binding BrowseForDirectoryCommand, Mode=OneTime}" />
-                    <Button Content="Browse for Archive" 
-                            Command="{Binding BrowseForArchiveCommand, Mode=OneTime}" />
-                </StackPanel>
-            </materialDesign:PopupBox>
+
+            <Button Name="BrowseButton" Content="BROWSE" HorizontalAlignment="Left" 
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Click="BrowseButton_Click" Grid.Row="3" Grid.Column="1" />
+
+            <Popup Name="AddPopup" StaysOpen="False" 
+                   Placement="Bottom" PlacementTarget="{Binding ElementName=BrowseButton}"
+                   Grid.Row="3" Grid.Column="1" >
+                <Border Padding="10" BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="1" 
+                            Background="{DynamicResource MaterialDesignPaper}">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel>
+                            <Button Content="BROWSE FOR FOLDER" 
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding BrowseForDirectoryCommand, Mode=OneTime}"
+                                    Click="Button_Click" />
+                            <Button Content="BROWSE FOR ARCHIVE" Style="{StaticResource MaterialDesignFlatButton}" 
+                                    HorizontalAlignment="Left" Margin="0 5 0 0"
+                                    Command="{Binding BrowseForArchiveCommand, Mode=OneTime}"
+                                    Click="Button_Click" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Popup>
         </StackPanel>
 
         <Label Content="Description" />

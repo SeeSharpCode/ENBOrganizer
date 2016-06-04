@@ -20,8 +20,9 @@
                     <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
                 </Button>
 
-                <Popup Name="AddPopup" StaysOpen="False" Placement="Bottom">
-                    <Border Padding="10" BorderBrush="White" BorderThickness="1" 
+                <Popup Name="AddPopup" StaysOpen="False" 
+                       Placement="Bottom" PlacementTarget="{Binding ElementName=AddButton}">
+                    <Border Padding="10" BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="1" 
                             Background="{DynamicResource MaterialDesignPaper}">
                         <StackPanel Orientation="Vertical">
                             <Button Content="IMPORT FOLDER OR ARCHIVE" 
@@ -43,65 +44,93 @@
             </StackPanel>
 
             <ScrollViewer Width="Auto" VerticalScrollBarVisibility="Auto" Margin="0 10 0 0">
-                <ItemsControl ItemsSource="{Binding Models}" Margin="0 10 0 0" HorizontalAlignment="Left">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type entities:Preset}">
-                            <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 0" MaxWidth="196">
-                                <StackPanel>
-                                    <Image Source="{Binding ImagePath, Converter={StaticResource PathToImageConverter}, Mode=OneWay}" 
-                                           MaxHeight="140" MaxWidth="196" Stretch="UniformToFill" />
-                                    
-                                    <Grid Margin="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
+                <ScrollViewer.Style>
+                    <Style TargetType="ScrollViewer">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <ItemsControl ItemsSource="{Binding Models}" Margin="0 10 0 0" HorizontalAlignment="Left">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type entities:Preset}">
+                                            <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 0" MaxWidth="196">
+                                                <StackPanel>
+                                                    <Image Source="{Binding ImagePath, Converter={StaticResource PathToImageConverter}, Mode=OneWay}" 
+                                                           MaxHeight="140" MaxWidth="196" Stretch="UniformToFill" />
 
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
+                                                    <Grid Margin="10">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
 
-                                        <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Medium" 
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Medium" 
                                                    Grid.Row="0" Grid.ColumnSpan="2" />
-                                        <TextBlock Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap" Margin="0 2 0 0" 
+                                                        <TextBlock Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap" Margin="0 2 0 0" 
                                                    Grid.Row="1" Grid.ColumnSpan="2" />
 
-                                        <ToggleButton HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                                        <ToggleButton HorizontalAlignment="Left" VerticalAlignment="Center" 
                                                       Grid.Column="0" Grid.Row="2" Margin="0 5 0 0"
                                                       Command="{Binding ElementName=RootElement, Path=DataContext.ChangeStateCommand}"
                                                       CommandParameter="{Binding}" IsChecked="{Binding IsEnabled, Mode=OneWay}"/>
 
-                                        <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" 
+                                                        <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" 
                                                                  VerticalAlignment="Center" Margin="0 5 0 0"
                                                                  HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2">
-                                            <StackPanel>
-                                                <Button Content="Edit" 
+                                                            <StackPanel>
+                                                                <Button Content="Edit" 
                                                         Command="{Binding ElementName=RootElement, Path=DataContext.EditCommand, Mode=OneTime}" 
                                                         CommandParameter="{Binding}" />
-                                                <Button Content="View Files" 
+                                                                <Button Content="View Files" 
                                                         Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 
                                                         CommandParameter="{Binding}" />
-                                                <Button Content="Change Image" 
+                                                                <Button Content="Change Image" 
                                                         Command="{Binding ElementName=RootElement, Path=DataContext.ChangeImageCommand, Mode=OneTime}" 
                                                         CommandParameter="{Binding}" />
-                                                <Button Content="Delete" 
+                                                                <Button Content="Delete" 
                                                         Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" 
                                                         CommandParameter="{Binding}" />
-                                            </StackPanel>
-                                        </materialDesign:PopupBox>
-                                    </Grid>
-                                </StackPanel>
-                            </materialDesign:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                                            </StackPanel>
+                                                        </materialDesign:PopupBox>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </materialDesign:Card>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Models.Count}" Value="0">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <TextBlock Text="Press the + button above to start adding presets." VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Style="{StaticResource MaterialDesignTitleTextBlock}" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding CurrentGame}" Value="{x:Null}">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <TextBlock Text="No game selected." VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                   Style="{StaticResource MaterialDesignTitleTextBlock}" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ScrollViewer.Style>
             </ScrollViewer>
         </DockPanel>
     </materialDesign:DialogHost>

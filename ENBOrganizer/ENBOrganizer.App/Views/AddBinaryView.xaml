@@ -38,18 +38,36 @@
                      MaxLength="260" MinWidth="150" MaxWidth="400" HorizontalAlignment="Left" 
                      TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" />
 
-            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Grid.Row="3" Grid.Column="1">
-                <StackPanel>
-                    <Button Content="Browse for Folder" Command="{Binding BrowseForDirectoryCommand, Mode=OneTime}" />
-                    <Button Content="Browse for Archive" Command="{Binding BrowseForArchiveCommand, Mode=OneTime}" />
-                </StackPanel>
-            </materialDesign:PopupBox>
+            <Button Name="BrowseButton" Content="BROWSE" HorizontalAlignment="Left" 
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Click="BrowseButton_Click" Grid.Row="3" Grid.Column="1" />
+
+            <Popup Name="AddPopup" StaysOpen="False" 
+                   Placement="Bottom" PlacementTarget="{Binding ElementName=BrowseButton}"
+                   Grid.Row="3" Grid.Column="1" >
+                <Border Padding="10" BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="1" 
+                            Background="{DynamicResource MaterialDesignPaper}">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel>
+                            <Button Content="BROWSE FOR FOLDER" 
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding BrowseForDirectoryCommand, Mode=OneTime}"
+                                    Click="Button_Click" />
+                            <Button Content="BROWSE FOR ARCHIVE" Style="{StaticResource MaterialDesignFlatButton}" 
+                                    HorizontalAlignment="Left" Margin="0 5 0 0"
+                                    Command="{Binding BrowseForArchiveCommand, Mode=OneTime}"
+                                    Click="Button_Click" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Popup>
         </Grid>
 
         <StackPanel Orientation="Horizontal">
-            <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" 
+            <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" />
+            <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}" 
                     Style="{StaticResource MaterialDesignFlatButton}" />
-            <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}" Style="{StaticResource MaterialDesignFlatButton}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

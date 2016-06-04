@@ -14,6 +14,27 @@
     <materialDesign:DialogHost Identifier="PresetNameDialog">
         <DockPanel Margin="15">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Name="AddButton" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
+                        Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add a new preset"
+                        Click="AddButton_Click">
+                    <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+                </Button>
+
+                <Popup Name="AddPopup" StaysOpen="False" Placement="Bottom">
+                    <Border Padding="30" BorderBrush="White" BorderThickness="1">
+                        <StackPanel Orientation="Vertical">
+                            <Button Content="IMPORT FOLDER OR ARCHIVE" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Content="IMPORT ACTIVE FILES" Margin="0 5 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <!--<Border Padding="10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
+                        <StackPanel Orientation="Vertical">
+                            <Button Content="IMPORT FOLDER OR ARCHIVE" />
+                            <Button Content="IMPORT ACTIVE FILES" Margin="0 5 0 0" />
+                        </StackPanel>
+                    </Border>-->
+                </Popup>
+
                 <Button Content="IMPORT FOLDER OR ARCHIVE" Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
                         HorizontalAlignment="Left" ToolTip="Create a preset from a folder or archive" />
 

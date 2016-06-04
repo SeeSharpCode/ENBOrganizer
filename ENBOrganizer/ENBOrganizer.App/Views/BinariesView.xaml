@@ -46,7 +46,7 @@
                                     <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">
                                         <StackPanel>
                                             <Button Content="Rename" 
-                                                Command="{Binding ElementName=RootElement, Path=DataContext.RenameCommand, Mode=OneTime}" 
+                                                Command="{Binding ElementName=RootElement, Path=DataContext.EditCommand, Mode=OneTime}" 
                                                 CommandParameter="{Binding}" />
                                             <Button Content="View Files" 
                                                 Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 

@@ -59,20 +59,22 @@
                                                    Grid.Row="1" Grid.ColumnSpan="2" />
 
                                         <ToggleButton HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                                      Grid.Column="0" Grid.Row="2" Margin="0 5 0 0" />
+                                                      Grid.Column="0" Grid.Row="2" Margin="0 5 0 0"
+                                                      Command="{Binding ElementName=RootElement, Path=DataContext.ChangeStateCommand}"
+                                                      CommandParameter="{Binding}" IsChecked="{Binding IsEnabled, Mode=OneWay}"/>
 
                                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" 
                                                                  VerticalAlignment="Center" Margin="0 5 0 0"
                                                                  HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2">
                                             <StackPanel>
                                                 <Button Content="Edit" 
-                                                        Command="{Binding ElementName=RootElement, Path=DataContext.EditGameCommand, Mode=OneTime}" 
+                                                        Command="{Binding ElementName=RootElement, Path=DataContext.EditCommand, Mode=OneTime}" 
                                                         CommandParameter="{Binding}" />
                                                 <Button Content="View Files" 
-                                                        Command="{Binding ElementName=RootElement, Path=DataContext.OpenDirectoryCommand, Mode=OneTime}" 
+                                                        Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 
                                                         CommandParameter="{Binding}" />
                                                 <Button Content="Change Image" 
-                                                        Command="{Binding ElementName=RootElement, Path=DataContext.OpenDirectoryCommand, Mode=OneTime}" 
+                                                        Command="{Binding ElementName=RootElement, Path=DataContext.ChangeImageCommand, Mode=OneTime}" 
                                                         CommandParameter="{Binding}" />
                                                 <Button Content="Delete" 
                                                         Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" 

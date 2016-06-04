@@ -14,11 +14,23 @@ namespace ENBOrganizer.App.ViewModels
         protected override string DialogHostName { get { return "PresetNameDialog"; } }
 
         public ICommand ImportActiveFilesCommand { get; set; }
-        
+        public ICommand ChangeImageCommand { get; set; }
+
         public PresetsViewModel(PresetService presetService)
             : base(presetService)
         {            
             ImportActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
+            ChangeImageCommand = new RelayCommand<Preset>(ChangeImage);
+        }
+
+        protected override void Edit(Preset entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ChangeImage(Preset preset)
+        {
+            throw new NotImplementedException();
         }
 
         private async void ImportActiveFiles()

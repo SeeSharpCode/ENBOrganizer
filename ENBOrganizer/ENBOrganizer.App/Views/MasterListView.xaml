@@ -8,50 +8,44 @@
              Name="RootElement"
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MasterListViewModel}">
-    <materialDesign:DialogHost IsOpen="{Binding IsAddDialogOpen, Mode=TwoWay}">
-        <materialDesign:DialogHost.DialogContent>
-            <views:AddMasterListItemView />
-        </materialDesign:DialogHost.DialogContent>
-
-        <DockPanel Margin="15" HorizontalAlignment="Left">
-            <Button Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
+    <DockPanel Margin="15" HorizontalAlignment="Left">
+        <Button Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}"  Margin="5 0 0 0" 
                    HorizontalAlignment="Left" ToolTip="Add a new master list item" DockPanel.Dock="Top">
-                <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
-            </Button>
+            <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+        </Button>
 
-            <DataGrid ItemsSource="{Binding Models, Mode=OneWay}" AutoGenerateColumns="False" 
+        <DataGrid ItemsSource="{Binding Models, Mode=OneWay}" AutoGenerateColumns="False" 
                       IsReadOnly="True" VerticalContentAlignment="Center" Margin="0 5 0 0">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Name">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name, Mode=OneTime}" VerticalAlignment="Center" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name, Mode=OneTime}" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="Type">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Type, Mode=OneTime}" VerticalAlignment="Center" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Type">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Type, Mode=OneTime}" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="Delete">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" 
+                <DataGridTemplateColumn Header="Delete">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" 
                                         CommandParameter="{Binding}"
                                         Style="{StaticResource MaterialDesignToolButton}">
-                                    <materialDesign:PackIcon Kind="Delete" Foreground="{DynamicResource PrimaryHueLightBrush}" Width="30" />
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </DockPanel>
-    </materialDesign:DialogHost>
+                                <materialDesign:PackIcon Kind="Delete" Foreground="{DynamicResource PrimaryHueLightBrush}" Width="30" />
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </UserControl>

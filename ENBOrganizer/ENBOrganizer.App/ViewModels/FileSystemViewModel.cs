@@ -2,7 +2,6 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
-using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.ComponentModel;
@@ -20,17 +19,19 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand ViewFilesCommand { get; set; }
         public ICommand ChangeStateCommand { get; set; }
         public ICommand DisableAllCommand { get; set; }
-        public ICommand RenameCommand { get; set; }
+        public ICommand EditCommand { get; set; }
 
         public FileSystemViewModel(DataService<TEntity> dataService) : base(dataService)
         {
             ViewFilesCommand = new RelayCommand<TEntity>(entity => Process.Start(entity.Directory.FullName));
             ChangeStateCommand = new RelayCommand<TEntity>(OnStateChanged);
             DisableAllCommand = new RelayCommand(DisableAll);
-            RenameCommand = new RelayCommand<TEntity>(Rename);
+            EditCommand = new RelayCommand<TEntity>(Edit);
 
             Settings.Default.PropertyChanged += Default_PropertyChanged;
         }
+
+        protected abstract void Edit(TEntity entity);
 
         private void OnStateChanged(TEntity entity)
         {
@@ -59,19 +60,7 @@ namespace ENBOrganizer.App.ViewModels
             }
         }
 
-        private async void Rename(TEntity entity)
-        {
-            try
-            {
-                string newName = (string)await _dialogService.ShowInputDialog("Name", DialogHostName);
-
-                DataService.Rename(entity, newName);
-            }
-            catch (Exception exception)
-            {
-                _dialogService.ShowErrorDialog(exception.Message);
-            }
-        }
+        
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
         {

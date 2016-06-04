@@ -1,6 +1,7 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
+using System;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -11,5 +12,19 @@ namespace ENBOrganizer.App.ViewModels
 
         public BinariesViewModel(FileSystemService<Binary> binaryService)
             : base(binaryService) { }
+
+        protected override async void Edit(Binary entity)
+        {
+            try
+            {
+                string newName = (string)await _dialogService.ShowInputDialog("Name", DialogHostName, entity.Name);
+
+                DataService.Rename(entity, newName);
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog(exception.Message);
+            }
+        }
     }
 }

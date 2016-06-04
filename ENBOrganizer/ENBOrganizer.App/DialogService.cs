@@ -65,9 +65,10 @@ namespace ENBOrganizer.App
             Messenger.Default.Send(new DialogMessage(dialogName, DialogAction.Close));
         }
 
-        public async Task<object> ShowInputDialog(string prompt, string hostName)
+        public async Task<object> ShowInputDialog(string prompt, string hostName, string defaultValue = null)
         {
             _viewModelLocator.InputViewModel.Prompt = prompt;
+            _viewModelLocator.InputViewModel.Input = defaultValue;
 
             InputView inputDialog = new InputView
             {
@@ -82,7 +83,6 @@ namespace ENBOrganizer.App
             }
             catch (Exception exception)
             {
-
                 throw;
             }
         }

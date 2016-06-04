@@ -21,26 +21,20 @@
                 </Button>
 
                 <Popup Name="AddPopup" StaysOpen="False" Placement="Bottom">
-                    <Border Padding="30" BorderBrush="White" BorderThickness="1">
+                    <Border Padding="10" BorderBrush="White" BorderThickness="1" 
+                            Background="{DynamicResource MaterialDesignPaper}">
                         <StackPanel Orientation="Vertical">
-                            <Button Content="IMPORT FOLDER OR ARCHIVE" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Button Content="IMPORT ACTIVE FILES" Margin="0 5 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Content="IMPORT FOLDER OR ARCHIVE" 
+                                    Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
+                                    Click="Button_Click"
+                                    ToolTip="Create a preset from a folder or archive"/>
+                            <Button Content="IMPORT ACTIVE FILES" 
+                                    Command="{Binding ImportActiveFilesCommand, Mode=OneTime}"
+                                    Margin="0 5 0 0" Click="Button_Click"
+                                    ToolTip="Create a preset from all ENB files in the current game folder" />
                         </StackPanel>
                     </Border>
-                    <!--<Border Padding="10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
-                        <StackPanel Orientation="Vertical">
-                            <Button Content="IMPORT FOLDER OR ARCHIVE" />
-                            <Button Content="IMPORT ACTIVE FILES" Margin="0 5 0 0" />
-                        </StackPanel>
-                    </Border>-->
                 </Popup>
-
-                <Button Content="IMPORT FOLDER OR ARCHIVE" Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
-                        HorizontalAlignment="Left" ToolTip="Create a preset from a folder or archive" />
-
-                <Button Content="IMPORT ACTIVE FILES" Command="{Binding ImportActiveFilesCommand, Mode=OneTime}"
-                        Margin="10 0 0 0" HorizontalAlignment="Left" 
-                        ToolTip="Create a preset from all ENB files in the current game folder" />
 
                 <Button Content="DISABLE ALL" Command="{Binding DisableAllCommand, Mode=OneTime}"
                         Style="{StaticResource MaterialDesignRaisedLightButton}"

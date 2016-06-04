@@ -16,5 +16,10 @@ namespace ENBOrganizer.App.Views
         {
             AddPopup.IsOpen = true;
         }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            AddPopup.IsOpen = false;
+        }
     }
 }

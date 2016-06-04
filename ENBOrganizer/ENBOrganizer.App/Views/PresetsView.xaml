@@ -30,7 +30,7 @@
                                     ToolTip="Create a preset from a folder or archive"/>
                             <Button Content="IMPORT ACTIVE FILES" 
                                     Command="{Binding ImportActiveFilesCommand, Mode=OneTime}"
-                                    Margin="0 5 0 0" Click="Button_Click"
+                                    Margin="0 10 0 0" Click="Button_Click"
                                     ToolTip="Create a preset from all ENB files in the current game folder" />
                         </StackPanel>
                     </Border>

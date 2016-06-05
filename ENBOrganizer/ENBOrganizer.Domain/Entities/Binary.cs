@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using SystemIO = System.IO;
 
 namespace ENBOrganizer.Domain.Entities
 {
@@ -6,12 +6,12 @@ namespace ENBOrganizer.Domain.Entities
     public class Binary : FileSystemEntity
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        public override DirectoryInfo Directory
+        public override SystemIO.DirectoryInfo Directory
         {
             get
             {
-                string path = Path.Combine(Game.BinariesDirectory.FullName, Name);
-                return new DirectoryInfo(path);
+                string path = SystemIO.Path.Combine(Game.BinariesDirectory.FullName, Name);
+                return new SystemIO.DirectoryInfo(path);
             }
         }
 

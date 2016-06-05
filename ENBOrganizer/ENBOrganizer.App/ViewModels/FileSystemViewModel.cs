@@ -25,13 +25,13 @@ namespace ENBOrganizer.App.ViewModels
         {
             ViewFilesCommand = new RelayCommand<TEntity>(entity => Process.Start(entity.Directory.FullName));
             ChangeStateCommand = new RelayCommand<TEntity>(OnStateChanged);
-            DisableAllCommand = new RelayCommand(DisableAll, CanDisable);
+            DisableAllCommand = new RelayCommand(DisableAll, CanDisableAll);
             EditCommand = new RelayCommand<TEntity>(Edit);
 
             Settings.Default.PropertyChanged += Default_PropertyChanged;
         }
 
-        private bool CanDisable()
+        private bool CanDisableAll()
         {
             return Models.Any();
         }
@@ -42,10 +42,8 @@ namespace ENBOrganizer.App.ViewModels
         {
             try
             {
-                if (entity.IsEnabled)
-                    DataService.Disable(entity);
-                else
-                    DataService.Enable(entity);
+                entity.ChangeState();
+                DataService.SaveChanges();
             }
             catch (Exception exception)
             {
@@ -74,7 +72,7 @@ namespace ENBOrganizer.App.ViewModels
         protected override void PopulateModels()
         {
             Models.Clear();
-            Models.AddAll(DataService.GetAll().Where(binary => binary.Game.Equals(CurrentGame)));
+            Models.AddAll(DataService.GetByGame(CurrentGame));
         }
     }
 }

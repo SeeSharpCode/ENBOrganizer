@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using System;
@@ -38,7 +39,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
             MessengerInstance.Register<Preset>(this, OnPresetReceived);
 
-            Binaries = _binaryService.GetAll().Where(binary => binary.Game.Equals(CurrentGame)).ToObservableCollection();
+            Binaries = _binaryService.GetByGame(CurrentGame).ToObservableCollection();
         }
 
         private void OnPresetReceived(Preset preset)
@@ -58,6 +59,10 @@ namespace ENBOrganizer.App.ViewModels.Presets
                     _presetService.Rename(_preset, Name);
 
                 _preset.Description = Description;
+
+                if (Binary.Name == "-- None --" && Binary.Game != null)
+                    Binary = null;
+
                 _preset.Binary = Binary;
 
                 _presetService.SaveChanges();
@@ -84,6 +89,8 @@ namespace ENBOrganizer.App.ViewModels.Presets
             Name = string.Empty;
             Description = string.Empty;
             Binary = null;
+
+            _dialogService.CloseDialog(DialogName.EditPreset);
         }
     }
 }

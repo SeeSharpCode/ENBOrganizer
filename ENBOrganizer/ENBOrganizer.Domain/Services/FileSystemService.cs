@@ -52,50 +52,17 @@ namespace ENBOrganizer.Domain.Services
             base.Delete(entity);
         }
 
-        public void Enable(TEntity entity)
-        {
-            try
-            {
-                entity.Directory.CopyTo(entity.Game.DirectoryPath);
-
-                entity.IsEnabled = true;
-                SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public void Disable(TEntity entity)
-        {
-            try
-            {
-                foreach (FileSystemInfo fileSystemInfo in entity.Directory.GetFileSystemInfos())
-                {
-                    string installedPath = Path.Combine(entity.Game.DirectoryPath, fileSystemInfo.Name);
-
-                    if (fileSystemInfo is DirectoryInfo && Directory.Exists(installedPath) && fileSystemInfo.Name != DirectoryNames.Data)
-                        Directory.Delete(installedPath, true);
-                    else if (File.Exists(installedPath))
-                        File.Delete(installedPath);
-                }
-
-                entity.IsEnabled = false;
-                SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public void DisableAll(Game currentGame)
         {
             try
             {
                 foreach (TEntity entity in GetByGame(currentGame))
-                    Disable(entity);
+                {
+                    entity.Disable();
+                    entity.IsEnabled = false;
+                }
+                    
+                SaveChanges();
             }
             catch (Exception)
             {

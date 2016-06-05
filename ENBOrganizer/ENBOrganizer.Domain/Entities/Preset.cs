@@ -8,8 +8,19 @@ namespace ENBOrganizer.Domain.Entities
     {
         public Binary Binary { get; set; }
         public string ImagePath { get; set; }
-        public string Description { get; set; }
 
+        private string _description;
+
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                RaisePropertyChanged(nameof(Description));
+            }
+        }
+        
         public override DirectoryInfo Directory
         {
             get
@@ -22,5 +33,21 @@ namespace ENBOrganizer.Domain.Entities
         public Preset() { } // Required for XML serialization.
 
         public Preset(string name, Game game) : base(name, game) { }
+
+        public override void Enable()
+        {
+            base.Enable();
+
+            if (Binary != null)
+                Binary.Enable();
+        }
+
+        public override void Disable()
+        {
+            base.Disable();
+
+            if (Binary != null)
+                Binary.Disable();
+        }
     }
 }

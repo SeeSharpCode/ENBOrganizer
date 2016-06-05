@@ -43,12 +43,11 @@
             </Popup>
         </StackPanel>
 
-        <Label Content="Description" />
+        <Label Content="Description (Optional)" />
         <TextBox Text="{Binding Description, Mode=OneWayToSource}" 
-                 materialDesign:TextFieldAssist.Hint="e.g. a bleak and somber ENB"
                  Width="300" TextWrapping="Wrap" HorizontalAlignment="Left" />
 
-        <Label Content="Binary" />
+        <Label Content="Binary (Optional)" />
         <ComboBox SelectedItem="{Binding Binary, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
                   IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" 
                   DisplayMemberPath="Name">

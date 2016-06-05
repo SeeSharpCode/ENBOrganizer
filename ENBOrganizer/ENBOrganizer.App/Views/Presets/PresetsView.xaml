@@ -74,18 +74,19 @@
                                                         </Grid.ColumnDefinitions>
 
                                                         <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Medium" 
-                                                   Grid.Row="0" Grid.ColumnSpan="2" />
+                                                                   TextWrapping="Wrap"
+                                                                   Grid.Row="0" Grid.ColumnSpan="2" />
                                                         <TextBlock Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap" Margin="0 2 0 0" 
-                                                   Grid.Row="1" Grid.ColumnSpan="2" />
+                                                                   Grid.Row="1" Grid.ColumnSpan="2" />
 
                                                         <ToggleButton HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                                      Grid.Column="0" Grid.Row="2" Margin="0 5 0 0"
-                                                      Command="{Binding ElementName=RootElement, Path=DataContext.ChangeStateCommand}"
-                                                      CommandParameter="{Binding}" IsChecked="{Binding IsEnabled, Mode=OneWay}"/>
+                                                                      Grid.Column="0" Grid.Row="2" Margin="0 5 0 0"
+                                                                      Command="{Binding ElementName=RootElement, Path=DataContext.ChangeStateCommand}"
+                                                                      CommandParameter="{Binding}" IsChecked="{Binding IsEnabled, Mode=OneWay}"/>
 
                                                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" 
-                                                                 VerticalAlignment="Center" Margin="0 5 0 0"
-                                                                 HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2">
+                                                                                 VerticalAlignment="Center" Margin="0 5 0 0"
+                                                                                 HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2">
                                                             <StackPanel Orientation="Vertical">
                                                                 <Button Command="{Binding ElementName=RootElement, Path=DataContext.EditCommand, Mode=OneTime}" 
                                                                         CommandParameter="{Binding}">
@@ -130,8 +131,9 @@
                             <DataTrigger Binding="{Binding Models.Count}" Value="0">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <TextBlock Text="Press the + button above to start adding presets." VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                               Style="{StaticResource MaterialDesignTitleTextBlock}" />
+                                        <TextBlock Text="Press the + button above to start adding presets." 
+                                                   VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                   Style="{StaticResource MaterialDesignTitleTextBlock}" />
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>

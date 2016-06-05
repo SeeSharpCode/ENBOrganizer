@@ -10,8 +10,8 @@ namespace ENBOrganizer.Domain.Services
 {
     public class PresetService : FileSystemService<Preset>
     {
-        public PresetService(MasterListService masterListService) : base(masterListService) { }
-        
+        public PresetService(MasterListService masterListService) : base(masterListService) { }        
+
         public void ImportActiveFiles(Preset preset)
         {
             try

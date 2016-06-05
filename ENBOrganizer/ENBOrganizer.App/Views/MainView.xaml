@@ -43,6 +43,10 @@
                 <presets:AddPresetView />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type presetViewModels:EditPresetViewModel}">
+                <presets:EditPresetView />
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type masterViewModels:AddMasterListItemViewModel}">
                 <master:AddMasterListItemView />
             </DataTemplate>

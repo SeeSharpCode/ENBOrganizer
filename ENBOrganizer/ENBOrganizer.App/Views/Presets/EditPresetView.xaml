@@ -12,18 +12,26 @@
         <Label Content="Name" />
         <TextBox Text="{Binding Name, Mode=TwoWay}" Width="300" TextWrapping="Wrap" HorizontalAlignment="Left" />
 
-        <Label Content="Description" />
+        <Label Content="Description (Optional)" />
         <TextBox Text="{Binding Description, Mode=TwoWay}" 
-                 materialDesign:TextFieldAssist.Hint="e.g. a bleak and somber ENB"
                  Width="300" TextWrapping="Wrap" HorizontalAlignment="Left" />
 
-        <Label Content="Binary" />
+        <Label Content="Binary (Optional)" />
         <ComboBox SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" 
                   DisplayMemberPath="Name">
             <ComboBox.Resources>
                 <CollectionViewSource x:Key="BinariesDataSource" Source="{Binding Binaries}" />
             </ComboBox.Resources>
+            <ComboBox.Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=SelectedItem}">
+                            <Setter Property="SelectedIndex" Value="0" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
             <ComboBox.ItemsSource>
                 <CompositeCollection>
                     <entities:Binary Name="-- None --" />

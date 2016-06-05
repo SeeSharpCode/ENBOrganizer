@@ -33,10 +33,6 @@ namespace ENBOrganizer.Domain.Services
 
                 _masterListService.CreateMasterListItems(entity.Directory);
             }
-            catch (DuplicateEntityException)
-            {
-                throw;
-            }
             catch (Exception)
             {
                 Delete(entity);
@@ -54,20 +50,13 @@ namespace ENBOrganizer.Domain.Services
 
         public void DisableAll(Game currentGame)
         {
-            try
+            foreach (TEntity entity in GetByGame(currentGame))
             {
-                foreach (TEntity entity in GetByGame(currentGame))
-                {
-                    entity.Disable();
-                    entity.IsEnabled = false;
-                }
-                    
-                SaveChanges();
+                entity.Disable();
+                entity.IsEnabled = false;
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
+            SaveChanges();
         }
 
         public List<TEntity> GetByGame(Game game)
@@ -85,16 +74,9 @@ namespace ENBOrganizer.Domain.Services
 
         public void Rename(TEntity entity, string newName)
         {
-            try
-            {
-                entity.Directory.Rename(newName);
-                entity.Name = newName;
-                SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            entity.Directory.Rename(newName);
+            entity.Name = newName;
+            SaveChanges();
         }
     }
 }

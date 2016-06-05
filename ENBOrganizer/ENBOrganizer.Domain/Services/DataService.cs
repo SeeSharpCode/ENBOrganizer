@@ -21,22 +21,14 @@ namespace ENBOrganizer.Domain.Services
         {
             return _repository.Items;
         }
-
-        /// <exception cref="DuplicateEntityException" />
+        
         public virtual void Add(TEntity entity)
         {
-            try
-            {
-                entity.ID = Guid.NewGuid().ToString();
+            entity.ID = Guid.NewGuid().ToString();
 
-                _repository.Add(entity);
+            _repository.Add(entity);
 
-                RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, entity));
-            }
-            catch (DuplicateEntityException)
-            {
-                throw;
-            }
+            RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, entity));
         }
 
         public virtual void Delete(TEntity entity)

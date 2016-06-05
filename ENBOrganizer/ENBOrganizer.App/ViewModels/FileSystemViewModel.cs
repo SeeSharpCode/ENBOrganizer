@@ -40,29 +40,15 @@ namespace ENBOrganizer.App.ViewModels
 
         private void OnStateChanged(TEntity entity)
         {
-            try
-            {
-                entity.ChangeState();
-                DataService.SaveChanges();
-            }
-            catch (Exception exception)
-            {
-                _dialogService.ShowErrorDialog(exception.Message);
-            }
+            entity.ChangeState();
+            DataService.SaveChanges();
         }
 
         private void DisableAll()
         {
-            try
-            {
-                DataService.DisableAll(CurrentGame);
-            }
-            catch (Exception exception)
-            {
-                _dialogService.ShowErrorDialog(exception.Message);
-            }
+            DataService.DisableAll(CurrentGame);
         }
-        
+
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
         {
             if (eventArgs.PropertyName == "CurrentGame")

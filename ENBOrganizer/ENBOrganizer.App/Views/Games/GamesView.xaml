@@ -39,15 +39,27 @@
                                                 </StackPanel>
                                                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">
                                                     <StackPanel>
-                                                        <Button Content="Edit" 
-                                                    Command="{Binding ElementName=RootElement, Path=DataContext.EditGameCommand, Mode=OneTime}" 
-                                                    CommandParameter="{Binding}" />
-                                                        <Button Content="Open Folder" 
-                                                    Command="{Binding ElementName=RootElement, Path=DataContext.OpenDirectoryCommand, Mode=OneTime}" 
-                                                    CommandParameter="{Binding}" />
-                                                        <Button Content="Delete" 
-                                                    Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" 
-                                                    CommandParameter="{Binding}" />
+                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.EditGameCommand, Mode=OneTime}" 
+                                                                CommandParameter="{Binding}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <materialDesign:PackIcon Kind="Pencil" />
+                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Edit" />
+                                                            </StackPanel>
+                                                        </Button>
+                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.OpenDirectoryCommand, Mode=OneTime}" 
+                                                                CommandParameter="{Binding}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <materialDesign:PackIcon Kind="Folder" />
+                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Open Folder" />
+                                                            </StackPanel>
+                                                        </Button>
+                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}" 
+                                                                CommandParameter="{Binding}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <materialDesign:PackIcon Kind="Delete" />
+                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Delete" />
+                                                            </StackPanel>
+                                                        </Button>
                                                     </StackPanel>
                                                 </materialDesign:PopupBox>
                                             </DockPanel>

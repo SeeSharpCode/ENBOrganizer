@@ -22,14 +22,14 @@ namespace ENBOrganizer.App
 
         public void ShowErrorDialog(string message)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public string ShowOpenFileDialog(string title, string filter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Title = title, 
+                Title = title,
                 Filter = filter
             };
 
@@ -75,16 +75,9 @@ namespace ENBOrganizer.App
                 DataContext = _viewModelLocator.InputViewModel
             };
 
-            try
-            {
-                object input = await DialogHost.Show(inputDialog, hostName);
+            object input = await DialogHost.Show(inputDialog, hostName);
 
-                return input;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return input;
         }
     }
 }

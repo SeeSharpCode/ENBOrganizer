@@ -19,7 +19,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         public PresetsViewModel(PresetService presetService)
             : base(presetService)
-        {            
+        {
             ImportActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
             ChangeImageCommand = new RelayCommand<Preset>(ChangeImage);
             ClearImageCommand = new RelayCommand<Preset>(ClearImage);
@@ -34,15 +34,8 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         protected override void Edit(Preset entity)
         {
-            try
-            {
-                _dialogService.ShowDialog(DialogName.EditPreset);
-                MessengerInstance.Send(entity);
-            }
-            catch (Exception exception)
-            {
-                _dialogService.ShowErrorDialog(exception.Message);
-            }
+            _dialogService.ShowDialog(DialogName.EditPreset);
+            MessengerInstance.Send(entity);
         }
 
         private void ChangeImage(Preset preset)
@@ -59,14 +52,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             string name = (string)await _dialogService.ShowInputDialog("Please enter a name for the preset:", "PresetNameDialog");
 
-            try
-            {
-                DataService.ImportActiveFiles(new Preset(name, CurrentGame));
-            }
-            catch (Exception exception)
-            {
-                _dialogService.ShowErrorDialog(exception.Message);
-            }
+            DataService.ImportActiveFiles(new Preset(name, CurrentGame));
         }
     }
 }

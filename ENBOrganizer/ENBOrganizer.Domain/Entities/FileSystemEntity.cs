@@ -1,6 +1,8 @@
-﻿using ENBOrganizer.Util.IO;
+﻿using ENBOrganizer.Util;
+using ENBOrganizer.Util.IO;
 using System;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace ENBOrganizer.Domain.Entities
@@ -34,52 +36,33 @@ namespace ENBOrganizer.Domain.Entities
 
         public virtual void Enable()
         {
-            try
-            {
-                Directory.CopyTo(Game.DirectoryPath);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            Directory.CopyTo(Game.DirectoryPath);
         }
 
         public virtual void Disable()
         {
-            try
+            foreach (FileSystemInfo fileSystemInfo in Directory.GetFileSystemInfos())
             {
-                foreach (FileSystemInfo fileSystemInfo in Directory.GetFileSystemInfos())
-                {
-                    string installedPath = Path.Combine(Game.DirectoryPath, fileSystemInfo.Name);
+                if (DirectoryNames.EssentialNames.Any(name => name.EqualsIgnoreCase(fileSystemInfo.Name)))
+                    continue;
 
-                    // TODO: remove hardcoded Data logic here
-                    if (fileSystemInfo is DirectoryInfo && System.IO.Directory.Exists(installedPath) && fileSystemInfo.Name != DirectoryNames.Data)
-                        System.IO.Directory.Delete(installedPath, true);
-                    else if (File.Exists(installedPath))
-                        File.Delete(installedPath);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                string installedPath = Path.Combine(Game.DirectoryPath, fileSystemInfo.Name);
+
+                if (fileSystemInfo is DirectoryInfo && System.IO.Directory.Exists(installedPath) && fileSystemInfo.Name != DirectoryNames.Data)
+                    System.IO.Directory.Delete(installedPath, true);
+                else if (File.Exists(installedPath))
+                    File.Delete(installedPath);
             }
         }
 
         public void ChangeState()
         {
-            try
-            {
-                if (IsEnabled)
-                    Disable();
-                else
-                    Enable();
+            if (IsEnabled)
+                Disable();
+            else
+                Enable();
 
-                IsEnabled = !IsEnabled;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            IsEnabled = !IsEnabled;
         }
     }
 }

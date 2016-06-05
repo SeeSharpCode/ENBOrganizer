@@ -1,6 +1,8 @@
 ﻿using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
+using ENBOrganizer.Util;
 using System.IO;
+using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
@@ -8,19 +10,12 @@ namespace ENBOrganizer.Domain.Services
     {
         public override void Add(MasterListItem masterListItem)
         {
-            try
-            {
-                if (masterListItem.Name == DirectoryNames.Data && masterListItem.Type == MasterListItemType.Directory)
-                    return;
+            if (DirectoryNames.EssentialNames.Any(name => name.EqualsIgnoreCase(masterListItem.Name)))
+                return;
 
-                base.Add(masterListItem);
-            }
-            catch (DuplicateEntityException)
-            {
-                throw;
-            }
+            base.Add(masterListItem);
         }
-        
+
         public void CreateMasterListItems(DirectoryInfo directory)
         {
             foreach (FileSystemInfo fileSystemInfo in directory.GetFileSystemInfos())

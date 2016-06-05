@@ -15,19 +15,12 @@ namespace ENBOrganizer.App.ViewModels.Binaries
 
         protected override async void Edit(Binary entity)
         {
-            try
-            {
-                string newName = (string)await _dialogService.ShowInputDialog("Name", DialogHostName, entity.Name);
+            string newName = (string)await _dialogService.ShowInputDialog("Name", DialogHostName, entity.Name);
 
-                if (newName == entity.Name)
-                    return;
+            if (newName == entity.Name)
+                return;
 
-                DataService.Rename(entity, newName);
-            }
-            catch (Exception exception)
-            {
-                _dialogService.ShowErrorDialog(exception.Message);
-            }
+            DataService.Rename(entity, newName);
         }
     }
 }

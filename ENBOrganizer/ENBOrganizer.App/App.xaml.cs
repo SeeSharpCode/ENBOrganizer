@@ -15,7 +15,7 @@ namespace ENBOrganizer.App
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs eventArgs)
         {
-           MessageBox.Show(eventArgs.ExceptionObject.ToString());
+            MessageBox.Show(((Exception)eventArgs.ExceptionObject).Message);
         }
     }
 }

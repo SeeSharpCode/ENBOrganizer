@@ -33,10 +33,6 @@ namespace ENBOrganizer.Domain.Services
                 game.PresetsDirectory.Create();
                 game.BinariesDirectory.Create();
             }
-            catch (DuplicateEntityException)
-            {
-                throw;
-            }
             catch (Exception)
             {
                 base.Delete(game);

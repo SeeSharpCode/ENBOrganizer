@@ -81,7 +81,7 @@ namespace ENBOrganizer.App
 
                 return input;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 throw;
             }

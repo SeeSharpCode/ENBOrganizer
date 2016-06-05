@@ -7,8 +7,19 @@ namespace ENBOrganizer.Domain.Entities
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public Binary Binary { get; set; }
-        public string ImagePath { get; set; }
 
+        private string _imagePath;
+
+        public string ImagePath
+        {
+            get { return _imagePath; }
+            set
+            {
+                _imagePath = value;
+                RaisePropertyChanged(nameof(ImagePath));
+            }
+        }
+        
         private string _description;
 
         public string Description

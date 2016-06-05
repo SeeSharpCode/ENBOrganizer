@@ -56,10 +56,9 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="{x:Type entities:Preset}">
-                                            <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 0" MaxWidth="196">
+                                            <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 0" MaxWidth="210">
                                                 <StackPanel>
-                                                    <Image Source="{Binding ImagePath, Converter={StaticResource PathToImageConverter}, Mode=OneWay}" 
-                                                           MaxHeight="140" MaxWidth="196" Stretch="UniformToFill" />
+                                                    <Image Source="{Binding ImagePath, Mode=OneWay}" Stretch="UniformToFill" />
 
                                                     <Grid Margin="10">
                                                         <Grid.RowDefinitions>
@@ -107,6 +106,13 @@
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <materialDesign:PackIcon Kind="Image" />
                                                                         <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Change Image" />
+                                                                    </StackPanel>
+                                                                </Button>
+                                                                <Button Command="{Binding ElementName=RootElement, Path=DataContext.ClearImageCommand, Mode=OneTime}" 
+                                                                        CommandParameter="{Binding}">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <materialDesign:PackIcon Kind="ImageBroken" />
+                                                                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Clear Image" />
                                                                     </StackPanel>
                                                                 </Button>
                                                                 <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}"

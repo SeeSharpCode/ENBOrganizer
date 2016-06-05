@@ -120,13 +120,6 @@
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
                     <DockPanel>
                         <ToggleButton x:Name="MenuToggleButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="{Binding IsMenuToggleChecked}" />
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
-                            <StackPanel>
-                                <Button Content="Don't know if I'll need this" />
-                                <Button Content="Nice Popup" />
-                                <Button Content="Goodbye" />
-                            </StackPanel>
-                        </materialDesign:PopupBox>
                         <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Models, Mode=OneWay}"
                                   SelectedItem="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.CurrentGame, Mode=TwoWay}"
                                   IsSynchronizedWithCurrentItem="True" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"

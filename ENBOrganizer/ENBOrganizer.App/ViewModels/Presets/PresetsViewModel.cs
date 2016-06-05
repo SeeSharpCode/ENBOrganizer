@@ -15,12 +15,21 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         public ICommand ImportActiveFilesCommand { get; set; }
         public ICommand ChangeImageCommand { get; set; }
+        public ICommand ClearImageCommand { get; set; }
 
         public PresetsViewModel(PresetService presetService)
             : base(presetService)
         {            
             ImportActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
             ChangeImageCommand = new RelayCommand<Preset>(ChangeImage);
+            ClearImageCommand = new RelayCommand<Preset>(ClearImage);
+        }
+
+        private void ClearImage(Preset preset)
+        {
+            preset.ImagePath = null;
+
+            DataService.SaveChanges();
         }
 
         protected override void Edit(Preset entity)
@@ -38,7 +47,12 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         private void ChangeImage(Preset preset)
         {
-            throw new NotImplementedException();
+            string imagePath = _dialogService.ShowOpenFileDialog("Please select an image file", "All Files (*.*)|*.*");
+
+            if (!string.IsNullOrWhiteSpace(imagePath))
+                preset.ImagePath = imagePath;
+
+            DataService.SaveChanges();
         }
 
         private async void ImportActiveFiles()

@@ -8,12 +8,18 @@ namespace ENBOrganizer.App.Converters
 {
     public class PathToIconConverter : IValueConverter
     {
-        // TODO: file may not exist
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string executableName = value.ToString();
+            try
+            {
+                string executableName = value.ToString();
 
-            return Icon.ExtractAssociatedIcon(executableName).ToImageSource();
+                return Icon.ExtractAssociatedIcon(executableName).ToImageSource();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

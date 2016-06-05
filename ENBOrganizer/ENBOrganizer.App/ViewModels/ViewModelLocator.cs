@@ -1,4 +1,8 @@
-﻿using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.App.ViewModels.Binaries;
+using ENBOrganizer.App.ViewModels.Games;
+using ENBOrganizer.App.ViewModels.Master;
+using ENBOrganizer.App.ViewModels.Presets;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.Ioc;
 

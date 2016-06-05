@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ENBOrganizer.App.Views
+namespace ENBOrganizer.App.Views.Master
 {
     /// <summary>
     /// Interaction logic for MasterListView.xaml

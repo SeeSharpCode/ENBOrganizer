@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ENBOrganizer.App.Views
+namespace ENBOrganizer.App.Views.Games
 {
     /// <summary>
     /// Interaction logic for AddGameView.xaml

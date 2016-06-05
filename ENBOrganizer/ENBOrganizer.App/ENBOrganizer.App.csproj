@@ -91,50 +91,58 @@
     <Compile Include="Converters\PathToImageConverter.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
-    <Compile Include="ViewModels\AddBinaryViewModel.cs" />
+    <Compile Include="ViewModels\Binaries\AddBinaryViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModelBase.cs" />
+    <Compile Include="ViewModels\Presets\EditPresetViewModel.cs" />
     <Compile Include="ViewModels\FileSystemViewModel.cs" />
-    <Compile Include="ViewModels\GameDetailViewModel.cs" />
+    <Compile Include="ViewModels\Games\GameDetailViewModel.cs" />
     <Compile Include="ViewModels\InputViewModel.cs" />
-    <Compile Include="ViewModels\AddMasterListItemViewModel.cs" />
-    <Compile Include="ViewModels\BinariesViewModel.cs" />
-    <Compile Include="ViewModels\AddPresetViewModel.cs" />
+    <Compile Include="ViewModels\Master\AddMasterListItemViewModel.cs" />
+    <Compile Include="ViewModels\Binaries\BinariesViewModel.cs" />
+    <Compile Include="ViewModels\Presets\AddPresetViewModel.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MasterListViewModel.cs" />
+    <Compile Include="ViewModels\Master\MasterListViewModel.cs" />
     <Compile Include="ViewModels\PageViewModelBase.cs" />
-    <Compile Include="ViewModels\PresetsViewModel.cs" />
+    <Compile Include="ViewModels\Presets\PresetsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\AddBinaryView.xaml.cs">
+    <Compile Include="Views\Binaries\AddBinaryView.xaml.cs">
       <DependentUpon>AddBinaryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GameDetailView.xaml.cs">
+    <Compile Include="Views\Presets\EditPresetView.xaml.cs">
+      <DependentUpon>EditPresetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Games\GameDetailView.xaml.cs">
       <DependentUpon>GameDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InputView.xaml.cs">
       <DependentUpon>InputView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddMasterListItemView.xaml.cs">
+    <Compile Include="Views\Master\AddMasterListItemView.xaml.cs">
       <DependentUpon>AddMasterListItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BinariesView.xaml.cs">
+    <Compile Include="Views\Binaries\BinariesView.xaml.cs">
       <DependentUpon>BinariesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedTreeView.cs" />
-    <Compile Include="Views\AddPresetView.xaml.cs">
+    <Compile Include="Views\Presets\AddPresetView.xaml.cs">
       <DependentUpon>AddPresetView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MasterListView.xaml.cs">
+    <Compile Include="Views\Master\MasterListView.xaml.cs">
       <DependentUpon>MasterListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PresetsView.xaml.cs">
+    <Compile Include="Views\Presets\PresetsView.xaml.cs">
       <DependentUpon>PresetsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AddBinaryView.xaml">
+    <Page Include="Views\Binaries\AddBinaryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GameDetailView.xaml">
+    <Page Include="Views\Presets\EditPresetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Games\GameDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,19 +150,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddMasterListItemView.xaml">
+    <Page Include="Views\Master\AddMasterListItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BinariesView.xaml">
+    <Page Include="Views\Binaries\BinariesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GamesView.xaml">
+    <Page Include="Views\Games\GamesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddPresetView.xaml">
+    <Page Include="Views\Presets\AddPresetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -167,19 +175,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\PathToIconConverter.cs" />
-    <Compile Include="ViewModels\GamesViewModel.cs" />
-    <Compile Include="Views\GamesView.xaml.cs">
+    <Compile Include="ViewModels\Games\GamesViewModel.cs" />
+    <Compile Include="Views\Games\GamesView.xaml.cs">
       <DependentUpon>GamesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\MasterListView.xaml">
+    <Page Include="Views\Master\MasterListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PresetsView.xaml">
+    <Page Include="Views\Presets\PresetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Windows.Input;
 
-namespace ENBOrganizer.App.ViewModels
+namespace ENBOrganizer.App.ViewModels.Games
 {
     public class GameDetailViewModel : DialogViewModelBase
     {

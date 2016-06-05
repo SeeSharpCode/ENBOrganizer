@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ENBOrganizer.App.Views
+namespace ENBOrganizer.App.Views.Presets
 {
     /// <summary>
     /// Interaction logic for PresetsOverviewView.xaml

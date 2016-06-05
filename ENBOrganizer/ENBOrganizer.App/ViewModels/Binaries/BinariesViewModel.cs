@@ -3,7 +3,7 @@ using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using System;
 
-namespace ENBOrganizer.App.ViewModels
+namespace ENBOrganizer.App.ViewModels.Binaries
 {
     public class BinariesViewModel : FileSystemViewModel<Binary>
     {

@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace ENBOrganizer.App.Views
+namespace ENBOrganizer.App.Views.Binaries
 {
     /// <summary>
-    /// Interaction logic for ImportPresetView.xaml
+    /// Interaction logic for AddBinaryView.xaml
     /// </summary>
-    public partial class AddPresetView : UserControl
+    public partial class AddBinaryView : UserControl
     {
-        public AddPresetView()
+        public AddBinaryView()
         {
             InitializeComponent();
         }

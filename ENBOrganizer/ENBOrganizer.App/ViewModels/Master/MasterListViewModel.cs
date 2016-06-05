@@ -2,7 +2,7 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 
-namespace ENBOrganizer.App.ViewModels
+namespace ENBOrganizer.App.ViewModels.Master
 {
     public class MasterListViewModel : PageViewModelBase<MasterListItem>
     {

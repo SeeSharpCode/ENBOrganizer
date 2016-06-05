@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;
 
-namespace ENBOrganizer.App.ViewModels
+namespace ENBOrganizer.App.ViewModels.Presets
 {
     public class AddPresetViewModel : DialogViewModelBase
     {

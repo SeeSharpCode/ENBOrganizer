@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ENBOrganizer.App.Views
+namespace ENBOrganizer.App.Views.Binaries
 {
     /// <summary>
     /// Interaction logic for BinariesView.xaml

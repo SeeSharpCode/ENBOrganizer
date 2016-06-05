@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 
-namespace ENBOrganizer.App.ViewModels
+namespace ENBOrganizer.App.ViewModels.Games
 {
     public class GamesViewModel : PageViewModelBase<Game>
     {

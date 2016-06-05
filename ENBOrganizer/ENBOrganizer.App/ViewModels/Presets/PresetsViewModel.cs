@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Windows.Input;
 
-namespace ENBOrganizer.App.ViewModels
+namespace ENBOrganizer.App.ViewModels.Presets
 {
     public class PresetsViewModel : FileSystemViewModel<Preset>
     {

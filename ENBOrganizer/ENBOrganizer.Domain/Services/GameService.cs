@@ -1,5 +1,4 @@
 ﻿using ENBOrganizer.Domain.Entities;
-using ENBOrganizer.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 

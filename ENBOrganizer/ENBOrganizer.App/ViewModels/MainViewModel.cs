@@ -1,6 +1,9 @@
 ﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
+using Microsoft.Win32;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ENBOrganizer.App.ViewModels
 {

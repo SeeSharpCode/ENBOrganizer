@@ -1,16 +1,19 @@
 ﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.App.Properties;
+using ENBOrganizer.Domain;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
-using Microsoft.Win32;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 
 namespace ENBOrganizer.App.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
         private readonly ViewModelLocator _viewModelLocator;
-        
+        private readonly GameService _gameService;
+
         public List<IPageViewModel> PageViewModels { get; set; }
 
         private IPageViewModel _currentPageViewModel;
@@ -40,7 +43,7 @@ namespace ENBOrganizer.App.ViewModels
             get { return _currentDialogViewModel; }
             set { Set(nameof(CurrentDialogViewModel), ref _currentDialogViewModel, value); }
         }
-        
+
         private bool _isMenuToggleChecked;
 
         public bool IsMenuToggleChecked
@@ -48,10 +51,11 @@ namespace ENBOrganizer.App.ViewModels
             get { return _isMenuToggleChecked; }
             set { Set(nameof(IsMenuToggleChecked), ref _isMenuToggleChecked, value); }
         }
-        
-        public MainViewModel()
+
+        public MainViewModel(GameService gameService)
         {
             _viewModelLocator = (ViewModelLocator)App.Current.Resources["ViewModelLocator"];
+            _gameService = gameService;
 
             PageViewModels = new List<IPageViewModel>()
             {
@@ -64,6 +68,8 @@ namespace ENBOrganizer.App.ViewModels
             CurrentPageViewModel = _viewModelLocator.GamesViewModel;
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
+
+            SetupGamesOnFirstUse();
         }
 
         private void OnDialogMessage(DialogMessage message)
@@ -88,6 +94,27 @@ namespace ENBOrganizer.App.ViewModels
             }
 
             IsDialogOpen = message.DialogAction == DialogAction.Open;
+        }
+
+        private void SetupGamesOnFirstUse()
+        {
+            if (!Settings.Default.FirstUse)
+                return;
+
+            Settings.Default.FirstUse = false;
+            Settings.Default.Save();
+
+            foreach (KeyValuePair<string, string> gameEntry in GameNames.KnownGamesDictionary)
+            {
+                string installPath;
+                if (RegistryService.TryGetInstallPath(gameEntry.Key, out installPath))
+                {
+                    string gameName = GameNames.GameFriendlyNameMap[gameEntry.Key];
+                    string path = Path.Combine(installPath, gameEntry.Value);
+
+                    _gameService.Add(new Game(gameName, path));
+                }   
+            }
         }
     }
 }

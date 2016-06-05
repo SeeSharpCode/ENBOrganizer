@@ -3,19 +3,21 @@ using Microsoft.Win32;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class RegistryService
+    public static class RegistryService
     {
         private const string Win32Applications = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
         private const string Win64Applications = @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall";
 
-        public string GetInstallPath(string applicationDisplayName)
+        public static bool TryGetInstallPath(string applicationDisplayName, out string installPath)
         {
             string win32InstallPath = GetInstallPath(applicationDisplayName, Win32Applications);
 
-            return !string.IsNullOrWhiteSpace(win32InstallPath) ?  win32InstallPath : GetInstallPath(applicationDisplayName, Win64Applications);
+            installPath = !string.IsNullOrWhiteSpace(win32InstallPath) ?  win32InstallPath : GetInstallPath(applicationDisplayName, Win64Applications);
+
+            return !string.IsNullOrWhiteSpace(installPath);
         }
 
-        private string GetInstallPath(string applicationDisplayName, string registryPath)
+        private static string GetInstallPath(string applicationDisplayName, string registryPath)
         {
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registryPath))
             {

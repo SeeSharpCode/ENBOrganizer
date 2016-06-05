@@ -2,6 +2,33 @@
 
 namespace ENBOrganizer.Domain
 {
+    public class GameNames
+    {
+        private const string Skyrim = "The Elder Scrolls V: Skyrim";
+        private const string Oblivion = "The Elder Scrolls IV: Oblivion";
+        private const string Fallout4 = "Fallout 4";
+        private const string Fallout3 = "Fallout 3";
+        private const string FalloutNewVegas = "Fallout: New Vegas";
+
+        public static Dictionary<string, string> GameFriendlyNameMap = new Dictionary<string, string>
+        {
+            { Skyrim, "Skyrim" },
+            { Oblivion, "Oblivion" },
+            { Fallout3, "Fallout 3" },
+            { Fallout4, "Fallout 4" },
+            { FalloutNewVegas, "Fallout NV" }
+        };
+
+        public static Dictionary<string, string> KnownGamesDictionary = new Dictionary<string, string>
+        {
+            { Skyrim, "TESV.exe" },
+            { Oblivion, "Oblivion.exe" },
+            { Fallout3, "Fallout3.exe" },
+            { Fallout4, "Fallout4.exe" },
+            { FalloutNewVegas, "FalloutNV.exe" }
+        };
+    }
+
     public class DirectoryNames
     {
         public const string Games = "Games";

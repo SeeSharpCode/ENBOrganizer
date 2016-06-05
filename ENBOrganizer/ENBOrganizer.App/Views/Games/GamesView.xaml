@@ -32,7 +32,7 @@
                                         <Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
                                             <DockPanel>
                                                 <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
-                                               Width="32" Height="32" DockPanel.Dock="Left" />
+                                                       Width="32" Height="32" DockPanel.Dock="Left" />
                                                 <StackPanel Margin="8 0 0 0" DockPanel.Dock="Left">
                                                     <TextBlock Text="{Binding Name}" FontWeight="Medium" />
                                                     <TextBlock Text="{Binding ExecutablePath}" TextWrapping="Wrap" Width="450" />

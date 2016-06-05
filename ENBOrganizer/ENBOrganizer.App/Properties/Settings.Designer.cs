@@ -33,5 +33,17 @@ namespace ENBOrganizer.App.Properties {
                 this["CurrentGame"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FirstUse {
+            get {
+                return ((bool)(this["FirstUse"]));
+            }
+            set {
+                this["FirstUse"] = value;
+            }
+        }
     }
 }

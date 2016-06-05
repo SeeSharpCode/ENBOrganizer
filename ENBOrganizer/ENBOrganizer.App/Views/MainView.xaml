@@ -12,6 +12,7 @@
         xmlns:masterViewModels="clr-namespace:ENBOrganizer.App.ViewModels.Master"
         xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Icon="IconFinal.ico"
         Title="ENB Organizer"
         MinWidth="640"
         MinHeight="360"

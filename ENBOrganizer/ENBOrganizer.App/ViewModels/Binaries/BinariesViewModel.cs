@@ -19,6 +19,9 @@ namespace ENBOrganizer.App.ViewModels.Binaries
             {
                 string newName = (string)await _dialogService.ShowInputDialog("Name", DialogHostName, entity.Name);
 
+                if (newName == entity.Name)
+                    return;
+
                 DataService.Rename(entity, newName);
             }
             catch (Exception exception)

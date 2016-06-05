@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels.Presets
@@ -24,14 +25,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             set { Set(nameof(SourcePath), ref _sourcePath, value.Trim()); }
         }
 
-        private string _description;
-
-        public string Description
-        {
-            get { return _description; }
-            set { _description = value; }
-        }
-
+        public string Description { get; set; }
         public Binary Binary { get; set; }
         public ObservableCollection<Binary> Binaries { get; set; }
         public ICommand BrowseForDirectoryCommand { get; set; }
@@ -46,7 +40,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             BrowseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
             BrowseForArchiveCommand = new RelayCommand(BrowseForArchive);
 
-            Binaries = _binaryService.GetAll().ToObservableCollection();
+            Binaries = _binaryService.GetAll().Where(binary => binary.Game.Equals(CurrentGame)).ToObservableCollection();
         }
 
         protected override bool CanSave()

@@ -6,6 +6,7 @@
         AddMasterListItem,
         AddBinary,
         AddPreset,
+        EditPreset,
         Input
     }
 

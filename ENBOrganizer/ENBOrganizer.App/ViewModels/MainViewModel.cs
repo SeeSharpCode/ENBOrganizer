@@ -79,6 +79,9 @@ namespace ENBOrganizer.App.ViewModels
                 case DialogName.AddPreset:
                     CurrentDialogViewModel = _viewModelLocator.AddPresetViewModel;
                     break;
+                case DialogName.EditPreset:
+                    CurrentDialogViewModel = _viewModelLocator.EditPresetViewModel;
+                    break;
             }
 
             IsDialogOpen = message.DialogAction == DialogAction.Open;

@@ -25,7 +25,15 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         protected override void Edit(Preset entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _dialogService.ShowDialog(DialogName.EditPreset);
+                MessengerInstance.Send(entity);
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
         private void ChangeImage(Preset preset)

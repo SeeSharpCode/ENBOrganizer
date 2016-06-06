@@ -14,6 +14,7 @@ namespace ENBOrganizer.App.ViewModels.Games
         private Game _game;
 
         public ICommand BrowseCommand { get; set; }
+        public bool ErrorExists { get; set; }
 
         private string _executablePath;
 
@@ -22,7 +23,7 @@ namespace ENBOrganizer.App.ViewModels.Games
             get { return _executablePath; }
             set { Set(nameof(ExecutablePath), ref _executablePath, value); }
         }
-        
+
         public GameDetailViewModel(GameService gameService)
         {
             _gameService = gameService;

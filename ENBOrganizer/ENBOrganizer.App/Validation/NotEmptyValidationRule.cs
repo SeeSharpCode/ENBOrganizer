@@ -7,7 +7,7 @@ namespace ENBOrganizer.App.Validation
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            return string.IsNullOrWhiteSpace((value ?? "").ToString())
+            return string.IsNullOrWhiteSpace((value ?? string.Empty).ToString())
                 ? new ValidationResult(false, "Field is required.")
                 : ValidationResult.ValidResult;
         }

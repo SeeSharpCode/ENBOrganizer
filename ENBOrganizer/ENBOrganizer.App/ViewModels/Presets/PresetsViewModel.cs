@@ -2,7 +2,6 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
-using System;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels.Presets

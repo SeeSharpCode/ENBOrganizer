@@ -3,15 +3,18 @@ using ENBOrganizer.Domain.Entities;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
+using System.ComponentModel;
 using System.Windows.Input;
+using System;
 
 namespace ENBOrganizer.App.ViewModels
 {
-    public abstract class DialogViewModelBase : ViewModelBase
+    public abstract class DialogViewModelBase : ViewModelBase, IDataErrorInfo
     {
-        protected readonly DialogService _dialogService;
-
+        protected bool _isInputValid;
         protected Game CurrentGame { get { return Settings.Default.CurrentGame; } }
+        protected readonly DialogService _dialogService;
+        
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 

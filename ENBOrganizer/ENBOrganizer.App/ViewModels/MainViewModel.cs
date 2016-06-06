@@ -107,7 +107,7 @@ namespace ENBOrganizer.App.ViewModels
             foreach (KeyValuePair<string, string> gameEntry in GameNames.KnownGamesDictionary)
             {
                 string installPath;
-                if (RegistryService.TryGetInstallPath(gameEntry.Key, out installPath))
+                if (RegistryService.TryGetInstallPath(gameEntry.Key, out installPath) && File.Exists(installPath))
                 {
                     string gameName = GameNames.GameFriendlyNameMap[gameEntry.Key];
                     string path = Path.Combine(installPath, gameEntry.Value);

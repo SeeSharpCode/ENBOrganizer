@@ -94,6 +94,7 @@
     <Compile Include="Converters\PathToImageConverter.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
+    <Compile Include="Validation\NotEmptyValidationRule.cs" />
     <Compile Include="ViewModels\Binaries\AddBinaryViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModelBase.cs" />
     <Compile Include="ViewModels\Presets\EditPresetViewModel.cs" />

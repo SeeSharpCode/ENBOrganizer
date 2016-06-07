@@ -3,6 +3,7 @@ using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight.CommandWpf;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
         {
-            if (eventArgs.PropertyName == "CurrentGame")
+            if (eventArgs.PropertyName == nameof(CurrentGame))
                 PopulateModels();
         }
 

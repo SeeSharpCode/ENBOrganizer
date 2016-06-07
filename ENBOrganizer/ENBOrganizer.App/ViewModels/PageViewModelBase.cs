@@ -17,19 +17,8 @@ namespace ENBOrganizer.App.ViewModels
         protected virtual DataService<TEntity> DataService { get; set; }
         protected readonly DialogService _dialogService;
         protected abstract DialogName DialogName { get; }
-
-        private ObservableCollection<TEntity> _models;
-
-        public ObservableCollection<TEntity> Models
-        {
-            get
-            {
-                if (_models == null)
-                    _models = new ObservableCollection<TEntity>();
-
-                return _models;
-            }
-        }
+        
+        public ObservableCollection<TEntity> Models { get; set; }
 
         public virtual Game CurrentGame { get { return Settings.Default.CurrentGame; } }
         public ICommand OpenAddDialogCommand { get; set; }
@@ -48,6 +37,8 @@ namespace ENBOrganizer.App.ViewModels
             OpenAddDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName), CanAdd);
             DeleteCommand = new RelayCommand<TEntity>(entity => DataService.Delete(entity));
 
+            Models = new ObservableCollection<TEntity>();
+
             PopulateModels();
         }
 
@@ -59,7 +50,7 @@ namespace ENBOrganizer.App.ViewModels
         protected virtual void PopulateModels()
         {
             Models.Clear();
-            Models.AddAll(DataService.GetAll().ToObservableCollection());
+            Models.AddAll(DataService.GetAll());
         }
 
         protected virtual void _dataService_ItemsChanged(object sender, RepositoryChangedEventArgs eventArgs)

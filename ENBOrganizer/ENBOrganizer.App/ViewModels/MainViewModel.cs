@@ -113,7 +113,7 @@ namespace ENBOrganizer.App.ViewModels
                     string path = Path.Combine(installPath, gameEntry.Value);
 
                     _gameService.Add(new Game(gameName, path));
-                }   
+                }
             }
         }
     }

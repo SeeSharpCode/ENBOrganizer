@@ -1,5 +1,4 @@
 ﻿using ENBOrganizer.Domain.Entities;
-using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util.IO;
 using System;
 using System.Collections.Generic;
@@ -76,6 +75,7 @@ namespace ENBOrganizer.Domain.Services
         {
             entity.Directory.Rename(newName);
             entity.Name = newName;
+
             SaveChanges();
         }
     }

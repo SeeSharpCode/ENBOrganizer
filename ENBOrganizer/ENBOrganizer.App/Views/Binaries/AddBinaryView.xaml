@@ -15,54 +15,40 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" Margin="10">
-        <Grid Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <Label Content="Name/Version" Style="{StaticResource InputLabel}" />
+        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 MinWidth="150" MaxWidth="400" TextWrapping="Wrap"
+                 HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <Label Content="Name/Version" Grid.Row="0" Grid.Column="0" FontWeight="Medium" />
-            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                     MinWidth="150" MaxWidth="400" TextWrapping="Wrap"
-                     HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" />
-
-            <Label Content="Source Folder or Archive" Grid.Row="2" Grid.Column="0" FontWeight="Medium" Margin="0 10 0 0" />
-            <TextBox Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <Label Content="Source Folder or Archive" Grid.Row="2" Grid.Column="0" FontWeight="Medium" Margin="0 10 0 0" />
+        <TextBox Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      MaxLength="260" MinWidth="150" MaxWidth="400" HorizontalAlignment="Left" 
                      TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" />
 
-            <Button Name="BrowseButton" Content="BROWSE" HorizontalAlignment="Left" 
+        <Button Name="BrowseButton" Content="BROWSE" HorizontalAlignment="Left" 
                     Style="{StaticResource MaterialDesignFlatButton}" 
                     Click="BrowseButton_Click" Grid.Row="3" Grid.Column="1" />
 
-            <Popup Name="AddPopup" StaysOpen="False" 
+        <Popup Name="AddPopup" StaysOpen="False" 
                    Placement="Bottom" PlacementTarget="{Binding ElementName=BrowseButton}"
                    Grid.Row="3" Grid.Column="1" >
-                <Border Padding="10" BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="1" 
+            <Border Padding="10" BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="1" 
                             Background="{DynamicResource MaterialDesignPaper}">
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel>
-                            <Button Content="BROWSE FOR FOLDER" 
+                <StackPanel Orientation="Vertical">
+                    <StackPanel>
+                        <Button Content="BROWSE FOR FOLDER" 
                                     Style="{StaticResource MaterialDesignFlatButton}" 
                                     HorizontalAlignment="Left"
                                     Command="{Binding BrowseForDirectoryCommand, Mode=OneTime}"
                                     Click="Button_Click" />
-                            <Button Content="BROWSE FOR ARCHIVE" Style="{StaticResource MaterialDesignFlatButton}" 
+                        <Button Content="BROWSE FOR ARCHIVE" Style="{StaticResource MaterialDesignFlatButton}" 
                                     HorizontalAlignment="Left" Margin="0 5 0 0"
                                     Command="{Binding BrowseForArchiveCommand, Mode=OneTime}"
                                     Click="Button_Click" />
-                        </StackPanel>
                     </StackPanel>
-                </Border>
-            </Popup>
-        </Grid>
+                </StackPanel>
+            </Border>
+        </Popup>
 
         <StackPanel Orientation="Horizontal">
             <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" />

@@ -8,8 +8,9 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=GameDetailViewModel, Mode=OneTime}">
     <StackPanel Orientation="Vertical" Margin="10">
         <Label Content="Name" FontWeight="Medium" Padding="0" Margin="0 0 0 2" />
-        <TextBox MinWidth="150" MaxWidth="400" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
-                 validation:ValidationBehavior.HasError="{B}">
+        <TextBox MinWidth="150" MaxWidth="400" TextWrapping="Wrap" HorizontalAlignment="Left"
+                 validation:ValidationBehavior.HasError="{Binding HasValidationError}"
+                 VerticalAlignment="Top">
             <TextBox.Text>
                 <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -21,7 +22,8 @@
 
         <Label Content="Exe Path" FontWeight="Medium" Padding="0" Margin="0 15 0 0" />
         <StackPanel Orientation="Horizontal">
-            <TextBox MinWidth="150" MaxWidth="400" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <TextBox MinWidth="150" MaxWidth="400" TextWrapping="Wrap" 
+                     HorizontalAlignment="Left" VerticalAlignment="Top">
                 <TextBox.Text>
                     <Binding Path="ExecutablePath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -31,13 +33,15 @@
                 </TextBox.Text>
             </TextBox>
             
-            <Button Content="BROWSE" Command="{Binding BrowseCommand, Mode=OneTime}" Style="{StaticResource MaterialDesignFlatButton}" 
+            <Button Content="BROWSE" Command="{Binding BrowseCommand, Mode=OneTime}" 
+                    Style="{StaticResource MaterialDesignFlatButton}" 
                     Margin="5 0 0 0" VerticalAlignment="Bottom" />
         </StackPanel>
         
         <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
             <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" />
-            <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}" Style="{StaticResource MaterialDesignFlatButton}" />
+            <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}" 
+                    Style="{StaticResource MaterialDesignFlatButton}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -31,11 +31,45 @@
                                     <DataTemplate DataType="{x:Type entities:Game}">
                                         <Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
                                             <DockPanel>
-                                                <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
-                                                       Width="32" Height="32" DockPanel.Dock="Left" />
+                                                <ContentControl>
+                                                    <ContentControl.Style>
+                                                        <Style TargetType="ContentControl">
+                                                            <Setter Property="Content">
+                                                                <Setter.Value>
+                                                                    <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
+                                                                           Width="32" Height="32" DockPanel.Dock="Left" />
+                                                                </Setter.Value>
+                                                            </Setter>
+
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
+                                                                             Value="{x:Null}">
+                                                                    <Setter Property="Content">
+                                                                        <Setter.Value>
+                                                                            <materialDesign:PackIcon Kind="Alert" Foreground="Salmon" Width="32" 
+                                                                                                     Height="32" ToolTip="File does not exist" />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ContentControl.Style>
+                                                </ContentControl>
+
                                                 <StackPanel Margin="8 0 0 0" DockPanel.Dock="Left">
                                                     <TextBlock Text="{Binding Name}" FontWeight="Medium" />
-                                                    <TextBlock Text="{Binding ExecutablePath}" TextWrapping="Wrap" Width="450" />
+                                                    <TextBlock Text="{Binding ExecutablePath}" TextWrapping="Wrap" Width="450">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding ExecutableExists}" Value="False">
+                                                                        <Setter Property="Foreground" Value="Salmon" />
+                                                                        <Setter Property="ToolTip" Value="File does not exist" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
                                                 </StackPanel>
                                                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" DockPanel.Dock="Right">
                                                     <StackPanel>
@@ -46,7 +80,7 @@
                                                                 <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Edit" />
                                                             </StackPanel>
                                                         </Button>
-                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.OpenDirectoryCommand, Mode=OneTime}" 
+                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 
                                                                 CommandParameter="{Binding}">
                                                             <StackPanel Orientation="Horizontal">
                                                                 <materialDesign:PackIcon Kind="Folder" />

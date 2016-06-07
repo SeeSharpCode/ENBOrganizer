@@ -23,6 +23,9 @@ namespace ENBOrganizer.Domain.Entities
         }
 
         [XmlIgnore]
+        public bool ExecutableExists { get { return File.Exists(ExecutablePath); } }
+
+        [XmlIgnore]
         public List<Preset> Presets { get; set; }
 
         [XmlIgnore]

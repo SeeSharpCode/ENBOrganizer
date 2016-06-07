@@ -54,8 +54,8 @@ namespace ENBOrganizer.App.ViewModels.Games
         {
             try
             {
-                _game.Name = Name;
-                _game.ExecutablePath = ExecutablePath;
+                _game.Name = Name.Trim();
+                _game.ExecutablePath = ExecutablePath.Trim();
 
                 if (string.IsNullOrWhiteSpace(_game.ID))
                     _gameService.Add(_game);

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ENBOrganizer.Util;
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Data;
-using ENBOrganizer.Util;
 
 namespace ENBOrganizer.App.Converters
 {

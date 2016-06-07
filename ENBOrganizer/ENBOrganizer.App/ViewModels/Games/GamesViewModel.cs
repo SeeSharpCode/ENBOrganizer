@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
+using System;
 
 namespace ENBOrganizer.App.ViewModels.Games
 {
@@ -14,7 +15,7 @@ namespace ENBOrganizer.App.ViewModels.Games
     {
         protected override DialogName DialogName { get { return DialogName.GameDetail; } }
 
-        public ICommand OpenDirectoryCommand { get; set; }
+        public ICommand ViewFilesCommand { get; set; }
         public ICommand EditGameCommand { get; set; }
         
         public new Game CurrentGame
@@ -33,7 +34,15 @@ namespace ENBOrganizer.App.ViewModels.Games
             : base(gameService)
         {
             EditGameCommand = new RelayCommand<Game>(EditGame);
-            OpenDirectoryCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath));
+            ViewFilesCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath), CanViewFiles);
+        }
+
+        private bool CanViewFiles(Game game)
+        {
+            if (game == null)
+                return false;
+
+            return game.ExecutableExists;
         }
 
         protected override bool CanAdd()

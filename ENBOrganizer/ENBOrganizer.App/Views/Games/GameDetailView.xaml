@@ -8,7 +8,7 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=GameDetailViewModel, Mode=OneTime}">
     <StackPanel Orientation="Vertical" Margin="10" MaxWidth="400">
         <Label Content="Name" Style="{StaticResource InputLabel}" Margin="0 0 0 2" />
-        <TextBox Style="{StaticResource InputTextBox}"
+        <!--<TextBox Style="{StaticResource InputTextBox}"
                  validation:ValidationBehavior.HasError="{Binding HasValidationError}">
             <TextBox.Text>
                 <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
@@ -17,16 +17,19 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
+        </TextBox>-->
+        <TextBox Style="{StaticResource InputTextBox}">
+            <TextBox.Text>
+                <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                </Binding>
+            </TextBox.Text>
         </TextBox>
 
         <Label Content="Exe Path" Style="{StaticResource InputLabel}" Margin="0 15 0 0" />
         <StackPanel Orientation="Horizontal">
             <TextBox Style="{StaticResource InputTextBox}" validation:ValidationBehavior.HasError="{Binding HasValidationError}">
                 <TextBox.Text>
-                    <Binding Path="ExecutablePath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validation:FilePathValidationRule ValidatesOnTargetUpdated="True" />
-                        </Binding.ValidationRules>
+                    <Binding Path="ExecutablePath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
                     </Binding>
                 </TextBox.Text>
             </TextBox>

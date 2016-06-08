@@ -2,6 +2,7 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
+using MvvmValidation;
 using System;
 using System.IO;
 using System.Windows.Input;
@@ -14,14 +15,14 @@ namespace ENBOrganizer.App.ViewModels.Games
         private Game _game;
 
         public ICommand BrowseCommand { get; set; }
-        public bool ErrorExists { get; set; }
 
         private string _executablePath;
 
+        // TODO: this isn't validating at first
         public string ExecutablePath
         {
             get { return _executablePath; }
-            set { Set(nameof(ExecutablePath), ref _executablePath, value); }
+            set { Set(nameof(ExecutablePath), ref _executablePath, value); _validator.Validate(() => ExecutablePath); }
         }
 
         public GameDetailViewModel(GameService gameService)
@@ -33,6 +34,11 @@ namespace ENBOrganizer.App.ViewModels.Games
             MessengerInstance.Register<Game>(this, OnGameReceived);
 
             BrowseCommand = new RelayCommand(BrowseForGameFile);
+            
+            _validator.AddRequiredRule(() => Name, "Name is totes required.");
+            _validator.AddRequiredRule(() => ExecutablePath, "Exe path is totes required.");
+
+            _validator.ValidateAll();
         }
 
         private void OnGameReceived(Game game)

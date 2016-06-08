@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace ENBOrganizer.App
 {
-    // TODO: AddBinaryView and GameDetailView should use StackPanel for simplicity
+    // TODO: add top margin to presets
     public partial class App : Application
     {
         public App() 

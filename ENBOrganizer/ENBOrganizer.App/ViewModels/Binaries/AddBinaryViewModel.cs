@@ -53,12 +53,6 @@ namespace ENBOrganizer.App.ViewModels.Binaries
             Name = Path.GetFileNameWithoutExtension(SourcePath);
         }
 
-        protected override bool CanSave()
-        {
-            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(SourcePath)
-                && (Directory.Exists(SourcePath) || File.Exists(SourcePath));
-        }
-
         protected override void Save()
         {
             try
@@ -81,6 +75,11 @@ namespace ENBOrganizer.App.ViewModels.Binaries
             SourcePath = string.Empty;
 
             _dialogService.CloseDialog(DialogName.AddBinary);
+        }
+
+        protected override void SetupValidationRules()
+        {
+            throw new NotImplementedException();
         }
     }
 }

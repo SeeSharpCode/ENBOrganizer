@@ -76,12 +76,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
                 Close();
             }
         }
-
-        protected override bool CanSave()
-        {
-            return !string.IsNullOrWhiteSpace(Name);
-        }
-
+        
         protected override void Close()
         {
             _preset = null;
@@ -91,6 +86,11 @@ namespace ENBOrganizer.App.ViewModels.Presets
             Binary = null;
 
             _dialogService.CloseDialog(DialogName.EditPreset);
+        }
+
+        protected override void SetupValidationRules()
+        {
+            throw new NotImplementedException();
         }
     }
 }

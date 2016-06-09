@@ -1,4 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using System;
+using MaterialDesignThemes.Wpf;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -25,17 +26,17 @@ namespace ENBOrganizer.App.ViewModels
             Close();
         }
 
-        protected override bool CanSave()
-        {
-            return !string.IsNullOrWhiteSpace(Input);
-        }
-
         protected override void Close()
         {
             DialogHost.CloseDialogCommand.Execute(Input, null);
 
             Prompt = string.Empty;
             Input = string.Empty;
+        }
+
+        protected override void SetupValidationRules()
+        {
+            throw new NotImplementedException();
         }
     }
 }

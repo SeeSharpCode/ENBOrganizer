@@ -46,16 +46,16 @@ namespace ENBOrganizer.App.ViewModels.Master
             }
         }
 
-        protected override bool CanSave()
-        {
-            return !string.IsNullOrWhiteSpace(Name);
-        }
-
         protected override void Close()
         {
             Name = string.Empty;
 
             _dialogService.CloseDialog(DialogName.AddMasterListItem);
+        }
+
+        protected override void SetupValidationRules()
+        {
+            throw new NotImplementedException();
         }
     }
 }

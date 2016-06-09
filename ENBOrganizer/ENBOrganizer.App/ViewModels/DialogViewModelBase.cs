@@ -4,9 +4,10 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
 using MvvmValidation;
-using System.ComponentModel;
-using System.Windows.Input;
 using System;
+using System.ComponentModel;
+using System.Linq.Expressions;
+using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -25,7 +26,13 @@ namespace ENBOrganizer.App.ViewModels
         public string Name
         {
             get { return _name; }
-            set { Set(nameof(Name), ref _name, value); }
+            set
+            {
+                // TODO: implement everywhere
+                _name = value;
+                _validator.Validate(() => Name);
+                RaisePropertyChanged(nameof(Name));
+            }
         }
 
         public string Error { get { return _dataErrorInfoAdapter.Error; } }
@@ -42,12 +49,15 @@ namespace ENBOrganizer.App.ViewModels
             _validator = validationHelper;
             _dataErrorInfoAdapter = new DataErrorInfoAdapter(_validator);
 
-            SaveCommand = new RelayCommand(Save, CanSave);
+            SaveCommand = new RelayCommand(Save, () => _validator.ValidateAll().IsValid);
             CancelCommand = new RelayCommand(Close);
+
+            SetupValidationRules();
+            _validator.ValidateAll();
         }
 
+        protected abstract void SetupValidationRules();
         protected abstract void Save();
-        protected abstract bool CanSave();
         protected abstract void Close();
     }
 }

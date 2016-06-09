@@ -17,12 +17,16 @@ namespace ENBOrganizer.App.ViewModels.Games
         public ICommand BrowseCommand { get; set; }
 
         private string _executablePath;
-
-        // TODO: this isn't validating at first
+        
         public string ExecutablePath
         {
             get { return _executablePath; }
-            set { Set(nameof(ExecutablePath), ref _executablePath, value); _validator.Validate(() => ExecutablePath); }
+            set
+            {
+                _executablePath = value;
+                _validator.Validate(() => ExecutablePath);
+                RaisePropertyChanged(nameof(ExecutablePath));
+            }
         }
 
         public GameDetailViewModel(GameService gameService)
@@ -34,11 +38,6 @@ namespace ENBOrganizer.App.ViewModels.Games
             MessengerInstance.Register<Game>(this, OnGameReceived);
 
             BrowseCommand = new RelayCommand(BrowseForGameFile);
-            
-            _validator.AddRequiredRule(() => Name, "Name is totes required.");
-            _validator.AddRequiredRule(() => ExecutablePath, "Exe path is totes required.");
-
-            _validator.ValidateAll();
         }
 
         private void OnGameReceived(Game game)
@@ -78,11 +77,6 @@ namespace ENBOrganizer.App.ViewModels.Games
             }
         }
 
-        protected override bool CanSave()
-        {
-            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(ExecutablePath) && File.Exists(ExecutablePath);
-        }
-
         private void BrowseForGameFile()
         {
             string gameFilePath = _dialogService.ShowOpenFileDialog("Select the game's .exe file", "EXE Files (*.exe)|*.exe");
@@ -92,6 +86,13 @@ namespace ENBOrganizer.App.ViewModels.Games
 
             Name = Path.GetFileNameWithoutExtension(gameFilePath);
             ExecutablePath = gameFilePath;
+        }
+
+        protected override void SetupValidationRules()
+        {
+            _validator.AddRequiredRule(() => Name, "Name is totes required.");
+            _validator.AddRequiredRule(() => ExecutablePath, "Exe path is totes required.");
+            _validator.AddRule(() => ExecutablePath, () => RuleResult.Assert(File.Exists(ExecutablePath), "File does not exist."));
         }
     }
 }

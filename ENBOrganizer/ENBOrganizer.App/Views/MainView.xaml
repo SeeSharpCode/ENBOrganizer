@@ -120,7 +120,8 @@
                 <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                           Mode="PrimaryMid" DockPanel.Dock="Top">
                     <DockPanel>
-                        <ToggleButton x:Name="MenuToggleButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="{Binding IsMenuToggleChecked}" />
+                        <ToggleButton x:Name="MenuToggleButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                      IsChecked="{Binding IsMenuToggleChecked}" />
                         <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Models, Mode=OneWay}"
                                   SelectedItem="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.CurrentGame, Mode=TwoWay}"
                                   IsSynchronizedWithCurrentItem="True" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"
@@ -128,8 +129,32 @@
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
-                                               Width="32" Height="32" />
+                                        <ContentControl>
+                                            <ContentControl.Style>
+                                                <Style TargetType="ContentControl">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter},
+                                                                Mode=OneWay}" 
+                                                                           Width="32" Height="32" DockPanel.Dock="Left" />
+                                                        </Setter.Value>
+                                                    </Setter>
+
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter}, Mode=OneWay}" 
+                                                                             Value="{x:Null}">
+                                                            <Setter Property="Content">
+                                                                <Setter.Value>
+                                                                    <materialDesign:PackIcon Kind="Alert" Foreground="Salmon" Width="32" 
+                                                                                                     Height="32" ToolTip="File does not exist" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                        
                                         <Label Content="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" FontSize="22" />
                                     </StackPanel>
                                 </DataTemplate>

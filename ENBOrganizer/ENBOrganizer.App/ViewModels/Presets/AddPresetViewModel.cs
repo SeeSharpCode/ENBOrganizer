@@ -42,11 +42,12 @@ namespace ENBOrganizer.App.ViewModels.Presets
             Binaries = _binaryService.GetByGame(CurrentGame).ToObservableCollection();
         }
 
-        protected override bool CanSave()
-        {
-            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(SourcePath)
-                && (Directory.Exists(SourcePath) || File.Exists(SourcePath));
-        }
+        //TODO: turn into validation rules
+        //protected override bool CanSave()
+        //{
+        //    return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(SourcePath)
+        //        && (Directory.Exists(SourcePath) || File.Exists(SourcePath));
+        //}
 
         private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
@@ -106,6 +107,11 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
             SourcePath = archivePath;
             Name = Path.GetFileNameWithoutExtension(SourcePath);
+        }
+
+        protected override void SetupValidationRules()
+        {
+            throw new NotImplementedException();
         }
     }
 }

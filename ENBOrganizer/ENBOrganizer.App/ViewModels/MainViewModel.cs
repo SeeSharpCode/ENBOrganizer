@@ -1,11 +1,7 @@
 ﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.App.Properties;
-using ENBOrganizer.Domain;
-using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -13,6 +9,7 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly ViewModelLocator _viewModelLocator;
         private readonly GameService _gameService;
+        private readonly SettingsService _settingsService;
 
         public List<IPageViewModel> PageViewModels { get; set; }
 
@@ -52,10 +49,11 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsMenuToggleChecked), ref _isMenuToggleChecked, value); }
         }
 
-        public MainViewModel(GameService gameService)
+        public MainViewModel(GameService gameService, SettingsService settingsService)
         {
             _viewModelLocator = (ViewModelLocator)App.Current.Resources["ViewModelLocator"];
             _gameService = gameService;
+            _settingsService = settingsService;
 
             PageViewModels = new List<IPageViewModel>()
             {
@@ -69,7 +67,7 @@ namespace ENBOrganizer.App.ViewModels
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
 
-            SetupGamesOnFirstUse();
+            _settingsService.InitializeSettings();
         }
 
         private void OnDialogMessage(DialogMessage message)
@@ -94,28 +92,6 @@ namespace ENBOrganizer.App.ViewModels
             }
 
             IsDialogOpen = message.DialogAction == DialogAction.Open;
-        }
-
-        private void SetupGamesOnFirstUse()
-        {
-            if (!Settings.Default.FirstUse)
-                return;
-
-            Settings.Default.FirstUse = false;
-            Settings.Default.Save();
-
-            foreach (KeyValuePair<string, string> gameEntry in GameNames.KnownGamesDictionary)
-            {
-                string installPath;
-                if (RegistryService.TryGetInstallPath(gameEntry.Key, out installPath))
-                {
-                    string gameName = GameNames.GameFriendlyNameMap[gameEntry.Key];
-                    string path = Path.Combine(installPath, gameEntry.Value);
-
-                    if (File.Exists(path))
-                        _gameService.Add(new Game(gameName, path));
-                }
-            }
         }
     }
 }

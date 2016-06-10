@@ -98,6 +98,7 @@
     <Compile Include="Converters\PathToImageConverter.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
+    <Compile Include="SettingsService.cs" />
     <Compile Include="Validation\FilePathValidationRule.cs" />
     <Compile Include="Validation\FileSystemNameValidationRule.cs" />
     <Compile Include="Validation\NotEmptyValidationRule.cs" />

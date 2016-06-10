@@ -54,6 +54,7 @@
     <Compile Include="IO\DirectoryInfoExtensions.cs" />
     <Compile Include="IO\FileInfoExtensions.cs" />
     <Compile Include="IO\PathUtil.cs" />
+    <Compile Include="RegistryUtil.cs" />
     <Compile Include="StringAndCharExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

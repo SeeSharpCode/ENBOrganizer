@@ -1,9 +1,8 @@
-﻿using ENBOrganizer.Util;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 
-namespace ENBOrganizer.Domain.Services
+namespace ENBOrganizer.Util
 {
-    public static class RegistryService
+    public static class RegistryUtil
     {
         private const string Win32Applications = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
         private const string Win64Applications = @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall";

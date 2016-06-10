@@ -6,7 +6,6 @@ using ENBOrganizer.Util.IO;
 using MvvmValidation;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace ENBOrganizer.App.ViewModels.Presets
 {

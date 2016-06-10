@@ -65,7 +65,6 @@
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\MasterListService.cs" />
     <Compile Include="Services\PresetService.cs" />
-    <Compile Include="Services\RegistryService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENBOrganizer.Util\ENBOrganizer.Util.csproj">

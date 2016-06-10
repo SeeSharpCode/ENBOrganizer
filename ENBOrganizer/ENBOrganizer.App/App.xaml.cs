@@ -3,7 +3,6 @@ using System.Windows;
 
 namespace ENBOrganizer.App
 {
-    // TODO: add top margin to presets
     public partial class App : Application
     {
         public App() 

@@ -3,7 +3,6 @@ using ENBOrganizer.App.ViewModels;
 using ENBOrganizer.App.Views;
 using GalaSoft.MvvmLight.Messaging;
 using MaterialDesignThemes.Wpf;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

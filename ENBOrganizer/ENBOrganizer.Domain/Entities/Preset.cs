@@ -2,9 +2,7 @@
 
 namespace ENBOrganizer.Domain.Entities
 {
-#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public class Preset : FileSystemEntity
-#pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public Binary Binary { get; set; }
 

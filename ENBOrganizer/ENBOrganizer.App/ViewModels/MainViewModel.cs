@@ -107,12 +107,13 @@ namespace ENBOrganizer.App.ViewModels
             foreach (KeyValuePair<string, string> gameEntry in GameNames.KnownGamesDictionary)
             {
                 string installPath;
-                if (RegistryService.TryGetInstallPath(gameEntry.Key, out installPath) && File.Exists(installPath))
+                if (RegistryService.TryGetInstallPath(gameEntry.Key, out installPath))
                 {
                     string gameName = GameNames.GameFriendlyNameMap[gameEntry.Key];
                     string path = Path.Combine(installPath, gameEntry.Value);
 
-                    _gameService.Add(new Game(gameName, path));
+                    if (File.Exists(path))
+                        _gameService.Add(new Game(gameName, path));
                 }
             }
         }

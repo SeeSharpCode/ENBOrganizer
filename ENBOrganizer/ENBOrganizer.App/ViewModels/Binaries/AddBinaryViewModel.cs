@@ -1,5 +1,6 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
@@ -20,7 +21,12 @@ namespace ENBOrganizer.App.ViewModels.Binaries
         public string SourcePath
         {
             get { return _sourcePath; }
-            set { Set(nameof(SourcePath), ref _sourcePath, value); }
+            set
+            {
+                _sourcePath = value;
+                _validator.Validate(() => SourcePath);
+                RaisePropertyChanged(nameof(SourcePath));
+            }
         }
 
         public AddBinaryViewModel(FileSystemService<Binary> binaryService)
@@ -58,6 +64,10 @@ namespace ENBOrganizer.App.ViewModels.Binaries
             try
             {
                 _binaryService.Import(new Binary(Name, CurrentGame), SourcePath);
+            }
+            catch (DuplicateEntityException)
+            {
+                _dialogService.ShowErrorDialog("A binary with this name already exists for the current game.");
             }
             catch (Exception exception)
             {

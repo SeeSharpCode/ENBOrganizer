@@ -23,8 +23,6 @@ namespace ENBOrganizer.Domain.Services
         
         public virtual void Add(TEntity entity)
         {
-            entity.ID = Guid.NewGuid().ToString();
-
             _repository.Add(entity);
 
             RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, entity));

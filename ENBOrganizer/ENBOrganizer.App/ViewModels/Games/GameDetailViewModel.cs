@@ -1,10 +1,13 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
+using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
 using MvvmValidation;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels.Games
@@ -33,8 +36,6 @@ namespace ENBOrganizer.App.ViewModels.Games
         {
             _gameService = gameService;
 
-            _game = new Game();
-
             MessengerInstance.Register<Game>(this, OnGameReceived);
 
             BrowseCommand = new RelayCommand(BrowseForGameFile);
@@ -50,7 +51,10 @@ namespace ENBOrganizer.App.ViewModels.Games
 
         protected override void Close()
         {
-            _game = new Game();
+            _game = null;
+
+            Name = string.Empty;
+            ExecutablePath = string.Empty;
 
             _dialogService.CloseDialog(DialogName.GameDetail);
         }
@@ -59,17 +63,20 @@ namespace ENBOrganizer.App.ViewModels.Games
         {
             try
             {
-                _game.Name = Name.Trim();
-                _game.ExecutablePath = ExecutablePath.Trim();
-
-                if (string.IsNullOrWhiteSpace(_game.ID))
-                    _gameService.Add(_game);
+                if (_game == null)
+                    _gameService.Add(new Game(Name.Trim(), ExecutablePath.Trim()));
                 else
+                {
+                    _game.Name = Name.Trim();
+                    _game.ExecutablePath = ExecutablePath.Trim();
+
                     _gameService.SaveChanges();
+                }
+                    
             }
-            catch (Exception exception) 
+            catch (DuplicateEntityException)
             {
-                _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog("Can't save this game because a game already exists with this name or directory.");
             }
             finally
             {
@@ -90,8 +97,8 @@ namespace ENBOrganizer.App.ViewModels.Games
 
         protected override void SetupValidationRules()
         {
-            _validator.AddRequiredRule(() => Name, "Name is totes required.");
-            _validator.AddRequiredRule(() => ExecutablePath, "Exe path is totes required.");
+            _validator.AddRequiredRule(() => Name, "Name is required.");
+            _validator.AddRule(() => Name, () => RuleResult.Assert(PathUtil.IsValidFileSystemName(Name), "Name contains invalid character(s)."));
             _validator.AddRule(() => ExecutablePath, () => RuleResult.Assert(File.Exists(ExecutablePath), "File does not exist."));
         }
     }

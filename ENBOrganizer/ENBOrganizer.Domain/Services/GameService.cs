@@ -1,4 +1,5 @@
 ﻿using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 
@@ -31,6 +32,10 @@ namespace ENBOrganizer.Domain.Services
 
                 game.PresetsDirectory.Create();
                 game.BinariesDirectory.Create();
+            }
+            catch (DuplicateEntityException)
+            {
+                throw;
             }
             catch (Exception)
             {

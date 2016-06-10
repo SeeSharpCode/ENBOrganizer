@@ -1,6 +1,7 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -68,6 +69,10 @@ namespace ENBOrganizer.App.ViewModels.Presets
                     preset.Binary = Binary;
 
                 _presetService.Import(preset, SourcePath);
+            }
+            catch (DuplicateEntityException)
+            {
+                _dialogService.ShowErrorDialog("A preset with this name already exists for the current game.");
             }
             catch (Exception exception)
             {

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using ENBOrganizer.Util;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
@@ -60,6 +62,16 @@ namespace ENBOrganizer.Domain.Entities
             : base(name)
         {
             ExecutablePath = executablePath;
+        }
+
+        public override bool Equals(object other)
+        {
+            Game game = other as Game;
+
+            if (game == null)
+                return false;
+
+            return Name.EqualsIgnoreCase(game.Name) || DirectoryPath.Equals(game.DirectoryPath);
         }
     }
 }

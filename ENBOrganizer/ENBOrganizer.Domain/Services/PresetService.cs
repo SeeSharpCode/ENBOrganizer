@@ -39,6 +39,10 @@ namespace ENBOrganizer.Domain.Services
                     }
                 }
             }
+            catch (DuplicateEntityException)
+            {
+                throw;
+            }
             catch (Exception)
             {
                 Delete(preset);

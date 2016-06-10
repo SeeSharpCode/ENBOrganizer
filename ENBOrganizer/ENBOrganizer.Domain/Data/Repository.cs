@@ -37,7 +37,7 @@ namespace ENBOrganizer.Domain.Data
         public void Add(TEntity entity)
         {
             if (_items.Value.Contains(entity))
-                throw new DuplicateEntityException(string.Format("Unable to add duplicate {0}: {1}", entity.GetType().Name.ToLower(), entity.Name));
+                throw new DuplicateEntityException(string.Empty);
 
             _items.Value.Add(entity);
 

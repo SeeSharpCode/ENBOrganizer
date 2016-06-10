@@ -26,6 +26,9 @@ namespace ENBOrganizer.Domain.Entities
         {
             MasterListItem masterListItem = other as MasterListItem;
 
+            if (masterListItem == null)
+                return false;
+
             return masterListItem != null ? Name.EqualsIgnoreCase(masterListItem.Name) && Type.Equals(masterListItem.Type) : false;
         }
     }

@@ -36,9 +36,9 @@ namespace ENBOrganizer.App.ViewModels.Master
             {
                 _masterListService.Add(new MasterListItem(Name, SelectedMasterListItemType));
             }
-            catch (DuplicateEntityException exception)
+            catch (DuplicateEntityException)
             {
-                _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog("Can't add duplicate master list item.");
             }
             finally
             {

@@ -6,7 +6,9 @@ using System.Xml.Serialization;
 
 namespace ENBOrganizer.Domain.Entities
 {
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public abstract class FileSystemEntity : EntityBase
+#pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public Game Game { get; set; }
 
@@ -62,6 +64,13 @@ namespace ENBOrganizer.Domain.Entities
                 Enable();
 
             IsEnabled = !IsEnabled;
+        }
+
+        public override bool Equals(object other)
+        {
+            Binary binary = other as Binary;
+
+            return Name.EqualsIgnoreCase(binary.Name) && Game.Equals(binary.Game);
         }
     }
 }

@@ -4,9 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
 using MvvmValidation;
-using System;
 using System.ComponentModel;
-using System.Linq.Expressions;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
@@ -28,7 +26,6 @@ namespace ENBOrganizer.App.ViewModels
             get { return _name; }
             set
             {
-                // TODO: implement everywhere
                 _name = value;
                 _validator.Validate(() => Name);
                 RaisePropertyChanged(nameof(Name));

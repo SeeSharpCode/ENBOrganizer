@@ -15,16 +15,6 @@ namespace ENBOrganizer.Domain.Services
         {
             _presetService = presetService;
         }
-
-        public override List<Game> GetAll()
-        {
-            List<Game> games = base.GetAll();
-
-            foreach (Game game in games)
-                game.Presets = _presetService.GetByGame(game);
-
-            return games;
-        }
         
         public override void Add(Game game)
         {

@@ -2,7 +2,6 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
-using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
 using MvvmValidation;
 using System;

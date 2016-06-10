@@ -1,7 +1,6 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
-using System;
 
 namespace ENBOrganizer.App.ViewModels.Binaries
 {

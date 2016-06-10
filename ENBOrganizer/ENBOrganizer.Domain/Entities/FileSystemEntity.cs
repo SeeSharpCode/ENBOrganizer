@@ -68,9 +68,12 @@ namespace ENBOrganizer.Domain.Entities
 
         public override bool Equals(object other)
         {
-            Binary binary = other as Binary;
+            FileSystemEntity entity = other as FileSystemEntity;
 
-            return Name.EqualsIgnoreCase(binary.Name) && Game.Equals(binary.Game);
+            if (entity == null)
+                return false;
+
+            return Name.EqualsIgnoreCase(entity.Name) && Game.Equals(entity.Game);
         }
     }
 }

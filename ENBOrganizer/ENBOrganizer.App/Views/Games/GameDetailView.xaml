@@ -7,24 +7,14 @@
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=GameDetailViewModel, Mode=OneTime}">
     <StackPanel Orientation="Vertical" Margin="10">
-        <Label Content="Name" Style="{StaticResource InputLabel}" Margin="0 0 0 2" />
-        <!--<TextBox Style="{StaticResource InputTextBox}"
-                 validation:ValidationBehavior.HasError="{Binding HasValidationError}">
-            <TextBox.Text>
-                <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validation:FileSystemNameValidationRule ValidatesOnTargetUpdated="True" />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>-->
+        <Label Content="Name" Style="{StaticResource InputLabel}" />
         <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                  Style="{StaticResource InputTextBox}" />
 
         <Label Content="Exe Path" Style="{StaticResource InputLabel}" Margin="0 15 0 0" />
         <StackPanel Orientation="Horizontal">
             <TextBox Text="{Binding Path=ExecutablePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                     Style="{StaticResource InputTextBox}" />
+                     Style="{StaticResource FileSystemTextBox}" />
 
             <Button Content="BROWSE" Command="{Binding BrowseCommand, Mode=OneTime}" 
                     Style="{StaticResource MaterialDesignFlatButton}" 

@@ -17,22 +17,14 @@
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" Margin="10">
         <Label Content="Name/Version" Style="{StaticResource InputLabel}" />
-        <TextBox Style="{StaticResource InputTextBox}"
-                 validation:ValidationBehavior.HasError="{Binding HasValidationError}">
-            <TextBox.Text>
-                <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validation:FileSystemNameValidationRule ValidatesOnTargetUpdated="True" />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+        <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Style="{StaticResource InputTextBox}" />
 
         <Label Content="Source Folder or Archive" Style="{StaticResource InputLabel}" 
-               Margin="0 10 0 0" />
+               Margin="0 15 0 0" />
         <StackPanel Orientation="Horizontal">
-            <TextBox Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                 MaxLength="260" Style="{StaticResource InputTextBox}" />
+            <TextBox Text="{Binding Path=SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                     Style="{StaticResource FileSystemTextBox}" />
 
             <Button Name="BrowseButton" Content="BROWSE" HorizontalAlignment="Left" 
                     Style="{StaticResource MaterialDesignFlatButton}" 

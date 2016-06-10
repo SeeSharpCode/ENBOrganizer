@@ -4,7 +4,9 @@ using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
+using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
+using MvvmValidation;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -22,7 +24,12 @@ namespace ENBOrganizer.App.ViewModels.Presets
         public string SourcePath
         {
             get { return _sourcePath; }
-            set { Set(nameof(SourcePath), ref _sourcePath, value.Trim()); }
+            set
+            {
+                _sourcePath = value;
+                _validator.Validate(() => SourcePath);
+                RaisePropertyChanged(nameof(SourcePath));
+            }
         }
 
         public string Description { get; set; }
@@ -42,13 +49,6 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
             Binaries = _binaryService.GetByGame(CurrentGame).ToObservableCollection();
         }
-
-        //TODO: turn into validation rules
-        //protected override bool CanSave()
-        //{
-        //    return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(SourcePath)
-        //        && (Directory.Exists(SourcePath) || File.Exists(SourcePath));
-        //}
 
         private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
@@ -116,7 +116,9 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         protected override void SetupValidationRules()
         {
-            throw new NotImplementedException();
+            _validator.AddRequiredRule(() => Name, "Name is required.");
+            _validator.AddRule(() => Name, () => RuleResult.Assert(PathUtil.IsValidFileSystemName(Name), "Name contains invalid character(s)."));
+            _validator.AddRule(() => SourcePath, () => RuleResult.Assert(Directory.Exists(SourcePath) || File.Exists(SourcePath), "Directory/archive does not exist."));
         }
     }
 }

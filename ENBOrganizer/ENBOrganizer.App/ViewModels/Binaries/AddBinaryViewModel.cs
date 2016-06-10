@@ -2,7 +2,9 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
+using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
+using MvvmValidation;
 using System;
 using System.IO;
 using System.Windows.Input;
@@ -89,7 +91,9 @@ namespace ENBOrganizer.App.ViewModels.Binaries
 
         protected override void SetupValidationRules()
         {
-            throw new NotImplementedException();
+            _validator.AddRequiredRule(() => Name, "Name is required.");
+            _validator.AddRule(() => Name, () => RuleResult.Assert(PathUtil.IsValidFileSystemName(Name), "Name contains invalid character(s)."));
+            _validator.AddRule(() => SourcePath, () => RuleResult.Assert(Directory.Exists(SourcePath) || File.Exists(SourcePath), "Directory/archive does not exist."));
         }
     }
 }

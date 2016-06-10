@@ -9,14 +9,15 @@
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=EditPresetViewModel}">
     <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Left">
-        <Label Content="Name" />
-        <TextBox Text="{Binding Name, Mode=TwoWay}" Width="300" TextWrapping="Wrap" HorizontalAlignment="Left" />
+        <Label Content="Name" Style="{StaticResource InputLabel}" />
+        <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Style="{StaticResource InputTextBox}" />
 
-        <Label Content="Description (Optional)" />
+        <Label Content="Description (Optional)" Style="{StaticResource InputLabel}" />
         <TextBox Text="{Binding Description, Mode=TwoWay}" 
-                 Width="300" TextWrapping="Wrap" HorizontalAlignment="Left" />
+                 Style="{StaticResource InputTextBox}" />
 
-        <Label Content="Binary (Optional)" />
+        <Label Content="Binary (Optional)" Style="{StaticResource InputLabel}" />
         <ComboBox SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" 
                   DisplayMemberPath="Name">

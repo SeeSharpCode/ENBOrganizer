@@ -2,6 +2,7 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
+using MvvmValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace ENBOrganizer.App.ViewModels.Master
 
         protected override void SetupValidationRules()
         {
-            throw new NotImplementedException();
+            _validator.AddRequiredRule(() => Name, "Name is required.");
         }
     }
 }

@@ -2,6 +2,8 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
+using ENBOrganizer.Util.IO;
+using MvvmValidation;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -90,7 +92,8 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         protected override void SetupValidationRules()
         {
-            throw new NotImplementedException();
+            _validator.AddRequiredRule(() => Name, "Name is required.");
+            _validator.AddRule(() => Name, () => RuleResult.Assert(PathUtil.IsValidFileSystemName(Name), "Name contains invalid character(s)."));
         }
     }
 }

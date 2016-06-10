@@ -1,6 +1,4 @@
 ﻿using ENBOrganizer.Util;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
@@ -48,9 +46,9 @@ namespace ENBOrganizer.Domain.Entities
         }
 
         [XmlIgnore]
-        public string DirectoryPath
+        public DirectoryInfo Directory
         {
-            get { return Path.GetDirectoryName(ExecutablePath); }
+            get { return new DirectoryInfo(Path.GetDirectoryName(ExecutablePath)); }
         }
 
         public Game() { } // Required for XML serialization.
@@ -68,7 +66,7 @@ namespace ENBOrganizer.Domain.Entities
             if (game == null)
                 return false;
 
-            return Name.EqualsIgnoreCase(game.Name) || DirectoryPath.Equals(game.DirectoryPath);
+            return Name.EqualsIgnoreCase(game.Name) || Directory.FullName.Equals(game.Directory.FullName);
         }
     }
 }

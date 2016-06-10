@@ -37,6 +37,12 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
+        public void Rename(Game game)
+        {
+            // TODO: fix this
+            foreach (Preset preset in _presetService.GetByGame(game))
+        }
+
         public void AddGamesFromRegistry()
         {
             foreach (KeyValuePair<string, string> gameEntry in GameNames.KnownGamesDictionary)

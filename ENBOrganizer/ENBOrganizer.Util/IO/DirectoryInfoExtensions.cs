@@ -15,7 +15,7 @@ namespace ENBOrganizer.Util.IO
                 targetDirectory.Create();
 
             foreach (FileInfo file in sourceDirectory.GetFiles())
-                file.CopyTo(Path.Combine(targetDirectoryPath, file.Name), true);
+                file.CopyTo(Path.Combine(targetDirectory.FullName, file.Name), true);
 
             foreach (DirectoryInfo subdirectory in sourceDirectory.GetDirectories())
                 CopyTo(subdirectory, Path.Combine(targetDirectory.FullName, subdirectory.Name));

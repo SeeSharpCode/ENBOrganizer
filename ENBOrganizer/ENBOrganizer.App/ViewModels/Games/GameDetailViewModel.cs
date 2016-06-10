@@ -2,12 +2,11 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
+using ENBOrganizer.Util;
 using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
 using MvvmValidation;
-using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels.Games
@@ -67,6 +66,10 @@ namespace ENBOrganizer.App.ViewModels.Games
                     _gameService.Add(new Game(Name.Trim(), ExecutablePath.Trim()));
                 else
                 {
+                    // TODO: bugs
+                    if (!_game.Name.EqualsIgnoreCase(Name.Trim()))
+                        _game.Directory.Rename(Name.Trim());
+
                     _game.Name = Name.Trim();
                     _game.ExecutablePath = ExecutablePath.Trim();
 

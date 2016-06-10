@@ -34,7 +34,7 @@ namespace ENBOrganizer.App.ViewModels.Games
             : base(gameService)
         {
             EditGameCommand = new RelayCommand<Game>(EditGame);
-            ViewFilesCommand = new RelayCommand<Game>(game => Process.Start(game.DirectoryPath), CanViewFiles);
+            ViewFilesCommand = new RelayCommand<Game>(game => Process.Start(game.Directory.FullName), CanViewFiles);
         }
 
         private bool CanViewFiles(Game game)

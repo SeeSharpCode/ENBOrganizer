@@ -94,13 +94,13 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         private void BrowseForDirectory()
         {
-            string directoryPath = _dialogService.ShowFolderBrowserDialog("Please select the preset folder...");
+            string path = _dialogService.ShowFolderBrowserDialog("Please select the preset folder...");
 
-            if (string.IsNullOrWhiteSpace(directoryPath))
+            if (string.IsNullOrWhiteSpace(path))
                 return;
 
-            SourcePath = directoryPath;
-            Name = new DirectoryInfo(directoryPath).Name;
+            SourcePath = path;
+            Name = new DirectoryInfo(path).Name;
         }
 
         private void BrowseForArchive()

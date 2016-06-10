@@ -1,5 +1,6 @@
 ﻿using ENBOrganizer.App.Properties;
 using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
@@ -53,7 +54,12 @@ namespace ENBOrganizer.App.ViewModels
             _validator.ValidateAll();
         }
 
-        protected abstract void SetupValidationRules();
+        protected virtual void SetupValidationRules()
+        {
+            _validator.AddRequiredRule(() => Name, "Name is required.");
+            _validator.AddRule(() => Name, () => RuleResult.Assert(PathUtil.IsValidFileSystemName(Name), "Name contains invalid character(s)."));
+        }
+
         protected abstract void Save();
         protected abstract void Close();
     }

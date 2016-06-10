@@ -67,7 +67,7 @@ namespace ENBOrganizer.App
         public async Task<object> ShowInputDialog(string prompt, string hostName, string defaultValue = null)
         {
             _viewModelLocator.InputViewModel.Prompt = prompt;
-            _viewModelLocator.InputViewModel.Input = defaultValue;
+            _viewModelLocator.InputViewModel.Name = defaultValue;
 
             InputView inputDialog = new InputView
             {

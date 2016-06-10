@@ -116,8 +116,8 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         protected override void SetupValidationRules()
         {
-            _validator.AddRequiredRule(() => Name, "Name is required.");
-            _validator.AddRule(() => Name, () => RuleResult.Assert(PathUtil.IsValidFileSystemName(Name), "Name contains invalid character(s)."));
+            base.SetupValidationRules();
+
             _validator.AddRule(() => SourcePath, () => RuleResult.Assert(Directory.Exists(SourcePath) || File.Exists(SourcePath), "Directory/archive does not exist."));
         }
     }

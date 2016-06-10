@@ -88,11 +88,5 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
             _dialogService.CloseDialog(DialogName.EditPreset);
         }
-
-        protected override void SetupValidationRules()
-        {
-            _validator.AddRequiredRule(() => Name, "Name is required.");
-            _validator.AddRule(() => Name, () => RuleResult.Assert(PathUtil.IsValidFileSystemName(Name), "Name contains invalid character(s)."));
-        }
     }
 }

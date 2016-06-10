@@ -7,9 +7,9 @@
              mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=InputViewModel}">
     <StackPanel Margin="15">
-        <Label Content="{Binding Prompt, Mode=OneWay}" />
-        <TextBox Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 MinWidth="150" MaxWidth="400" TextWrapping="Wrap" />
+        <Label Content="{Binding Prompt, Mode=OneWay}" Style="{StaticResource InputLabel}" />
+        <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Style="{StaticResource InputTextBox}" />
         <Button Content="OK" Command="{Binding SaveCommand, Mode=OneTime}"
                 HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 5 0 0" />
     </StackPanel>

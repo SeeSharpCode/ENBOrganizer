@@ -53,10 +53,5 @@ namespace ENBOrganizer.App.ViewModels.Master
 
             _dialogService.CloseDialog(DialogName.AddMasterListItem);
         }
-
-        protected override void SetupValidationRules()
-        {
-            _validator.AddRequiredRule(() => Name, "Name is required.");
-        }
     }
 }

@@ -19,6 +19,8 @@ namespace ENBOrganizer.Domain.Entities
                 RaisePropertyChanged(nameof(Name));
             }
         }
+
+        public EntityBase() { }
         
         public EntityBase(string name)
         {

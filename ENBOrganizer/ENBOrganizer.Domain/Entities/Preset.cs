@@ -40,6 +40,8 @@ namespace ENBOrganizer.Domain.Entities
              }
         }
 
+        public Preset() { }
+
         public Preset(string name, Game game) : base(name, game) { }
 
         public override void Enable()

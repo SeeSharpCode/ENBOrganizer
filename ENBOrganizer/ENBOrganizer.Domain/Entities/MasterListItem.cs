@@ -15,6 +15,8 @@ namespace ENBOrganizer.Domain.Entities
         public long MasterListItemId { get; set; }
         public MasterListItemType Type { get; set; }
 
+        public MasterListItem() { }
+
         public MasterListItem(string name, MasterListItemType type)
             : base(name)
         {

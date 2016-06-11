@@ -17,6 +17,8 @@ namespace ENBOrganizer.Domain.Entities
             }
         }
         
+        public Binary() { }
+
         public Binary(string name, Game game) : base(name, game) { }
     }
 }

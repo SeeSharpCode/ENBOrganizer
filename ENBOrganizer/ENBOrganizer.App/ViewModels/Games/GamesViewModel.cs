@@ -1,8 +1,11 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.App.Properties;
+using ENBOrganizer.Domain.Data;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
@@ -15,7 +18,7 @@ namespace ENBOrganizer.App.ViewModels.Games
 
         public ICommand ViewFilesCommand { get; set; }
         public ICommand EditGameCommand { get; set; }
-        
+
         public new Game CurrentGame
         {
             get { return Settings.Default.CurrentGame; }

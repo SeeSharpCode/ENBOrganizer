@@ -57,6 +57,8 @@ namespace ENBOrganizer.Domain.Entities
             get { return new DirectoryInfo(Path.GetDirectoryName(ExecutablePath)); }
         }
 
+        public Game() { }
+
         public Game(string name, string executablePath)
             : base(name)
         {

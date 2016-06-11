@@ -27,6 +27,8 @@ namespace ENBOrganizer.Domain.Entities
         
         [NotMapped]
         public abstract DirectoryInfo Directory { get; }
+
+        public FileSystemEntity() { }
         
         public FileSystemEntity(string name, Game game)
             : base(name)

@@ -74,10 +74,10 @@ namespace ENBOrganizer.App.ViewModels.Games
                     _game.Name = Name.Trim();
                     _game.ExecutablePath = ExecutablePath.Trim();
 
+                    _gameService.SaveChanges();
+
                     if (updateCurrentGame)
                         _settingsService.CurrentGame = _game;
-
-                    _gameService.SaveChanges();
                 }
                     
             }

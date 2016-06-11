@@ -1,6 +1,7 @@
 ﻿using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util;
+using ENBOrganizer.Util.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,10 +11,12 @@ namespace ENBOrganizer.Domain.Services
     public class GameService : DataService<Game>
     {
         private readonly PresetService _presetService;
+        private readonly FileSystemService<Binary> _binaryService;
 
-        public GameService(PresetService presetService)
+        public GameService(PresetService presetService, FileSystemService<Binary> binaryService)
         {
             _presetService = presetService;
+            _binaryService = binaryService;
         }
         
         public override void Add(Game game)
@@ -37,10 +40,18 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void Rename(Game game)
+        public void Rename(Game unmodifiedGame, Game modifiedGame)
         {
-            // TODO: fix this
-            foreach (Preset preset in _presetService.GetByGame(game))
+            foreach (Preset preset in _presetService.GetByGame(unmodifiedGame))
+                preset.Game = modifiedGame;
+
+            foreach (Binary binary in _binaryService.GetByGame(unmodifiedGame))
+                binary.Game = modifiedGame;
+
+            _presetService.SaveChanges();
+            _binaryService.SaveChanges();
+
+            unmodifiedGame.Directory.Rename(modifiedGame.Name);
         }
 
         public void AddGamesFromRegistry()

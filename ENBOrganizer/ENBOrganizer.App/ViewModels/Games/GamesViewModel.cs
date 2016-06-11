@@ -7,7 +7,6 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
-using System;
 
 namespace ENBOrganizer.App.ViewModels.Games
 {
@@ -18,23 +17,11 @@ namespace ENBOrganizer.App.ViewModels.Games
         public ICommand ViewFilesCommand { get; set; }
         public ICommand EditGameCommand { get; set; }
         
-        public new Game CurrentGame
-        {
-            get { return Settings.Default.CurrentGame; }
-            set
-            {
-                Settings.Default.CurrentGame = value;
-                Settings.Default.Save();
-
-                RaisePropertyChanged(nameof(CurrentGame));
-            }
-        }
-        
         public GamesViewModel(GameService gameService)
             : base(gameService)
         {
             EditGameCommand = new RelayCommand<Game>(EditGame);
-            ViewFilesCommand = new RelayCommand<Game>(game => Process.Start(game.Directory.FullName), CanViewFiles);
+            ViewFilesCommand = new RelayCommand<Game>(game => Process.Start(game.ExecutableDirectory.FullName), CanViewFiles);
         }
 
         private bool CanViewFiles(Game game)

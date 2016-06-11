@@ -123,7 +123,7 @@
                         <ToggleButton x:Name="MenuToggleButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                                       IsChecked="{Binding IsMenuToggleChecked}" />
                         <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Models, Mode=OneWay}"
-                                  SelectedItem="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.CurrentGame, Mode=TwoWay}"
+                                  SelectedItem="{Binding SettingsService.CurrentGame, Mode=TwoWay}"
                                   IsSynchronizedWithCurrentItem="True" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}">
                             <ComboBox.ItemTemplate>
@@ -134,8 +134,7 @@
                                                 <Style TargetType="ContentControl">
                                                     <Setter Property="Content">
                                                         <Setter.Value>
-                                                            <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter},
-                                                                Mode=OneWay}" 
+                                                            <Image Source="{Binding ExecutablePath, Converter={StaticResource PathToIconConverter},Mode=OneWay}" 
                                                                            Width="32" Height="32" DockPanel.Dock="Left" />
                                                         </Setter.Value>
                                                     </Setter>

@@ -66,12 +66,16 @@ namespace ENBOrganizer.App.ViewModels.Games
                     _gameService.Add(new Game(Name.Trim(), ExecutablePath.Trim()));
                 else
                 {
-                    // TODO: bugs
+                    bool updateCurrentGame = _settingsService.CurrentGame.Equals(_game);
+                    
                     if (!_game.Name.EqualsIgnoreCase(Name.Trim()))
-                        _game.Directory.Rename(Name.Trim());
-
+                        _gameService.Rename(_game, new Game(Name.Trim(), ExecutablePath.Trim()));
+                    
                     _game.Name = Name.Trim();
                     _game.ExecutablePath = ExecutablePath.Trim();
+
+                    if (updateCurrentGame)
+                        _settingsService.CurrentGame = _game;
 
                     _gameService.SaveChanges();
                 }

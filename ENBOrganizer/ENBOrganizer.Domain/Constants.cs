@@ -29,6 +29,7 @@ namespace ENBOrganizer.Domain
         };
     }
 
+    // TODO: needs Fallout 3 and Oblivion data
     public class DirectoryNames
     {
         public const string Games = "Games";

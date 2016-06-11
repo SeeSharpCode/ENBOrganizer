@@ -19,10 +19,21 @@ namespace ENBOrganizer.App.ViewModels
         protected abstract DialogName DialogName { get; }
         
         public ObservableCollection<TEntity> Models { get; set; }
-
-        public virtual Game CurrentGame { get { return Settings.Default.CurrentGame; } }
+        
         public ICommand OpenAddDialogCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+
+        public Game CurrentGame
+        {
+            get { return Settings.Default.CurrentGame; }
+            set
+            {
+                Settings.Default.CurrentGame = value;
+                Settings.Default.Save();
+
+                RaisePropertyChanged(nameof(CurrentGame));
+            }
+        }
 
         public PageViewModelBase(DataService<TEntity> dataService)
             : this(dataService, SimpleIoc.Default.GetInstance<DialogService>()) { }

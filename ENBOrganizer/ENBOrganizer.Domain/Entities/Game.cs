@@ -36,6 +36,16 @@ namespace ENBOrganizer.Domain.Entities
         }
 
         [XmlIgnore]
+        public DirectoryInfo Directory
+        {
+            get
+            {
+                string path = Path.Combine(DirectoryNames.Games, Name);
+                return new DirectoryInfo(path);
+            }
+        }
+
+        [XmlIgnore]
         public DirectoryInfo BinariesDirectory
         {
             get
@@ -46,7 +56,7 @@ namespace ENBOrganizer.Domain.Entities
         }
 
         [XmlIgnore]
-        public DirectoryInfo Directory
+        public DirectoryInfo ExecutableDirectory
         {
             get { return new DirectoryInfo(Path.GetDirectoryName(ExecutablePath)); }
         }
@@ -66,7 +76,7 @@ namespace ENBOrganizer.Domain.Entities
             if (game == null)
                 return false;
 
-            return Name.EqualsIgnoreCase(game.Name) || Directory.FullName.Equals(game.Directory.FullName);
+            return Name.EqualsIgnoreCase(game.Name) && ExecutableDirectory.FullName.Equals(game.ExecutableDirectory.FullName);
         }
     }
 }

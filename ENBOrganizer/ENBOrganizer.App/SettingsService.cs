@@ -1,11 +1,25 @@
 ﻿using ENBOrganizer.App.Properties;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
+using GalaSoft.MvvmLight;
 
 namespace ENBOrganizer.App
 {
-    public class SettingsService
+    public class SettingsService : ObservableObject
     {
         private readonly GameService _gameService;
+
+        public Game CurrentGame
+        {
+            get { return Settings.Default.CurrentGame; }
+            set
+            {
+                Settings.Default.CurrentGame = value;
+                Settings.Default.Save();
+
+                RaisePropertyChanged(nameof(CurrentGame));
+            }
+        }
 
         public SettingsService(GameService gameService)
         {

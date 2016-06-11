@@ -20,12 +20,12 @@ namespace ENBOrganizer.Domain.Services
 
                 List<MasterListItem> masterListItems = _masterListService.GetAll();
 
-                List<string> gameDirectories = Directory.GetDirectories(preset.Game.Directory.FullName).ToList();
-                List<string> gameFiles = Directory.GetFiles(preset.Game.Directory.FullName).ToList();
+                List<string> gameDirectories = Directory.GetDirectories(preset.Game.ExecutableDirectory.FullName).ToList();
+                List<string> gameFiles = Directory.GetFiles(preset.Game.ExecutableDirectory.FullName).ToList();
 
                 foreach (MasterListItem masterListItem in masterListItems)
                 {
-                    string installedPath = Path.Combine(preset.Game.Directory.FullName, masterListItem.Name);
+                    string installedPath = Path.Combine(preset.Game.ExecutableDirectory.FullName, masterListItem.Name);
 
                     if (masterListItem.Type  == MasterListItemType.Directory && gameDirectories.Contains(installedPath))
                     {

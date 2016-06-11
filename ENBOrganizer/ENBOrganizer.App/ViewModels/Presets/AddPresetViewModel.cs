@@ -47,7 +47,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             BrowseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
             BrowseForArchiveCommand = new RelayCommand(BrowseForArchive);
 
-            Binaries = _binaryService.GetByGame(CurrentGame).ToObservableCollection();
+            Binaries = _binaryService.GetByGame(_settingsService.CurrentGame).ToObservableCollection();
         }
 
         private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
@@ -62,7 +62,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             try
             {
-                Preset preset = new Preset(Name, CurrentGame) { Description = Description };
+                Preset preset = new Preset(Name, _settingsService.CurrentGame) { Description = Description };
 
                 // Detect whether the user has selected the default value in the ComboBox.
                 if (Binary.Name != "-- None --" && Binary.Game != null)

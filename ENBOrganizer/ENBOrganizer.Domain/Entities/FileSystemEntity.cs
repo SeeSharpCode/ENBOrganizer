@@ -37,7 +37,7 @@ namespace ENBOrganizer.Domain.Entities
 
         public virtual void Enable()
         {
-            Directory.CopyTo(Game.Directory.FullName);
+            Directory.CopyTo(Game.ExecutableDirectory.FullName);
         }
 
         public virtual void Disable()
@@ -47,7 +47,7 @@ namespace ENBOrganizer.Domain.Entities
                 if (DirectoryNames.EssentialNames.Any(name => name.EqualsIgnoreCase(fileSystemInfo.Name)))
                     continue;
 
-                string installedPath = Path.Combine(Game.Directory.FullName, fileSystemInfo.Name);
+                string installedPath = Path.Combine(Game.ExecutableDirectory.FullName, fileSystemInfo.Name);
 
                 if (fileSystemInfo is DirectoryInfo && System.IO.Directory.Exists(installedPath) && fileSystemInfo.Name != DirectoryNames.Data)
                     System.IO.Directory.Delete(installedPath, true);

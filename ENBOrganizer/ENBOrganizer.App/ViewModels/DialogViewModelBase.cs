@@ -1,6 +1,4 @@
-﻿using ENBOrganizer.App.Properties;
-using ENBOrganizer.Domain.Entities;
-using ENBOrganizer.Util.IO;
+﻿using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
@@ -14,12 +12,12 @@ namespace ENBOrganizer.App.ViewModels
     {
         protected ValidationHelper _validator;
         protected DataErrorInfoAdapter _dataErrorInfoAdapter;
-        protected Game CurrentGame { get { return Settings.Default.CurrentGame; } }
         protected readonly DialogService _dialogService;
+        protected readonly SettingsService _settingsService;
         
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
-
+        
         private string _name;
 
         public string Name
@@ -38,14 +36,17 @@ namespace ENBOrganizer.App.ViewModels
         public string this[string columnName] { get { return _dataErrorInfoAdapter[columnName]; } }
 
         public DialogViewModelBase() 
-            : this(SimpleIoc.Default.GetInstance<DialogService>(), SimpleIoc.Default.GetInstance<ValidationHelper>()) { }
+            : this(SimpleIoc.Default.GetInstance<DialogService>(), 
+                  SimpleIoc.Default.GetInstance<ValidationHelper>(), 
+                  SimpleIoc.Default.GetInstance<SettingsService>()) { }
 
-        public DialogViewModelBase(DialogService dialogService, ValidationHelper validationHelper)
+        public DialogViewModelBase(DialogService dialogService, ValidationHelper validationHelper, SettingsService settingService)
         {
-            _dialogService = dialogService;
-
             _validator = validationHelper;
             _dataErrorInfoAdapter = new DataErrorInfoAdapter(_validator);
+
+            _dialogService = dialogService;
+            _settingsService = settingService;
 
             SaveCommand = new RelayCommand(Save, () => _validator.ValidateAll().IsValid);
             CancelCommand = new RelayCommand(Close);

@@ -40,7 +40,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
             MessengerInstance.Register<Preset>(this, OnPresetReceived);
 
-            Binaries = _binaryService.GetByGame(CurrentGame).ToObservableCollection();
+            Binaries = _binaryService.GetByGame(_settingsService.CurrentGame).ToObservableCollection();
         }
 
         private void OnPresetReceived(Preset preset)

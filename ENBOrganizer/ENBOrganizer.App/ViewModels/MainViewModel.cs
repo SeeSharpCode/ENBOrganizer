@@ -9,8 +9,8 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly ViewModelLocator _viewModelLocator;
         private readonly GameService _gameService;
-        private readonly SettingsService _settingsService;
 
+        public SettingsService SettingsService { get; set; }
         public List<IPageViewModel> PageViewModels { get; set; }
 
         private IPageViewModel _currentPageViewModel;
@@ -53,7 +53,7 @@ namespace ENBOrganizer.App.ViewModels
         {
             _viewModelLocator = (ViewModelLocator)App.Current.Resources["ViewModelLocator"];
             _gameService = gameService;
-            _settingsService = settingsService;
+            SettingsService = settingsService;
 
             PageViewModels = new List<IPageViewModel>()
             {
@@ -67,7 +67,7 @@ namespace ENBOrganizer.App.ViewModels
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
 
-            _settingsService.InitializeSettings();
+            SettingsService.InitializeSettings();
         }
 
         private void OnDialogMessage(DialogMessage message)

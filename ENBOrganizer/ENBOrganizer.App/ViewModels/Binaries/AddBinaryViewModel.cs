@@ -64,7 +64,7 @@ namespace ENBOrganizer.App.ViewModels.Binaries
         {
             try
             {
-                _binaryService.Import(new Binary(Name, CurrentGame), SourcePath);
+                _binaryService.Import(new Binary(Name, _settingsService.CurrentGame), SourcePath);
             }
             catch (DuplicateEntityException)
             {

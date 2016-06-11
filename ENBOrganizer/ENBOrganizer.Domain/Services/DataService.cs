@@ -12,6 +12,7 @@ namespace ENBOrganizer.Domain.Services
         public DataService()
         {
             _context = new TContext();
+            _context.Set<TEntity>().Load();
         }
         
         public virtual void Add(TEntity entity)

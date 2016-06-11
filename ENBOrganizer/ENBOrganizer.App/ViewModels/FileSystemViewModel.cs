@@ -2,7 +2,6 @@
 using ENBOrganizer.Domain.Data;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
-using ENBOrganizer.Util;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -29,6 +28,8 @@ namespace ENBOrganizer.App.ViewModels
             EditCommand = new RelayCommand<TEntity>(Edit);
 
             Settings.Default.PropertyChanged += Default_PropertyChanged;
+
+            Models = CurrentGame.Presets.;
         }
 
         private bool CanDisableAll()
@@ -37,6 +38,11 @@ namespace ENBOrganizer.App.ViewModels
         }
 
         protected abstract void Edit(TEntity entity);
+
+        protected override bool CanAdd()
+        {
+            return CurrentGame != null;
+        }
 
         private void OnStateChanged(TEntity entity)
         {
@@ -51,14 +57,8 @@ namespace ENBOrganizer.App.ViewModels
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
         {
-            if (eventArgs.PropertyName == nameof(CurrentGame))
-                PopulateModels();
-        }
-
-        protected override void PopulateModels()
-        {
-            Models.Clear();
-            Models.AddAll(DataService.Items.Where(entity => entity.Game.Equals(CurrentGame)));
+            //if (eventArgs.PropertyName == nameof(CurrentGame))
+            //    PopulateModels();
         }
     }
 }

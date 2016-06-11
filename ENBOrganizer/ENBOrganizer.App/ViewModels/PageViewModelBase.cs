@@ -1,10 +1,8 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.App.Properties;
-using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Data;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
-using ENBOrganizer.Util;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
@@ -19,7 +17,7 @@ namespace ENBOrganizer.App.ViewModels
         protected readonly DialogService _dialogService;
         protected abstract DialogName DialogName { get; }
         
-        public ObservableCollection<TEntity> Models { get { return DataService.Items; } }
+        public ObservableCollection<TEntity> Models { get; set; }
 
         public virtual Game CurrentGame { get { return Settings.Default.CurrentGame; } }
         public ICommand OpenAddDialogCommand { get; set; }
@@ -37,21 +35,12 @@ namespace ENBOrganizer.App.ViewModels
             OpenAddDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName), CanAdd);
             DeleteCommand = new RelayCommand<TEntity>(entity => DataService.Delete(entity));
 
-            //Models = new ObservableCollection<TEntity>();
-
-            //PopulateModels();
+            Models = DataService.Items;
         }
 
         protected virtual bool CanAdd()
         {
-            return CurrentGame != null;
-        }
-
-        // TODO: models are now exposed by service
-        protected virtual void PopulateModels()
-        {
-            Models.Clear();
-            Models.AddAll(DataService.Items);
+            return true;
         }
     }
 }

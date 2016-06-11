@@ -6,6 +6,7 @@ using ENBOrganizer.Util.IO;
 using MvvmValidation;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ENBOrganizer.App.ViewModels.Presets
 {
@@ -56,14 +57,18 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             try
             {
-                if (Name != _preset.Name)
-                    _presetService.Rename(_preset, Name);
-
-                _preset.Description = Description;
-
-                if (Binary.Name == "-- None --" && Binary.Game == null)
+                if (!Name.Trim().EqualsIgnoreCase(_preset.Name.Trim()))
+                {
+                    if (!_presetService.GetAll().Any(preset => preset.Name.EqualsIgnoreCase(Name.Trim()) && preset.Game.Equals(_settingsService.CurrentGame)))
+                        _presetService.Rename(_preset, Name);
+                    else
+                        _dialogService.ShowErrorDialog("A preset with this name already exists. Other changes have been saved.");
+                }
+                
+                if (Binary == null || (Binary.Name == "-- None --" && Binary.Game == null))
                     Binary = null;
 
+                _preset.Description = Description.Trim(); ;
                 _preset.Binary = Binary;
 
                 _presetService.SaveChanges();

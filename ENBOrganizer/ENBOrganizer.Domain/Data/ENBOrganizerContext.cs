@@ -6,6 +6,8 @@ namespace ENBOrganizer.Domain.Data
 {
     public class ENBOrganizerContext : DbContext
     {
+        public ENBOrganizerContext() : base("database") { }
+
         public DbSet<Game> Games { get; set; }
         public DbSet<Binary> Binaries { get; set; }
         public DbSet<Preset> Presets { get; set; }

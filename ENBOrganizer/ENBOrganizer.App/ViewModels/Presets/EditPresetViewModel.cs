@@ -6,6 +6,7 @@ using ENBOrganizer.Util.IO;
 using MvvmValidation;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ENBOrganizer.App.ViewModels.Presets
 {
@@ -40,7 +41,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
             MessengerInstance.Register<Preset>(this, OnPresetReceived);
 
-            Binaries = _binaryService.GetByGame(CurrentGame).ToObservableCollection();
+            Binaries = _binaryService.Items.Where(binary => binary.Game.Equals(CurrentGame)).ToObservableCollection();
         }
 
         private void OnPresetReceived(Preset preset)

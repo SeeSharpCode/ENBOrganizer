@@ -1,48 +1,34 @@
-﻿using ENBOrganizer.Domain.Data;
-using ENBOrganizer.Domain.Entities;
-using System;
-using System.Collections.Generic;
+﻿using ENBOrganizer.Domain.Entities;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class DataService<TEntity> where TEntity : EntityBase
+    public abstract class DataService<TContext, TEntity> where TEntity : EntityBase where TContext : DbContext, new()
     {
-        protected readonly Repository<TEntity> _repository;
-
-        public event EventHandler<RepositoryChangedEventArgs> ItemsChanged;
+        protected readonly TContext _context;
+        public ObservableCollection<TEntity> Items { get { return _context.Set<TEntity>().Local; } }
 
         public DataService()
         {
-            _repository = new Repository<TEntity>();
-        }
-
-        public virtual List<TEntity> GetAll()
-        {
-            return _repository.Items;
+            _context = new TContext();
         }
         
         public virtual void Add(TEntity entity)
         {
-            _repository.Add(entity);
-
-            RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Added, entity));
+            _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
         }
 
         public virtual void Delete(TEntity entity)
         {
-            _repository.Delete(entity);
-
-            RaiseItemsChanged(new RepositoryChangedEventArgs(RepositoryActionType.Deleted, entity));
+            _context.Set<TEntity>().Remove(entity);
+            _context.SaveChanges();
         }
 
         public void SaveChanges()
         {
-            _repository.SaveChanges();
-        }
-
-        public void RaiseItemsChanged(RepositoryChangedEventArgs eventArgs)
-        {
-            ItemsChanged?.Invoke(this, eventArgs);
+            _context.SaveChanges();
         }
     }
 }

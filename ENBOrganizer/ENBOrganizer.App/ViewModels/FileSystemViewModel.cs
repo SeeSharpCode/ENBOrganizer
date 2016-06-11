@@ -1,4 +1,5 @@
 ﻿using ENBOrganizer.App.Properties;
+using ENBOrganizer.Domain.Data;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
@@ -21,7 +22,7 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand DisableAllCommand { get; set; }
         public ICommand EditCommand { get; set; }
 
-        public FileSystemViewModel(DataService<TEntity> dataService) : base(dataService)
+        public FileSystemViewModel(DataService<ENBOrganizerContext, TEntity> dataService) : base(dataService)
         {
             ViewFilesCommand = new RelayCommand<TEntity>(entity => Process.Start(entity.Directory.FullName));
             ChangeStateCommand = new RelayCommand<TEntity>(OnStateChanged);
@@ -58,7 +59,7 @@ namespace ENBOrganizer.App.ViewModels
         protected override void PopulateModels()
         {
             Models.Clear();
-            Models.AddAll(DataService.GetByGame(CurrentGame));
+            Models.AddAll(DataService.Items.Where(entity => entity.Game.Equals(CurrentGame)));
         }
     }
 }

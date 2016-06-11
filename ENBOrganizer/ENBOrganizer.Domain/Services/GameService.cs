@@ -1,13 +1,15 @@
-﻿using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.Domain.Data;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class GameService : DataService<Game>
+    public class GameService : DataService<ENBOrganizerContext, Game>
     {
         private readonly PresetService _presetService;
 

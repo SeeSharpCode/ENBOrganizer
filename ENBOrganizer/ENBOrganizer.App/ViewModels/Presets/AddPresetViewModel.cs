@@ -1,15 +1,14 @@
 ﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
-using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
 using MvvmValidation;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels.Presets
@@ -42,20 +41,11 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             _presetService = presetService;
             _binaryService = binaryService;
-            _binaryService.ItemsChanged += _binaryService_ItemsChanged;
 
             BrowseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
             BrowseForArchiveCommand = new RelayCommand(BrowseForArchive);
 
-            Binaries = _binaryService.GetByGame(CurrentGame).ToObservableCollection();
-        }
-
-        private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
-        {
-            if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
-                Binaries.Add(repositoryChangedEventArgs.Entity as Binary);
-            else
-                Binaries.Remove(repositoryChangedEventArgs.Entity as Binary);
+            Binaries = _binaryService.Items.Where(binary => binary.Game.Equals(CurrentGame)).ToObservableCollection();
         }
 
         protected override void Save()

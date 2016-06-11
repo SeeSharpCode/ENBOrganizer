@@ -18,12 +18,10 @@ namespace ENBOrganizer.Domain.Services
             {
                 Add(preset);
 
-                List<MasterListItem> masterListItems = _masterListService.GetAll();
-
                 List<string> gameDirectories = Directory.GetDirectories(preset.Game.Directory.FullName).ToList();
                 List<string> gameFiles = Directory.GetFiles(preset.Game.Directory.FullName).ToList();
 
-                foreach (MasterListItem masterListItem in masterListItems)
+                foreach (MasterListItem masterListItem in _masterListService.Items)
                 {
                     string installedPath = Path.Combine(preset.Game.Directory.FullName, masterListItem.Name);
 

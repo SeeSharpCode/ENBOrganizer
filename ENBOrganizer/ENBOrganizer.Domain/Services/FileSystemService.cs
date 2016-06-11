@@ -1,15 +1,15 @@
-﻿using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.Domain.Data;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util.IO;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class FileSystemService<TEntity> : DataService<TEntity> where TEntity : FileSystemEntity
+    public class FileSystemService<TEntity> : DataService<ENBOrganizerContext, TEntity> where TEntity : FileSystemEntity
     {
         protected readonly MasterListService _masterListService;
 
@@ -52,27 +52,15 @@ namespace ENBOrganizer.Domain.Services
             base.Delete(entity);
         }
 
-        public void DisableAll(Game currentGame)
+        public void DisableAll(Game game)
         {
-            foreach (TEntity entity in GetByGame(currentGame))
-            {
+            foreach (TEntity entity in Items.Where(entity => entity.Game.Equals(game)))
                 entity.Disable();
-                entity.IsEnabled = false;
-            }
-
-            SaveChanges();
         }
-
-        public List<TEntity> GetByGame(Game game)
-        {
-            return GetAll().Where(entity => entity.Game.Equals(game)).ToList();
-        }
-
+        
         public void DeleteByGame(Game game)
         {
-            List<TEntity> entities = GetAll().Where(entity => entity.Game.Equals(game)).ToList();
-
-            foreach (TEntity entity in entities)
+            foreach (TEntity entity in Items.Where(entity => entity.Game.Equals(game)))
                 Delete(entity);
         }
 

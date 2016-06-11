@@ -1,13 +1,11 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.App.Properties;
-using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
-using System;
 
 namespace ENBOrganizer.App.ViewModels.Games
 {
@@ -35,6 +33,9 @@ namespace ENBOrganizer.App.ViewModels.Games
         {
             EditGameCommand = new RelayCommand<Game>(EditGame);
             ViewFilesCommand = new RelayCommand<Game>(game => Process.Start(game.Directory.FullName), CanViewFiles);
+
+            if (CurrentGame == null && Models.Any())
+                CurrentGame = Models.First();
         }
 
         private bool CanViewFiles(Game game)
@@ -54,26 +55,6 @@ namespace ENBOrganizer.App.ViewModels.Games
         {
             _dialogService.ShowDialog(DialogName.GameDetail);
             MessengerInstance.Send(game);
-        }
-
-        protected override void _dataService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
-        {
-            Game game = repositoryChangedEventArgs.Entity as Game;
-
-            if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
-            {
-                Models.Add(game);
-
-                if (CurrentGame == null)
-                    CurrentGame = game;
-            }
-            else
-            {
-                Models.Remove(game);
-
-                if (CurrentGame == game)
-                    CurrentGame = Models.FirstOrDefault();
-            }
         }
     }
 }

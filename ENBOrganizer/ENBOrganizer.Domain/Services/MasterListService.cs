@@ -1,4 +1,5 @@
-﻿using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.Domain.Data;
+using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Util;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Linq;
 
 namespace ENBOrganizer.Domain.Services
 {
-    public class MasterListService : DataService<MasterListItem>
+    public class MasterListService : DataService<ENBOrganizerContext, MasterListItem>
     {
         public override void Add(MasterListItem masterListItem)
         {

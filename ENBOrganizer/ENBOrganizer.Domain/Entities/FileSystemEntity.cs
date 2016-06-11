@@ -1,5 +1,6 @@
 ﻿using ENBOrganizer.Util;
 using ENBOrganizer.Util.IO;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -23,12 +24,10 @@ namespace ENBOrganizer.Domain.Entities
                 RaisePropertyChanged(nameof(IsEnabled));
             }
         }
-
-        [XmlIgnore]
+        
+        [NotMapped]
         public abstract DirectoryInfo Directory { get; }
-
-        public FileSystemEntity() { } // Required for XML serialization.
-
+        
         public FileSystemEntity(string name, Game game)
             : base(name)
         {

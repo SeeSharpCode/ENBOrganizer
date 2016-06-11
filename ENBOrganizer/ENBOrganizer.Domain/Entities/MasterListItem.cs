@@ -12,9 +12,8 @@ namespace ENBOrganizer.Domain.Entities
     public class MasterListItem : EntityBase
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
+        public long MasterListItemId { get; set; }
         public MasterListItemType Type { get; set; }
-
-        public MasterListItem() { } // Required for XML serialization.
 
         public MasterListItem(string name, MasterListItemType type)
             : base(name)
@@ -29,7 +28,7 @@ namespace ENBOrganizer.Domain.Entities
             if (masterListItem == null)
                 return false;
 
-            return masterListItem != null ? Name.EqualsIgnoreCase(masterListItem.Name) && Type.Equals(masterListItem.Type) : false;
+            return Name.EqualsIgnoreCase(masterListItem.Name) && Type.Equals(masterListItem.Type);
         }
     }
 }

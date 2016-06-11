@@ -4,6 +4,7 @@ namespace ENBOrganizer.Domain.Entities
 {
     public class Preset : FileSystemEntity
     {
+        public long PresetId { get; set; }
         public Binary Binary { get; set; }
 
         private string _imagePath;
@@ -38,8 +39,6 @@ namespace ENBOrganizer.Domain.Entities
                 return new DirectoryInfo(path); 
              }
         }
-
-        public Preset() { } // Required for XML serialization.
 
         public Preset(string name, Game game) : base(name, game) { }
 

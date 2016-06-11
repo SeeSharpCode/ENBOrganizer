@@ -1,4 +1,5 @@
 ﻿using ENBOrganizer.Util;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
@@ -10,6 +11,8 @@ namespace ENBOrganizer.Domain.Entities
     public class Game : EntityBase
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
+        public long GameId { get; set; }
+
         private string _executablePath;
 
         public string ExecutablePath
@@ -22,10 +25,10 @@ namespace ENBOrganizer.Domain.Entities
             }
         }
 
-        [XmlIgnore]
+        [NotMapped]
         public bool ExecutableExists { get { return File.Exists(ExecutablePath); } }
         
-        [XmlIgnore]
+        [NotMapped]
         public DirectoryInfo PresetsDirectory
         {
             get
@@ -35,7 +38,7 @@ namespace ENBOrganizer.Domain.Entities
             }
         }
 
-        [XmlIgnore]
+        [NotMapped]
         public DirectoryInfo BinariesDirectory
         {
             get
@@ -45,13 +48,11 @@ namespace ENBOrganizer.Domain.Entities
             }
         }
 
-        [XmlIgnore]
+        [NotMapped]
         public DirectoryInfo Directory
         {
             get { return new DirectoryInfo(Path.GetDirectoryName(ExecutablePath)); }
         }
-
-        public Game() { } // Required for XML serialization.
 
         public Game(string name, string executablePath)
             : base(name)

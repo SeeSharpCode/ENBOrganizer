@@ -1,9 +1,13 @@
-﻿using SystemIO = System.IO;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using SystemIO = System.IO;
 
 namespace ENBOrganizer.Domain.Entities
 {
     public class Binary : FileSystemEntity
     {
+        public long BinaryId { get; set; }
+
+        [NotMapped]
         public override SystemIO.DirectoryInfo Directory
         {
             get
@@ -12,9 +16,7 @@ namespace ENBOrganizer.Domain.Entities
                 return new SystemIO.DirectoryInfo(path);
             }
         }
-
-        public Binary() { } // Required for XML serialization.
-
+        
         public Binary(string name, Game game) : base(name, game) { }
     }
 }

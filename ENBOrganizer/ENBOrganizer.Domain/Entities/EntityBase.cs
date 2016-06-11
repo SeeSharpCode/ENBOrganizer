@@ -1,5 +1,4 @@
-﻿using ENBOrganizer.Util;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace ENBOrganizer.Domain.Entities
 {
@@ -20,9 +19,7 @@ namespace ENBOrganizer.Domain.Entities
                 RaisePropertyChanged(nameof(Name));
             }
         }
-
-        public EntityBase() { } // Required for serialization.
-
+        
         public EntityBase(string name)
         {
             Name = name;

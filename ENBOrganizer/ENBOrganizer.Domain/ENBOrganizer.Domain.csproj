@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Data\ENBOrganizerContext.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Entities\Binary.cs" />
     <Compile Include="Entities\FileSystemEntity.cs" />

@@ -1,4 +1,5 @@
 ﻿using ENBOrganizer.Util;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.IO;
@@ -12,6 +13,8 @@ namespace ENBOrganizer.Domain.Entities
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public long GameId { get; set; }
+        public List<Preset> Presets { get; set; }
+        public List<Binary> Binaries { get; set; }
 
         private string _executablePath;
 
@@ -58,6 +61,9 @@ namespace ENBOrganizer.Domain.Entities
             : base(name)
         {
             ExecutablePath = executablePath;
+
+            Presets = new List<Preset>();
+            Binaries = new List<Binary>();
         }
 
         public override bool Equals(object other)

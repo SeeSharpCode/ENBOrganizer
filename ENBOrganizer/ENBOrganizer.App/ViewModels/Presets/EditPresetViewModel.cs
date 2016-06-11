@@ -61,7 +61,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
                 _preset.Description = Description;
 
-                if (Binary.Name == "-- None --" && Binary.Game != null)
+                if (Binary.Name == "-- None --" && Binary.Game == null)
                     Binary = null;
 
                 _preset.Binary = Binary;

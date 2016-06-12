@@ -1,5 +1,6 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows.Input;
@@ -49,9 +50,17 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
         private async void ImportActiveFiles()
         {
-            string name = (string)await _dialogService.ShowInputDialog("Please enter a name for the preset:", "PresetNameDialog");
+            string name = ((string)await _dialogService.ShowInputDialog("Please enter a name for the preset:", "PresetNameDialog")).Trim();
 
-            DataService.ImportActiveFiles(new Preset(name, SettingsService.CurrentGame));
+            try
+            {
+                DataService.ImportActiveFiles(new Preset(name, SettingsService.CurrentGame));
+            }
+            catch (DuplicateEntityException) // TODO: double check these
+            {
+                _dialogService.ShowErrorDialog("A preset named " + name + " already exists.");
+            }
+            
         }
     }
 }

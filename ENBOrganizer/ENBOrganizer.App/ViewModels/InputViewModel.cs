@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using System.Collections.Generic;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -10,6 +11,11 @@ namespace ENBOrganizer.App.ViewModels
         {
             get { return _prompt; }
             set { Set(nameof(Prompt), ref _prompt, value); }
+        }
+
+        public InputViewModel()
+        {
+            ValidatedProperties = new List<string> { nameof(Name) };
         }
         
         protected override void Save()
@@ -23,6 +29,11 @@ namespace ENBOrganizer.App.ViewModels
 
             Prompt = string.Empty;
             Name = string.Empty;
+        }
+
+        protected override string GetValidationError(string propertyName)
+        {
+            return ValidateFileSystemName();
         }
     }
 }

@@ -24,7 +24,7 @@
             <ComboBox.Resources>
                 <CollectionViewSource x:Key="BinariesDataSource" Source="{Binding Binaries}" />
             </ComboBox.Resources>
-            <ComboBox.Style>
+            <!--<ComboBox.Style>
                 <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=SelectedItem}" Value="{x:Null}">
@@ -32,7 +32,7 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </ComboBox.Style>
+            </ComboBox.Style>-->
             <ComboBox.ItemsSource>
                 <CompositeCollection>
                     <entities:Binary Name="-- None --" />

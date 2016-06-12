@@ -4,10 +4,9 @@ using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
-using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
-using MvvmValidation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;
@@ -19,25 +18,20 @@ namespace ENBOrganizer.App.ViewModels.Presets
         private readonly PresetService _presetService;
         private readonly FileSystemService<Binary> _binaryService;
 
-        private string _sourcePath;
-
-        public string SourcePath
-        {
-            get { return _sourcePath; }
-            set
-            {
-                _sourcePath = value;
-                _validator.Validate(() => SourcePath);
-                RaisePropertyChanged(nameof(SourcePath));
-            }
-        }
-
         public string Description { get; set; }
         public Binary Binary { get; set; }
         public ObservableCollection<Binary> Binaries { get; set; }
         public ICommand BrowseForDirectoryCommand { get; set; }
         public ICommand BrowseForArchiveCommand { get; set; }
 
+        private string _sourcePath;
+
+        public string SourcePath
+        {
+            get { return _sourcePath; }
+            set { Set(nameof(SourcePath), ref _sourcePath, value); }
+        }
+        
         public AddPresetViewModel(PresetService presetService, FileSystemService<Binary> binaryService)
         {
             _presetService = presetService;
@@ -48,6 +42,12 @@ namespace ENBOrganizer.App.ViewModels.Presets
             BrowseForArchiveCommand = new RelayCommand(BrowseForArchive);
 
             Binaries = _binaryService.GetByGame(_settingsService.CurrentGame).ToObservableCollection();
+
+            ValidatedProperties = new List<string>
+            {
+                nameof(Name),
+                nameof(SourcePath)
+            };
         }
 
         private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
@@ -62,7 +62,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             try
             {
-                Preset preset = new Preset(Name, _settingsService.CurrentGame) { Description = Description };
+                Preset preset = new Preset(Name.Trim(), _settingsService.CurrentGame) { Description = Description?.Trim() };
 
                 // Detect whether the user has selected the default value in the ComboBox.
                 if (Binary.Name != "-- None --" && Binary.Game != null)
@@ -114,11 +114,17 @@ namespace ENBOrganizer.App.ViewModels.Presets
             Name = Path.GetFileNameWithoutExtension(SourcePath);
         }
 
-        protected override void SetupValidationRules()
+        protected override string GetValidationError(string propertyName)
         {
-            base.SetupValidationRules();
+            switch (propertyName)
+            {
+                case nameof(Name):
+                    return ValidateFileSystemName();
+                case nameof(SourcePath):
+                    return ValidatePath(SourcePath);
+            }
 
-            _validator.AddRule(() => SourcePath, () => RuleResult.Assert(Directory.Exists(SourcePath) || File.Exists(SourcePath), "Directory/archive does not exist."));
+            return string.Empty;
         }
     }
 }

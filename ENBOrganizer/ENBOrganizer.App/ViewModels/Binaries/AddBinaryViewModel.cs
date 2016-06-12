@@ -3,8 +3,8 @@ using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
-using MvvmValidation;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Input;
 
@@ -22,12 +22,7 @@ namespace ENBOrganizer.App.ViewModels.Binaries
         public string SourcePath
         {
             get { return _sourcePath; }
-            set
-            {
-                _sourcePath = value;
-                _validator.Validate(() => SourcePath);
-                RaisePropertyChanged(nameof(SourcePath));
-            }
+            set { Set(nameof(SourcePath), ref _sourcePath, value); }
         }
 
         public AddBinaryViewModel(FileSystemService<Binary> binaryService)
@@ -36,6 +31,12 @@ namespace ENBOrganizer.App.ViewModels.Binaries
 
             BrowseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
             BrowseForArchiveCommand = new RelayCommand(BrowseForArchive);
+
+            ValidatedProperties = new List<string>
+            {
+                nameof(Name),
+                nameof(SourcePath)
+            };
         }
 
         private void BrowseForDirectory()
@@ -64,7 +65,7 @@ namespace ENBOrganizer.App.ViewModels.Binaries
         {
             try
             {
-                _binaryService.Import(new Binary(Name, _settingsService.CurrentGame), SourcePath);
+                _binaryService.Import(new Binary(Name.Trim(), _settingsService.CurrentGame), SourcePath);
             }
             catch (DuplicateEntityException)
             {
@@ -88,11 +89,17 @@ namespace ENBOrganizer.App.ViewModels.Binaries
             _dialogService.CloseDialog(DialogName.AddBinary);
         }
 
-        protected override void SetupValidationRules()
+        protected override string GetValidationError(string propertyName)
         {
-            base.SetupValidationRules();
+            switch (propertyName)
+            {
+                case nameof(Name):
+                    return ValidateFileSystemName();
+                case nameof(SourcePath):
+                    return ValidatePath(SourcePath);
+            }
 
-            _validator.AddRule(() => SourcePath, () => RuleResult.Assert(Directory.Exists(SourcePath) || File.Exists(SourcePath), "Directory/archive does not exist."));
+            return string.Empty;
         }
     }
 }

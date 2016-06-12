@@ -11,6 +11,6 @@
         <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                  Style="{StaticResource InputTextBox}" />
         <Button Content="OK" Command="{Binding SaveCommand, Mode=OneTime}"
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 5 0 0" />
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 20 0 0" />
     </StackPanel>
 </UserControl>

@@ -5,7 +5,6 @@ using ENBOrganizer.App.ViewModels.Presets;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.Ioc;
-using MvvmValidation;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -18,7 +17,6 @@ namespace ENBOrganizer.App.ViewModels
             SimpleIoc.Default.Register<PresetService>();
             SimpleIoc.Default.Register<MasterListService>();
             SimpleIoc.Default.Register<FileSystemService<Binary>>();
-            SimpleIoc.Default.Register<ValidationHelper>();
             SimpleIoc.Default.Register<SettingsService>();
 
             SimpleIoc.Default.Register<MainViewModel>();

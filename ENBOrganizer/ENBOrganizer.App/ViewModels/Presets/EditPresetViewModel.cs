@@ -2,9 +2,8 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
-using ENBOrganizer.Util.IO;
-using MvvmValidation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -42,6 +41,8 @@ namespace ENBOrganizer.App.ViewModels.Presets
             MessengerInstance.Register<Preset>(this, OnPresetReceived);
 
             Binaries = _binaryService.GetByGame(_settingsService.CurrentGame).ToObservableCollection();
+
+            ValidatedProperties = new List<string> { nameof(Name) };
         }
 
         private void OnPresetReceived(Preset preset)
@@ -53,23 +54,20 @@ namespace ENBOrganizer.App.ViewModels.Presets
             Binary = _preset.Binary;
         }
         
-        // TODO: stupid dialog validation
         protected override void Save()
         {
             try
             {
-                if (!Name.Trim().EqualsIgnoreCase(_preset.Name.Trim()))
-                {
-                    if (!_presetService.GetAll().Any(preset => preset.Name.EqualsIgnoreCase(Name.Trim()) && preset.Game.Equals(_settingsService.CurrentGame)))
-                        _presetService.Rename(_preset, Name);
-                    else
-                        _dialogService.ShowErrorDialog("A preset with this name already exists. Other changes have been saved.");
-                }
+                if (!ShouldEdit())
+                    return;
+                
+                if (!_preset.Name.EqualsIgnoreCase(Name.Trim()))
+                    _presetService.Rename(_preset, Name.Trim());
                 
                 if (Binary == null || (Binary.Name == "-- None --" && Binary.Game == null))
                     Binary = null;
 
-                _preset.Description = Description.Trim(); ;
+                _preset.Description = Description?.Trim();
                 _preset.Binary = Binary;
 
                 _presetService.SaveChanges();
@@ -83,6 +81,30 @@ namespace ENBOrganizer.App.ViewModels.Presets
                 Close();
             }
         }
+
+        private bool ShouldEdit()
+        {
+            if (Name.Trim().EqualsIgnoreCase(_preset.Name) && CompareDescriptions() && CompareBinaries())
+                return false;
+
+            if (_presetService.GetByGame(_settingsService.CurrentGame).Any(preset => preset.Name.EqualsIgnoreCase(Name)))
+            {
+                _dialogService.ShowErrorDialog("A preset with this name already exists.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool CompareDescriptions()
+        {
+            return Description == null ? _preset.Description == null : Description.Trim().EqualsIgnoreCase(_preset.Description);
+        }
+
+        private bool CompareBinaries()
+        {
+            return Binary == null ? _preset.Binary == null : Binary.Equals(_preset.Binary);
+        }
         
         protected override void Close()
         {
@@ -93,6 +115,11 @@ namespace ENBOrganizer.App.ViewModels.Presets
             Binary = null;
 
             _dialogService.CloseDialog(DialogName.EditPreset);
+        }
+
+        protected override string GetValidationError(string propertyName)
+        {
+            return ValidateFileSystemName();
         }
     }
 }

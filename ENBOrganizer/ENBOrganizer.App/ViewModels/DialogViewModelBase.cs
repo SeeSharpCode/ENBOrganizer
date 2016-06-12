@@ -2,18 +2,31 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
-using MvvmValidation;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
     public abstract class DialogViewModelBase : ViewModelBase, IDataErrorInfo
     {
-        protected ValidationHelper _validator;
-        protected DataErrorInfoAdapter _dataErrorInfoAdapter;
+        private bool IsValid
+        {
+            get
+            {
+                foreach (string property in ValidatedProperties)
+                    if (GetValidationError(property) != string.Empty)
+                        return false;
+
+                return true;
+            }
+        }
+
         protected readonly DialogService _dialogService;
         protected readonly SettingsService _settingsService;
+        protected List<string> ValidatedProperties { get; set; }
         
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
@@ -23,47 +36,43 @@ namespace ENBOrganizer.App.ViewModels
         public string Name
         {
             get { return _name; }
-            set
-            {
-                _name = value;
-                _validator.Validate(() => Name);
-                RaisePropertyChanged(nameof(Name));
-            }
+            set { Set(nameof(Name), ref _name, value); }
         }
 
-        public string Error { get { return _dataErrorInfoAdapter.Error; } }
+        public string Error { get { throw new NotImplementedException(); } }
 
-        public string this[string columnName] { get { return _dataErrorInfoAdapter[columnName]; } }
+        public string this[string columnName] { get { return GetValidationError(columnName); } }
 
         public DialogViewModelBase() 
-            : this(SimpleIoc.Default.GetInstance<DialogService>(), 
-                  SimpleIoc.Default.GetInstance<ValidationHelper>(), 
-                  SimpleIoc.Default.GetInstance<SettingsService>()) { }
+            : this(SimpleIoc.Default.GetInstance<DialogService>(), SimpleIoc.Default.GetInstance<SettingsService>()) { }
 
-        public DialogViewModelBase(DialogService dialogService, ValidationHelper validationHelper, SettingsService settingService)
+        public DialogViewModelBase(DialogService dialogService, SettingsService settingService)
         {
-            _validator = validationHelper;
-            _dataErrorInfoAdapter = new DataErrorInfoAdapter(_validator);
-
             _dialogService = dialogService;
             _settingsService = settingService;
 
-            SaveCommand = new RelayCommand(Save, () => _validator.ValidateAll().IsValid);
+            SaveCommand = new RelayCommand(Save, () => IsValid);
             CancelCommand = new RelayCommand(Close);
-
-            SetupValidationRules();
-            _validator.ValidateAll();
-        }
-        
-        protected virtual void SetupValidationRules()
-        {
-            _validator.RemoveAllRules();
-
-            _validator.AddRequiredRule(() => Name, "Name is required.");
-            _validator.AddRule(() => Name, () => RuleResult.Assert(PathUtil.IsValidFileSystemName(Name), "Name contains invalid character(s)."));
         }
 
+        protected abstract string GetValidationError(string propertyName);
         protected abstract void Save();
         protected abstract void Close();
+
+        protected string ValidateFileSystemName()
+        {
+            if (string.IsNullOrWhiteSpace(Name))
+                return "Name cannot be empty.";
+
+            if (!PathUtil.IsValidFileSystemName(Name))
+                return "Name contains invalid characters.";
+
+            return string.Empty;
+        }
+
+        protected string ValidatePath(string path)
+        {
+            return (Directory.Exists(path) || File.Exists(path)) ? string.Empty : "Folder/archive doesn't exist.";
+        }
     }
 }

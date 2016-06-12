@@ -2,7 +2,6 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
-using MvvmValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,13 +28,15 @@ namespace ENBOrganizer.App.ViewModels.Master
         public AddMasterListItemViewModel(MasterListService masterListService)
         {
             _masterListService = masterListService;
+
+            ValidatedProperties = new List<string> { nameof(Name) };
         }
         
         protected override void Save()
         {
             try
             {
-                _masterListService.Add(new MasterListItem(Name, SelectedMasterListItemType));
+                _masterListService.Add(new MasterListItem(Name.Trim(), SelectedMasterListItemType));
             }
             catch (DuplicateEntityException)
             {
@@ -52,6 +53,11 @@ namespace ENBOrganizer.App.ViewModels.Master
             Name = string.Empty;
 
             _dialogService.CloseDialog(DialogName.AddMasterListItem);
+        }
+
+        protected override string GetValidationError(string propertyName)
+        {
+            return ValidateFileSystemName();
         }
     }
 }

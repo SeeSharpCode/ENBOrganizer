@@ -3,9 +3,8 @@ using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
-using ENBOrganizer.Util.IO;
 using GalaSoft.MvvmLight.CommandWpf;
-using MvvmValidation;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Input;
 
@@ -14,21 +13,16 @@ namespace ENBOrganizer.App.ViewModels.Games
     public class GameDetailViewModel : DialogViewModelBase
     {
         private readonly GameService _gameService;
-        private Game _game;
+        private Game _existingGame;
 
         public ICommand BrowseCommand { get; set; }
 
         private string _executablePath;
-        
+
         public string ExecutablePath
         {
             get { return _executablePath; }
-            set
-            {
-                _executablePath = value;
-                _validator.Validate(() => ExecutablePath);
-                RaisePropertyChanged(nameof(ExecutablePath));
-            }
+            set { Set(nameof(ExecutablePath), ref _executablePath, value); }
         }
 
         public GameDetailViewModel(GameService gameService)
@@ -38,11 +32,17 @@ namespace ENBOrganizer.App.ViewModels.Games
             MessengerInstance.Register<Game>(this, OnGameReceived);
 
             BrowseCommand = new RelayCommand(BrowseForGameFile);
+
+            ValidatedProperties = new List<string>
+            {
+                nameof(Name),
+                nameof(ExecutablePath)
+            };
         }
 
         private void OnGameReceived(Game game)
         {
-            _game = game;
+            _existingGame = game;
 
             Name = game.Name;
             ExecutablePath = game.ExecutablePath;
@@ -50,7 +50,7 @@ namespace ENBOrganizer.App.ViewModels.Games
 
         protected override void Close()
         {
-            _game = null;
+            _existingGame = null;
 
             Name = string.Empty;
             ExecutablePath = string.Empty;
@@ -62,24 +62,12 @@ namespace ENBOrganizer.App.ViewModels.Games
         {
             try
             {
-                if (_game == null)
-                    _gameService.Add(new Game(Name.Trim(), ExecutablePath.Trim()));
+                Game newGame = new Game(Name.Trim(), ExecutablePath.Trim());
+
+                if (_existingGame == null)
+                    _gameService.Add(newGame);
                 else
-                {
-                    bool updateCurrentGame = _settingsService.CurrentGame.Equals(_game);
-                    
-                    if (!_game.Name.EqualsIgnoreCase(Name.Trim()))
-                        _gameService.Rename(_game, new Game(Name.Trim(), ExecutablePath.Trim()));
-                    
-                    _game.Name = Name.Trim();
-                    _game.ExecutablePath = ExecutablePath.Trim();
-
-                    _gameService.SaveChanges();
-
-                    if (updateCurrentGame)
-                        _settingsService.CurrentGame = _game;
-                }
-                    
+                    EditGame(newGame);
             }
             catch (DuplicateEntityException)
             {
@@ -89,6 +77,39 @@ namespace ENBOrganizer.App.ViewModels.Games
             {
                 Close();
             }
+        }
+
+        private void EditGame(Game newGame)
+        {
+            if (!ShouldEdit(newGame))
+                return;
+
+            bool updateCurrentGame = _settingsService.CurrentGame.Equals(_existingGame);
+
+            if (!_existingGame.Name.EqualsIgnoreCase(newGame.Name))
+                _gameService.Rename(_existingGame, newGame);
+
+            _existingGame.Name = newGame.Name;
+            _existingGame.ExecutablePath = newGame.ExecutablePath;
+
+            _gameService.SaveChanges();
+
+            if (updateCurrentGame)
+                _settingsService.CurrentGame = _existingGame;
+        }
+
+        private bool ShouldEdit(Game newGame)
+        {
+            if (_existingGame.Equals(newGame))
+                return false;
+
+            if (_gameService.GetAll().Contains(newGame))
+            {
+                _dialogService.ShowErrorDialog("This game already exists.");
+                return false;
+            }
+
+            return true;
         }
 
         private void BrowseForGameFile()
@@ -102,11 +123,17 @@ namespace ENBOrganizer.App.ViewModels.Games
             ExecutablePath = gameFilePath;
         }
 
-        protected override void SetupValidationRules()
+        protected override string GetValidationError(string propertyName)
         {
-            base.SetupValidationRules();
+            switch (propertyName)
+            {
+                case nameof(Name):
+                    return ValidateFileSystemName();
+                case nameof(ExecutablePath):
+                    return File.Exists(ExecutablePath) ? string.Empty : "File does not exist.";
+            }
 
-            _validator.AddRule(() => ExecutablePath, () => RuleResult.Assert(File.Exists(ExecutablePath), "File does not exist."));
+            return string.Empty;
         }
     }
 }

@@ -4,7 +4,6 @@
              xmlns:converters="clr-namespace:ENBOrganizer.App.Converters" 
              xmlns:viewModels="clr-namespace:ENBOrganizer.App.ViewModels" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:validation="clr-namespace:ENBOrganizer.App.Validation"
              StartupUri="Views/MainView.xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              d1p1:Ignorable="d" 
@@ -13,7 +12,6 @@
         <ResourceDictionary>
             <converters:PathToImageConverter x:Key="PathToImageConverter" />
             <viewModels:ViewModelLocator x:Key="ViewModelLocator" />
-            <validation:FileSystemNameValidationRule x:Key="FileSystemValidationRule" />
 
             <Style TargetType="RowDefinition">
                 <Setter Property="Height" Value="Auto" />

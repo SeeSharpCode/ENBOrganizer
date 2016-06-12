@@ -8,11 +8,15 @@ namespace ENBOrganizer.App.ViewModels.Binaries
 {
     public class BinariesViewModel : FileSystemViewModel<Binary>
     {
+        private readonly PresetService _presetService;
         protected override DialogName DialogName { get { return DialogName.AddBinary; } }
         protected override string DialogHostName { get { return "RenameBinaryDialog"; } }
 
-        public BinariesViewModel(FileSystemService<Binary> binaryService)
-            : base(binaryService) { }
+        public BinariesViewModel(FileSystemService<Binary> binaryService, PresetService presetService)
+            : base(binaryService)
+        {
+            _presetService = presetService;
+        }
 
         protected override async void Edit(Binary binary)
         {
@@ -20,6 +24,11 @@ namespace ENBOrganizer.App.ViewModels.Binaries
 
             if (!ShouldEdit(binary, newName))
                 return;
+            
+            foreach (Preset preset in _presetService.GetAll().Where(preset => binary.Equals(preset.Binary)))
+                preset.Binary = new Binary(newName, SettingsService.CurrentGame);
+
+            _presetService.SaveChanges();            
 
             DataService.Rename(binary, newName);
         }

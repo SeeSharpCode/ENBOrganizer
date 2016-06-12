@@ -19,7 +19,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
         public PresetsViewModel(PresetService presetService)
             : base(presetService)
         {
-            ImportActiveFilesCommand = new RelayCommand(ImportActiveFiles, () => CurrentGame != null);
+            ImportActiveFilesCommand = new RelayCommand(ImportActiveFiles, CanAdd);
             ChangeImageCommand = new RelayCommand<Preset>(ChangeImage);
             ClearImageCommand = new RelayCommand<Preset>(ClearImage);
         }
@@ -51,7 +51,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             string name = (string)await _dialogService.ShowInputDialog("Please enter a name for the preset:", "PresetNameDialog");
 
-            DataService.ImportActiveFiles(new Preset(name, CurrentGame));
+            DataService.ImportActiveFiles(new Preset(name, _settingsService.CurrentGame));
         }
     }
 }

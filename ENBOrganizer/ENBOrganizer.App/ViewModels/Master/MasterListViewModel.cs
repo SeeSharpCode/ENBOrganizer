@@ -10,5 +10,10 @@ namespace ENBOrganizer.App.ViewModels.Master
         
         public MasterListViewModel(MasterListService dataService) 
             : base(dataService) { }
+
+        protected override bool CanAdd()
+        {
+            return true;
+        }
     }
 }

@@ -44,13 +44,13 @@ namespace ENBOrganizer.Domain.Entities
         {
             foreach (FileSystemInfo fileSystemInfo in Directory.GetFileSystemInfos())
             {
-                if (DirectoryNames.EssentialNames.Any(name => name.EqualsIgnoreCase(fileSystemInfo.Name)))
+                if (DirectoryNames.EssentialNames.Any(name => name.EqualsIgnoreCase(fileSystemInfo.Name)) || !fileSystemInfo.Exists)
                     continue;
 
                 string installedPath = Path.Combine(Game.ExecutableDirectory.FullName, fileSystemInfo.Name);
 
-                if (fileSystemInfo is DirectoryInfo && System.IO.Directory.Exists(installedPath) && fileSystemInfo.Name != DirectoryNames.Data)
-                    System.IO.Directory.Delete(installedPath, true);
+                if (fileSystemInfo is DirectoryInfo)
+                    (fileSystemInfo as DirectoryInfo).DeleteRecursive();
                 else if (File.Exists(installedPath))
                     File.Delete(installedPath);
             }

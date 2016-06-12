@@ -52,8 +52,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             Description = _preset.Description;
             Binary = _preset.Binary;
         }
-
-        // TODO: bugs when editing name with presets
+        
         // TODO: stupid dialog validation
         protected override void Save()
         {

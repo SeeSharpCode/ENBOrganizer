@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
+using System;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -27,15 +28,20 @@ namespace ENBOrganizer.App.ViewModels
             DisableAllCommand = new RelayCommand(DisableAll, CanDisableAll);
             EditCommand = new RelayCommand<TEntity>(Edit);
 
-            Settings.Default.PropertyChanged += Default_PropertyChanged;
+            _settingsService.PropertyChanged += Default_PropertyChanged;
         }
+
+        protected abstract void Edit(TEntity entity);
 
         private bool CanDisableAll()
         {
             return Models.Any();
         }
 
-        protected abstract void Edit(TEntity entity);
+        protected override bool CanAdd()
+        {
+            return _settingsService.CurrentGame != null;
+        }
 
         private void OnStateChanged(TEntity entity)
         {
@@ -45,19 +51,19 @@ namespace ENBOrganizer.App.ViewModels
 
         private void DisableAll()
         {
-            DataService.DisableAll(CurrentGame);
+            DataService.DisableAll(_settingsService.CurrentGame);
         }
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
         {
-            if (eventArgs.PropertyName == nameof(CurrentGame))
+            if (eventArgs.PropertyName == "CurrentGame")
                 PopulateModels();
         }
 
         protected override void PopulateModels()
         {
             Models.Clear();
-            Models.AddAll(DataService.GetByGame(CurrentGame));
+            Models.AddAll(DataService.GetByGame(_settingsService.CurrentGame));
         }
     }
 }

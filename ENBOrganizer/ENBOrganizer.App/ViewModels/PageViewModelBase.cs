@@ -1,5 +1,4 @@
 ﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.App.Properties;
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
@@ -16,6 +15,7 @@ namespace ENBOrganizer.App.ViewModels
     {
         protected virtual DataService<TEntity> DataService { get; set; }
         protected readonly DialogService _dialogService;
+        protected readonly SettingsService _settingsService;
         protected abstract DialogName DialogName { get; }
         
         public ObservableCollection<TEntity> Models { get; set; }
@@ -23,27 +23,16 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand OpenAddDialogCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
 
-        public Game CurrentGame
-        {
-            get { return Settings.Default.CurrentGame; }
-            set
-            {
-                Settings.Default.CurrentGame = value;
-                Settings.Default.Save();
-
-                RaisePropertyChanged(nameof(CurrentGame));
-            }
-        }
-
         public PageViewModelBase(DataService<TEntity> dataService)
-            : this(dataService, SimpleIoc.Default.GetInstance<DialogService>()) { }
+            : this(dataService, SimpleIoc.Default.GetInstance<DialogService>(), SimpleIoc.Default.GetInstance<SettingsService>()) { }
         
-        public PageViewModelBase(DataService<TEntity> dataService, DialogService dialogService)
+        public PageViewModelBase(DataService<TEntity> dataService, DialogService dialogService, SettingsService settingsService)
         {
             DataService = dataService;
             DataService.ItemsChanged += _dataService_ItemsChanged;
 
             _dialogService = dialogService;
+            _settingsService = settingsService;
 
             OpenAddDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName), CanAdd);
             DeleteCommand = new RelayCommand<TEntity>(entity => DataService.Delete(entity));
@@ -53,10 +42,7 @@ namespace ENBOrganizer.App.ViewModels
             PopulateModels();
         }
 
-        protected virtual bool CanAdd()
-        {
-            return CurrentGame != null;
-        }
+        protected abstract bool CanAdd();
 
         protected virtual void PopulateModels()
         {

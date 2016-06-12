@@ -73,8 +73,9 @@ namespace ENBOrganizer.Domain.Services
         public override void Delete(Game game)
         {
             _presetService.DeleteByGame(game);
+            _binaryService.DeleteByGame(game);
 
-            game.PresetsDirectory.Delete(true);
+            game.Directory.DeleteRecursive();
 
             base.Delete(game);
         }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace ENBOrganizer.Util.IO
 {
@@ -28,7 +29,27 @@ namespace ENBOrganizer.Util.IO
             DirectoryInfo renamedDirectory = new DirectoryInfo(renamedPath);
 
             directory.CopyTo(renamedPath);
-            directory.Delete(true);
+            directory.DeleteRecursive();
+        }
+
+        // This is needed as DirectoryInfo.Deletew will fail if a subfolder is open in Windows Explorer.
+        public static void DeleteRecursive(this DirectoryInfo directory)
+        {
+            foreach (DirectoryInfo subdirectory in directory.GetDirectories())
+                DeleteRecursive(subdirectory);
+
+            try
+            {
+                directory.Delete(true);
+            }
+            catch (IOException)
+            {
+                directory.Delete(true);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                directory.Delete(true);
+            }
         }
     }
 }

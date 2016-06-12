@@ -99,9 +99,6 @@
     <Compile Include="DialogService.cs" />
     <Compile Include="Messages\DialogMessage.cs" />
     <Compile Include="SettingsService.cs" />
-    <Compile Include="Validation\FilePathValidationRule.cs" />
-    <Compile Include="Validation\FileSystemNameValidationRule.cs" />
-    <Compile Include="Validation\NotEmptyValidationRule.cs" />
     <Compile Include="ViewModels\Binaries\AddBinaryViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModelBase.cs" />
     <Compile Include="ViewModels\Presets\EditPresetViewModel.cs" />
@@ -145,7 +142,6 @@
     <Compile Include="Views\Presets\PresetsView.xaml.cs">
       <DependentUpon>PresetsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validation\ValidationBehavior.cs" />
     <Page Include="Views\Binaries\AddBinaryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

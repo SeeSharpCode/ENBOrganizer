@@ -28,7 +28,7 @@ namespace ENBOrganizer.App.ViewModels
             DisableAllCommand = new RelayCommand(DisableAll, CanDisableAll);
             EditCommand = new RelayCommand<TEntity>(Edit);
 
-            _settingsService.PropertyChanged += Default_PropertyChanged;
+            SettingsService.PropertyChanged += Default_PropertyChanged;
         }
 
         protected abstract void Edit(TEntity entity);
@@ -40,7 +40,7 @@ namespace ENBOrganizer.App.ViewModels
 
         protected override bool CanAdd()
         {
-            return _settingsService.CurrentGame != null;
+            return SettingsService.CurrentGame != null;
         }
 
         private void OnStateChanged(TEntity entity)
@@ -51,7 +51,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private void DisableAll()
         {
-            DataService.DisableAll(_settingsService.CurrentGame);
+            DataService.DisableAll(SettingsService.CurrentGame);
         }
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
@@ -63,7 +63,7 @@ namespace ENBOrganizer.App.ViewModels
         protected override void PopulateModels()
         {
             Models.Clear();
-            Models.AddAll(DataService.GetByGame(_settingsService.CurrentGame));
+            Models.AddAll(DataService.GetByGame(SettingsService.CurrentGame));
         }
     }
 }

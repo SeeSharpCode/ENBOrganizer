@@ -51,15 +51,15 @@ namespace ENBOrganizer.App.ViewModels.Games
             {
                 Models.Add(game);
 
-                if (_settingsService.CurrentGame == null)
-                    _settingsService.CurrentGame = game;
+                if (SettingsService.CurrentGame == null)
+                    SettingsService.CurrentGame = game;
             }
             else
             {
                 Models.Remove(game);
 
-                if (_settingsService.CurrentGame == game)
-                    _settingsService.CurrentGame = Models.FirstOrDefault();
+                if (SettingsService.CurrentGame == game)
+                    SettingsService.CurrentGame = Models.FirstOrDefault();
             }
         }
     }

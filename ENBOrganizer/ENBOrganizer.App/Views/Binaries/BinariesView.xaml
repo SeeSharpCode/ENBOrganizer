@@ -96,7 +96,7 @@
                                     </Setter>
                                 </DataTrigger>
 
-                                <DataTrigger Binding="{Binding CurrentGame}" Value="{x:Null}">
+                                <DataTrigger Binding="{Binding SettingsService.CurrentGame}" Value="{x:Null}">
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate>

@@ -15,11 +15,10 @@ namespace ENBOrganizer.App.ViewModels
     {
         protected virtual DataService<TEntity> DataService { get; set; }
         protected readonly DialogService _dialogService;
-        protected readonly SettingsService _settingsService;
         protected abstract DialogName DialogName { get; }
         
         public ObservableCollection<TEntity> Models { get; set; }
-        
+        public SettingsService SettingsService { get; set; }
         public ICommand OpenAddDialogCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
 
@@ -32,7 +31,7 @@ namespace ENBOrganizer.App.ViewModels
             DataService.ItemsChanged += _dataService_ItemsChanged;
 
             _dialogService = dialogService;
-            _settingsService = settingsService;
+            SettingsService = settingsService;
 
             OpenAddDialogCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName), CanAdd);
             DeleteCommand = new RelayCommand<TEntity>(entity => DataService.Delete(entity));

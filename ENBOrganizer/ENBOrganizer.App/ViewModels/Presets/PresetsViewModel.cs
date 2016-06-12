@@ -51,7 +51,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             string name = (string)await _dialogService.ShowInputDialog("Please enter a name for the preset:", "PresetNameDialog");
 
-            DataService.ImportActiveFiles(new Preset(name, _settingsService.CurrentGame));
+            DataService.ImportActiveFiles(new Preset(name, SettingsService.CurrentGame));
         }
     }
 }

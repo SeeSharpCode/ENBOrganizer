@@ -1,5 +1,4 @@
-﻿using ENBOrganizer.App.Properties;
-using ENBOrganizer.Domain.Entities;
+﻿using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -7,7 +6,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
-using System;
 
 namespace ENBOrganizer.App.ViewModels
 {

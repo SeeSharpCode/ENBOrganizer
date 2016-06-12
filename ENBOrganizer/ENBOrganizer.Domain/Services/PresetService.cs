@@ -16,7 +16,8 @@ namespace ENBOrganizer.Domain.Services
         {
             try
             {
-                Add(preset);
+                base.Add(preset);
+                preset.Directory.Create();
 
                 List<MasterListItem> masterListItems = _masterListService.GetAll();
 
@@ -27,8 +28,11 @@ namespace ENBOrganizer.Domain.Services
                 {
                     string installedPath = Path.Combine(preset.Game.ExecutableDirectory.FullName, masterListItem.Name);
 
-                    if (masterListItem.Type  == MasterListItemType.Directory && gameDirectories.Contains(installedPath))
+                    if (masterListItem.Type == MasterListItemType.Directory) 
                     {
+                        if (!gameDirectories.Contains(installedPath))
+                            continue;
+
                         DirectoryInfo directory = new DirectoryInfo(installedPath);
                         directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
                     }

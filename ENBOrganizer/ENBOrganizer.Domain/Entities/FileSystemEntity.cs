@@ -49,8 +49,10 @@ namespace ENBOrganizer.Domain.Entities
 
                 string installedPath = Path.Combine(Game.ExecutableDirectory.FullName, fileSystemInfo.Name);
 
-                if (fileSystemInfo is DirectoryInfo)
-                    (fileSystemInfo as DirectoryInfo).DeleteRecursive();
+                DirectoryInfo directory = new DirectoryInfo(installedPath);
+
+                if (directory.Exists)
+                    directory.DeleteRecursive();
                 else if (File.Exists(installedPath))
                     File.Delete(installedPath);
             }

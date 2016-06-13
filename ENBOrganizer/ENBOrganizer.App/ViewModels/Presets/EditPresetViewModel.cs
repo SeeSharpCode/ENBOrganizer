@@ -58,12 +58,17 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             try
             {
-                if (!ShouldEdit())
+                if (NoChanges())
                     return;
                 
                 if (!_preset.Name.EqualsIgnoreCase(Name.Trim()))
-                    _presetService.Rename(_preset, Name.Trim());
-                
+                {
+                    if (_presetService.GetByGame(_settingsService.CurrentGame).Any(preset => preset.Name.EqualsIgnoreCase(Name.Trim())))
+                        _dialogService.ShowWarningDialog("Cannot use this name as another preset already has this name. Other changes will be saved.");
+                    else
+                        _presetService.Rename(_preset, Name.Trim());
+                }
+                    
                 if (Binary == null || (Binary.Name == "-- None --" && Binary.Game == null))
                     Binary = null;
 
@@ -82,18 +87,11 @@ namespace ENBOrganizer.App.ViewModels.Presets
             }
         }
 
-        private bool ShouldEdit()
+        private bool NoChanges()
         {
-            if (Name.Trim().EqualsIgnoreCase(_preset.Name) && CompareDescriptions() && CompareBinaries())
-                return false;
-
-            if (_presetService.GetByGame(_settingsService.CurrentGame).Any(preset => preset.Name.EqualsIgnoreCase(Name)))
-            {
-                _dialogService.ShowErrorDialog("A preset with this name already exists.");
-                return false;
-            }
-
-            return true;
+            return Name.Trim().EqualsIgnoreCase(_preset.Name) 
+                && CompareDescriptions() 
+                && CompareBinaries();
         }
 
         private bool CompareDescriptions()

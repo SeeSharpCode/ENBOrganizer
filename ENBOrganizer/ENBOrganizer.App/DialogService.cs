@@ -24,6 +24,11 @@ namespace ENBOrganizer.App
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        public void ShowWarningDialog(string message)
+        {
+            MessageBox.Show(message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
         public string ShowOpenFileDialog(string title, string filter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog

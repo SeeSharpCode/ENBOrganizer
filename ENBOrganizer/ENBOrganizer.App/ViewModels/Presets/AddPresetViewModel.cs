@@ -87,7 +87,9 @@ namespace ENBOrganizer.App.ViewModels.Presets
         protected override void Close()
         {
             Name = string.Empty;
+            Description = string.Empty;
             SourcePath = string.Empty;
+            Binary = null;
 
             _dialogService.CloseDialog(DialogName.AddPreset);
         }

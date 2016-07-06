@@ -33,7 +33,7 @@ namespace ENBOrganizer.App.ViewModels
 
         private bool CanDisableAll()
         {
-            return Models.Any();
+            return Models.Any(m => m.IsEnabled);
         }
 
         protected override bool CanAdd()

@@ -12,7 +12,7 @@ namespace ENBOrganizer.Domain.Services
     {
         public PresetService(MasterListService masterListService) : base(masterListService) { }        
 
-        public void ImportActiveFiles(Preset preset)
+        public void ImportInstalledFiles(Preset preset)
         {
             try
             {
@@ -24,6 +24,8 @@ namespace ENBOrganizer.Domain.Services
                 List<string> gameDirectories = Directory.GetDirectories(preset.Game.ExecutableDirectory.FullName).ToList();
                 List<string> gameFiles = Directory.GetFiles(preset.Game.ExecutableDirectory.FullName).ToList();
 
+                // TODO: reverse this by reading all game files/folders and checking if they exist in the master list?
+                // TODO: how is this affected by multiple games?
                 foreach (MasterListItem masterListItem in masterListItems)
                 {
                     string installedPath = Path.Combine(preset.Game.ExecutableDirectory.FullName, masterListItem.Name);
@@ -52,6 +54,15 @@ namespace ENBOrganizer.Domain.Services
                 Delete(preset);
 
                 throw;
+            }
+        }
+
+        public void RefreshEnabledPresets()
+        {
+            foreach (Preset preset in GetAll().Where(preset => preset.IsEnabled))
+            {
+                // Get installed path.
+                // Copy installed file/folder to preset.
             }
         }
     }

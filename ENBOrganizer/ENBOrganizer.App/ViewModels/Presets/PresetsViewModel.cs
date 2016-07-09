@@ -4,6 +4,7 @@ using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows.Input;
+using System;
 
 namespace ENBOrganizer.App.ViewModels.Presets
 {
@@ -13,16 +14,23 @@ namespace ENBOrganizer.App.ViewModels.Presets
         protected override DialogName DialogName { get { return DialogName.AddPreset; } }
         protected override string DialogHostName { get { return "PresetNameDialog"; } }
 
-        public ICommand ImportActiveFilesCommand { get; set; }
+        public ICommand ImportInstalledFilesCommand { get; set; }
+        public ICommand RefreshEnabledPresetsCommand { get; set; }
         public ICommand ChangeImageCommand { get; set; }
         public ICommand ClearImageCommand { get; set; }
-
+        
         public PresetsViewModel(PresetService presetService)
             : base(presetService)
         {
-            ImportActiveFilesCommand = new RelayCommand(ImportActiveFiles, CanAdd);
+            ImportInstalledFilesCommand = new RelayCommand(ImportInstalledFiles, CanAdd);
+            RefreshEnabledPresetsCommand = new RelayCommand(RefreshEnabledPresets);
             ChangeImageCommand = new RelayCommand<Preset>(ChangeImage);
             ClearImageCommand = new RelayCommand<Preset>(ClearImage);
+        }
+
+        private void RefreshEnabledPresets()
+        {
+            throw new NotImplementedException();
         }
 
         private void ClearImage(Preset preset)
@@ -48,13 +56,13 @@ namespace ENBOrganizer.App.ViewModels.Presets
             DataService.SaveChanges();
         }
 
-        private async void ImportActiveFiles()
+        private async void ImportInstalledFiles()
         {
             string name = ((string)await _dialogService.ShowInputDialog("Please enter a name for the preset:", "PresetNameDialog")).Trim();
 
             try
             {
-                DataService.ImportActiveFiles(new Preset(name, SettingsService.CurrentGame));
+                DataService.ImportInstalledFiles(new Preset(name, SettingsService.CurrentGame));
             }
             catch (DuplicateEntityException) // TODO: double check these
             {

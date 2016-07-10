@@ -12,6 +12,7 @@
         xmlns:masterViewModels="clr-namespace:ENBOrganizer.App.ViewModels.Master"
         xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Name="RootElement"
         Icon="IconFinal.ico"
         Title="ENB Organizer"
         MinWidth="640"
@@ -122,6 +123,28 @@
                     <DockPanel>
                         <ToggleButton x:Name="MenuToggleButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                                       IsChecked="{Binding IsMenuToggleChecked}" />
+                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                            <StackPanel>
+                                <Button Command="{Binding ElementName=RootElement, Path=DataContext.OpenNexusLinkCommand, Mode=OneTime}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Earth" />
+                                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Nexus Page" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding ElementName=RootElement, Path=DataContext.OpenGitHubLinkCommand, Mode=OneTime}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="GithubCircle" />
+                                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="GitHub" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding ElementName=RootElement, Path=DataContext.OpenENBBinariesLinkCommand, Mode=OneTime}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="PackageVariantClosed" />
+                                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Download ENB Binaries" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
                         <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Models, Mode=OneWay}"
                                   SelectedItem="{Binding SettingsService.CurrentGame, Mode=TwoWay}"
                                   IsSynchronizedWithCurrentItem="True" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"

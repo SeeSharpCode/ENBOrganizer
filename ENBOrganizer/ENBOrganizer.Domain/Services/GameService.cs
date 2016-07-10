@@ -64,8 +64,12 @@ namespace ENBOrganizer.Domain.Services
                     string gameName = GameNames.GameFriendlyNameMap[gameEntry.Key];
                     string path = Path.Combine(installPath, gameEntry.Value);
 
-                    if (File.Exists(path))
-                        Add(new Game(gameName, path));
+                    try
+                    {
+                        if (File.Exists(path))
+                            Add(new Game(gameName, path));
+                    }
+                    catch (Exception) { }
                 }
             }
         }

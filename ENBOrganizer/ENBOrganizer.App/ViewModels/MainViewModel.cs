@@ -1,7 +1,11 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.Generic;
+using System.Windows.Input;
+using System;
+using System.Diagnostics;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -12,6 +16,9 @@ namespace ENBOrganizer.App.ViewModels
 
         public SettingsService SettingsService { get; set; }
         public List<IPageViewModel> PageViewModels { get; set; }
+        public ICommand OpenENBBinariesLinkCommand { get; set; }
+        public ICommand OpenNexusLinkCommand { get; set; }
+        public ICommand OpenGitHubLinkCommand { get; set; }
 
         private IPageViewModel _currentPageViewModel;
 
@@ -65,9 +72,40 @@ namespace ENBOrganizer.App.ViewModels
 
             CurrentPageViewModel = _viewModelLocator.GamesViewModel;
 
+            OpenENBBinariesLinkCommand = new RelayCommand(OpenENBBinariesLink);
+            OpenNexusLinkCommand = new RelayCommand(OpenNexusLink);
+            OpenGitHubLinkCommand = new RelayCommand(OpenGitHubLink);
+
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
 
             SettingsService.InitializeSettings();
+        }
+
+        private void OpenGitHubLink()
+        {
+            try
+            {
+                Process.Start("https://github.com/SeeSharpCode/ENBOrganizer");
+            }
+            catch (Exception) { }
+        }
+
+        private void OpenNexusLink()
+        {
+            try
+            {
+                Process.Start("http://www.nexusmods.com/skyrim/mods/67077");
+            }
+            catch (Exception) { }
+        }
+
+        private void OpenENBBinariesLink()
+        {
+            try
+            {
+                Process.Start("http://enbdev.com/download.htm");
+            }
+            catch (Exception) { }
         }
 
         private void OnDialogMessage(DialogMessage message)

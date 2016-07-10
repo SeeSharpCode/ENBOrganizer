@@ -11,8 +11,7 @@ namespace ENBOrganizer.Domain.Services
     public class PresetService : FileSystemService<Preset>
     {
         public PresetService(MasterListService masterListService) : base(masterListService) { }        
-
-        // TODO: simplify this method
+        
         public void ImportInstalledFiles(Preset preset)
         {
             try
@@ -25,40 +24,8 @@ namespace ENBOrganizer.Domain.Services
                     if (!_masterListService.Items.Any(masterListItem => masterListItem.Name.EqualsIgnoreCase(fileSystemInfo.Name)))
                         continue;
 
-                    fileSystemInfo.CopyTo(Path.Combine(preset.Directory.FullName, fileSystemInfo.Name));
-
-                    //DirectoryInfo directory = fileSystemInfo as DirectoryInfo;
-
-                    //if (directory != null && directory.Exists)
-                    //    directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
-                    //else
-                    //{
-                    //    FileInfo file = fileSystemInfo as FileInfo;
-                    //    file.CopyTo(Path.Combine(preset.Directory.FullName, file.Name));
-                    //}                                                
+                    fileSystemInfo.CopyTo(Path.Combine(preset.Directory.FullName, fileSystemInfo.Name));                                              
                 }
-                
-                //List<string> gameDirectories = Directory.GetDirectories(preset.Game.ExecutableDirectory.FullName).ToList();
-                //List<string> gameFiles = Directory.GetFiles(preset.Game.ExecutableDirectory.FullName).ToList();
-
-                //foreach (MasterListItem masterListItem in masterListItems)
-                //{
-                //    string installedPath = Path.Combine(preset.Game.ExecutableDirectory.FullName, masterListItem.Name);
-
-                //    if (masterListItem.Type == MasterListItemType.Directory) 
-                //    {
-                //        if (!gameDirectories.Contains(installedPath))
-                //            continue;
-
-                //        DirectoryInfo directory = new DirectoryInfo(installedPath);
-                //        directory.CopyTo(Path.Combine(preset.Directory.FullName, directory.Name));
-                //    }
-                //    else if (gameFiles.Contains(installedPath))
-                //    {
-                //        FileInfo file = new FileInfo(installedPath);
-                //        file.CopyTo(Path.Combine(preset.Directory.FullName, file.Name));
-                //    }
-                //}
             }
             catch (DuplicateEntityException)
             {
@@ -74,13 +41,19 @@ namespace ENBOrganizer.Domain.Services
 
         public void RefreshEnabledPresets()
         {
-            //foreach (Preset preset in Items.Where(preset => preset.IsEnabled))
-            //{
-            //    // Get installed path.
-            //    foreach ()
+            foreach (Preset preset in Items.Where(preset => preset.IsEnabled))
+            {
+                foreach (FileSystemInfo presetFileSystemInfo in preset.Directory.GetFileSystemInfos())
+                {
+                    FileSystemInfo installedFileSystemInfo = 
+                        preset.Game.ExecutableDirectory.GetFileSystemInfos()
+                        .FirstOrDefault(gameFileSystemInfo => gameFileSystemInfo.Name.EqualsIgnoreCase(presetFileSystemInfo.Name) 
+                        && !DirectoryNames.EssentialNames.Any(name => name.EqualsIgnoreCase(gameFileSystemInfo.Name)));
 
-            //    // Copy installed file/folder to preset.
-            //}
+                    if (installedFileSystemInfo != null)
+                        installedFileSystemInfo.CopyTo(presetFileSystemInfo.FullName);
+                }
+            }
         }
     }
 }

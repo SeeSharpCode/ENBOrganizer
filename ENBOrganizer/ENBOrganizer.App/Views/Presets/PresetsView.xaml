@@ -21,7 +21,8 @@
                 </Button>
 
                 <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
-                        Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Sync in-game changes back to preset">
+                        Command="{Binding RefreshEnabledPresetsCommand}"
+                        Margin="10 0 0 0" HorizontalAlignment="Left" ToolTip="Sync in-game changes back to enabled preset(s)">
                     <materialDesign:PackIcon Kind="Refresh" Height="24" Width="24" />
                 </Button>
 
@@ -36,8 +37,15 @@
                                     ToolTip="Create a preset from a folder or archive"/>
                             <Button Content="IMPORT INSTALLED FILES" 
                                     Command="{Binding ImportInstalledFilesCommand, Mode=OneTime}"
-                                    Margin="0 10 0 0" Click="Button_Click"
-                                    ToolTip="Create a preset from all ENB files currently in the game folder" />
+                                    Margin="0 10 0 0" Click="Button_Click" ToolTipService.ShowDuration="90000">
+                                <Button.ToolTip>
+                                    <TextBlock>
+                                        Create a preset from all known ENB files currently in the game folder. 
+                                        <LineBreak /><LineBreak />
+                                        Known ENB files are defined in the master list.
+                                    </TextBlock>
+                                </Button.ToolTip>
+                            </Button>
                         </StackPanel>
                     </Border>
                 </Popup>

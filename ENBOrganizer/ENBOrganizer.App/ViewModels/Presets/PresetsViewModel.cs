@@ -28,9 +28,10 @@ namespace ENBOrganizer.App.ViewModels.Presets
             ClearImageCommand = new RelayCommand<Preset>(ClearImage);
         }
 
+        // TODO: exception handling
         private void RefreshEnabledPresets()
         {
-            throw new NotImplementedException();
+            DataService.RefreshEnabledPresets();
         }
 
         private void ClearImage(Preset preset)
@@ -62,7 +63,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
             try
             {
-                DataService.ImportInstalledFiles(new Preset(name, SettingsService.CurrentGame));
+                DataService.ImportInstalledFiles(new Preset(name, SettingsService.CurrentGame) { IsEnabled = true });
             }
             catch (DuplicateEntityException) // TODO: double check these
             {

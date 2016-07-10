@@ -15,7 +15,7 @@ namespace ENBOrganizer.Util.IO
             if (fileSystemInfo is DirectoryInfo)
                 ((DirectoryInfo)fileSystemInfo).CopyTo(targetPath);
             else
-                ((FileInfo)fileSystemInfo).CopyTo(targetPath);
+                ((FileInfo)fileSystemInfo).CopyTo(targetPath, true);
         }
     }
 }

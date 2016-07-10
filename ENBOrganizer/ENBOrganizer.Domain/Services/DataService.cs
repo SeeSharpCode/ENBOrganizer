@@ -16,10 +16,7 @@ namespace ENBOrganizer.Domain.Services
             _repository = new Repository<TEntity>();
         }
 
-        public virtual List<TEntity> GetAll()
-        {
-            return _repository.Items;
-        }
+        public virtual List<TEntity> Items { get { return _repository.Items; } }
         
         public virtual void Add(TEntity entity)
         {

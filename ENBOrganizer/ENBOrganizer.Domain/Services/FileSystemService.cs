@@ -65,12 +65,12 @@ namespace ENBOrganizer.Domain.Services
 
         public List<TEntity> GetByGame(Game game)
         {
-            return GetAll().Where(entity => entity.Game.Equals(game)).ToList();
+            return Items.Where(entity => entity.Game.Equals(game)).ToList();
         }
 
         public void DeleteByGame(Game game)
         {
-            List<TEntity> entities = GetAll().Where(entity => entity.Game.Equals(game)).ToList();
+            List<TEntity> entities = Items.Where(entity => entity.Game.Equals(game)).ToList();
 
             foreach (TEntity entity in entities)
                 Delete(entity);

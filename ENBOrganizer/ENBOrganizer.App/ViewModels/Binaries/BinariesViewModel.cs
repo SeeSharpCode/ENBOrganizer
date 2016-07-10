@@ -25,7 +25,7 @@ namespace ENBOrganizer.App.ViewModels.Binaries
             if (!ShouldEdit(binary, newName))
                 return;
             
-            foreach (Preset preset in _presetService.GetAll().Where(preset => binary.Equals(preset.Binary)))
+            foreach (Preset preset in _presetService.Items.Where(preset => binary.Equals(preset.Binary)))
                 preset.Binary = new Binary(newName, SettingsService.CurrentGame);
 
             _presetService.SaveChanges();            

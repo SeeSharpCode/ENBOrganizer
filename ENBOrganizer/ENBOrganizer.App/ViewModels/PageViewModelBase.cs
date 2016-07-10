@@ -46,7 +46,7 @@ namespace ENBOrganizer.App.ViewModels
         protected virtual void PopulateModels()
         {
             Models.Clear();
-            Models.AddAll(DataService.GetAll());
+            Models.AddAll(DataService.Items);
         }
 
         protected virtual void _dataService_ItemsChanged(object sender, RepositoryChangedEventArgs eventArgs)

@@ -103,7 +103,7 @@ namespace ENBOrganizer.App.ViewModels.Games
             if (_existingGame.Equals(newGame))
                 return false;
 
-            if (_gameService.GetAll().Contains(newGame))
+            if (_gameService.Items.Contains(newGame))
             {
                 _dialogService.ShowErrorDialog("This game already exists.");
                 return false;

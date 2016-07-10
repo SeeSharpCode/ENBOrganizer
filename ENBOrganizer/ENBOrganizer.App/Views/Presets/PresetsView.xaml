@@ -21,7 +21,7 @@
                 </Button>
 
                 <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
-                        Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add a new preset">
+                        Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Sync in-game changes back to preset">
                     <materialDesign:PackIcon Kind="Refresh" Height="24" Width="24" />
                 </Button>
 
@@ -50,95 +50,97 @@
 
             <ScrollViewer Width="Auto" VerticalScrollBarVisibility="Auto" Margin="0 10 0 0">
                 <ContentControl>
-                    <ContentControl.Template>
-                        <ControlTemplate>
-                            <ItemsControl ItemsSource="{Binding Models, Mode=OneWay}" Margin="0 10 0 0" HorizontalAlignment="Left">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type entities:Preset}">
-                                        <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 5" MaxWidth="210">
-                                            <StackPanel>
-                                                <Image Source="{Binding ImagePath, Mode=OneWay}" Stretch="UniformToFill" />
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <ItemsControl ItemsSource="{Binding Models, Mode=OneWay}" Margin="0 10 0 0" HorizontalAlignment="Left">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type entities:Preset}">
+                                                    <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 5" MaxWidth="210">
+                                                        <StackPanel>
+                                                            <Image Source="{Binding ImagePath, Mode=OneWay}" Stretch="UniformToFill" />
 
-                                                <Grid Margin="10">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                    </Grid.RowDefinitions>
+                                                            <Grid Margin="10">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                </Grid.RowDefinitions>
 
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
 
-                                                    <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Medium" 
+                                                                <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Medium" 
                                                                    TextWrapping="Wrap"
                                                                    Grid.Row="0" Grid.ColumnSpan="2" />
-                                                    <TextBlock Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap" Margin="0 2 0 0" 
+                                                                <TextBlock Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap" Margin="0 2 0 0" 
                                                                    Grid.Row="1" Grid.ColumnSpan="2" />
 
-                                                    <ToggleButton HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                                                <ToggleButton HorizontalAlignment="Left" VerticalAlignment="Center" 
                                                                       Grid.Column="0" Grid.Row="2" Margin="0 5 0 0"
                                                                       Command="{Binding ElementName=RootElement, Path=DataContext.ChangeStateCommand}"
                                                                       CommandParameter="{Binding}" IsChecked="{Binding IsEnabled, Mode=OneWay}"/>
 
-                                                    <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" 
+                                                                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" 
                                                                                  VerticalAlignment="Center" Margin="0 5 0 0"
                                                                                  HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2">
-                                                        <StackPanel Orientation="Vertical">
-                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.EditCommand, Mode=OneTime}" 
+                                                                    <StackPanel Orientation="Vertical">
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.EditCommand, Mode=OneTime}" 
                                                                         CommandParameter="{Binding}">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <materialDesign:PackIcon Kind="Pencil" />
-                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Edit" />
-                                                                </StackPanel>
-                                                            </Button>
-                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="Pencil" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Edit" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 
                                                                         CommandParameter="{Binding}">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <materialDesign:PackIcon Kind="Folder" />
-                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="View Files" />
-                                                                </StackPanel>
-                                                            </Button>
-                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.ChangeImageCommand, Mode=OneTime}" 
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="Folder" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="View Files" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.ChangeImageCommand, Mode=OneTime}" 
                                                                         CommandParameter="{Binding}">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <materialDesign:PackIcon Kind="Image" />
-                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Change Image" />
-                                                                </StackPanel>
-                                                            </Button>
-                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.ClearImageCommand, Mode=OneTime}" 
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="Image" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Change Image" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.ClearImageCommand, Mode=OneTime}" 
                                                                         CommandParameter="{Binding}">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <materialDesign:PackIcon Kind="ImageBroken" />
-                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Clear Image" />
-                                                                </StackPanel>
-                                                            </Button>
-                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}"
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="ImageBroken" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Clear Image" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}"
                                                                         CommandParameter="{Binding}">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <materialDesign:PackIcon Kind="Delete" />
-                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Delete" />
-                                                                </StackPanel>
-                                                            </Button>
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="Delete" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Delete" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                    </StackPanel>
+                                                                </materialDesign:PopupBox>
+                                                            </Grid>
                                                         </StackPanel>
-                                                    </materialDesign:PopupBox>
-                                                </Grid>
-                                            </StackPanel>
-                                        </materialDesign:Card>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ControlTemplate>
-                    </ContentControl.Template>
+                                                    </materialDesign:Card>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
 
-                    <ContentControl.Style>
-                        <Style TargetType="ContentControl">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Models.Count}" Value="0">
                                     <Setter Property="Template">

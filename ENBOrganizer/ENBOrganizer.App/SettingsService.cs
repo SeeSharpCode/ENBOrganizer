@@ -2,12 +2,14 @@
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
+using System.Linq;
 
 namespace ENBOrganizer.App
 {
     public class SettingsService : ObservableObject
     {
         private readonly GameService _gameService;
+        private readonly MasterListService _masterListService;
 
         public Game CurrentGame
         {
@@ -21,9 +23,10 @@ namespace ENBOrganizer.App
             }
         }
 
-        public SettingsService(GameService gameService)
+        public SettingsService(GameService gameService, MasterListService masterListService)
         {
             _gameService = gameService;
+            _masterListService = masterListService;
         }
 
         public void InitializeSettings()
@@ -32,7 +35,10 @@ namespace ENBOrganizer.App
                 UpgradeSettings();
 
             if (Settings.Default.FirstUse)
-                SetupGamesOnFirstUse();            
+                SetupGamesOnFirstUse();
+
+            if (!_masterListService.Items.Any())
+                _masterListService.AddDefaultItems();
         }
 
         private void UpgradeSettings()

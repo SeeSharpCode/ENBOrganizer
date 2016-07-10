@@ -71,12 +71,13 @@
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate DataType="{x:Type entities:Preset}">
-                                                    <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 5" MaxWidth="210">
+                                                    <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 5" MaxWidth="300">
                                                         <StackPanel>
                                                             <Image Source="{Binding ImagePath, Mode=OneWay}" Stretch="UniformToFill" />
 
                                                             <Grid Margin="10">
                                                                 <Grid.RowDefinitions>
+                                                                    <RowDefinition />
                                                                     <RowDefinition />
                                                                     <RowDefinition />
                                                                     <RowDefinition />
@@ -87,20 +88,22 @@
                                                                     <ColumnDefinition Width="*" />
                                                                 </Grid.ColumnDefinitions>
 
-                                                                <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Medium" 
-                                                                   TextWrapping="Wrap"
-                                                                   Grid.Row="0" Grid.ColumnSpan="2" />
-                                                                <TextBlock Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap" Margin="0 2 0 0" 
-                                                                   Grid.Row="1" Grid.ColumnSpan="2" />
+                                                                <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Medium" TextWrapping="Wrap"
+                                                                           Grid.Row="0" Grid.ColumnSpan="2" />
+                                                                <TextBlock Text="{Binding Binary.Name, StringFormat='Binary: {0}', Mode=OneWay}" 
+                                                                           FontStyle="Italic" TextWrapping="Wrap"
+                                                                           Margin="0 2 0 0" Grid.Row="1" Grid.ColumnSpan="2" />
+                                                                <TextBlock Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap" 
+                                                                           Margin="0 2 0 0" Grid.Row="2" Grid.ColumnSpan="2" />
 
                                                                 <ToggleButton HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                                                      Grid.Column="0" Grid.Row="2" Margin="0 5 0 0"
+                                                                      Grid.Column="0" Grid.Row="3" Margin="0 5 0 0"
                                                                       Command="{Binding ElementName=RootElement, Path=DataContext.ChangeStateCommand}"
                                                                       CommandParameter="{Binding}" IsChecked="{Binding IsEnabled, Mode=OneWay}"/>
 
                                                                 <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" 
                                                                                  VerticalAlignment="Center" Margin="0 5 0 0"
-                                                                                 HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2">
+                                                                                 HorizontalAlignment="Right" Grid.Column="1" Grid.Row="3">
                                                                     <StackPanel Orientation="Vertical">
                                                                         <Button Command="{Binding ElementName=RootElement, Path=DataContext.EditCommand, Mode=OneTime}" 
                                                                         CommandParameter="{Binding}">

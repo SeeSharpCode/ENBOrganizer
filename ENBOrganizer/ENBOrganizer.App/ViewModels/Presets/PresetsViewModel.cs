@@ -5,6 +5,7 @@ using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows.Input;
 using System;
+using System.Linq;
 
 namespace ENBOrganizer.App.ViewModels.Presets
 {
@@ -23,15 +24,23 @@ namespace ENBOrganizer.App.ViewModels.Presets
             : base(presetService)
         {
             ImportInstalledFilesCommand = new RelayCommand(ImportInstalledFiles, CanAdd);
-            RefreshEnabledPresetsCommand = new RelayCommand(RefreshEnabledPresets);
+            RefreshEnabledPresetsCommand = new RelayCommand(RefreshEnabledPresets, () => Models.Any(preset => preset.IsEnabled));
             ChangeImageCommand = new RelayCommand<Preset>(ChangeImage);
             ClearImageCommand = new RelayCommand<Preset>(ClearImage);
         }
-
-        // TODO: exception handling
+        
         private void RefreshEnabledPresets()
         {
-            DataService.RefreshEnabledPresets();
+            try
+            {
+                DataService.RefreshEnabledPresets();
+
+                _dialogService.ShowInfoDialog("Preset(s) refreshed successfully.");
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
 
         private void ClearImage(Preset preset)
@@ -65,11 +74,10 @@ namespace ENBOrganizer.App.ViewModels.Presets
             {
                 DataService.ImportInstalledFiles(new Preset(name, SettingsService.CurrentGame) { IsEnabled = true });
             }
-            catch (DuplicateEntityException) // TODO: double check these
+            catch (DuplicateEntityException) 
             {
                 _dialogService.ShowErrorDialog("A preset named " + name + " already exists.");
             }
-            
         }
     }
 }

@@ -19,6 +19,11 @@ namespace ENBOrganizer.App
             _viewModelLocator = (ViewModelLocator)App.Current.Resources["ViewModelLocator"];
         }
 
+        public void ShowInfoDialog(string message)
+        {
+            MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         public void ShowErrorDialog(string message)
         {
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -32,6 +32,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <converters:PathToIconConverter x:Key="PathToIconConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <DataTemplate DataType="{x:Type gameViewModels:GameDetailViewModel}">
                 <games:GameDetailView />
@@ -145,6 +146,15 @@
                                 </Button>
                             </StackPanel>
                         </materialDesign:PopupBox>
+                        <Button Command="{Binding OpenNexusLinkCommand}"
+                                Style="{DynamicResource MaterialDesignFlatButton}" 
+                                Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                DockPanel.Dock="Right" Foreground="{DynamicResource SecondaryAccentBrush}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Sync" />
+                                <TextBlock Margin="2 0 0 0" VerticalAlignment="Center">UPDATE</TextBlock>
+                            </StackPanel>
+                        </Button>
                         <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Models, Mode=OneWay}"
                                   SelectedItem="{Binding SettingsService.CurrentGame, Mode=TwoWay}"
                                   IsSynchronizedWithCurrentItem="True" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"

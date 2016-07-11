@@ -8,7 +8,7 @@ using System.Windows;
 [assembly: AssemblyTitle("ENB Organizer")]
 [assembly: AssemblyDescription("A tool to easily manage your ENB presets")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Breems")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ENB Organizer")]
 [assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]

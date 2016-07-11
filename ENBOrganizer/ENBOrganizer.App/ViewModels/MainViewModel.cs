@@ -13,6 +13,7 @@ namespace ENBOrganizer.App.ViewModels
     {
         private readonly ViewModelLocator _viewModelLocator;
         private readonly GameService _gameService;
+        private readonly DialogService _dialogService;
 
         public SettingsService SettingsService { get; set; }
         public List<IPageViewModel> PageViewModels { get; set; }
@@ -40,6 +41,14 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsDialogOpen), ref _isDialogOpen, value); }
         }
 
+        private bool _updateAvailable;
+
+        public bool UpdateAvailable
+        {
+            get { return _updateAvailable; }
+            set { Set(nameof(UpdateAvailable), ref _updateAvailable, value); }
+        }
+
         private DialogViewModelBase _currentDialogViewModel;
 
         public DialogViewModelBase CurrentDialogViewModel
@@ -56,11 +65,12 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsMenuToggleChecked), ref _isMenuToggleChecked, value); }
         }
 
-        public MainViewModel(GameService gameService, SettingsService settingsService)
+        public MainViewModel(GameService gameService, SettingsService settingsService, DialogService dialogService)
         {
             _viewModelLocator = (ViewModelLocator)App.Current.Resources["ViewModelLocator"];
             _gameService = gameService;
             SettingsService = settingsService;
+            _dialogService = dialogService;
 
             PageViewModels = new List<IPageViewModel>()
             {
@@ -79,6 +89,13 @@ namespace ENBOrganizer.App.ViewModels
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
 
             SettingsService.InitializeSettings();
+
+            CheckForUpdate();
+        }
+
+        private async void CheckForUpdate()
+        {
+            UpdateAvailable = await UpdateService.IsUpdateAvailable();
         }
 
         private void OpenGitHubLink()
@@ -87,7 +104,10 @@ namespace ENBOrganizer.App.ViewModels
             {
                 Process.Start("https://github.com/SeeSharpCode/ENBOrganizer");
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                _dialogService.ShowErrorDialog("Unable to open GitHub page. Visit https://github.com/SeeSharpCode/ENBOrganizer in your browser.");
+            }
         }
 
         private void OpenNexusLink()
@@ -96,7 +116,10 @@ namespace ENBOrganizer.App.ViewModels
             {
                 Process.Start("http://www.nexusmods.com/skyrim/mods/67077");
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                _dialogService.ShowErrorDialog("Unable to open Nexus page. Visit http://www.nexusmods.com/skyrim/mods/67077 in your browser.");
+            }
         }
 
         private void OpenENBBinariesLink()
@@ -105,7 +128,10 @@ namespace ENBOrganizer.App.ViewModels
             {
                 Process.Start("http://enbdev.com/download.htm");
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                _dialogService.ShowErrorDialog("Unable to open ENB page. Visit http://enbdev.com/download.htm in your browser.");
+            }
         }
 
         private void OnDialogMessage(DialogMessage message)

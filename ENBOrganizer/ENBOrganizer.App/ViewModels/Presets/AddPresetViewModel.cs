@@ -65,7 +65,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
                 Preset preset = new Preset(Name.Trim(), _settingsService.CurrentGame) { Description = Description?.Trim() };
 
                 // Detect whether the user has selected the default value in the ComboBox.
-                if (Binary.Name != "-- None --" && Binary.Game != null)
+                if (Binary != null && Binary.Name != "-- None --" && Binary.Game != null)
                     preset.Binary = Binary;
 
                 _presetService.Import(preset, SourcePath);

@@ -14,28 +14,16 @@ namespace ENBOrganizer.App
                 GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("ENBOrganizer"));
                 Release latestRelease = await gitHubClient.Repository.Release.GetLatest("SeeSharpCode", "ENBOrganizer");
 
-                Version latestReleaseVersion = new Version(FormatReleaseVersionNumber(latestRelease.TagName));
-                Version currentVersion = GetCurrentAssemblyVersion();
+                Version latestReleaseVersion;
+                Version.TryParse(latestRelease.TagName.Replace("v", string.Empty), out latestReleaseVersion);
 
-                return latestReleaseVersion > currentVersion;
+                return latestReleaseVersion > Assembly.GetExecutingAssembly().GetName().Version;
             }
             catch (Exception)
             {
                 // Don't inform the user of failure to check for updates.
                 return false;
             }
-        }
-
-        private static string FormatReleaseVersionNumber(string tagName)
-        {
-            return tagName.Replace("v", "");
-        }
-
-        private static Version GetCurrentAssemblyVersion()
-        {
-            Version unformattedVerson = Assembly.GetExecutingAssembly().GetName().Version;
-
-            return new Version(unformattedVerson.Major.ToString() + "." + unformattedVerson.Minor.ToString());
         }
     }
 }

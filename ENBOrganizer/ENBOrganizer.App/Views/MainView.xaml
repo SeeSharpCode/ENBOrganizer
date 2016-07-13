@@ -19,7 +19,6 @@
         MinHeight="360"
         Width="800"
         Height="600"
-        SnapsToDevicePixels="True"
         UseLayoutRounding="True"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"

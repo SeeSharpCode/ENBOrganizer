@@ -71,7 +71,7 @@
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate DataType="{x:Type entities:Preset}">
-                                                    <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 5" MaxWidth="300">
+                                                    <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 5" MaxWidth="300" UseLayoutRounding="False">
                                                         <StackPanel>
                                                             <Image Source="{Binding ImagePath, Mode=OneWay}" Stretch="UniformToFill" />
 

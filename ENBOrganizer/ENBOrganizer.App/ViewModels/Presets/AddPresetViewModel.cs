@@ -17,9 +17,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
     {
         private readonly PresetService _presetService;
         private readonly FileSystemService<Binary> _binaryService;
-
-        public string Description { get; set; }
-        public Binary Binary { get; set; }
+        
         public ObservableCollection<Binary> Binaries { get; set; }
         public ICommand BrowseForDirectoryCommand { get; set; }
         public ICommand BrowseForArchiveCommand { get; set; }
@@ -30,6 +28,22 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             get { return _sourcePath; }
             set { Set(nameof(SourcePath), ref _sourcePath, value); }
+        }
+
+        private string _description;
+
+        public string Description
+        {
+            get { return _description; }
+            set { Set(nameof(Description), ref _description, value); }
+        }
+
+        private Binary _binary;
+
+        public Binary Binary
+        {
+            get { return _binary; }
+            set { Set(nameof(Binary), ref _binary, value); }
         }
         
         public AddPresetViewModel(PresetService presetService, FileSystemService<Binary> binaryService)

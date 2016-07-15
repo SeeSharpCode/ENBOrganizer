@@ -63,7 +63,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate>
-                                        <ItemsControl ItemsSource="{Binding Models, Mode=OneWay}" Margin="0 10 0 0" HorizontalAlignment="Left">
+                                        <ItemsControl ItemsSource="{Binding Models, Mode=OneWay}" Margin="0 10 0 0" Padding="6">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <WrapPanel Orientation="Horizontal" />
@@ -73,7 +73,7 @@
                                                 <DataTemplate DataType="{x:Type entities:Preset}">
                                                     <materialDesign:Card HorizontalAlignment="Left" Margin="0 0 5 5" MaxWidth="300">
                                                         <StackPanel>
-                                                            <Image Source="{Binding ImagePath, Mode=OneWay}" Stretch="UniformToFill" />
+                                                            <Image Source="{Binding ImagePath, Mode=OneWay}" MaxWidth="300" Stretch="UniformToFill" />
 
                                                             <Grid Margin="10">
                                                                 <Grid.RowDefinitions>

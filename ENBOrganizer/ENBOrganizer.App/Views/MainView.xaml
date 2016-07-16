@@ -27,7 +27,7 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{StaticResource MaterialDesignFont}"
-        DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}">
+        DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel, Mode=OneTime}" Closing="RootElement_Closing">
     <Window.Resources>
         <ResourceDictionary>
             <converters:PathToIconConverter x:Key="PathToIconConverter" />

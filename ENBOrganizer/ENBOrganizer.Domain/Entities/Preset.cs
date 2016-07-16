@@ -4,8 +4,18 @@ namespace ENBOrganizer.Domain.Entities
 {
     public class Preset : FileSystemEntity
     {
-        public Binary Binary { get; set; }
+        private Binary _binary;
 
+        public Binary Binary
+        {
+            get { return _binary; }
+            set
+            {
+                _binary = value;
+                RaisePropertyChanged(nameof(Binary));
+            }
+        }
+        
         private string _imagePath;
 
         public string ImagePath

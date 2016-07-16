@@ -13,6 +13,17 @@
             <converters:PathToImageConverter x:Key="PathToImageConverter" />
             <viewModels:ViewModelLocator x:Key="ViewModelLocator" />
 
+            <Style x:Key="CollapsibleTextBlock" TargetType="TextBlock">
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Trigger>
+                    <Trigger Property="Text" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
             <Style TargetType="RowDefinition">
                 <Setter Property="Height" Value="Auto" />
             </Style>

@@ -1,15 +1,30 @@
 ﻿using ENBOrganizer.App.Properties;
 using ENBOrganizer.Domain.Entities;
-using ENBOrganizer.Domain.Services;
 using GalaSoft.MvvmLight;
-using System.Linq;
 
 namespace ENBOrganizer.App
 {
     public class SettingsService : ObservableObject
     {
-        private readonly GameService _gameService;
-        private readonly MasterListService _masterListService;
+        public bool UpdateSettings
+        {
+            get { return Settings.Default.UpdateSettings; }
+            set
+            {
+                Settings.Default.UpdateSettings = value;
+                Settings.Default.Save();
+            }
+        }
+
+        public bool FirstUse
+        {
+            get { return Settings.Default.FirstUse; }
+            set
+            {
+                Settings.Default.FirstUse = value;
+                Settings.Default.Save();
+            }
+        }
 
         public Game CurrentGame
         {
@@ -23,37 +38,13 @@ namespace ENBOrganizer.App
             }
         }
 
-        public SettingsService(GameService gameService, MasterListService masterListService)
+        public void UpgradeSettings()
         {
-            _gameService = gameService;
-            _masterListService = masterListService;
-        }
+            if (!UpdateSettings)
+                return;
 
-        public void InitializeSettings()
-        {
-            if (Settings.Default.UpdateSettings)
-                UpgradeSettings();
-
-            if (Settings.Default.FirstUse)
-                SetupGamesOnFirstUse();
-
-            if (!_masterListService.Items.Any())
-                _masterListService.AddDefaultItems();
-        }
-
-        private void UpgradeSettings()
-        {
             Settings.Default.Upgrade();
-            Settings.Default.UpdateSettings = false;
-            Settings.Default.Save();
-        }
-
-        private void SetupGamesOnFirstUse()
-        {
-            _gameService.AddGamesFromRegistry();
-
-            Settings.Default.FirstUse = false;
-            Settings.Default.Save();
+            UpdateSettings = false;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -14,6 +15,7 @@ namespace ENBOrganizer.App.ViewModels
         private readonly ViewModelLocator _viewModelLocator;
         private readonly GameService _gameService;
         private readonly DialogService _dialogService;
+        private readonly MasterListService _masterListService;
 
         public SettingsService SettingsService { get; set; }
         public List<IPageViewModel> PageViewModels { get; set; }
@@ -65,19 +67,20 @@ namespace ENBOrganizer.App.ViewModels
             set { Set(nameof(IsMenuToggleChecked), ref _isMenuToggleChecked, value); }
         }
 
-        public MainViewModel(GameService gameService, SettingsService settingsService, DialogService dialogService)
+        public MainViewModel(GameService gameService, SettingsService settingsService, DialogService dialogService, MasterListService masterListService)
         {
             _viewModelLocator = (ViewModelLocator)App.Current.Resources["ViewModelLocator"];
             _gameService = gameService;
             SettingsService = settingsService;
             _dialogService = dialogService;
+            _masterListService = masterListService;
 
             PageViewModels = new List<IPageViewModel>()
             {
                 _viewModelLocator.GamesViewModel,
                 _viewModelLocator.BinariesViewModel,
                 _viewModelLocator.PresetsViewModel,
-                _viewModelLocator.MasterListViewModel,
+                _viewModelLocator.MasterListViewModel
             };
 
             CurrentPageViewModel = _viewModelLocator.GamesViewModel;
@@ -88,7 +91,21 @@ namespace ENBOrganizer.App.ViewModels
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
 
-            SettingsService.InitializeSettings();
+            InitializeApplication();
+        }
+
+        private void InitializeApplication()
+        {
+            SettingsService.UpgradeSettings();
+
+            if (SettingsService.FirstUse)
+            {
+                _gameService.AddGamesFromRegistry();
+                SettingsService.FirstUse = false;
+            }
+
+            if (!_masterListService.Items.Any())
+                _masterListService.AddDefaultItems();
 
             CheckForUpdate();
         }

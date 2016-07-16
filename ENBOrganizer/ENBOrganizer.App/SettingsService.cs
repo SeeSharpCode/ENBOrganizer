@@ -2,7 +2,6 @@
 using ENBOrganizer.Domain.Entities;
 using GalaSoft.MvvmLight;
 using System.Windows;
-using System;
 
 namespace ENBOrganizer.App
 {

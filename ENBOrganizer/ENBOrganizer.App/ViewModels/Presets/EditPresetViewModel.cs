@@ -1,4 +1,5 @@
 ﻿using ENBOrganizer.App.Messages;
+using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
@@ -37,12 +38,21 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             _presetService = presetService;
             _binaryService = binaryService;
+            _binaryService.ItemsChanged += _binaryService_ItemsChanged;
 
             MessengerInstance.Register<Preset>(this, OnPresetReceived);
 
             Binaries = _binaryService.GetByGame(_settingsService.CurrentGame).ToObservableCollection();
 
             ValidatedProperties = new List<string> { nameof(Name) };
+        }
+
+        private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
+        {
+            if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
+                Binaries.Add(repositoryChangedEventArgs.Entity as Binary);
+            else
+                Binaries.Remove(repositoryChangedEventArgs.Entity as Binary);
         }
 
         private void OnPresetReceived(Preset preset)

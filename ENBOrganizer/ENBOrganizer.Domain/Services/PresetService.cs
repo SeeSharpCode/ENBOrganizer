@@ -39,7 +39,7 @@ namespace ENBOrganizer.Domain.Services
             }
         }
 
-        public void RefreshEnabledPresets()
+        public void SyncEnabledPresets()
         {
             foreach (Preset preset in Items.Where(preset => preset.IsEnabled))
             {

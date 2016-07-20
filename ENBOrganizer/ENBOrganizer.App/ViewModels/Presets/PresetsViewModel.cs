@@ -16,7 +16,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
         protected override string DialogHostName { get { return "PresetNameDialog"; } }
 
         public ICommand ImportInstalledFilesCommand { get; set; }
-        public ICommand RefreshEnabledPresetsCommand { get; set; }
+        public ICommand SyncEnabledPresetsCommand { get; set; }
         public ICommand ChangeImageCommand { get; set; }
         public ICommand ClearImageCommand { get; set; }
         
@@ -24,16 +24,16 @@ namespace ENBOrganizer.App.ViewModels.Presets
             : base(presetService)
         {
             ImportInstalledFilesCommand = new RelayCommand(ImportInstalledFiles, CanAdd);
-            RefreshEnabledPresetsCommand = new RelayCommand(RefreshEnabledPresets, () => Models.Any(preset => preset.IsEnabled));
+            SyncEnabledPresetsCommand = new RelayCommand(SyncEnabledPresets, () => Models.Any(preset => preset.IsEnabled));
             ChangeImageCommand = new RelayCommand<Preset>(ChangeImage);
             ClearImageCommand = new RelayCommand<Preset>(ClearImage);
         }
         
-        private void RefreshEnabledPresets()
+        private void SyncEnabledPresets()
         {
             try
             {
-                DataService.RefreshEnabledPresets();
+                DataService.SyncEnabledPresets();
 
                 _dialogService.ShowInfoDialog("Preset(s) refreshed successfully.");
             }

@@ -7,6 +7,7 @@
         AddBinary,
         AddPreset,
         EditPreset,
+        GlobalEnbLocal,
         Input
     }
 

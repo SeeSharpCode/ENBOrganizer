@@ -31,6 +31,7 @@ namespace ENBOrganizer.App.ViewModels
             SimpleIoc.Default.Register<EditPresetViewModel>();
             SimpleIoc.Default.Register<AddBinaryViewModel>();
             SimpleIoc.Default.Register<InputViewModel>();
+            SimpleIoc.Default.Register<GlobalEnbLocalViewModel>();
         }
 
         public PresetsViewModel PresetsViewModel { get { return SimpleIoc.Default.GetInstance<PresetsViewModel>(); } }
@@ -44,5 +45,6 @@ namespace ENBOrganizer.App.ViewModels
         public EditPresetViewModel EditPresetViewModel { get { return SimpleIoc.Default.GetInstance<EditPresetViewModel>(); } }
         public AddBinaryViewModel AddBinaryViewModel { get { return SimpleIoc.Default.GetInstance<AddBinaryViewModel>(); } }
         public InputViewModel InputViewModel { get { return SimpleIoc.Default.GetInstance<InputViewModel>(); } }
+        public GlobalEnbLocalViewModel GlobalEnbLocalViewModel { get { return SimpleIoc.Default.GetInstance<GlobalEnbLocalViewModel>(); } }
     }
 }

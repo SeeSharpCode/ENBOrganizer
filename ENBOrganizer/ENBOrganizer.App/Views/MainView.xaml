@@ -53,6 +53,10 @@
                 <master:AddMasterListItemView />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type presetViewModels:GlobalEnbLocalViewModel}">
+                <presets:GlobalEnbLocalView />
+            </DataTemplate>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />

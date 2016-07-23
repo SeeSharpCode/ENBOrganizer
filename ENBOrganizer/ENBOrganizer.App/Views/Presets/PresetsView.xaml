@@ -70,11 +70,12 @@
 
                     <Separator />
 
-                    <Button ToolTip="Manage your global enblocal.ini file"
+                    <Button Command="{Binding AddGlobalEnbLocalCommand, Mode=OneTime}"
+                            ToolTip="Manage your global enblocal.ini file"
                             Padding="0" Margin="10 0 10 0">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Earth" Width="24" Height="24" />
-                            <TextBlock Text="GLOBAL ENBLOCAL" Margin="5 0 0 0" VerticalAlignment="Center" FontWeight="SemiBold" />
+                            <TextBlock Text="ADD GLOBAL ENBLOCAL" Margin="5 0 0 0" VerticalAlignment="Center" FontWeight="SemiBold" />
                         </StackPanel>
                     </Button>
                 </ToolBar>

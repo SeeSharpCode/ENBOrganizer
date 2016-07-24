@@ -121,7 +121,17 @@ namespace ENBOrganizer.App.ViewModels
 
         private async void CheckForUpdate()
         {
-            UpdateAvailable = await UpdateService.IsUpdateAvailable();
+            try
+            {
+                UpdateAvailable = await UpdateService.IsUpdateAvailable();
+            }
+            catch (Exception exception)
+            {
+                UpdateAvailable = false;
+
+                _dialogService.ShowWarningDialog("Failed to check for update. If this error persists, check the ENB Organizer Nexus page for updates."
+                    + Environment.NewLine + Environment.NewLine + exception.Message);
+            }            
         }
 
         private void OpenGitHubLink()

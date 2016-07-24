@@ -95,6 +95,10 @@ namespace ENBOrganizer.App.ViewModels.Presets
             {
                 _dialogService.ShowErrorDialog("A preset named " + name + " already exists.");
             }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog(exception.Message);
+            }
         }
     }
 }

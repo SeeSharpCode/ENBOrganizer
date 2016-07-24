@@ -10,6 +10,7 @@ using System.Windows.Input;
 
 namespace ENBOrganizer.App.ViewModels
 {
+    // TODO: tons of repeated code in dialog ViewModels
     public abstract class DialogViewModelBase : ViewModelBase, IDataErrorInfo
     {
         private bool IsValid

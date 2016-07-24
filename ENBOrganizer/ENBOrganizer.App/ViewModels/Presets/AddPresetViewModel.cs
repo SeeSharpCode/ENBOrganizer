@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
 
@@ -59,21 +60,42 @@ namespace ENBOrganizer.App.ViewModels.Presets
             _presetService = presetService;
             _binaryService = binaryService;
             _binaryService.ItemsChanged += _binaryService_ItemsChanged;
+            _settingsService.PropertyChanged += _settingsService_PropertyChanged;
 
             BrowseForDirectoryCommand = new RelayCommand(BrowseForDirectory);
             BrowseForArchiveCommand = new RelayCommand(BrowseForArchive);
-
-            Binaries = _binaryService.GetByGame(_settingsService.CurrentGame).ToObservableCollection();
-
+            
             ValidatedProperties = new List<string>
             {
                 nameof(Name),
                 nameof(SourcePath)
             };
+
+            LoadBinaries();
+        }
+
+        private void _settingsService_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
+        {
+            if (eventArgs.PropertyName.EqualsIgnoreCase("CurrentGame"))
+                LoadBinaries();
+        }
+
+        private void LoadBinaries()
+        {
+            if (Binaries == null)
+                Binaries = new ObservableCollection<Binary>();
+
+            Binaries.Clear();
+            Binaries.AddAll(_binaryService.GetByGame(_settingsService.CurrentGame));
         }
 
         private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)
         {
+            Binary binary = repositoryChangedEventArgs.Entity as Binary;
+
+            if (!binary.Game.Equals(_settingsService.CurrentGame))
+                return;
+
             if (repositoryChangedEventArgs.RepositoryActionType == RepositoryActionType.Added)
                 Binaries.Add(repositoryChangedEventArgs.Entity as Binary);
             else

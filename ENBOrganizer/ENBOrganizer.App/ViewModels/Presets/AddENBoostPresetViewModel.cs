@@ -1,13 +1,13 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
-using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using MadMilkman.Ini;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -106,12 +106,28 @@ namespace ENBOrganizer.App.ViewModels.Presets
             _presetService = presetService;
             _binaryService = binaryService;
             _binaryService.ItemsChanged += _binaryService_ItemsChanged;
-
-            Binaries = _binaryService.GetByGame(_settingsService.CurrentGame).ToObservableCollection();
+            _settingsService.PropertyChanged += _settingsService_PropertyChanged;
 
             IsVsyncEnabled = true;
 
             ValidatedProperties = new List<string> { nameof(Name) };
+
+            LoadBinaries();
+        }
+
+        private void _settingsService_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
+        {
+            if (eventArgs.PropertyName.EqualsIgnoreCase("CurrentGame"))
+                LoadBinaries();
+        }
+
+        private void LoadBinaries()
+        {
+            if (Binaries == null)
+                Binaries = new ObservableCollection<Binary>();
+
+            Binaries.Clear();
+            Binaries.AddAll(_binaryService.GetByGame(_settingsService.CurrentGame));
         }
 
         private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

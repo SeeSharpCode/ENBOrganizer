@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.ComponentModel;
 
 namespace ENBOrganizer.App.ViewModels.Presets
 {
@@ -47,12 +48,28 @@ namespace ENBOrganizer.App.ViewModels.Presets
             _presetService = presetService;
             _binaryService = binaryService;
             _binaryService.ItemsChanged += _binaryService_ItemsChanged;
+            _settingsService.PropertyChanged += _settingsService_PropertyChanged;
 
             MessengerInstance.Register<Preset>(this, OnPresetReceived);
 
-            Binaries = _binaryService.GetByGame(_settingsService.CurrentGame).ToObservableCollection();
-
             ValidatedProperties = new List<string> { nameof(Name) };
+
+            LoadBinaries();
+        }
+
+        private void LoadBinaries()
+        {
+            if (Binaries == null)
+                Binaries = new ObservableCollection<Binary>();
+
+            Binaries.Clear();
+            Binaries.AddAll(_binaryService.GetByGame(_settingsService.CurrentGame));
+        }
+
+        private void _settingsService_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
+        {
+            if (eventArgs.PropertyName.EqualsIgnoreCase("CurrentGame"))
+                LoadBinaries();
         }
 
         private void _binaryService_ItemsChanged(object sender, RepositoryChangedEventArgs repositoryChangedEventArgs)

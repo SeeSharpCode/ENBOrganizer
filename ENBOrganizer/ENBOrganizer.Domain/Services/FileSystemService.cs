@@ -47,7 +47,12 @@ namespace ENBOrganizer.Domain.Services
 
         public override void Delete(TEntity entity)
         {
-            entity.Directory.DeleteRecursive();
+            try
+            {
+                entity.Directory.DeleteRecursive();
+            }
+            catch (Exception) { }
+            
 
             base.Delete(entity);
         }

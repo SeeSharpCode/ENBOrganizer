@@ -50,8 +50,10 @@ namespace ENBOrganizer.Domain.Services
                         .FirstOrDefault(gameFileSystemInfo => gameFileSystemInfo.Name.EqualsIgnoreCase(presetFileSystemInfo.Name) 
                         && !FileSystemNames.EssentialNames.Any(name => name.EqualsIgnoreCase(gameFileSystemInfo.Name)));
 
-                    if (installedFileSystemInfo != null)
-                        installedFileSystemInfo.CopyTo(presetFileSystemInfo.FullName);
+                    if (installedFileSystemInfo == null || (installedFileSystemInfo.Name.EqualsIgnoreCase(FileSystemNames.GlobalENBLocal) && preset.IsGlobalENBLocalEnabled))
+                        continue;
+
+                    installedFileSystemInfo.CopyTo(presetFileSystemInfo.FullName);
                 }
             }
         }

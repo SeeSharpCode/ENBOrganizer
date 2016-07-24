@@ -19,18 +19,31 @@
 
     <materialDesign:DialogHost Identifier="RenameBinaryDialog">
         <DockPanel Margin="15">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                <Button Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
-                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
-                        HorizontalAlignment="Left" ToolTip="Add new binaries">
-                    <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
-                </Button>
+            <ToolBarTray DockPanel.Dock="Top" ToolBarTray.IsLocked="True">
+                <ToolBar Style="{DynamicResource MaterialDesignToolBar}" Loaded="ToolBar_Loaded">
+                    <Button Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
+                            ToolTip="Add new binary"
+                            ToolTipService.ShowOnDisabled="True"
+                            Padding="0" Margin="10 0 10 0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="PlusCircle" Width="24" Height="24" />
+                            <TextBlock Text="ADD" Margin="5 0 0 0" VerticalAlignment="Center" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Button>
 
-                <Button Content="DISABLE ALL" Command="{Binding DisableAllCommand, Mode=OneTime}"
-                        Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Margin="10 0 0 0" HorizontalAlignment="Left" 
-                    ToolTip="Delete all binary files from the current game folder" />
-            </StackPanel>
+                    <Separator />
+
+                    <Button Command="{Binding DisableAllCommand, Mode=OneTime}" 
+                            ToolTip="Delete all binary files from the current game folder"
+                            ToolTipService.ShowOnDisabled="True"
+                            Padding="0" Margin="10 0 10 0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ImageBrokenVariant" Width="24" Height="24" />
+                            <TextBlock Text="DISABLE ALL" Margin="5 0 0 0" VerticalAlignment="Center" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
 
             <ScrollViewer Width="Auto" VerticalScrollBarVisibility="Auto">
                 <ContentControl>

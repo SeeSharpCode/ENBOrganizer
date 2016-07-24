@@ -40,6 +40,10 @@ namespace ENBOrganizer.App.ViewModels.Presets
             preset.IsGlobalENBLocalEnabled = !preset.IsGlobalENBLocalEnabled;
 
             DataService.SaveChanges();
+
+            // Re-enable the preset so that the global enblocal change takes effect.
+            if (preset.IsEnabled)
+                preset.Enable();
         }
 
         private void SyncEnabledPresets()
@@ -87,7 +91,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             {
                 DataService.ImportInstalledFiles(new Preset(name, SettingsService.CurrentGame) { IsEnabled = true });
             }
-            catch (DuplicateEntityException) 
+            catch (DuplicateEntityException)
             {
                 _dialogService.ShowErrorDialog("A preset named " + name + " already exists.");
             }

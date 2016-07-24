@@ -1,6 +1,7 @@
 ﻿using ENBOrganizer.App.Messages;
 using ENBOrganizer.Domain;
 using ENBOrganizer.Domain.Entities;
+using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using MadMilkman.Ini;
@@ -112,6 +113,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
             ValidatedProperties = new List<string> { nameof(Name) };
 
+            Binaries = new ObservableCollection<Binary>();
             LoadBinaries();
         }
 
@@ -122,10 +124,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
         }
 
         private void LoadBinaries()
-        {
-            if (Binaries == null)
-                Binaries = new ObservableCollection<Binary>();
-
+        {            
             Binaries.Clear();
             Binaries.AddAll(_binaryService.GetByGame(_settingsService.CurrentGame));
         }
@@ -162,13 +161,23 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             try
             {
-                Preset preset = AddPreset();
+                Preset preset = new Preset(Name.Trim(), _settingsService.CurrentGame) { Description = Description?.Trim() };
+
+                // Detect whether the user has selected the default value in the ComboBox.
+                if (Binary != null && Binary.Name != "-- None --" && Binary.Game != null)
+                    preset.Binary = Binary;
+
+                AddPreset(preset);
 
                 SaveENBLocalFileToPreset(preset);
             }
-            catch (Exception)
+            catch (DuplicateEntityException)
             {
-                _dialogService.ShowErrorDialog("Error adding preset. Is there another presets with that name?");
+                _dialogService.ShowErrorDialog("A preset with this name already exists for the current game.");
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog("Error adding preset." + Environment.NewLine + exception.Message);
             }
             finally
             {
@@ -176,21 +185,10 @@ namespace ENBOrganizer.App.ViewModels.Presets
             }
         }
 
-        private Preset AddPreset()
-        {
-            Preset preset = new Preset(Name.Trim(), _settingsService.CurrentGame)
-            {
-                Description = Description?.Trim()
-            };
-
-            // Detect whether the user has selected the default value in the ComboBox.
-            if (Binary != null && Binary.Name != "-- None --" && Binary.Game != null)
-                preset.Binary = Binary;
-
+        private void AddPreset(Preset preset)
+        {     
             _presetService.Add(preset);
             preset.Directory.Create();
-
-            return preset;
         }
 
         private void SaveENBLocalFileToPreset(Preset preset)

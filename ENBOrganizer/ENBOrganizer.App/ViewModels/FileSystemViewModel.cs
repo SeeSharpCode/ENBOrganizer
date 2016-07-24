@@ -2,6 +2,7 @@
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight.CommandWpf;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -43,13 +44,27 @@ namespace ENBOrganizer.App.ViewModels
 
         private void OnStateChanged(TEntity entity)
         {
-            entity.ChangeState();
-            DataService.SaveChanges();
+            try
+            {
+                entity.ChangeState();
+                DataService.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog("An error occured." + Environment.NewLine + exception.Message);
+            }
         }
 
         private void DisableAll()
         {
-            DataService.DisableAll(SettingsService.CurrentGame);
+            try
+            {
+                DataService.DisableAll(SettingsService.CurrentGame);
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog("An error occured." + Environment.NewLine + exception.Message);
+            }
         }
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs eventArgs)

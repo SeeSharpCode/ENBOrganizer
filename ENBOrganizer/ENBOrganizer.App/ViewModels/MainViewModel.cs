@@ -99,24 +99,56 @@ namespace ENBOrganizer.App.ViewModels
 
         private void OpenAboutDialog()
         {
-            _dialogService.ShowInfoDialog("ENB Organizer v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + 
+            _dialogService.ShowInfoDialog("ENB Organizer v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() +
                 Environment.NewLine + "By Breems");
         }
 
         private void InitializeApplication()
         {
-            SettingsService.UpgradeSettings();
-
-            if (SettingsService.FirstUse)
-            {
-                _gameService.AddGamesFromRegistry();
-                SettingsService.FirstUse = false;
-            }
-
-            if (!_masterListService.Items.Any())
-                _masterListService.AddDefaultItems();
-
+            UpgradeSettings();
+            AddGamesFromRegistry();
+            AddDefaultMasterListItems();     
             CheckForUpdate();
+        }
+
+        private void UpgradeSettings()
+        {
+            try
+            {
+                SettingsService.UpgradeSettings();
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog("Error upgrading settings." + Environment.NewLine + exception.Message);
+            }
+        }
+
+        private void AddDefaultMasterListItems()
+        {
+            try
+            {
+                if (!_masterListService.Items.Any())
+                    _masterListService.AddDefaultItems();
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog("Error creating default master list items. This is not a critical error, although adding a preset via Import Installed Files " 
+                    + "may not pick up all desired files/folders until you start adding presets." + Environment.NewLine + Environment.NewLine + exception.Message);
+            }
+        }
+
+        private void AddGamesFromRegistry()
+        {
+            try
+            {
+                if (!SettingsService.FirstUse)
+                    return;
+
+                SettingsService.FirstUse = false;
+                _gameService.AddGamesFromRegistry();
+            }
+            // Non-critical process, don't inform the user.
+            catch (Exception) { }
         }
 
         private async void CheckForUpdate()
@@ -131,7 +163,7 @@ namespace ENBOrganizer.App.ViewModels
 
                 _dialogService.ShowWarningDialog("Failed to check for update. If this error persists, check the ENB Organizer Nexus page for updates."
                     + Environment.NewLine + Environment.NewLine + exception.Message);
-            }            
+            }
         }
 
         private void OpenGitHubLink()

@@ -41,9 +41,18 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
             DataService.SaveChanges();
 
-            // Re-enable the preset so that the global enblocal change takes effect.
-            if (preset.IsEnabled)
-                preset.Enable();
+            try
+            {
+                // Re-enable the preset so that the global enblocal change takes effect.
+                if (preset.IsEnabled)
+                    preset.Enable();
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog("Your preset is now set up to use the global enblocal.ini file, but there was an " +
+                    "error trying to re-enable the preset. You may need to disable and then enable the preset for changes to take effect."
+                    + Environment.NewLine + Environment.NewLine + exception.Message);
+            }
         }
 
         private void SyncEnabledPresets()
@@ -56,7 +65,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             }
             catch (Exception exception)
             {
-                _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog("Error syncing presets." + Environment.NewLine + exception.Message);
             }
         }
 
@@ -97,7 +106,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             }
             catch (Exception exception)
             {
-                _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog("Error adding preset." + Environment.NewLine + exception.Message);
             }
         }
     }

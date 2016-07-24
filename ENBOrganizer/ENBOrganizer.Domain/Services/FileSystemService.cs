@@ -53,7 +53,6 @@ namespace ENBOrganizer.Domain.Services
             }
             catch (Exception) { }
             
-
             base.Delete(entity);
         }
 

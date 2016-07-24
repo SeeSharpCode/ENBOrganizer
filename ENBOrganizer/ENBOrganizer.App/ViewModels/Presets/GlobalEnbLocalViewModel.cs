@@ -123,7 +123,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             }
             catch (Exception exception)
             {
-                _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog("Error generating enblocal.ini." + Environment.NewLine + exception.Message);
             }
         }
 
@@ -178,7 +178,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             }
             catch (Exception exception)
             {
-                _dialogService.ShowErrorDialog(exception.Message);
+                _dialogService.ShowErrorDialog("Error saving enblocal.ini." + Environment.NewLine + exception.Message);
             }
             finally
             {

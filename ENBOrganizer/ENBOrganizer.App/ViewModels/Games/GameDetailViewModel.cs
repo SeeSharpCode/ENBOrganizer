@@ -4,6 +4,7 @@ using ENBOrganizer.Domain.Exceptions;
 using ENBOrganizer.Domain.Services;
 using ENBOrganizer.Util;
 using GalaSoft.MvvmLight.CommandWpf;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Input;
@@ -72,6 +73,10 @@ namespace ENBOrganizer.App.ViewModels.Games
             catch (DuplicateEntityException)
             {
                 _dialogService.ShowErrorDialog("Can't save this game because a game already exists with this name or directory.");
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowErrorDialog("Error saving game." + Environment.NewLine + exception.Message);
             }
             finally
             {

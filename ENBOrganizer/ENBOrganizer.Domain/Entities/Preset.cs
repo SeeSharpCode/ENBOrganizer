@@ -15,6 +15,18 @@ namespace ENBOrganizer.Domain.Entities
                 RaisePropertyChanged(nameof(Binary));
             }
         }
+
+        private bool _isGlobalENBLocalEnabled;
+
+        public bool IsGlobalENBLocalEnabled
+        {
+            get { return _isGlobalENBLocalEnabled; }
+            set
+            {
+                _isGlobalENBLocalEnabled = value;
+                RaisePropertyChanged(nameof(IsGlobalENBLocalEnabled));
+            }
+        }
         
         private string _imagePath;
 
@@ -59,6 +71,9 @@ namespace ENBOrganizer.Domain.Entities
 
             if (Binary != null)
                 Binary.Enable();
+
+            if (IsGlobalENBLocalEnabled)
+                Game.EnableGlobalENBLocal();                
         }
 
         public override void Disable()
@@ -67,6 +82,9 @@ namespace ENBOrganizer.Domain.Entities
 
             if (Binary != null)
                 Binary.Disable();
+
+            if (IsGlobalENBLocalEnabled)
+                Game.DisableGlobalENBLocal();
         }
     }
 }

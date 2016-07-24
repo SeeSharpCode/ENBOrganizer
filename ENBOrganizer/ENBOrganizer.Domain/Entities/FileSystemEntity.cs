@@ -44,7 +44,7 @@ namespace ENBOrganizer.Domain.Entities
         {
             foreach (FileSystemInfo fileSystemInfo in Directory.GetFileSystemInfos())
             {
-                if (DirectoryNames.EssentialNames.Any(name => name.EqualsIgnoreCase(fileSystemInfo.Name)) || !fileSystemInfo.Exists)
+                if (FileSystemNames.EssentialNames.Any(name => name.EqualsIgnoreCase(fileSystemInfo.Name)) || !fileSystemInfo.Exists)
                     continue;
 
                 string installedPath = Path.Combine(Game.ExecutableDirectory.FullName, fileSystemInfo.Name);

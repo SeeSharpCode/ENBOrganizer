@@ -23,6 +23,12 @@ namespace ENBOrganizer.Domain.Entities
         }
 
         [XmlIgnore]
+        public FileInfo GlobalENBLocalFile { get { return new FileInfo(Path.Combine(Directory.FullName, FileSystemNames.GlobalENBLocal)); } }
+
+        [XmlIgnore]
+        public FileInfo EnabledGlobalENBLocalFile { get { return new FileInfo(Path.Combine(ExecutableDirectory.FullName, FileSystemNames.GlobalENBLocal)); } }
+
+        [XmlIgnore]
         public bool ExecutableExists { get { return File.Exists(ExecutablePath); } }
         
         [XmlIgnore]
@@ -30,7 +36,7 @@ namespace ENBOrganizer.Domain.Entities
         {
             get
             {
-                string path = Path.Combine(DirectoryNames.Games, Name, DirectoryNames.Presets);
+                string path = Path.Combine(FileSystemNames.Games, Name, FileSystemNames.Presets);
                 return new DirectoryInfo(path); 
             }
         }
@@ -40,7 +46,7 @@ namespace ENBOrganizer.Domain.Entities
         {
             get
             {
-                string path = Path.Combine(DirectoryNames.Games, Name);
+                string path = Path.Combine(FileSystemNames.Games, Name);
                 return new DirectoryInfo(path);
             }
         }
@@ -50,7 +56,7 @@ namespace ENBOrganizer.Domain.Entities
         {
             get
             {
-                string path = Path.Combine(DirectoryNames.Games, Name, DirectoryNames.Binaries);
+                string path = Path.Combine(FileSystemNames.Games, Name, FileSystemNames.Binaries);
                 return new DirectoryInfo(path);
             }
         }
@@ -77,6 +83,22 @@ namespace ENBOrganizer.Domain.Entities
                 return false;
 
             return Name.EqualsIgnoreCase(game.Name) && ExecutableDirectory.FullName.Equals(game.ExecutableDirectory.FullName);
+        }
+
+        public void EnableGlobalENBLocal()
+        {
+            if (!GlobalENBLocalFile.Exists)
+                return;
+
+            GlobalENBLocalFile.CopyTo(Path.Combine(ExecutableDirectory.FullName, GlobalENBLocalFile.Name), true);
+        }
+
+        public void DisableGlobalENBLocal()
+        {
+            if (!EnabledGlobalENBLocalFile.Exists)
+                return;
+
+            EnabledGlobalENBLocalFile.Delete();
         }
     }
 }

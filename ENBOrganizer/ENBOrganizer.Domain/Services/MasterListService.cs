@@ -56,7 +56,7 @@ namespace ENBOrganizer.Domain.Services
 
         public override void Add(MasterListItem masterListItem)
         {
-            if (DirectoryNames.EssentialNames.Any(name => name.EqualsIgnoreCase(masterListItem.Name)))
+            if (FileSystemNames.EssentialNames.Any(name => name.EqualsIgnoreCase(masterListItem.Name)))
                 return;
 
             base.Add(masterListItem);

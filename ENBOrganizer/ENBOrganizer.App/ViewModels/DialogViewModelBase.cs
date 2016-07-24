@@ -16,6 +16,9 @@ namespace ENBOrganizer.App.ViewModels
         {
             get
             {
+                if (ValidatedProperties == null)
+                    return true;
+
                 foreach (string property in ValidatedProperties)
                     if (GetValidationError(property) != string.Empty)
                         return false;

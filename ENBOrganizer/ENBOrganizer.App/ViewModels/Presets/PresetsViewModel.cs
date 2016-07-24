@@ -20,6 +20,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
         public ICommand ChangeImageCommand { get; set; }
         public ICommand ClearImageCommand { get; set; }
         public ICommand AddGlobalEnbLocalCommand { get; set; }
+        public ICommand SwitchGlobalENBLocalCommand { get; set; }
 
         public PresetsViewModel(PresetService presetService)
             : base(presetService)
@@ -29,8 +30,16 @@ namespace ENBOrganizer.App.ViewModels.Presets
             ChangeImageCommand = new RelayCommand<Preset>(ChangeImage);
             ClearImageCommand = new RelayCommand<Preset>(ClearImage);
             AddGlobalEnbLocalCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.GlobalEnbLocal));
+            SwitchGlobalENBLocalCommand = new RelayCommand<Preset>(SwitchGlobalENBLocal);
         }
-        
+
+        private void SwitchGlobalENBLocal(Preset preset)
+        {
+            preset.IsGlobalENBLocalEnabled = !preset.IsGlobalENBLocalEnabled;
+
+            DataService.SaveChanges();
+        }
+
         private void SyncEnabledPresets()
         {
             try

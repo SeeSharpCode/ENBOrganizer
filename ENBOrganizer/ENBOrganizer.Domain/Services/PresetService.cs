@@ -48,7 +48,7 @@ namespace ENBOrganizer.Domain.Services
                     FileSystemInfo installedFileSystemInfo = 
                         preset.Game.ExecutableDirectory.GetFileSystemInfos()
                         .FirstOrDefault(gameFileSystemInfo => gameFileSystemInfo.Name.EqualsIgnoreCase(presetFileSystemInfo.Name) 
-                        && !DirectoryNames.EssentialNames.Any(name => name.EqualsIgnoreCase(gameFileSystemInfo.Name)));
+                        && !FileSystemNames.EssentialNames.Any(name => name.EqualsIgnoreCase(gameFileSystemInfo.Name)));
 
                     if (installedFileSystemInfo != null)
                         installedFileSystemInfo.CopyTo(presetFileSystemInfo.FullName);

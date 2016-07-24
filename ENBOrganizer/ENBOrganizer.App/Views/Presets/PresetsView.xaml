@@ -75,7 +75,7 @@
                             Padding="0" Margin="10 0 10 0">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Earth" Width="24" Height="24" />
-                            <TextBlock Text="ADD GLOBAL ENBLOCAL" Margin="5 0 0 0" VerticalAlignment="Center" FontWeight="SemiBold" />
+                            <TextBlock Text="GLOBAL ENBLOCAL" Margin="5 0 0 0" VerticalAlignment="Center" FontWeight="SemiBold" />
                         </StackPanel>
                     </Button>
                 </ToolBar>
@@ -126,47 +126,62 @@
                                                                     <ToggleButton Command="{Binding ElementName=RootElement, Path=DataContext.ChangeStateCommand}"
                                                                                   CommandParameter="{Binding}" IsChecked="{Binding IsEnabled, Mode=OneWay}"/>
 
-                                                                    <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" 
-                                                                                             HorizontalAlignment="Right" >
-                                                                        <StackPanel Orientation="Vertical">
-                                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.EditCommand, Mode=OneTime}" 
-                                                                                    CommandParameter="{Binding}">
-                                                                                <StackPanel Orientation="Horizontal">
-                                                                                    <materialDesign:PackIcon Kind="Pencil" />
-                                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Edit" />
-                                                                                </StackPanel>
-                                                                            </Button>
-                                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 
-                                                                                    CommandParameter="{Binding}">
-                                                                                <StackPanel Orientation="Horizontal">
-                                                                                    <materialDesign:PackIcon Kind="Folder" />
-                                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="View Files" />
-                                                                                </StackPanel>
-                                                                            </Button>
-                                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.ChangeImageCommand, Mode=OneTime}" 
-                                                                                    CommandParameter="{Binding}">
-                                                                                <StackPanel Orientation="Horizontal">
-                                                                                    <materialDesign:PackIcon Kind="Image" />
-                                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Change Image" />
-                                                                                </StackPanel>
-                                                                            </Button>
-                                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.ClearImageCommand, Mode=OneTime}" 
-                                                                                    CommandParameter="{Binding}">
-                                                                                <StackPanel Orientation="Horizontal">
-                                                                                    <materialDesign:PackIcon Kind="ImageBroken" />
-                                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Clear Image" />
-                                                                                </StackPanel>
-                                                                            </Button>
-                                                                            <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}"
-                                                                                    CommandParameter="{Binding}">
-                                                                                <StackPanel Orientation="Horizontal">
-                                                                                    <materialDesign:PackIcon Kind="Delete" />
-                                                                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Delete" />
-                                                                                </StackPanel>
-                                                                            </Button>
-                                                                        </StackPanel>
-                                                                    </materialDesign:PopupBox>
+                                                                    <ToggleButton Command="{Binding ElementName=RootElement, Path=DataContext.SwitchGlobalENBLocalCommand}"
+                                                                                  CommandParameter="{Binding}" IsChecked="{Binding IsGlobalENBLocalEnabled, Mode=OneWay}"
+                                                                                  Style="{StaticResource MaterialDesignActionToggleButton}"
+                                                                                  ToolTip="Toggle global enblocal.ini" Background="Transparent">
+                                                                        <ToggleButton.Content>
+                                                                            <materialDesign:PackIcon Kind="EarthOff" 
+                                                                                                     Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" />
+                                                                        </ToggleButton.Content>
+                                                                        <materialDesign:ToggleButtonAssist.OnContent>
+                                                                            <materialDesign:PackIcon Kind="Earth"
+                                                                                                     Foreground="{DynamicResource PrimaryHueLightBrush}" />
+                                                                        </materialDesign:ToggleButtonAssist.OnContent>
+                                                                    </ToggleButton>
                                                                 </StackPanel>
+
+                                                                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" Grid.Row="3"
+                                                                                         StaysOpen="False" Grid.Column="1" 
+                                                                                         VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                                    <StackPanel Orientation="Vertical">
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.EditCommand, Mode=OneTime}" 
+                                                                                    CommandParameter="{Binding}">
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="Pencil" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Edit" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.ViewFilesCommand, Mode=OneTime}" 
+                                                                                    CommandParameter="{Binding}">
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="Folder" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="View Files" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.ChangeImageCommand, Mode=OneTime}" 
+                                                                                    CommandParameter="{Binding}">
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="Image" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Change Image" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.ClearImageCommand, Mode=OneTime}" 
+                                                                                    CommandParameter="{Binding}">
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="ImageBroken" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Clear Image" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                        <Button Command="{Binding ElementName=RootElement, Path=DataContext.DeleteCommand, Mode=OneTime}"
+                                                                                    CommandParameter="{Binding}">
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Kind="Delete" />
+                                                                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Delete" />
+                                                                            </StackPanel>
+                                                                        </Button>
+                                                                    </StackPanel>
+                                                                </materialDesign:PopupBox>
                                                             </Grid>
                                                         </StackPanel>
                                                     </materialDesign:Card>

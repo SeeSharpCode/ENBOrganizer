@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace ENBOrganizer.Domain
 {
@@ -30,11 +31,12 @@ namespace ENBOrganizer.Domain
     }
 
     // TODO: needs Fallout 3 and Oblivion data
-    public class DirectoryNames
+    public class FileSystemNames
     {
         public const string Games = "Games";
         public const string Presets = "Presets";
         public const string Binaries = "Binaries";
+        public const string GlobalENBLocal = "enblocal.ini";
 
         public static List<string> EssentialNames = new List<string>
         {

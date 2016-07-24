@@ -160,7 +160,7 @@
                         </Button>
                         <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=GamesViewModel.Models, Mode=OneWay}"
                                   SelectedItem="{Binding SettingsService.CurrentGame, Mode=TwoWay}"
-                                  IsSynchronizedWithCurrentItem="True" MinWidth="100" materialDesign:TextFieldAssist.Hint="Select a game"
+                                  IsSynchronizedWithCurrentItem="True" MinWidth="100" materialDesign:HintAssist.Hint="Select a game"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>

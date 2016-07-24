@@ -115,11 +115,13 @@ namespace ENBOrganizer.App.ViewModels.Presets
 
                 SetENBLocalValues(iniFile);
 
-                iniFile.Save(_settingsService.CurrentGame.GlobalENBLocalFile.FullName);
+                using (MemoryStream memoryStream = new MemoryStream())
+                using (StreamReader streamReader = new StreamReader(memoryStream))
+                {
+                    iniFile.Save(memoryStream);
 
-                INIFileText = File.ReadAllText(_settingsService.CurrentGame.GlobalENBLocalFile.FullName);
-
-                _dialogService.ShowInfoDialog("Global enblocal.ini saved successfully.\nYou can edit the file in the right pane if needed.");
+                    INIFileText = streamReader.ReadToEnd();
+                }
             }
             catch (Exception exception)
             {

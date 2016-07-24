@@ -27,7 +27,15 @@
             </Hyperlink>
             for detailed instructions on configuring enblocal.ini for Skyrim.
         </TextBlock>
-        <DockPanel>
+
+        <DockPanel MaxHeight="500">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10"
+                        DockPanel.Dock="Bottom" >
+                <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" />
+                <Button Content="CANCEL" Margin="5 0 0 0" Command="{Binding CancelCommand, Mode=OneTime}"
+                            Style="{StaticResource MaterialDesignFlatButton}" />
+            </StackPanel>
+
             <GroupBox Header="Skyrim enblocal.ini Generator" DockPanel.Dock="Left">
                 <StackPanel>
                     <Label Content="Binary Version" Style="{StaticResource InputLabel}" 
@@ -75,25 +83,21 @@
                          MinWidth="100" HorizontalAlignment="Left"
                          materialDesign:HintAssist.Hint="Defaults to 2000 if left blank" />
 
-                    <Button Command="{Binding GenerateENBLocalCommand, Mode=OneTime}" Content="GENERATE"
-                            Margin="0 10 0 0" HorizontalAlignment="Center"/>
+                    <Button Command="{Binding GenerateENBLocalCommand, Mode=OneTime}"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniButton}"  
+                            Margin="0 10 0 0" HorizontalAlignment="Center" ToolTip="Generate">
+                        <materialDesign:PackIcon Kind="ArrowRight" Height="24" Width="24" />
+                    </Button>
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="enblocal.ini" DockPanel.Dock="Right" Width="450" 
+            <GroupBox Header="Raw enblocal.ini File" DockPanel.Dock="Right" Width="450" 
                       HorizontalAlignment="Left" Margin="10 0 0 0" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <TextBox Text="{Binding INIFileText, Mode=TwoWay}" Height="500" 
+                <TextBox Text="{Binding INIFileText, Mode=TwoWay}"
                          ScrollViewer.VerticalScrollBarVisibility="Visible"
-                         TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" />
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                        <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" />
-                        <Button Content="CANCEL" Margin="5 0 0 0" Command="{Binding CancelCommand, Mode=OneTime}"
-                            Style="{StaticResource MaterialDesignFlatButton}" />
-                    </StackPanel>
-                </StackPanel>
+                         BorderThickness="0" TextWrapping="Wrap" 
+                         AcceptsReturn="True" VerticalContentAlignment="Top" />
             </GroupBox>
         </DockPanel>
     </StackPanel>

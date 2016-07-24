@@ -47,11 +47,11 @@
         <CheckBox HorizontalAlignment="Left" Content="Use Global enblocal.ini" 
                   IsChecked="{Binding IsGlobalENBLocalEnabled, Mode=TwoWay}" Margin="0 20 0 0" />
 
-        <Label Content="Description (Optional)" Style="{StaticResource InputLabel}" Margin="0 20 0 0" />
+        <Label Content="Description (optional)" Style="{StaticResource InputLabel}" Margin="0 20 0 0" />
         <TextBox Text="{Binding Description, Mode=TwoWay}" 
                  Style="{StaticResource InputTextBox}" />
 
-        <Label Content="Binary (Optional)" Style="{StaticResource InputLabel}" Margin="0 10 0 0" />
+        <Label Content="Binary (optional)" Style="{StaticResource InputLabel}" Margin="0 10 0 0" />
         <ComboBox SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" 
                   DisplayMemberPath="Name">

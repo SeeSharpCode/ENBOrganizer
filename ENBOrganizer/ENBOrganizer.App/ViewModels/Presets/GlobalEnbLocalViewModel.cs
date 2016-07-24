@@ -1,5 +1,4 @@
 ﻿using ENBOrganizer.App.Messages;
-using ENBOrganizer.Domain;
 using GalaSoft.MvvmLight.CommandWpf;
 using MadMilkman.Ini;
 using System;
@@ -11,8 +10,6 @@ namespace ENBOrganizer.App.ViewModels.Presets
 {
     public class GlobalEnbLocalViewModel : DialogViewModelBase
     {
-        private readonly SettingsService _settingsService;
-
         public ICommand GenerateENBLocalCommand { get; set; }
 
         private string _binaryVersion;
@@ -87,10 +84,8 @@ namespace ENBOrganizer.App.ViewModels.Presets
             set { Set(nameof(INIFileText), ref _iniFileText, value); }
         }
         
-        public GlobalEnbLocalViewModel(SettingsService settingsService)
-        {
-            _settingsService = settingsService;
-            
+        public GlobalEnbLocalViewModel()
+        {            
             GenerateENBLocalCommand = new RelayCommand(GenerateENBLocal);
 
             if (_settingsService.CurrentGame.GlobalENBLocalFile.Exists)

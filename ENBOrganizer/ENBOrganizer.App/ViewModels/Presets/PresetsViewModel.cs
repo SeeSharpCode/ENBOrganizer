@@ -29,7 +29,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             SyncEnabledPresetsCommand = new RelayCommand(SyncEnabledPresets, () => Models.Any(preset => preset.IsEnabled));
             ChangeImageCommand = new RelayCommand<Preset>(ChangeImage);
             ClearImageCommand = new RelayCommand<Preset>(ClearImage);
-            AddGlobalEnbLocalCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.GlobalEnbLocal));
+            AddGlobalEnbLocalCommand = new RelayCommand(() => _dialogService.ShowDialog(DialogName.GlobalEnbLocal), CanAdd);
             SwitchGlobalENBLocalCommand = new RelayCommand<Preset>(SwitchGlobalENBLocal);
         }
 

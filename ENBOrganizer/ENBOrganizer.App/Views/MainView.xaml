@@ -151,6 +151,12 @@
                                         <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Download ENB Binaries" />
                                     </StackPanel>
                                 </Button>
+                                <Button Command="{Binding ElementName=RootElement, Path=DataContext.OpenAboutDialogCommand, Mode=OneTime}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Help" />
+                                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="About" />
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </materialDesign:PopupBox>
                         <Button Command="{Binding OpenNexusLinkCommand}"

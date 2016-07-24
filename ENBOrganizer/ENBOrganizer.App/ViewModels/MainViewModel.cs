@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 namespace ENBOrganizer.App.ViewModels
 {
@@ -22,6 +23,7 @@ namespace ENBOrganizer.App.ViewModels
         public ICommand OpenENBBinariesLinkCommand { get; set; }
         public ICommand OpenNexusLinkCommand { get; set; }
         public ICommand OpenGitHubLinkCommand { get; set; }
+        public ICommand OpenAboutDialogCommand { get; set; }
 
         private IPageViewModel _currentPageViewModel;
 
@@ -88,10 +90,17 @@ namespace ENBOrganizer.App.ViewModels
             OpenENBBinariesLinkCommand = new RelayCommand(OpenENBBinariesLink);
             OpenNexusLinkCommand = new RelayCommand(OpenNexusLink);
             OpenGitHubLinkCommand = new RelayCommand(OpenGitHubLink);
+            OpenAboutDialogCommand = new RelayCommand(OpenAboutDialog);
 
             MessengerInstance.Register<DialogMessage>(this, OnDialogMessage);
 
             InitializeApplication();
+        }
+
+        private void OpenAboutDialog()
+        {
+            _dialogService.ShowInfoDialog("ENB Organizer v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + 
+                Environment.NewLine + "By Breems");
         }
 
         private void InitializeApplication()

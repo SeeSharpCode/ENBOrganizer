@@ -173,6 +173,9 @@ namespace ENBOrganizer.App.ViewModels
                 case DialogName.GlobalEnbLocal:
                     CurrentDialogViewModel = _viewModelLocator.GlobalEnbLocalViewModel;
                     break;
+                case DialogName.AddENBoostPreset:
+                    CurrentDialogViewModel = _viewModelLocator.AddENBoostPresetViewModel;
+                    break;
             }
 
             IsDialogOpen = message.DialogAction == DialogAction.Open;

@@ -72,7 +72,8 @@
                     <Label Content="Video Memory Size (MB)" Style="{StaticResource InputLabel}" 
                    HorizontalAlignment="Left" Margin="0 10 0 0" />
                     <TextBox Text="{Binding VideoMemorySize, Mode=TwoWay}" 
-                         MinWidth="100" HorizontalAlignment="Left" />
+                         MinWidth="100" HorizontalAlignment="Left"
+                         materialDesign:HintAssist.Hint="Defaults to 2000 if left blank" />
 
                     <Button Command="{Binding GenerateENBLocalCommand, Mode=OneTime}" Content="GENERATE"
                             Margin="0 10 0 0" HorizontalAlignment="Center"/>

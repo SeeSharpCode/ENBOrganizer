@@ -107,6 +107,7 @@
     <Compile Include="UpdateService.cs" />
     <Compile Include="ViewModels\Binaries\AddBinaryViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModelBase.cs" />
+    <Compile Include="ViewModels\Presets\AddENBoostPresetViewModel.cs" />
     <Compile Include="ViewModels\Presets\EditPresetViewModel.cs" />
     <Compile Include="ViewModels\FileSystemViewModel.cs" />
     <Compile Include="ViewModels\Games\GameDetailViewModel.cs" />
@@ -123,6 +124,9 @@
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Binaries\AddBinaryView.xaml.cs">
       <DependentUpon>AddBinaryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Presets\AddENBoostPresetView.xaml.cs">
+      <DependentUpon>AddENBoostPresetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Presets\EditPresetView.xaml.cs">
       <DependentUpon>EditPresetView.xaml</DependentUpon>
@@ -153,6 +157,10 @@
       <DependentUpon>PresetsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Binaries\AddBinaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Presets\AddENBoostPresetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -237,6 +245,7 @@
     <EmbeddedResource Include="ENBLocalFiles\v236.ini" />
     <EmbeddedResource Include="ENBLocalFiles\v262.ini" />
     <EmbeddedResource Include="ENBLocalFiles\v292.ini" />
+    <EmbeddedResource Include="ENBLocalFiles\v308-enboost.ini" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

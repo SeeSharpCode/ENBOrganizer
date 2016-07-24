@@ -8,6 +8,7 @@
         AddPreset,
         EditPreset,
         GlobalEnbLocal,
+        AddENBoostPreset,
         Input
     }
 

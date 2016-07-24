@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="ENBOrganizer.App.Views.Presets.AddENBoostPresetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ENBOrganizer.App.Views.Presets"
+             xmlns:entities="clr-namespace:ENBOrganizer.Domain.Entities;assembly=ENBOrganizer.Domain"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=AddENBoostPresetViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.GroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel Margin="10" HorizontalAlignment="Left" LastChildFill="True" Width="450">
+        <TextBlock Text="Add ENBoost Preset" Style="{StaticResource MaterialDesignTitleTextBlock}" 
+                   Margin="0 0 0 10" DockPanel.Dock="Top" />
+        <TextBlock DockPanel.Dock="Top" Margin="0 0 0 10">
+            Check out the 
+            <Hyperlink NavigateUri="http://wiki.step-project.com/ENBoost"
+                       RequestNavigate="Hyperlink_RequestNavigate">
+                ENBoost guide by STEP
+            </Hyperlink>
+            for details.
+        </TextBlock>
+
+        <StackPanel Orientation="Horizontal" Margin="0 10 0 0" DockPanel.Dock="Bottom">
+            <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" />
+            <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}"
+                    Style="{StaticResource MaterialDesignFlatButton}" Margin="5 0 0 0" />
+        </StackPanel>
+
+        <CheckBox DockPanel.Dock="Bottom" Margin="0 5 0 0" Content="Open file after saving"
+                  IsChecked="{Binding OpenFileAfterSaving, Mode=OneWayToSource}" />
+
+        <GroupBox Header="Preset Options" DockPanel.Dock="Left">
+            <StackPanel Orientation="Vertical">
+                <Label Content="Name" Style="{StaticResource InputLabel}" />
+                <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Style="{StaticResource InputTextBox}" />
+
+                <Label Content="Description (optional)" Style="{StaticResource InputLabel}" Margin="0 20 0 0" />
+                <TextBox Text="{Binding Description, Mode=TwoWay}" 
+                 Style="{StaticResource InputTextBox}" />
+
+                <Label Content="Binary (v308 recommended)" Style="{StaticResource InputLabel}" Margin="0 10 0 0" />
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox SelectedItem="{Binding Binary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Left" 
+                              DisplayMemberPath="Name">
+                        <ComboBox.Resources>
+                            <CollectionViewSource x:Key="BinariesDataSource" Source="{Binding Binaries}" />
+                        </ComboBox.Resources>
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <entities:Binary Name="-- None --" />
+                                <CollectionContainer Collection="{Binding Source={StaticResource BinariesDataSource}}" />
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    
+                    <materialDesign:PackIcon Kind="Help" VerticalAlignment="Center" 
+                                             Margin="5 0 0 0" Background="Transparent">
+                        <materialDesign:PackIcon.ToolTip>
+                            <TextBlock>
+                                If you don't have binaries set up via ENB Organizer, you can leave this blank 
+                                <LineBreak /> and add the binary files to your preset manually.
+                            </TextBlock>
+                        </materialDesign:PackIcon.ToolTip>
+                    </materialDesign:PackIcon>
+                </StackPanel> 
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="ENBLocal Options" DockPanel.Dock="Right">
+            <StackPanel Orientation="Vertical">
+                <CheckBox Content="VSync" IsChecked="{Binding IsVsyncEnabled, Mode=TwoWay}" />
+                <CheckBox Content="Force Borderless" 
+                          IsChecked="{Binding IsForceBorderlessEnabled, Mode=TwoWay}" />
+                <CheckBox Content="Force Borderless Fullscreen" 
+                          IsChecked="{Binding IsForceBorderlessFullscreenEnabled, Mode=TwoWay}" />
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Name="FPSLimiterEnabledCheckbox" IsChecked="{Binding IsFPSLimiterEnabled, Mode=TwoWay}" 
+                      Content="Limit FPS to " HorizontalAlignment="Left" />
+                    <TextBox Text="{Binding FPSLimit, Mode=TwoWay}" MinWidth="30" 
+                             Margin="5 0 0 0"
+                             IsEnabled="{Binding Path=IsChecked, ElementName=FPSLimiterEnabledCheckbox}" />
+                </StackPanel>
+
+                <Label Content="Reserved Memory Size (MB)" Style="{StaticResource InputLabel}" 
+                   HorizontalAlignment="Left" Margin="0 10 0 0" />
+                <ComboBox Text="{Binding ReservedMemorySize, Mode=TwoWay}" 
+                          SelectedIndex="1" HorizontalAlignment="Left">
+                    <ComboBoxItem>64</ComboBoxItem>
+                    <ComboBoxItem>128</ComboBoxItem>
+                    <ComboBoxItem>256</ComboBoxItem>
+                    <ComboBoxItem>384</ComboBoxItem>
+                    <ComboBoxItem>512</ComboBoxItem>
+                    <ComboBoxItem>640</ComboBoxItem>
+                    <ComboBoxItem>768</ComboBoxItem>
+                    <ComboBoxItem>896</ComboBoxItem>
+                    <ComboBoxItem>1024</ComboBoxItem>
+                </ComboBox>
+
+                <Label Content="Video Memory Size (MB)" Style="{StaticResource InputLabel}" 
+                   HorizontalAlignment="Left" Margin="0 10 0 0" />
+                <TextBox Text="{Binding VideoMemorySize, Mode=TwoWay}" 
+                         materialDesign:HintAssist.Hint="Defaults to 2000 if left blank"
+                         MinWidth="100" HorizontalAlignment="Left" />
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</UserControl>

@@ -15,21 +15,20 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel Orientation="Vertical" Margin="10" MaxWidth="600">
-        <TextBlock TextWrapping="Wrap" Margin="0 0 0 10">
-            Use the dialog on the left to generate an enblocal.ini file, or paste your file into
-            the textbox on the right. 
+    <StackPanel Orientation="Vertical" Margin="10" MaxWidth="700">
+        <TextBlock Text="Global ENBLocal" Style="{StaticResource MaterialDesignTitleTextBlock}" />
+        <TextBlock TextWrapping="Wrap" Margin="0 5 0 10">
+            Use the left pane to generate an enblocal.ini file for Skyrim, or paste your file into the right pane. 
             <LineBreak />
             Check out the 
             <Hyperlink NavigateUri="http://wiki.step-project.com/Guide:ENBlocal_INI"
                        RequestNavigate="Hyperlink_RequestNavigate">
                 enblocal.ini guide by STEP
             </Hyperlink>
-            for help.
-            
+            for detailed instructions on configuring enblocal.ini for Skyrim.
         </TextBlock>
         <DockPanel>
-            <GroupBox Header="Generate" DockPanel.Dock="Left">
+            <GroupBox Header="Skyrim enblocal.ini Generator" DockPanel.Dock="Left">
                 <StackPanel>
                     <Label Content="Binary Version" Style="{StaticResource InputLabel}" 
                            HorizontalAlignment="Left" />
@@ -76,11 +75,11 @@
                          MinWidth="100" HorizontalAlignment="Left" />
 
                     <Button Command="{Binding GenerateENBLocalCommand, Mode=OneTime}" Content="GENERATE"
-                            Margin="0 10 0 0" HorizontalAlignment="Right"/>
+                            Margin="0 10 0 0" HorizontalAlignment="Center"/>
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="enblocal.ini" DockPanel.Dock="Right" Width="400" 
+            <GroupBox Header="enblocal.ini" DockPanel.Dock="Right" Width="450" 
                       HorizontalAlignment="Left" Margin="10 0 0 0" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <StackPanel>

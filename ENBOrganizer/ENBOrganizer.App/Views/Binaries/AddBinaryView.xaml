@@ -15,6 +15,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" Margin="10">
+        <TextBlock Text="Add Binary" Style="{StaticResource MaterialDesignTitleTextBlock}" Margin="0 0 0 10" />
         <Label Content="Name/Version" Style="{StaticResource InputLabel}" />
         <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                  Style="{StaticResource InputTextBox}" />
@@ -54,7 +55,7 @@
         <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
             <Button Content="SAVE" Command="{Binding SaveCommand, Mode=OneTime}" />
             <Button Content="CANCEL" Command="{Binding CancelCommand, Mode=OneTime}" 
-                    Style="{StaticResource MaterialDesignFlatButton}" />
+                    Style="{StaticResource MaterialDesignFlatButton}" Margin="5 0 0 0" />
         </StackPanel>
     </StackPanel>
 </UserControl>

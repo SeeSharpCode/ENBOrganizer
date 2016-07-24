@@ -21,8 +21,8 @@
         <DockPanel Margin="15">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                 <Button Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
-                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
-                    Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add new binaries">
+                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                        HorizontalAlignment="Left" ToolTip="Add new binaries">
                     <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
                 </Button>
 

@@ -17,7 +17,7 @@
     <DockPanel Margin="15">
         <Button Command="{Binding OpenAddDialogCommand, Mode=OneTime}"
                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}" DockPanel.Dock="Top"
-                    Margin="5 0 0 0" HorizontalAlignment="Left" ToolTip="Add a new game">
+                    HorizontalAlignment="Left" ToolTip="Add a new game">
             <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
         </Button>
 

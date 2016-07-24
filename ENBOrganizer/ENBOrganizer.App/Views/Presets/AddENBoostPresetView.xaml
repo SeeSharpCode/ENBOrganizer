@@ -33,7 +33,7 @@
                     Style="{StaticResource MaterialDesignFlatButton}" Margin="5 0 0 0" />
         </StackPanel>
 
-        <CheckBox DockPanel.Dock="Bottom" Margin="0 5 0 0" Content="Open file after saving"
+        <CheckBox DockPanel.Dock="Bottom" Margin="0 5 0 0" Content="Open enblocal.ini file after saving"
                   IsChecked="{Binding OpenFileAfterSaving, Mode=OneWayToSource}" />
 
         <GroupBox Header="Preset Options" DockPanel.Dock="Left">

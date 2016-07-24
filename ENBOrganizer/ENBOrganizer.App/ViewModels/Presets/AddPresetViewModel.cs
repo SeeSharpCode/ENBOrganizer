@@ -30,6 +30,14 @@ namespace ENBOrganizer.App.ViewModels.Presets
             set { Set(nameof(SourcePath), ref _sourcePath, value); }
         }
 
+        private bool _isGlobalENBLocalEnabled;
+
+        public bool IsGlobalENBLocalEnabled
+        {
+            get { return _isGlobalENBLocalEnabled; }
+            set { Set(nameof(IsGlobalENBLocalEnabled), ref _isGlobalENBLocalEnabled, value); }
+        }
+        
         private string _description;
 
         public string Description
@@ -76,7 +84,11 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             try
             {
-                Preset preset = new Preset(Name.Trim(), _settingsService.CurrentGame) { Description = Description?.Trim() };
+                Preset preset = new Preset(Name.Trim(), _settingsService.CurrentGame)
+                {
+                    Description = Description?.Trim(),
+                    IsGlobalENBLocalEnabled = IsGlobalENBLocalEnabled
+                };
 
                 // Detect whether the user has selected the default value in the ComboBox.
                 if (Binary != null && Binary.Name != "-- None --" && Binary.Game != null)
@@ -101,8 +113,9 @@ namespace ENBOrganizer.App.ViewModels.Presets
         protected override void Close()
         {
             Name = string.Empty;
-            Description = string.Empty;
             SourcePath = string.Empty;
+            IsGlobalENBLocalEnabled = false;
+            Description = string.Empty;
             Binary = null;
 
             _dialogService.CloseDialog(DialogName.AddPreset);

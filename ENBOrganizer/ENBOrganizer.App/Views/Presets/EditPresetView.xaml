@@ -13,6 +13,9 @@
         <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                  Style="{StaticResource InputTextBox}" />
 
+        <CheckBox HorizontalAlignment="Left" Content="Use Global enblocal.ini" 
+                  IsChecked="{Binding IsGlobalENBLocalEnabled, Mode=TwoWay}" Margin="0 20 0 0" />
+
         <Label Content="Description (Optional)" Style="{StaticResource InputLabel}" Margin="0 20 0 0" />
         <TextBox Text="{Binding Description, Mode=TwoWay}" 
                  Style="{StaticResource InputTextBox}" />

@@ -16,6 +16,14 @@ namespace ENBOrganizer.App.ViewModels.Presets
         private readonly FileSystemService<Binary> _binaryService;
         private Preset _preset;
 
+        private bool _isGlobalENBLocalEnabled;
+
+        public bool IsGlobalENBLocalEnabled
+        {
+            get { return _isGlobalENBLocalEnabled; }
+            set { Set(nameof(IsGlobalENBLocalEnabled), ref _isGlobalENBLocalEnabled, value); }
+        }
+        
         private string _description;
 
         public string Description
@@ -60,6 +68,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
             _preset = preset;
 
             Name = _preset.Name;
+            IsGlobalENBLocalEnabled = _preset.IsGlobalENBLocalEnabled;
             Description = _preset.Description;
             Binary = _preset.Binary;
         }
@@ -82,6 +91,7 @@ namespace ENBOrganizer.App.ViewModels.Presets
                 if (Binary == null || (Binary.Name == "-- None --" && Binary.Game == null))
                     Binary = null;
 
+                _preset.IsGlobalENBLocalEnabled = IsGlobalENBLocalEnabled;
                 _preset.Description = Description?.Trim();
                 _preset.Binary = Binary;
 
@@ -101,7 +111,8 @@ namespace ENBOrganizer.App.ViewModels.Presets
         {
             return Name.Trim().EqualsIgnoreCase(_preset.Name) 
                 && CompareDescriptions() 
-                && CompareBinaries();
+                && CompareBinaries() 
+                && IsGlobalENBLocalEnabled == _preset.IsGlobalENBLocalEnabled;
         }
 
         private bool CompareDescriptions()
